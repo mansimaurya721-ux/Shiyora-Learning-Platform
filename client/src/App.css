@@ -1,0 +1,309 @@
+/* =========================================================
+   SHIYORA — GLOBAL APP STYLES
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   ROOT
+--------------------------------------------------------- */
+
+#root {
+    min-height: 100vh;
+}
+
+
+/* ---------------------------------------------------------
+   BODY
+--------------------------------------------------------- */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+
+/* ---------------------------------------------------------
+   SELECTION
+--------------------------------------------------------- */
+
+::selection {
+    background: rgba(124, 58, 237, 0.3);
+    color: inherit;
+}
+
+
+/* ---------------------------------------------------------
+   SCROLLBAR
+--------------------------------------------------------- */
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f8f9fc;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient( to bottom, #7c3aed, #06b6d4);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient( to bottom, #6d28d9, #0891b2);
+}
+
+
+/* DARK SCROLLBAR */
+
+.dark ::-webkit-scrollbar-track {
+    background: #080b14;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: linear-gradient( to bottom, #8b5cf6, #22d3ee);
+}
+
+
+/* =========================================================
+   SHIYORA INTRO / SPLASH SCREEN
+   ========================================================= */
+
+.animate-intro {
+    animation: shiyoraIntro 1.4s ease-out both;
+}
+
+@keyframes shiyoraIntro {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.88);
+        filter: blur(10px);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0) scale(1.03);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   INTRO FADE OUT
+--------------------------------------------------------- */
+
+.animate-fade-out {
+    animation: shiyoraFadeOut 0.6s ease forwards;
+    animation-delay: 1.6s;
+}
+
+@keyframes shiyoraFadeOut {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
+
+/* =========================================================
+   LOADING LINE
+   ========================================================= */
+
+.animate-loading {
+    animation: shiyoraLoading 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes shiyoraLoading {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+
+/* =========================================================
+   SHIYORA GLOW ANIMATION
+   ========================================================= */
+
+@keyframes shiyoraGlow {
+    0%,
+    100% {
+        opacity: 0.45;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.08);
+    }
+}
+
+
+/* =========================================================
+   GRADIENT TEXT ANIMATION
+   ========================================================= */
+
+.shiyora-gradient-text {
+    background: linear-gradient( 90deg, #7c3aed, #a855f7, #06b6d4);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 5s linear infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+
+/* =========================================================
+   FLOATING EFFECT
+   ========================================================= */
+
+.shiyora-float {
+    animation: shiyoraFloat 5s ease-in-out infinite;
+}
+
+@keyframes shiyoraFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+/* =========================================================
+   CARD HOVER
+   ========================================================= */
+
+.shiyora-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.shiyora-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(124, 58, 237, 0.08);
+}
+
+
+/* =========================================================
+   DARK CARD
+   ========================================================= */
+
+.dark .shiyora-card:hover {
+    box-shadow: 0 20px 60px rgba(124, 58, 237, 0.12);
+}
+
+
+/* =========================================================
+   BUTTON PRESS EFFECT
+   ========================================================= */
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:active,
+a:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid #06b6d4;
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   RESPONSIVE TEXT
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .shiyora-mobile-center {
+        text-align: center;
+    }
+}
+
+
+/* =========================================================
+   MOBILE INTRO
+   ========================================================= */
+
+@media (max-width: 640px) {
+    .animate-intro h1 {
+        font-size: 2.5rem;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+/* =========================================================
+   DARK MODE BODY
+   ========================================================= */
+
+html.dark,
+html.dark body {
+    background: #080b14;
+    color: #f8fafc;
+}
+
+
+/* =========================================================
+   SMOOTH THEME TRANSITION
+   ========================================================= */
+
+html,
+body,
+#root {
+    transition: background-color 0.4s ease, color 0.4s ease;
+}

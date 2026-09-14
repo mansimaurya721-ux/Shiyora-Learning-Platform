@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+/* =========================================================
+   TAILWIND V4 — CLASS BASED DARK MODE
+========================================================= */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =========================================================
+   SHIYORA — LIGHT THEME
+========================================================= */
+
+:root {
+    color-scheme: light;
+    --shiyora-bg: #f8fafc;
+    --shiyora-surface: #ffffff;
+    --shiyora-surface-soft: #f1f5f9;
+    --shiyora-text: #334155;
+    --shiyora-heading: #0f172a;
+    --shiyora-muted: #64748b;
+    --shiyora-border: #e2e8f0;
+    --shiyora-primary: #2563eb;
+    --shiyora-primary-hover: #1d4ed8;
+    --shiyora-secondary: #0d9488;
+    --shiyora-blue-soft: #dbeafe;
+    --shiyora-teal-soft: #ccfbf1;
+}
+
+
+/* =========================================================
+   SHIYORA — DARK THEME
+========================================================= */
+
+html.dark {
+    color-scheme: dark;
+    --shiyora-bg: #07111f;
+    --shiyora-surface: #0b1727;
+    --shiyora-surface-soft: #102337;
+    --shiyora-text: #cbd5e1;
+    --shiyora-heading: #f8fafc;
+    --shiyora-muted: #94a3b8;
+    --shiyora-border: #1e334a;
+    --shiyora-primary: #60a5fa;
+    --shiyora-primary-hover: #3b82f6;
+    --shiyora-secondary: #2dd4bf;
+    --shiyora-blue-soft: #172554;
+    --shiyora-teal-soft: #134e4a;
+}
+
+
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-width: 320px;
+    min-height: 100%;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+    margin: 0;
+    background: var(--shiyora-bg);
+    color: var(--shiyora-text);
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
+/* =========================================================
+   IMAGES / SVG
+========================================================= */
+
+img,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   TEXT SELECTION
+========================================================= */
+
+::selection {
+    background: #bfdbfe;
+    color: #0f172a;
+}
+
+html.dark ::selection {
+    background: #134e4a;
+    color: #e2e8f0;
+}
+
+
+/* =========================================================
+   SLIM PROFESSIONAL SCROLLBAR
+========================================================= */
+
+
+/* Chrome / Edge / Brave / Safari */
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* =========================================================
+   DARK MODE SCROLLBAR
+========================================================= */
+
+html.dark ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 999px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+    background: #2dd4bf;
+}
+
+
+/* =========================================================
+   FIREFOX SCROLLBAR
+========================================================= */
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+html.dark {
+    scrollbar-color: #334155 transparent;
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+html.dark :focus-visible {
+    outline-color: #2dd4bf;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+    body {
+        overflow-x: hidden;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
