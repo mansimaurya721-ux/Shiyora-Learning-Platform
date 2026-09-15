@@ -1,1035 +1,1603 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
+    Building2,
+    Users,
     BookOpen,
-    PlayCircle,
-    Clock3,
-    Award,
+    CreditCard,
     TrendingUp,
-    ClipboardList,
+    Activity,
     ArrowRight,
     CheckCircle2,
-    CalendarDays,
-    Flame,
-    Target,
+    Clock3,
+    UserPlus,
+    Plus,
     BarChart3,
-    ChevronRight,
+    Settings,
+    ShieldCheck,
+    AlertCircle,
 } from "lucide-react";
 
+import {
+    getOrganizations,
+    getOrganizationStats,
+} from "../../services/organizationService";
+
+
+// =====================================================
+// SUPER ADMIN DASHBOARD
+// =====================================================
+
 const Dashboard = () => {
-    // =========================================================
-    // SAMPLE DATA
-    // =========================================================
 
-    const stats = [
-        {
-            title: "Enrolled Courses",
-            value: "06",
-            description: "Active courses",
-            icon: BookOpen,
-        },
-        {
-            title: "In Progress",
-            value: "03",
-            description: "Courses learning",
-            icon: PlayCircle,
-        },
-        {
-            title: "Completed",
-            value: "02",
-            description: "Courses finished",
-            icon: CheckCircle2,
-        },
-        {
-            title: "Certificates",
-            value: "02",
-            description: "Certificates earned",
-            icon: Award,
-        },
-    ];
+    // =================================================
+    // STATE
+    // =================================================
 
-    const courses = [
-        {
-            title: "Full Stack Web Development",
-            instructor: "Rahul Sharma",
-            progress: 78,
-            lessons: "18 / 24",
-            duration: "12h 40m",
-            icon: "FS",
-        },
-        {
-            title: "Java Programming",
-            instructor: "Ankit Verma",
-            progress: 56,
-            lessons: "14 / 25",
-            duration: "10h 20m",
-            icon: "JP",
-        },
-        {
-            title: "Database Management System",
-            instructor: "Priya Singh",
-            progress: 34,
-            lessons: "08 / 22",
-            duration: "8h 45m",
-            icon: "DB",
-        },
-    ];
+    const [organizations, setOrganizations] = useState([]);
 
-    const assignments = [
-        {
-            title: "React Portfolio Project",
-            course: "Full Stack Web Development",
-            due: "Today",
-            status: "Pending",
-        },
-        {
-            title: "Java OOP Assignment",
-            course: "Java Programming",
-            due: "Tomorrow",
-            status: "Pending",
-        },
-        {
-            title: "SQL Queries Practice",
-            course: "Database Management System",
-            due: "Sep 05",
-            status: "Upcoming",
-        },
-    ];
+    const [stats, setStats] = useState({
+        total_organizations: 0,
+        active_organizations: 0,
+        total_users: 0,
+        total_courses: 0,
+    });
 
-    // =========================================================
-    // COMPONENT
-    // =========================================================
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+
+    // =================================================
+    // LOAD DASHBOARD DATA
+    // =================================================
+
+    useEffect(() => {
+        loadDashboardData();
+    }, []);
+
+
+    const loadDashboardData = async () => {
+
+        try {
+
+            setLoading(true);
+            setError("");
+
+            const [
+                organizationsResponse,
+                statsResponse,
+            ] = await Promise.all([
+                getOrganizations(),
+                getOrganizationStats(),
+            ]);
+
+            setOrganizations(
+                organizationsResponse?.data || []
+            );
+
+            setStats(
+                statsResponse?.data || {
+                    total_organizations: 0,
+                    active_organizations: 0,
+                    total_users: 0,
+                    total_courses: 0,
+                }
+            );
+
+        } catch (err) {
+
+            console.error(
+                "Dashboard loading error:",
+                err
+            );
+
+            setError(
+                err.message ||
+                "Failed to load dashboard data"
+            );
+
+        } finally {
+
+            setLoading(false);
+
+        }
+    };
+
+
+    // =================================================
+    // FORMAT DATE
+    // =================================================
+
+    const formatDate = (date) => {
+
+        if (!date) {
+            return "—";
+        }
+
+        return new Date(date).toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+            }
+        );
+    };
+
+
+    // =================================================
+    // STATUS STYLE
+    // =================================================
+
+    const getStatusStyle = (status) => {
+
+        if (
+            String(status).toLowerCase() ===
+            "active"
+        ) {
+
+            return {
+                background: "#ECFDF5",
+                color: "#059669",
+            };
+
+        }
+
+        return {
+            background: "#FEF2F2",
+            color: "#DC2626",
+        };
+    };
+
+
+    // =================================================
+    // LOADING SCREEN
+    // =================================================
+
+    if (loading) {
+
+        return (
+            <div
+                style={{
+                    minHeight: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "40px",
+                    background: "#F8FAFC",
+                }}
+            >
+
+                <div
+                    style={{
+                        textAlign: "center",
+                    }}
+                >
+
+                    <div
+                        style={{
+                            width: "42px",
+                            height: "42px",
+                            border:
+                                "4px solid #E2E8F0",
+                            borderTop:
+                                "4px solid #2563EB",
+                            borderRadius: "50%",
+                            margin: "0 auto 16px",
+                            animation:
+                                "shiyoraSpin 0.8s linear infinite",
+                        }}
+                    />
+
+                    <p
+                        style={{
+                            margin: 0,
+                            color: "#64748B",
+                            fontSize: "14px",
+                        }}
+                    >
+                        Loading dashboard...
+                    </p>
+
+                    <style>
+                        {`
+                            @keyframes shiyoraSpin {
+                                from {
+                                    transform: rotate(0deg);
+                                }
+                                to {
+                                    transform: rotate(360deg);
+                                }
+                            }
+                        `}
+                    </style>
+
+                </div>
+
+            </div>
+        );
+    }
+
+
+    // =================================================
+    // DASHBOARD
+    // =================================================
 
     return (
-        <div className="space-y-8">
 
-            {/* =====================================================
-                WELCOME SECTION
-            ====================================================== */}
+        <div
+            style={{
+                minHeight: "100%",
+                background: "#F8FAFC",
+                color: "#0F172A",
+                padding: "32px 36px 50px",
+                fontFamily:
+                    "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+            }}
+        >
 
-            <section
-                className="
-                    relative
-                    overflow-hidden
-                    rounded-3xl
-                    border
-                    border-[#7C9A82]/20
-                    bg-[#1B241E]
-                    p-6
-                    sm:p-8
-                "
+            {/* =================================================
+                HEADER
+            ================================================= */}
+
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                    gap: "24px",
+                    marginBottom: "30px",
+                    flexWrap: "wrap",
+                }}
             >
-                {/* Background Glow */}
 
-                <div
-                    className="
-                        pointer-events-none
-                        absolute
-                        -right-24
-                        -top-24
-                        h-72
-                        w-72
-                        rounded-full
-                        bg-[#F2B84B]/10
-                        blur-[90px]
-                    "
-                />
+                <div>
 
-                <div
-                    className="
-                        pointer-events-none
-                        absolute
-                        -bottom-32
-                        -left-20
-                        h-64
-                        w-64
-                        rounded-full
-                        bg-[#7C9A82]/10
-                        blur-[90px]
-                    "
-                />
+                    <div
+                        style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            padding: "7px 14px",
+                            borderRadius: "999px",
+                            background: "#EFF6FF",
+                            border:
+                                "1px solid #BFDBFE",
+                            color: "#2563EB",
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            marginBottom: "12px",
+                        }}
+                    >
 
-                <div className="relative z-10">
+                        <Activity size={14} />
 
-                    <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
+                        ADMINISTRATION
 
-                        <div>
-
-                            <div
-                                className="
-                                    mb-3
-                                    inline-flex
-                                    items-center
-                                    gap-2
-                                    rounded-full
-                                    border
-                                    border-[#F2B84B]/20
-                                    bg-[#F2B84B]/10
-                                    px-3
-                                    py-1.5
-                                    text-xs
-                                    font-medium
-                                    text-[#F2B84B]
-                                "
-                            >
-                                <span className="h-1.5 w-1.5 rounded-full bg-[#F2B84B]" />
-
-                                Learning Dashboard
-                            </div>
-
-                            <h1
-                                className="
-                                    font-['Space_Grotesk']
-                                    text-3xl
-                                    font-bold
-                                    tracking-tight
-                                    text-[#F3EEDD]
-                                    sm:text-4xl
-                                "
-                            >
-                                Welcome back, Student!
-                            </h1>
-
-                            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#F3EEDD]/60 sm:text-base">
-                                Continue your learning journey, track your
-                                progress, and stay on top of your courses.
-                            </p>
-
-                        </div>
-
-
-                        {/* Learning Streak */}
-
-                        <div
-                            className="
-                                flex
-                                w-fit
-                                items-center
-                                gap-4
-                                rounded-2xl
-                                border
-                                border-[#F2B84B]/20
-                                bg-[#161F19]/70
-                                px-5
-                                py-4
-                            "
+                        <span
+                            style={{
+                                color: "#CBD5E1",
+                            }}
                         >
+                            •
+                        </span>
 
-                            <div
-                                className="
-                                    flex
-                                    h-11
-                                    w-11
-                                    items-center
-                                    justify-center
-                                    rounded-xl
-                                    bg-[#F2B84B]/10
-                                    text-[#F2B84B]
-                                "
-                            >
-                                <Flame size={23} />
-                            </div>
-
-                            <div>
-                                <p className="text-xs text-[#F3EEDD]/45">
-                                    Learning Streak
-                                </p>
-
-                                <p className="mt-0.5 text-lg font-bold text-[#F3EEDD]">
-                                    12 Days
-                                </p>
-                            </div>
-
-                        </div>
+                        <span
+                            style={{
+                                color: "#94A3B8",
+                            }}
+                        >
+                            Overview
+                        </span>
 
                     </div>
 
+
+                    <h1
+                        style={{
+                            margin: 0,
+                            fontSize: "34px",
+                            lineHeight: 1.15,
+                            fontWeight: 800,
+                            letterSpacing: "-1px",
+                            color: "#020617",
+                        }}
+                    >
+                        Super Admin Dashboard
+                    </h1>
+
+
+                    <p
+                        style={{
+                            margin:
+                                "8px 0 0",
+                            color: "#64748B",
+                            fontSize: "16px",
+                        }}
+                    >
+                        Monitor your Shiyora learning
+                        platform and manage everything
+                        from one place.
+                    </p>
+
                 </div>
-            </section>
 
 
-            {/* =====================================================
-                STATS
-            ====================================================== */}
+                {/* REFRESH BUTTON */}
 
-            <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                <button
+                    onClick={loadDashboardData}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        padding:
+                            "11px 16px",
+                        borderRadius: "10px",
+                        border:
+                            "1px solid #E2E8F0",
+                        background: "#FFFFFF",
+                        color: "#334155",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        boxShadow:
+                            "0 2px 8px rgba(15,23,42,0.05)",
+                    }}
+                >
 
-                {stats.map((stat) => {
-                    const Icon = stat.icon;
+                    <Activity size={17} />
 
-                    return (
-                        <div
-                            key={stat.title}
-                            className="
-                                group
-                                rounded-2xl
-                                border
-                                border-[#7C9A82]/15
-                                bg-[#1B241E]
-                                p-5
-                                transition-all
-                                duration-300
-                                hover:-translate-y-1
-                                hover:border-[#F2B84B]/30
-                            "
-                        >
+                    Refresh
 
-                            <div className="flex items-start justify-between">
+                </button>
 
-                                <div>
-                                    <p className="text-sm text-[#F3EEDD]/50">
-                                        {stat.title}
-                                    </p>
-
-                                    <p className="mt-2 text-3xl font-bold text-[#F3EEDD]">
-                                        {stat.value}
-                                    </p>
-                                </div>
-
-                                <div
-                                    className="
-                                        flex
-                                        h-11
-                                        w-11
-                                        items-center
-                                        justify-center
-                                        rounded-xl
-                                        bg-[#F2B84B]/10
-                                        text-[#F2B84B]
-                                        transition
-                                        group-hover:bg-[#F2B84B]
-                                        group-hover:text-[#161F19]
-                                    "
-                                >
-                                    <Icon size={21} />
-                                </div>
-
-                            </div>
-
-                            <p className="mt-3 text-xs text-[#7C9A82]">
-                                {stat.description}
-                            </p>
-
-                        </div>
-                    );
-                })}
-
-            </section>
+            </div>
 
 
-            {/* =====================================================
+            {/* =================================================
+                ERROR
+            ================================================= */}
+
+            {error && (
+
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        padding: "14px 16px",
+                        marginBottom: "24px",
+                        borderRadius: "12px",
+                        background: "#FEF2F2",
+                        border:
+                            "1px solid #FECACA",
+                        color: "#B91C1C",
+                    }}
+                >
+
+                    <AlertCircle size={18} />
+
+                    <span>
+                        {error}
+                    </span>
+
+                </div>
+
+            )}
+
+
+            {/* =================================================
+                TOP STAT CARDS
+            ================================================= */}
+
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                        "repeat(4, minmax(0, 1fr))",
+                    gap: "18px",
+                    marginBottom: "24px",
+                }}
+            >
+
+                {/* ORGANIZATIONS */}
+
+                <StatCard
+                    title="Total Organizations"
+                    value={
+                        stats.total_organizations
+                    }
+                    icon={<Building2 size={22} />}
+                    iconBackground="#EFF6FF"
+                    iconColor="#2563EB"
+                    footer={
+                        `${stats.active_organizations} active organizations`
+                    }
+                />
+
+
+                {/* USERS */}
+
+                <StatCard
+                    title="Total Users"
+                    value={
+                        stats.total_users
+                    }
+                    icon={<Users size={22} />}
+                    iconBackground="#ECFDF5"
+                    iconColor="#0F766E"
+                    footer="Registered platform users"
+                />
+
+
+                {/* COURSES */}
+
+                <StatCard
+                    title="Total Courses"
+                    value={
+                        stats.total_courses
+                    }
+                    icon={<BookOpen size={22} />}
+                    iconBackground="#EEF2FF"
+                    iconColor="#4F46E5"
+                    footer="Courses available on platform"
+                />
+
+
+                {/* REVENUE */}
+
+                <StatCard
+                    title="Total Revenue"
+                    value="—"
+                    icon={<CreditCard size={22} />}
+                    iconBackground="#ECFEFF"
+                    iconColor="#0891B2"
+                    footer="Billing system not connected"
+                />
+
+            </div>
+
+
+            {/* =================================================
                 MAIN GRID
-            ====================================================== */}
+            ================================================= */}
 
-            <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_360px]">
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                        "minmax(0, 2fr) minmax(300px, 1fr)",
+                    gap: "24px",
+                    marginBottom: "24px",
+                }}
+            >
 
                 {/* =================================================
-                    CONTINUE LEARNING
+                    PLATFORM OVERVIEW
                 ================================================= */}
 
                 <div
-                    className="
-                        rounded-2xl
-                        border
-                        border-[#7C9A82]/15
-                        bg-[#1B241E]
-                        p-5
-                        sm:p-6
-                    "
+                    style={{
+                        background: "#FFFFFF",
+                        border:
+                            "1px solid #E2E8F0",
+                        borderRadius: "16px",
+                        padding: "24px",
+                        boxShadow:
+                            "0 2px 8px rgba(15,23,42,0.04)",
+                    }}
                 >
 
-                    <div className="mb-6 flex items-center justify-between">
-
-                        <div>
-                            <h2 className="text-lg font-semibold text-[#F3EEDD]">
-                                Continue Learning
-                            </h2>
-
-                            <p className="mt-1 text-xs text-[#F3EEDD]/45">
-                                Pick up where you left off
-                            </p>
-                        </div>
-
-                        <button
-                            type="button"
-                            className="
-                                flex
-                                items-center
-                                gap-1
-                                text-sm
-                                font-medium
-                                text-[#F2B84B]
-                                transition
-                                hover:text-[#F3EEDD]
-                            "
-                        >
-                            View All
-                            <ArrowRight size={16} />
-                        </button>
-
-                    </div>
-
-
-                    <div className="space-y-4">
-
-                        {courses.map((course) => (
-                            <div
-                                key={course.title}
-                                className="
-                                    rounded-2xl
-                                    border
-                                    border-[#7C9A82]/10
-                                    bg-[#161F19]/60
-                                    p-4
-                                    transition
-                                    hover:border-[#7C9A82]/25
-                                "
-                            >
-
-                                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-
-                                    {/* Course Icon */}
-
-                                    <div
-                                        className="
-                                            flex
-                                            h-14
-                                            w-14
-                                            shrink-0
-                                            items-center
-                                            justify-center
-                                            rounded-xl
-                                            bg-[#F2B84B]/10
-                                            text-sm
-                                            font-bold
-                                            text-[#F2B84B]
-                                        "
-                                    >
-                                        {course.icon}
-                                    </div>
-
-
-                                    {/* Course Information */}
-
-                                    <div className="min-w-0 flex-1">
-
-                                        <div className="flex flex-col justify-between gap-2 sm:flex-row">
-
-                                            <div>
-                                                <h3 className="truncate font-semibold text-[#F3EEDD]">
-                                                    {course.title}
-                                                </h3>
-
-                                                <p className="mt-1 text-xs text-[#F3EEDD]/45">
-                                                    By {course.instructor}
-                                                </p>
-                                            </div>
-
-                                            <span className="text-sm font-semibold text-[#F2B84B]">
-                                                {course.progress}%
-                                            </span>
-
-                                        </div>
-
-
-                                        {/* Progress */}
-
-                                        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#7C9A82]/15">
-
-                                            <div
-                                                className="
-                                                    h-full
-                                                    rounded-full
-                                                    bg-[#F2B84B]
-                                                    transition-all
-                                                "
-                                                style={{
-                                                    width: `${course.progress}%`,
-                                                }}
-                                            />
-
-                                        </div>
-
-
-                                        {/* Course Meta */}
-
-                                        <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-[#F3EEDD]/40">
-
-                                            <span className="flex items-center gap-1.5">
-                                                <BookOpen size={13} />
-                                                {course.lessons} lessons
-                                            </span>
-
-                                            <span className="flex items-center gap-1.5">
-                                                <Clock3 size={13} />
-                                                {course.duration}
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {/* Continue Button */}
-
-                                    <button
-                                        type="button"
-                                        className="
-                                            flex
-                                            shrink-0
-                                            items-center
-                                            justify-center
-                                            gap-2
-                                            rounded-xl
-                                            bg-[#F2B84B]
-                                            px-4
-                                            py-2.5
-                                            text-sm
-                                            font-semibold
-                                            text-[#161F19]
-                                            transition
-                                            hover:bg-[#F3EEDD]
-                                        "
-                                    >
-                                        <PlayCircle size={16} />
-                                        Continue
-                                    </button>
-
-                                </div>
-
-                            </div>
-                        ))}
-
-                    </div>
-
-                </div>
-
-
-                {/* =================================================
-                    WEEKLY GOAL
-                ================================================= */}
-
-                <div
-                    className="
-                        rounded-2xl
-                        border
-                        border-[#7C9A82]/15
-                        bg-[#1B241E]
-                        p-5
-                        sm:p-6
-                    "
-                >
-
-                    <div className="flex items-center gap-3">
-
-                        <div
-                            className="
-                                flex
-                                h-10
-                                w-10
-                                items-center
-                                justify-center
-                                rounded-xl
-                                bg-[#7C9A82]/10
-                                text-[#7C9A82]
-                            "
-                        >
-                            <Target size={20} />
-                        </div>
-
-                        <div>
-                            <h2 className="font-semibold text-[#F3EEDD]">
-                                Weekly Goal
-                            </h2>
-
-                            <p className="text-xs text-[#F3EEDD]/45">
-                                Keep your momentum
-                            </p>
-                        </div>
-
-                    </div>
-
-
-                    {/* Circular-style percentage */}
-
-                    <div className="mt-7 flex justify-center">
-
-                        <div
-                            className="
-                                flex
-                                h-36
-                                w-36
-                                items-center
-                                justify-center
-                                rounded-full
-                                border-[10px]
-                                border-[#7C9A82]/15
-                                border-t-[#F2B84B]
-                                border-r-[#F2B84B]
-                            "
-                        >
-                            <div className="text-center">
-
-                                <p className="text-3xl font-bold text-[#F3EEDD]">
-                                    72%
-                                </p>
-
-                                <p className="text-xs text-[#F3EEDD]/40">
-                                    Completed
-                                </p>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div className="mt-7 space-y-4">
-
-                        <div className="flex items-center justify-between">
-
-                            <span className="text-sm text-[#F3EEDD]/55">
-                                Learning Time
-                            </span>
-
-                            <span className="font-semibold text-[#F3EEDD]">
-                                7h 12m
-                            </span>
-
-                        </div>
-
-                        <div className="flex items-center justify-between">
-
-                            <span className="text-sm text-[#F3EEDD]/55">
-                                Weekly Target
-                            </span>
-
-                            <span className="font-semibold text-[#F3EEDD]">
-                                10h
-                            </span>
-
-                        </div>
-
-                        <div className="flex items-center justify-between">
-
-                            <span className="text-sm text-[#F3EEDD]/55">
-                                Lessons Done
-                            </span>
-
-                            <span className="font-semibold text-[#F3EEDD]">
-                                24
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        className="
-                            mt-6
-                            flex
-                            w-full
-                            items-center
-                            justify-center
-                            gap-2
-                            rounded-xl
-                            border
-                            border-[#7C9A82]/20
-                            bg-[#161F19]
-                            px-4
-                            py-3
-                            text-sm
-                            font-medium
-                            text-[#F3EEDD]
-                            transition
-                            hover:border-[#F2B84B]/30
-                            hover:text-[#F2B84B]
-                        "
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent:
+                                "space-between",
+                            alignItems: "center",
+                            marginBottom: "26px",
+                        }}
                     >
-                        <BarChart3 size={17} />
-                        View Progress
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            {/* =====================================================
-                BOTTOM GRID
-            ====================================================== */}
-
-            <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-
-                {/* =================================================
-                    UPCOMING ASSIGNMENTS
-                ================================================= */}
-
-                <div
-                    className="
-                        rounded-2xl
-                        border
-                        border-[#7C9A82]/15
-                        bg-[#1B241E]
-                        p-5
-                        sm:p-6
-                    "
-                >
-
-                    <div className="mb-6 flex items-center justify-between">
 
                         <div>
-                            <h2 className="text-lg font-semibold text-[#F3EEDD]">
-                                Upcoming Assignments
+
+                            <h2
+                                style={{
+                                    margin: 0,
+                                    fontSize: "18px",
+                                    fontWeight: 750,
+                                }}
+                            >
+                                Platform Overview
                             </h2>
 
-                            <p className="mt-1 text-xs text-[#F3EEDD]/45">
-                                Stay ahead of your deadlines
+                            <p
+                                style={{
+                                    margin:
+                                        "5px 0 0",
+                                    color: "#94A3B8",
+                                    fontSize: "13px",
+                                }}
+                            >
+                                Current platform statistics
                             </p>
+
                         </div>
+
 
                         <div
-                            className="
-                                flex
-                                h-10
-                                w-10
-                                items-center
-                                justify-center
-                                rounded-xl
-                                bg-[#F2B84B]/10
-                                text-[#F2B84B]
-                            "
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                color: "#64748B",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                            }}
                         >
-                            <ClipboardList size={19} />
+
+                            <BarChart3 size={17} />
+
+                            Live Data
+
                         </div>
 
                     </div>
 
 
-                    <div className="space-y-3">
+                    {/* REAL PLATFORM DATA */}
 
-                        {assignments.map((assignment) => (
-                            <div
-                                key={assignment.title}
-                                className="
-                                    flex
-                                    items-center
-                                    gap-4
-                                    rounded-xl
-                                    border
-                                    border-[#7C9A82]/10
-                                    bg-[#161F19]/50
-                                    p-4
-                                "
-                            >
-
-                                <div
-                                    className="
-                                        flex
-                                        h-10
-                                        w-10
-                                        shrink-0
-                                        items-center
-                                        justify-center
-                                        rounded-lg
-                                        bg-[#7C9A82]/10
-                                        text-[#7C9A82]
-                                    "
-                                >
-                                    <ClipboardList size={17} />
-                                </div>
-
-
-                                <div className="min-w-0 flex-1">
-
-                                    <h3 className="truncate text-sm font-medium text-[#F3EEDD]">
-                                        {assignment.title}
-                                    </h3>
-
-                                    <p className="mt-1 truncate text-xs text-[#F3EEDD]/40">
-                                        {assignment.course}
-                                    </p>
-
-                                </div>
-
-
-                                <div className="shrink-0 text-right">
-
-                                    <div
-                                        className={`
-                                            flex
-                                            items-center
-                                            gap-1
-                                            text-xs
-                                            font-medium
-                                            ${assignment.due === "Today"
-                                                ? "text-[#D6402C]"
-                                                : "text-[#F2B84B]"
-                                            }
-                                        `}
-                                    >
-                                        <CalendarDays size={13} />
-                                        {assignment.due}
-                                    </div>
-
-                                    <p className="mt-1 text-[10px] text-[#F3EEDD]/30">
-                                        {assignment.status}
-                                    </p>
-
-                                </div>
-
-                            </div>
-                        ))}
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        className="
-                            mt-5
-                            flex
-                            w-full
-                            items-center
-                            justify-center
-                            gap-2
-                            rounded-xl
-                            border
-                            border-[#7C9A82]/15
-                            py-2.5
-                            text-sm
-                            font-medium
-                            text-[#7C9A82]
-                            transition
-                            hover:border-[#F2B84B]/25
-                            hover:text-[#F2B84B]
-                        "
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns:
+                                "repeat(3, minmax(0, 1fr))",
+                            gap: "16px",
+                        }}
                     >
-                        View All Assignments
-                        <ChevronRight size={16} />
-                    </button>
+
+                        <OverviewItem
+                            label="Organizations"
+                            value={
+                                stats.total_organizations
+                            }
+                            icon={
+                                <Building2 size={20} />
+                            }
+                            color="#2563EB"
+                        />
+
+                        <OverviewItem
+                            label="Users"
+                            value={
+                                stats.total_users
+                            }
+                            icon={
+                                <Users size={20} />
+                            }
+                            color="#0F766E"
+                        />
+
+                        <OverviewItem
+                            label="Courses"
+                            value={
+                                stats.total_courses
+                            }
+                            icon={
+                                <BookOpen size={20} />
+                            }
+                            color="#4F46E5"
+                        />
+
+                    </div>
+
+
+                    {/* PLATFORM STATUS */}
+
+                    <div
+                        style={{
+                            marginTop: "24px",
+                            padding: "16px",
+                            borderRadius: "12px",
+                            background: "#F8FAFC",
+                            border:
+                                "1px solid #E2E8F0",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "12px",
+                        }}
+                    >
+
+                        <div
+                            style={{
+                                width: "38px",
+                                height: "38px",
+                                borderRadius: "10px",
+                                background: "#ECFDF5",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+
+                            <CheckCircle2
+                                size={20}
+                                color="#059669"
+                            />
+
+                        </div>
+
+
+                        <div>
+
+                            <div
+                                style={{
+                                    fontSize: "14px",
+                                    fontWeight: 700,
+                                    color: "#0F172A",
+                                }}
+                            >
+                                Platform data connected
+                            </div>
+
+                            <div
+                                style={{
+                                    fontSize: "12px",
+                                    color: "#64748B",
+                                    marginTop: "3px",
+                                }}
+                            >
+                                Statistics are being loaded
+                                from PostgreSQL.
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
 
                 {/* =================================================
-                    LEARNING ACTIVITY
+                    PLATFORM USERS
                 ================================================= */}
 
                 <div
-                    className="
-                        rounded-2xl
-                        border
-                        border-[#7C9A82]/15
-                        bg-[#1B241E]
-                        p-5
-                        sm:p-6
-                    "
+                    style={{
+                        background: "#FFFFFF",
+                        border:
+                            "1px solid #E2E8F0",
+                        borderRadius: "16px",
+                        padding: "24px",
+                        boxShadow:
+                            "0 2px 8px rgba(15,23,42,0.04)",
+                    }}
                 >
 
-                    <div className="mb-6 flex items-center justify-between">
+                    <h2
+                        style={{
+                            margin: 0,
+                            fontSize: "18px",
+                            fontWeight: 750,
+                        }}
+                    >
+                        Platform Users
+                    </h2>
 
-                        <div>
-                            <h2 className="text-lg font-semibold text-[#F3EEDD]">
-                                Learning Activity
-                            </h2>
+                    <p
+                        style={{
+                            margin:
+                                "5px 0 24px",
+                            color: "#94A3B8",
+                            fontSize: "13px",
+                        }}
+                    >
+                        User distribution by role
+                    </p>
 
-                            <p className="mt-1 text-xs text-[#F3EEDD]/45">
-                                Your activity this week
-                            </p>
-                        </div>
+
+                    <RoleNotice
+                        icon={
+                            <Users size={19} />
+                        }
+                        title="User distribution"
+                        value={
+                            stats.total_users
+                        }
+                        description="Total registered users"
+                        color="#2563EB"
+                    />
+
+
+                    <div
+                        style={{
+                            marginTop: "18px",
+                            padding: "14px",
+                            borderRadius: "12px",
+                            background: "#F8FAFC",
+                            border:
+                                "1px solid #E2E8F0",
+                            fontSize: "12px",
+                            color: "#64748B",
+                            lineHeight: 1.5,
+                        }}
+                    >
+
+                        Role-wise student,
+                        teacher and admin statistics
+                        will appear here once the
+                        role analytics API is connected.
+
+                    </div>
+
+
+                    <div
+                        style={{
+                            marginTop: "20px",
+                            padding: "15px",
+                            borderRadius: "12px",
+                            background: "#F8FAFC",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent:
+                                "space-between",
+                        }}
+                    >
 
                         <div
-                            className="
-                                flex
-                                h-10
-                                w-10
-                                items-center
-                                justify-center
-                                rounded-xl
-                                bg-[#7C9A82]/10
-                                text-[#7C9A82]
-                            "
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "9px",
+                            }}
                         >
-                            <TrendingUp size={19} />
-                        </div>
 
-                    </div>
+                            <ShieldCheck
+                                size={18}
+                                color="#0F766E"
+                            />
 
-
-                    {/* Activity Bars */}
-
-                    <div className="flex h-44 items-end justify-between gap-3">
-
-                        {[
-                            { day: "Mon", value: 55 },
-                            { day: "Tue", value: 75 },
-                            { day: "Wed", value: 45 },
-                            { day: "Thu", value: 90 },
-                            { day: "Fri", value: 65 },
-                            { day: "Sat", value: 80 },
-                            { day: "Sun", value: 35 },
-                        ].map((item) => (
-                            <div
-                                key={item.day}
-                                className="flex h-full flex-1 flex-col items-center justify-end gap-2"
+                            <span
+                                style={{
+                                    fontSize: "13px",
+                                    color: "#475569",
+                                    fontWeight: 600,
+                                }}
                             >
+                                Active organizations
+                            </span>
 
-                                <div
-                                    className="
-                                        relative
-                                        flex
-                                        w-full
-                                        max-w-8
-                                        items-end
-                                        rounded-t-lg
-                                        bg-[#7C9A82]/10
-                                    "
-                                    style={{
-                                        height: `${item.value}%`,
-                                    }}
-                                >
-
-                                    <div
-                                        className="
-                                            w-full
-                                            rounded-t-lg
-                                            bg-[#F2B84B]
-                                        "
-                                        style={{
-                                            height: "45%",
-                                        }}
-                                    />
-
-                                </div>
-
-                                <span className="text-[10px] text-[#F3EEDD]/35">
-                                    {item.day}
-                                </span>
-
-                            </div>
-                        ))}
-
-                    </div>
-
-
-                    <div className="mt-6 grid grid-cols-3 gap-3">
-
-                        <div className="rounded-xl bg-[#161F19] p-3">
-                            <p className="text-[10px] text-[#F3EEDD]/35">
-                                This Week
-                            </p>
-                            <p className="mt-1 text-sm font-semibold text-[#F3EEDD]">
-                                7h 12m
-                            </p>
                         </div>
 
-                        <div className="rounded-xl bg-[#161F19] p-3">
-                            <p className="text-[10px] text-[#F3EEDD]/35">
-                                Avg. Daily
-                            </p>
-                            <p className="mt-1 text-sm font-semibold text-[#F3EEDD]">
-                                1h 02m
-                            </p>
-                        </div>
 
-                        <div className="rounded-xl bg-[#161F19] p-3">
-                            <p className="text-[10px] text-[#F3EEDD]/35">
-                                Best Day
-                            </p>
-                            <p className="mt-1 text-sm font-semibold text-[#F2B84B]">
-                                Thursday
-                            </p>
-                        </div>
+                        <strong
+                            style={{
+                                fontSize: "16px",
+                            }}
+                        >
+                            {
+                                stats.active_organizations
+                            }
+                        </strong>
 
                     </div>
 
                 </div>
 
-            </section>
+            </div>
 
 
-            {/* =====================================================
-                EXPLORE COURSES CTA
-            ====================================================== */}
+            {/* =================================================
+                RECENT ORGANIZATIONS
+            ================================================= */}
 
-            <section
-                className="
-                    relative
-                    overflow-hidden
-                    rounded-2xl
-                    border
-                    border-[#F2B84B]/20
-                    bg-[#1B241E]
-                    p-6
-                    sm:p-8
-                "
+            <div
+                style={{
+                    background: "#FFFFFF",
+                    border:
+                        "1px solid #E2E8F0",
+                    borderRadius: "16px",
+                    padding: "24px",
+                    boxShadow:
+                        "0 2px 8px rgba(15,23,42,0.04)",
+                    marginBottom: "24px",
+                }}
             >
 
                 <div
-                    className="
-                        pointer-events-none
-                        absolute
-                        right-0
-                        top-0
-                        h-full
-                        w-1/2
-                        bg-[#F2B84B]/[0.03]
-                    "
-                />
-
-                <div className="relative z-10 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+                    style={{
+                        display: "flex",
+                        justifyContent:
+                            "space-between",
+                        alignItems: "center",
+                        marginBottom: "20px",
+                    }}
+                >
 
                     <div>
 
-                        <div className="flex items-center gap-2 text-[#F2B84B]">
-                            <Award size={18} />
-
-                            <span className="text-xs font-semibold uppercase tracking-wider">
-                                Keep Learning
-                            </span>
-                        </div>
-
-                        <h2 className="mt-2 text-xl font-bold text-[#F3EEDD] sm:text-2xl">
-                            Ready to learn something new?
+                        <h2
+                            style={{
+                                margin: 0,
+                                fontSize: "18px",
+                                fontWeight: 750,
+                            }}
+                        >
+                            Recent Organizations
                         </h2>
 
-                        <p className="mt-2 text-sm text-[#F3EEDD]/50">
-                            Explore new courses and build skills that move you forward.
+                        <p
+                            style={{
+                                margin:
+                                    "5px 0 0",
+                                color: "#94A3B8",
+                                fontSize: "13px",
+                            }}
+                        >
+                            Organizations recently added
+                            to Shiyora
                         </p>
 
                     </div>
 
 
-                    <button
-                        type="button"
-                        className="
-                            flex
-                            shrink-0
-                            items-center
-                            gap-2
-                            rounded-xl
-                            bg-[#F2B84B]
-                            px-5
-                            py-3
-                            text-sm
-                            font-semibold
-                            text-[#161F19]
-                            transition
-                            hover:bg-[#F3EEDD]
-                        "
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "7px",
+                            color: "#2563EB",
+                            fontSize: "13px",
+                            fontWeight: 700,
+                        }}
                     >
-                        Explore Courses
-                        <ArrowRight size={17} />
-                    </button>
+
+                        <Building2 size={16} />
+
+                        {organizations.length} total
+
+                    </div>
 
                 </div>
 
-            </section>
+
+                {organizations.length === 0 ? (
+
+                    <div
+                        style={{
+                            padding: "35px",
+                            textAlign: "center",
+                            color: "#64748B",
+                            border:
+                                "1px dashed #CBD5E1",
+                            borderRadius: "12px",
+                        }}
+                    >
+
+                        <Building2
+                            size={28}
+                            style={{
+                                marginBottom: "8px",
+                            }}
+                        />
+
+                        <div
+                            style={{
+                                fontWeight: 700,
+                                marginBottom: "4px",
+                            }}
+                        >
+                            No organizations found
+                        </div>
+
+                        <div
+                            style={{
+                                fontSize: "13px",
+                            }}
+                        >
+                            Create an organization to
+                            see it here.
+                        </div>
+
+                    </div>
+
+                ) : (
+
+                    <div
+                        style={{
+                            overflowX: "auto",
+                        }}
+                    >
+
+                        <table
+                            style={{
+                                width: "100%",
+                                borderCollapse:
+                                    "collapse",
+                                minWidth: "700px",
+                            }}
+                        >
+
+                            <thead>
+
+                                <tr
+                                    style={{
+                                        borderBottom:
+                                            "1px solid #E2E8F0",
+                                    }}
+                                >
+
+                                    <TableHeader>
+                                        Organization
+                                    </TableHeader>
+
+                                    <TableHeader>
+                                        Email
+                                    </TableHeader>
+
+                                    <TableHeader>
+                                        Plan
+                                    </TableHeader>
+
+                                    <TableHeader>
+                                        Users
+                                    </TableHeader>
+
+                                    <TableHeader>
+                                        Courses
+                                    </TableHeader>
+
+                                    <TableHeader>
+                                        Status
+                                    </TableHeader>
+
+                                    <TableHeader>
+                                        Created
+                                    </TableHeader>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {organizations
+                                    .slice(0, 5)
+                                    .map(
+                                        (organization) => (
+
+                                            <tr
+                                                key={
+                                                    organization.id
+                                                }
+                                                style={{
+                                                    borderBottom:
+                                                        "1px solid #F1F5F9",
+                                                }}
+                                            >
+
+                                                <TableCell>
+
+                                                    <div
+                                                        style={{
+                                                            display:
+                                                                "flex",
+                                                            alignItems:
+                                                                "center",
+                                                            gap: "10px",
+                                                        }}
+                                                    >
+
+                                                        <div
+                                                            style={{
+                                                                width:
+                                                                    "36px",
+                                                                height:
+                                                                    "36px",
+                                                                borderRadius:
+                                                                    "10px",
+                                                                background:
+                                                                    "#EFF6FF",
+                                                                display:
+                                                                    "flex",
+                                                                alignItems:
+                                                                    "center",
+                                                                justifyContent:
+                                                                    "center",
+                                                            }}
+                                                        >
+
+                                                            <Building2
+                                                                size={
+                                                                    17
+                                                                }
+                                                                color="#2563EB"
+                                                            />
+
+                                                        </div>
+
+
+                                                        <div>
+
+                                                            <div
+                                                                style={{
+                                                                    fontWeight:
+                                                                        700,
+                                                                    color:
+                                                                        "#0F172A",
+                                                                }}
+                                                            >
+                                                                {
+                                                                    organization.name
+                                                                }
+                                                            </div>
+
+                                                            <div
+                                                                style={{
+                                                                    fontSize:
+                                                                        "11px",
+                                                                    color:
+                                                                        "#94A3B8",
+                                                                }}
+                                                            >
+                                                                ID #
+                                                                {
+                                                                    organization.id
+                                                                }
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </TableCell>
+
+
+                                                <TableCell>
+                                                    {
+                                                        organization.email
+                                                    }
+                                                </TableCell>
+
+
+                                                <TableCell>
+
+                                                    <span
+                                                        style={{
+                                                            fontWeight:
+                                                                600,
+                                                        }}
+                                                    >
+                                                        {
+                                                            organization.plan ||
+                                                            "Basic"
+                                                        }
+                                                    </span>
+
+                                                </TableCell>
+
+
+                                                <TableCell>
+                                                    {
+                                                        organization.users ??
+                                                        0
+                                                    }
+                                                </TableCell>
+
+
+                                                <TableCell>
+                                                    {
+                                                        organization.courses ??
+                                                        0
+                                                    }
+                                                </TableCell>
+
+
+                                                <TableCell>
+
+                                                    <span
+                                                        style={{
+                                                            ...getStatusStyle(
+                                                                organization.status
+                                                            ),
+                                                            padding:
+                                                                "5px 10px",
+                                                            borderRadius:
+                                                                "999px",
+                                                            fontSize:
+                                                                "11px",
+                                                            fontWeight:
+                                                                700,
+                                                        }}
+                                                    >
+                                                        {
+                                                            organization.status ||
+                                                            "Active"
+                                                        }
+                                                    </span>
+
+                                                </TableCell>
+
+
+                                                <TableCell>
+
+                                                    {
+                                                        formatDate(
+                                                            organization.created_at
+                                                        )
+                                                    }
+
+                                                </TableCell>
+
+                                            </tr>
+
+                                        )
+                                    )}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                )}
+
+            </div>
+
+
+            {/* =================================================
+                QUICK ACTIONS
+            ================================================= */}
+
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                        "repeat(3, minmax(0, 1fr))",
+                    gap: "18px",
+                }}
+            >
+
+                <QuickAction
+                    icon={<Plus size={19} />}
+                    title="Add Organization"
+                    description="Create a new organization"
+                />
+
+                <QuickAction
+                    icon={<UserPlus size={19} />}
+                    title="Manage Users"
+                    description="View and manage platform users"
+                />
+
+                <QuickAction
+                    icon={<Settings size={19} />}
+                    title="Platform Settings"
+                    description="Configure Shiyora settings"
+                />
+
+            </div>
+
+
+            {/* =================================================
+                INFORMATION
+            ================================================= */}
+
+            <div
+                style={{
+                    marginTop: "24px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                    color: "#94A3B8",
+                    fontSize: "12px",
+                }}
+            >
+
+                <Clock3 size={14} />
+
+                Dashboard data is loaded from
+                your Shiyora PostgreSQL database.
+
+            </div>
 
         </div>
     );
 };
+
+
+// =====================================================
+// STAT CARD
+// =====================================================
+
+const StatCard = ({
+    title,
+    value,
+    icon,
+    iconBackground,
+    iconColor,
+    footer,
+}) => {
+
+    return (
+
+        <div
+            style={{
+                background: "#FFFFFF",
+                border:
+                    "1px solid #E2E8F0",
+                borderRadius: "16px",
+                padding: "22px",
+                boxShadow:
+                    "0 2px 8px rgba(15,23,42,0.05)",
+            }}
+        >
+
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent:
+                        "space-between",
+                    alignItems: "flex-start",
+                }}
+            >
+
+                <div>
+
+                    <div
+                        style={{
+                            color: "#64748B",
+                            fontSize: "13px",
+                            fontWeight: 650,
+                            marginBottom: "8px",
+                        }}
+                    >
+                        {title}
+                    </div>
+
+
+                    <div
+                        style={{
+                            fontSize: "30px",
+                            fontWeight: 800,
+                            letterSpacing: "-0.7px",
+                            color: "#020617",
+                        }}
+                    >
+                        {value}
+                    </div>
+
+                </div>
+
+
+                <div
+                    style={{
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "14px",
+                        background:
+                            iconBackground,
+                        color: iconColor,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    {icon}
+                </div>
+
+            </div>
+
+
+            <div
+                style={{
+                    marginTop: "18px",
+                    paddingTop: "13px",
+                    borderTop:
+                        "1px solid #F1F5F9",
+                    color: "#94A3B8",
+                    fontSize: "12px",
+                }}
+            >
+                {footer}
+            </div>
+
+        </div>
+
+    );
+};
+
+
+// =====================================================
+// OVERVIEW ITEM
+// =====================================================
+
+const OverviewItem = ({
+    label,
+    value,
+    icon,
+    color,
+}) => {
+
+    return (
+
+        <div
+            style={{
+                padding: "18px",
+                border:
+                    "1px solid #E2E8F0",
+                borderRadius: "13px",
+                background: "#FFFFFF",
+            }}
+        >
+
+            <div
+                style={{
+                    width: "38px",
+                    height: "38px",
+                    borderRadius: "10px",
+                    background: "#F8FAFC",
+                    color,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: "12px",
+                }}
+            >
+                {icon}
+            </div>
+
+
+            <div
+                style={{
+                    color: "#64748B",
+                    fontSize: "12px",
+                    marginBottom: "4px",
+                }}
+            >
+                {label}
+            </div>
+
+
+            <div
+                style={{
+                    fontSize: "23px",
+                    fontWeight: 800,
+                    color: "#0F172A",
+                }}
+            >
+                {value}
+            </div>
+
+        </div>
+
+    );
+};
+
+
+// =====================================================
+// ROLE NOTICE
+// =====================================================
+
+const RoleNotice = ({
+    icon,
+    title,
+    value,
+    description,
+    color,
+}) => {
+
+    return (
+
+        <div
+            style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "13px",
+                padding: "16px",
+                borderRadius: "13px",
+                background: "#F8FAFC",
+                border:
+                    "1px solid #E2E8F0",
+            }}
+        >
+
+            <div
+                style={{
+                    width: "42px",
+                    height: "42px",
+                    borderRadius: "11px",
+                    background: "#EFF6FF",
+                    color,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                {icon}
+            </div>
+
+
+            <div
+                style={{
+                    flex: 1,
+                }}
+            >
+
+                <div
+                    style={{
+                        fontSize: "13px",
+                        fontWeight: 700,
+                    }}
+                >
+                    {title}
+                </div>
+
+                <div
+                    style={{
+                        color: "#94A3B8",
+                        fontSize: "11px",
+                        marginTop: "2px",
+                    }}
+                >
+                    {description}
+                </div>
+
+            </div>
+
+
+            <strong
+                style={{
+                    fontSize: "20px",
+                }}
+            >
+                {value}
+            </strong>
+
+        </div>
+
+    );
+};
+
+
+// =====================================================
+// QUICK ACTION
+// =====================================================
+
+const QuickAction = ({
+    icon,
+    title,
+    description,
+}) => {
+
+    return (
+
+        <button
+            type="button"
+            style={{
+                border:
+                    "1px solid #E2E8F0",
+                background: "#FFFFFF",
+                borderRadius: "14px",
+                padding: "18px",
+                display: "flex",
+                alignItems: "center",
+                gap: "14px",
+                textAlign: "left",
+                cursor: "pointer",
+                boxShadow:
+                    "0 2px 8px rgba(15,23,42,0.03)",
+            }}
+        >
+
+            <div
+                style={{
+                    width: "42px",
+                    height: "42px",
+                    borderRadius: "11px",
+                    background: "#EFF6FF",
+                    color: "#2563EB",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                }}
+            >
+                {icon}
+            </div>
+
+
+            <div
+                style={{
+                    flex: 1,
+                }}
+            >
+
+                <div
+                    style={{
+                        fontSize: "14px",
+                        fontWeight: 750,
+                        color: "#0F172A",
+                    }}
+                >
+                    {title}
+                </div>
+
+
+                <div
+                    style={{
+                        fontSize: "11px",
+                        color: "#94A3B8",
+                        marginTop: "3px",
+                    }}
+                >
+                    {description}
+                </div>
+
+            </div>
+
+
+            <ArrowRight
+                size={17}
+                color="#94A3B8"
+            />
+
+        </button>
+
+    );
+};
+
+
+// =====================================================
+// TABLE HEADER
+// =====================================================
+
+const TableHeader = ({ children }) => {
+
+    return (
+
+        <th
+            style={{
+                textAlign: "left",
+                padding:
+                    "11px 12px",
+                fontSize: "11px",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+                color: "#94A3B8",
+                fontWeight: 750,
+                whiteSpace: "nowrap",
+            }}
+        >
+            {children}
+        </th>
+
+    );
+};
+
+
+// =====================================================
+// TABLE CELL
+// =====================================================
+
+const TableCell = ({ children }) => {
+
+    return (
+
+        <td
+            style={{
+                padding:
+                    "13px 12px",
+                fontSize: "12px",
+                color: "#475569",
+                whiteSpace: "nowrap",
+            }}
+        >
+            {children}
+        </td>
+
+    );
+};
+
 
 export default Dashboard;

@@ -1,18 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import {
     Users,
     Building2,
     BookOpen,
     CreditCard,
-    TrendingUp,
-    UserCheck,
-    GraduationCap,
     Activity,
-    ArrowUpRight,
-    ArrowDownRight,
-    MoreVertical,
-    CheckCircle2,
-    Clock3,
     Bell,
     MessageCircle,
     Search,
@@ -20,1013 +13,1952 @@ import {
     CalendarDays,
     ShieldCheck,
     Layers3,
+    RefreshCw,
+    AlertCircle,
 } from "lucide-react";
 
+import {
+    getOrganizations,
+    getOrganizationStats,
+} from "../../services/organizationService";
+
+
+// =========================================================
+// SUPER ADMIN DASHBOARD
+// =========================================================
+
 const Dashboard = () => {
-    // =========================================================
-    // STATISTICS
-    // =========================================================
-
-    const stats = [
-        {
-            title: "Total Organizations",
-            value: "128",
-            change: "+12.5%",
-            comparison: "vs last month",
-            icon: Building2,
-            iconStyle:
-                "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400",
-            trend: "up",
-        },
-        {
-            title: "Total Users",
-            value: "12,480",
-            change: "+18.2%",
-            comparison: "vs last month",
-            icon: Users,
-            iconStyle:
-                "bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-400",
-            trend: "up",
-        },
-        {
-            title: "Total Courses",
-            value: "1,245",
-            change: "+8.4%",
-            comparison: "vs last month",
-            icon: BookOpen,
-            iconStyle:
-                "bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400",
-            trend: "up",
-        },
-        {
-            title: "Total Revenue",
-            value: "₹8.42L",
-            change: "+24.6%",
-            comparison: "vs last month",
-            icon: CreditCard,
-            iconStyle:
-                "bg-cyan-50 text-cyan-600 dark:bg-cyan-500/10 dark:text-cyan-400",
-            trend: "up",
-        },
-    ];
 
     // =========================================================
-    // CHART
+    // STATE
     // =========================================================
 
-    const chartData = [
-        45,
-        60,
-        48,
-        72,
-        58,
-        82,
-        68,
-        90,
-        75,
-        95,
-        84,
-        100,
-    ];
+    const [organizations, setOrganizations] = useState([]);
 
-    const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-    ];
+    const [stats, setStats] = useState({
+        total_organizations: 0,
+        active_organizations: 0,
+        total_users: 0,
+        total_courses: 0,
+    });
+
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    const [refreshing, setRefreshing] = useState(false);
+
 
     // =========================================================
-    // USER DISTRIBUTION
+    // LOAD DATA
     // =========================================================
 
-    const userDistribution = [
-        {
-            title: "Students",
-            value: "9,850",
-            percentage: 79,
-            icon: GraduationCap,
-            iconStyle:
-                "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400",
-            barStyle: "bg-blue-500",
-        },
-        {
-            title: "Teachers",
-            value: "2,140",
-            percentage: 17,
-            icon: UserCheck,
-            iconStyle:
-                "bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-400",
-            barStyle: "bg-teal-500",
-        },
-        {
-            title: "Admins",
-            value: "490",
-            percentage: 4,
-            icon: ShieldCheck,
-            iconStyle:
-                "bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400",
-            barStyle: "bg-indigo-500",
-        },
-    ];
+    const loadDashboardData = async () => {
 
-    // =========================================================
-    // ORGANIZATIONS
-    // =========================================================
+        try {
 
-    const organizations = [
-        {
-            name: "Bright Future Academy",
-            email: "admin@brightfuture.com",
-            users: "850",
-            courses: "42",
-            status: "Active",
-            initials: "BF",
-        },
-        {
-            name: "TechVision Institute",
-            email: "admin@techvision.com",
-            users: "620",
-            courses: "35",
-            status: "Active",
-            initials: "TV",
-        },
-        {
-            name: "SkillHub Learning",
-            email: "admin@skillhub.com",
-            users: "430",
-            courses: "28",
-            status: "Pending",
-            initials: "SL",
-        },
-        {
-            name: "Knowledge Point",
-            email: "admin@knowledgepoint.com",
-            users: "310",
-            courses: "21",
-            status: "Active",
-            initials: "KP",
-        },
-    ];
+            setError("");
 
-    // =========================================================
-    // RECENT ACTIVITIES
-    // =========================================================
+            const [
+                organizationsResponse,
+                statsResponse,
+            ] = await Promise.all([
+                getOrganizations(),
+                getOrganizationStats(),
+            ]);
 
-    const activities = [
-        {
-            title: "New organization registered",
-            description: "Bright Future Academy joined Shiyora",
-            time: "12 min ago",
-            icon: Building2,
-            iconStyle: "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400",
-        },
-        {
-            title: "New course published",
-            description: "React Advanced was published",
-            time: "34 min ago",
-            icon: BookOpen,
-            iconStyle: "bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-400",
-        },
-        {
-            title: "Subscription upgraded",
-            description: "TechVision upgraded their plan",
-            time: "1 hour ago",
-            icon: CreditCard,
-            iconStyle:
-                "bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400",
-        },
-        {
-            title: "New teacher registered",
-            description: "A new teacher joined SkillHub",
-            time: "2 hours ago",
-            icon: UserCheck,
-            iconStyle:
-                "bg-cyan-50 text-cyan-600 dark:bg-cyan-500/10 dark:text-cyan-400",
-        },
-    ];
 
-    // =========================================================
-    // MESSAGES
-    // =========================================================
+            // ---------------------------------------------
+            // ORGANIZATIONS
+            // ---------------------------------------------
 
-    const messages = [
-        {
-            name: "Bright Future Academy",
-            message: "We need help with our subscription.",
-            time: "10m",
-            initials: "BF",
-            style: "from-blue-500 to-indigo-500",
-        },
-        {
-            name: "TechVision Institute",
-            message: "Course analytics are not updating.",
-            time: "28m",
-            initials: "TV",
-            style: "from-teal-500 to-cyan-500",
-        },
-        {
-            name: "SkillHub Learning",
-            message: "Can you review our account?",
-            time: "1h",
-            initials: "SL",
-            style: "from-violet-500 to-blue-500",
-        },
-    ];
+            setOrganizations(
+                organizationsResponse?.data || []
+            );
 
-    // =========================================================
-    // HELPER
-    // =========================================================
 
-    const getChartHeight = (value) => {
-        return `${Math.max(18, value * 0.75)}%`;
+            // ---------------------------------------------
+            // STATISTICS
+            // ---------------------------------------------
+
+            setStats(
+                statsResponse?.data || {
+                    total_organizations: 0,
+                    active_organizations: 0,
+                    total_users: 0,
+                    total_courses: 0,
+                }
+            );
+
+        } catch (err) {
+
+            console.error(
+                "Super Admin Dashboard Error:",
+                err
+            );
+
+            setError(
+                err.message ||
+                "Failed to load dashboard data."
+            );
+
+        }
+
     };
 
+
+    // =========================================================
+    // FIRST LOAD
+    // =========================================================
+
+    useEffect(() => {
+
+        const load = async () => {
+
+            setLoading(true);
+
+            await loadDashboardData();
+
+            setLoading(false);
+
+        };
+
+        load();
+
+    }, []);
+
+
+    // =========================================================
+    // REFRESH
+    // =========================================================
+
+    const handleRefresh = async () => {
+
+        try {
+
+            setRefreshing(true);
+
+            await loadDashboardData();
+
+        } finally {
+
+            setRefreshing(false);
+
+        }
+
+    };
+
+
+    // =========================================================
+    // DATE
+    // =========================================================
+
+    const currentDate = new Date().toLocaleDateString(
+        "en-IN",
+        {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+        }
+    );
+
+
+    // =========================================================
+    // LOADING
+    // =========================================================
+
+    if (loading) {
+
+        return (
+
+            <main
+                className="
+                    flex min-h-screen
+                    items-center justify-center
+                    bg-slate-50
+                    text-slate-700
+                    dark:bg-[#07111f]
+                    dark:text-slate-200
+                "
+            >
+
+                <div className="text-center">
+
+                    <RefreshCw
+                        size={32}
+                        className="
+                            mx-auto
+                            animate-spin
+                            text-blue-500
+                        "
+                    />
+
+                    <p
+                        className="
+                            mt-3
+                            text-sm
+                            font-medium
+                            text-slate-500
+                            dark:text-slate-400
+                        "
+                    >
+                        Loading Shiyora Dashboard...
+                    </p>
+
+                </div>
+
+            </main>
+
+        );
+
+    }
+
+
+    // =========================================================
+    // MAIN DASHBOARD
+    // =========================================================
+
     return (
-        <main className="min-h-screen bg-slate-50 text-slate-700 dark:bg-[#07111f] dark:text-slate-200">
+
+        <main
+            className="
+                min-h-screen
+                bg-slate-50
+                text-slate-700
+                dark:bg-[#07111f]
+                dark:text-slate-200
+            "
+        >
+
             {/* =================================================
                 BACKGROUND DECORATION
             ================================================= */}
 
-            <div className="pointer-events-none fixed inset-0 overflow-hidden">
-                <div className="absolute -right-40 -top-40 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />
+            <div
+                className="
+                    pointer-events-none
+                    fixed
+                    inset-0
+                    overflow-hidden
+                "
+            >
 
-                <div className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-teal-500/5 blur-3xl" />
+                <div
+                    className="
+                        absolute
+                        -right-40
+                        -top-40
+                        h-96
+                        w-96
+                        rounded-full
+                        bg-blue-500/5
+                        blur-3xl
+                    "
+                />
+
+                <div
+                    className="
+                        absolute
+                        -bottom-40
+                        -left-40
+                        h-96
+                        w-96
+                        rounded-full
+                        bg-teal-500/5
+                        blur-3xl
+                    "
+                />
+
             </div>
+
 
             {/* =================================================
                 CONTENT
             ================================================= */}
 
-            <div className="relative mx-auto max-w-[1600px] px-4 py-5 sm:px-6 lg:px-8 lg:py-7">
+            <div
+                className="
+                    relative
+                    mx-auto
+                    max-w-[1600px]
+                    px-4
+                    py-5
+                    sm:px-6
+                    lg:px-8
+                    lg:py-7
+                "
+            >
+
                 {/* =================================================
-                    TOP HEADER
+                    HEADER
                 ================================================= */}
 
-                <header className="mb-7 flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
-                    {/* Left */}
+                <header
+                    className="
+                        mb-7
+                        flex
+                        flex-col
+                        gap-5
+                        xl:flex-row
+                        xl:items-center
+                        xl:justify-between
+                    "
+                >
+
+                    {/* LEFT */}
 
                     <div>
-                        <div className="mb-2 flex items-center gap-2">
-                            <span className="flex h-6 items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-2.5 text-[9px] font-bold uppercase tracking-wider text-blue-600 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-400">
+
+                        <div
+                            className="
+                                mb-2
+                                flex
+                                items-center
+                                gap-2
+                            "
+                        >
+
+                            <span
+                                className="
+                                    flex
+                                    h-6
+                                    items-center
+                                    gap-1.5
+                                    rounded-full
+                                    border
+                                    border-blue-200
+                                    bg-blue-50
+                                    px-2.5
+                                    text-[9px]
+                                    font-bold
+                                    uppercase
+                                    tracking-wider
+                                    text-blue-600
+                                    dark:border-blue-500/20
+                                    dark:bg-blue-500/10
+                                    dark:text-blue-400
+                                "
+                            >
+
                                 <Activity size={11} />
+
                                 Administration
+
                             </span>
 
-                            <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-700" />
 
-                            <span className="text-[10px] font-medium text-slate-400">
+                            <span
+                                className="
+                                    h-1
+                                    w-1
+                                    rounded-full
+                                    bg-slate-300
+                                    dark:bg-slate-700
+                                "
+                            />
+
+
+                            <span
+                                className="
+                                    text-[10px]
+                                    font-medium
+                                    text-slate-400
+                                "
+                            >
                                 Overview
                             </span>
+
                         </div>
 
-                        <h1 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl dark:text-white">
+
+                        <h1
+                            className="
+                                text-2xl
+                                font-bold
+                                tracking-tight
+                                text-slate-950
+                                sm:text-3xl
+                                dark:text-white
+                            "
+                        >
                             SuperAdmin Dashboard
                         </h1>
 
-                        <p className="mt-1.5 text-xs text-slate-500 sm:text-sm dark:text-slate-400">
-                            Monitor your Shiyora learning platform and manage
-                            everything from one place.
+
+                        <p
+                            className="
+                                mt-1.5
+                                text-xs
+                                text-slate-500
+                                sm:text-sm
+                                dark:text-slate-400
+                            "
+                        >
+                            Monitor your Shiyora learning
+                            platform and manage everything
+                            from one place.
                         </p>
+
                     </div>
 
-                    {/* Right */}
 
-                    <div className="flex items-center gap-2">
-                        {/* Search */}
+                    {/* RIGHT */}
+
+                    <div
+                        className="
+                            flex
+                            items-center
+                            gap-2
+                        "
+                    >
+
+                        {/* SEARCH */}
 
                         <button
                             type="button"
                             className="
-                                hidden h-10 items-center gap-2
-                                rounded-xl border border-slate-200
-                                bg-white px-3
+                                hidden
+                                h-10
+                                items-center
+                                gap-2
+                                rounded-xl
+                                border
+                                border-slate-200
+                                bg-white
+                                px-3
                                 text-slate-400
                                 shadow-sm
-                                transition
-                                hover:border-slate-300
-                                hover:text-slate-600
                                 md:flex
-
                                 dark:border-slate-800
                                 dark:bg-slate-900/60
-                                dark:hover:border-slate-700
-                                dark:hover:text-slate-200
                             "
                         >
+
                             <Search size={16} />
 
                             <span className="text-xs">
                                 Search
                             </span>
 
-                            <span className="ml-3 rounded-md bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-400 dark:bg-slate-800">
+                            <span
+                                className="
+                                    ml-3
+                                    rounded-md
+                                    bg-slate-100
+                                    px-1.5
+                                    py-0.5
+                                    text-[9px]
+                                    font-semibold
+                                    text-slate-400
+                                    dark:bg-slate-800
+                                "
+                            >
                                 /
                             </span>
+
                         </button>
 
-                        {/* Notifications */}
+
+                        {/* NOTIFICATIONS */}
 
                         <button
                             type="button"
                             aria-label="Notifications"
                             className="
-                                relative flex h-10 w-10
-                                items-center justify-center
-                                rounded-xl border
+                                relative
+                                flex
+                                h-10
+                                w-10
+                                items-center
+                                justify-center
+                                rounded-xl
+                                border
                                 border-slate-200
                                 bg-white
                                 text-slate-500
                                 shadow-sm
-                                transition
-                                hover:border-blue-200
-                                hover:text-blue-600
-
                                 dark:border-slate-800
                                 dark:bg-slate-900/60
                                 dark:text-slate-400
-                                dark:hover:text-blue-400
                             "
                         >
+
                             <Bell size={17} />
 
-                            <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900" />
                         </button>
 
-                        {/* Messages */}
+
+                        {/* MESSAGES */}
 
                         <button
                             type="button"
                             aria-label="Messages"
                             className="
-                                relative flex h-10 w-10
-                                items-center justify-center
-                                rounded-xl border
+                                relative
+                                flex
+                                h-10
+                                w-10
+                                items-center
+                                justify-center
+                                rounded-xl
+                                border
                                 border-slate-200
                                 bg-white
                                 text-slate-500
                                 shadow-sm
-                                transition
-                                hover:border-teal-200
-                                hover:text-teal-600
-
                                 dark:border-slate-800
                                 dark:bg-slate-900/60
                                 dark:text-slate-400
-                                dark:hover:text-teal-400
                             "
                         >
+
                             <MessageCircle size={17} />
 
-                            <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-teal-500 ring-2 ring-white dark:ring-slate-900" />
                         </button>
 
-                        {/* Date */}
 
-                        <div className="hidden h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 shadow-sm lg:flex dark:border-slate-800 dark:bg-slate-900/60">
+                        {/* REFRESH */}
+
+                        <button
+                            type="button"
+                            onClick={handleRefresh}
+                            disabled={refreshing}
+                            className="
+                                flex
+                                h-10
+                                items-center
+                                gap-2
+                                rounded-xl
+                                border
+                                border-slate-200
+                                bg-white
+                                px-3
+                                text-xs
+                                font-semibold
+                                text-slate-600
+                                shadow-sm
+                                transition
+                                hover:border-blue-200
+                                hover:text-blue-600
+                                disabled:cursor-not-allowed
+                                disabled:opacity-60
+                                dark:border-slate-800
+                                dark:bg-slate-900/60
+                                dark:text-slate-300
+                            "
+                        >
+
+                            <RefreshCw
+                                size={15}
+                                className={
+                                    refreshing
+                                        ? "animate-spin"
+                                        : ""
+                                }
+                            />
+
+                            Refresh
+
+                        </button>
+
+
+                        {/* DATE */}
+
+                        <div
+                            className="
+                                hidden
+                                h-10
+                                items-center
+                                gap-2
+                                rounded-xl
+                                border
+                                border-slate-200
+                                bg-white
+                                px-3
+                                shadow-sm
+                                lg:flex
+                                dark:border-slate-800
+                                dark:bg-slate-900/60
+                            "
+                        >
+
                             <CalendarDays
                                 size={15}
                                 className="text-slate-400"
                             />
 
-                            <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
-                                Sep 14, 2026
+                            <span
+                                className="
+                                    text-xs
+                                    font-semibold
+                                    text-slate-600
+                                    dark:text-slate-300
+                                "
+                            >
+                                {currentDate}
                             </span>
+
                         </div>
+
                     </div>
+
                 </header>
+
+
+                {/* =================================================
+                    ERROR
+                ================================================= */}
+
+                {error && (
+
+                    <div
+                        className="
+                            mb-6
+                            flex
+                            items-center
+                            gap-3
+                            rounded-xl
+                            border
+                            border-red-200
+                            bg-red-50
+                            px-4
+                            py-3
+                            text-sm
+                            text-red-600
+                            dark:border-red-500/20
+                            dark:bg-red-500/10
+                            dark:text-red-400
+                        "
+                    >
+
+                        <AlertCircle size={18} />
+
+                        {error}
+
+                    </div>
+
+                )}
+
 
                 {/* =================================================
                     KPI CARDS
                 ================================================= */}
 
-                <section className="mb-7 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                    {stats.map((stat) => {
-                        const Icon = stat.icon;
+                <section
+                    className="
+                        mb-7
+                        grid
+                        grid-cols-1
+                        gap-4
+                        sm:grid-cols-2
+                        xl:grid-cols-4
+                    "
+                >
 
-                        return (
-                            <div
-                                key={stat.title}
-                                className="
-                                    group relative overflow-hidden
-                                    rounded-2xl
-                                    border border-slate-200
-                                    bg-white
-                                    p-5
-                                    shadow-sm
-                                    transition-all duration-300
-                                    hover:-translate-y-0.5
-                                    hover:border-blue-200
-                                    hover:shadow-md
+                    <StatCard
+                        title="Total Organizations"
+                        value={
+                            stats.total_organizations
+                        }
+                        icon={Building2}
+                        iconStyle="
+                            bg-blue-50
+                            text-blue-600
+                            dark:bg-blue-500/10
+                            dark:text-blue-400
+                        "
+                        footer={
+                            `${stats.active_organizations} active organizations`
+                        }
+                    />
 
-                                    dark:border-slate-800
-                                    dark:bg-[#0b1727]
-                                    dark:hover:border-slate-700
-                                "
-                            >
-                                <div className="flex items-start justify-between">
-                                    <div>
-                                        <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                                            {stat.title}
-                                        </p>
 
-                                        <p className="mt-2 text-2xl font-bold tracking-tight text-slate-950 dark:text-white">
-                                            {stat.value}
-                                        </p>
-                                    </div>
+                    <StatCard
+                        title="Total Users"
+                        value={
+                            stats.total_users
+                        }
+                        icon={Users}
+                        iconStyle="
+                            bg-teal-50
+                            text-teal-600
+                            dark:bg-teal-500/10
+                            dark:text-teal-400
+                        "
+                        footer="Registered platform users"
+                    />
 
-                                    <div
-                                        className={`flex h-10 w-10 items-center justify-center rounded-xl ${stat.iconStyle}`}
-                                    >
-                                        <Icon size={19} />
-                                    </div>
-                                </div>
 
-                                <div className="mt-4 flex items-center gap-2">
-                                    <span className="flex items-center gap-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                                        <ArrowUpRight size={12} />
-                                        {stat.change}
-                                    </span>
+                    <StatCard
+                        title="Total Courses"
+                        value={
+                            stats.total_courses
+                        }
+                        icon={BookOpen}
+                        iconStyle="
+                            bg-indigo-50
+                            text-indigo-600
+                            dark:bg-indigo-500/10
+                            dark:text-indigo-400
+                        "
+                        footer="Courses in the platform"
+                    />
 
-                                    <span className="text-[10px] text-slate-400">
-                                        {stat.comparison}
-                                    </span>
-                                </div>
 
-                                <div className="pointer-events-none absolute -bottom-8 -right-8 h-24 w-24 rounded-full bg-blue-500/5 blur-2xl transition group-hover:bg-blue-500/10" />
-                            </div>
-                        );
-                    })}
+                    <StatCard
+                        title="Total Revenue"
+                        value="—"
+                        icon={CreditCard}
+                        iconStyle="
+                            bg-cyan-50
+                            text-cyan-600
+                            dark:bg-cyan-500/10
+                            dark:text-cyan-400
+                        "
+                        footer="Billing data not connected"
+                    />
+
                 </section>
 
+
                 {/* =================================================
-                    ANALYTICS
+                    PLATFORM OVERVIEW + USERS
                 ================================================= */}
 
-                <section className="mb-7 grid grid-cols-1 gap-5 xl:grid-cols-[1.7fr_1fr]">
-                    {/* Platform Overview */}
+                <section
+                    className="
+                        mb-7
+                        grid
+                        grid-cols-1
+                        gap-5
+                        xl:grid-cols-[1.7fr_1fr]
+                    "
+                >
 
-                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
-                        <div className="mb-6 flex items-center justify-between">
+                    {/* =================================================
+                        PLATFORM OVERVIEW
+                    ================================================= */}
+
+                    <div
+                        className="
+                            rounded-2xl
+                            border
+                            border-slate-200
+                            bg-white
+                            p-5
+                            shadow-sm
+                            dark:border-slate-800
+                            dark:bg-[#0b1727]
+                        "
+                    >
+
+                        <div
+                            className="
+                                mb-6
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
+
                             <div>
-                                <h2 className="text-sm font-bold text-slate-950 dark:text-white">
+
+                                <h2
+                                    className="
+                                        text-sm
+                                        font-bold
+                                        text-slate-950
+                                        dark:text-white
+                                    "
+                                >
                                     Platform Overview
                                 </h2>
 
-                                <p className="mt-1 text-[10px] text-slate-400">
-                                    Monthly platform activity
+                                <p
+                                    className="
+                                        mt-1
+                                        text-[10px]
+                                        text-slate-400
+                                    "
+                                >
+                                    Current live platform statistics
                                 </p>
+
                             </div>
 
-                            <button
-                                type="button"
-                                className="
-                                    flex items-center gap-1.5
-                                    rounded-lg
-                                    border border-slate-200
-                                    bg-slate-50
-                                    px-2.5 py-1.5
-                                    text-[10px]
-                                    font-semibold
-                                    text-slate-500
 
-                                    dark:border-slate-700
-                                    dark:bg-slate-800
-                                    dark:text-slate-300
+                            <div
+                                className="
+                                    flex
+                                    items-center
+                                    gap-1.5
+                                    rounded-lg
+                                    bg-emerald-50
+                                    px-2.5
+                                    py-1.5
+                                    text-[10px]
+                                    font-bold
+                                    text-emerald-600
+                                    dark:bg-emerald-500/10
+                                    dark:text-emerald-400
                                 "
                             >
-                                This year
-                                <ChevronDown size={12} />
-                            </button>
-                        </div>
 
-                        {/* Chart */}
+                                <span
+                                    className="
+                                        h-1.5
+                                        w-1.5
+                                        rounded-full
+                                        bg-emerald-500
+                                    "
+                                />
 
-                        <div className="relative h-[250px]">
-                            {/* Horizontal lines */}
+                                Live Data
 
-                            <div className="absolute inset-0 flex flex-col justify-between">
-                                {[100, 75, 50, 25, 0].map((value) => (
-                                    <div
-                                        key={value}
-                                        className="flex items-center gap-3"
-                                    >
-                                        <span className="w-7 text-right text-[8px] text-slate-400">
-                                            {value}
-                                        </span>
-
-                                        <div className="h-px flex-1 border-t border-dashed border-slate-200 dark:border-slate-800" />
-                                    </div>
-                                ))}
                             </div>
 
-                            {/* Bars */}
-
-                            <div className="absolute bottom-0 left-10 right-0 top-0 flex items-end justify-between gap-1 sm:gap-2">
-                                {chartData.map((value, index) => (
-                                    <div
-                                        key={months[index]}
-                                        className="flex h-full flex-1 flex-col items-center justify-end gap-2"
-                                    >
-                                        <div className="relative flex h-full w-full items-end justify-center">
-                                            <div
-                                                className="
-                                                    w-full max-w-[26px]
-                                                    rounded-t-md
-                                                    bg-gradient-to-t
-                                                    from-blue-600
-                                                    to-teal-400
-                                                    opacity-90
-                                                    transition-all duration-300
-                                                    hover:opacity-100
-                                                "
-                                                style={{
-                                                    height: getChartHeight(
-                                                        value
-                                                    ),
-                                                }}
-                                            />
-                                        </div>
-
-                                        <span className="text-[8px] font-medium text-slate-400">
-                                            {months[index]}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
+
+
+                        <div
+                            className="
+                                grid
+                                grid-cols-1
+                                gap-4
+                                sm:grid-cols-3
+                            "
+                        >
+
+                            <OverviewCard
+                                title="Organizations"
+                                value={
+                                    stats.total_organizations
+                                }
+                                icon={Building2}
+                                style="
+                                    bg-blue-50
+                                    text-blue-600
+                                    dark:bg-blue-500/10
+                                    dark:text-blue-400
+                                "
+                            />
+
+
+                            <OverviewCard
+                                title="Users"
+                                value={
+                                    stats.total_users
+                                }
+                                icon={Users}
+                                style="
+                                    bg-teal-50
+                                    text-teal-600
+                                    dark:bg-teal-500/10
+                                    dark:text-teal-400
+                                "
+                            />
+
+
+                            <OverviewCard
+                                title="Courses"
+                                value={
+                                    stats.total_courses
+                                }
+                                icon={BookOpen}
+                                style="
+                                    bg-indigo-50
+                                    text-indigo-600
+                                    dark:bg-indigo-500/10
+                                    dark:text-indigo-400
+                                "
+                            />
+
+                        </div>
+
+
+                        {/* STATUS */}
+
+                        <div
+                            className="
+                                mt-5
+                                flex
+                                items-center
+                                gap-3
+                                rounded-xl
+                                border
+                                border-emerald-100
+                                bg-emerald-50/70
+                                px-4
+                                py-3
+                                dark:border-emerald-500/10
+                                dark:bg-emerald-500/5
+                            "
+                        >
+
+                            <ShieldCheck
+                                size={18}
+                                className="
+                                    text-emerald-600
+                                    dark:text-emerald-400
+                                "
+                            />
+
+                            <div>
+
+                                <p
+                                    className="
+                                        text-[10px]
+                                        font-bold
+                                        text-emerald-700
+                                        dark:text-emerald-300
+                                    "
+                                >
+                                    PostgreSQL connected
+                                </p>
+
+                                <p
+                                    className="
+                                        mt-0.5
+                                        text-[9px]
+                                        text-emerald-600/70
+                                        dark:text-emerald-400/70
+                                    "
+                                >
+                                    Dashboard statistics are loaded
+                                    from the backend.
+                                </p>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    {/* User Distribution */}
 
-                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
+                    {/* =================================================
+                        USER SUMMARY
+                    ================================================= */}
+
+                    <div
+                        className="
+                            rounded-2xl
+                            border
+                            border-slate-200
+                            bg-white
+                            p-5
+                            shadow-sm
+                            dark:border-slate-800
+                            dark:bg-[#0b1727]
+                        "
+                    >
+
                         <div className="mb-6">
-                            <h2 className="text-sm font-bold text-slate-950 dark:text-white">
+
+                            <h2
+                                className="
+                                    text-sm
+                                    font-bold
+                                    text-slate-950
+                                    dark:text-white
+                                "
+                            >
                                 Platform Users
                             </h2>
 
-                            <p className="mt-1 text-[10px] text-slate-400">
-                                User distribution by role
-                            </p>
-                        </div>
-
-                        <div className="space-y-6">
-                            {userDistribution.map((item) => {
-                                const Icon = item.icon;
-
-                                return (
-                                    <div key={item.title}>
-                                        <div className="mb-2 flex items-center justify-between">
-                                            <div className="flex items-center gap-2.5">
-                                                <span
-                                                    className={`flex h-9 w-9 items-center justify-center rounded-lg ${item.iconStyle}`}
-                                                >
-                                                    <Icon size={16} />
-                                                </span>
-
-                                                <div>
-                                                    <p className="text-xs font-bold text-slate-700 dark:text-slate-200">
-                                                        {item.title}
-                                                    </p>
-
-                                                    <p className="text-[9px] text-slate-400">
-                                                        {item.value} users
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">
-                                                {item.percentage}%
-                                            </span>
-                                        </div>
-
-                                        <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-                                            <div
-                                                className={`h-full rounded-full ${item.barStyle}`}
-                                                style={{
-                                                    width: `${item.percentage}%`,
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-
-                        <div className="mt-7 flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2.5 dark:bg-slate-900/70">
-                            <Layers3
-                                size={15}
-                                className="text-teal-500"
-                            />
-
-                            <p className="text-[10px] text-slate-500 dark:text-slate-400">
-                                Total active platform users
-                            </p>
-
-                            <span className="ml-auto text-xs font-bold text-slate-800 dark:text-white">
-                                12,480
-                            </span>
-                        </div>
-                    </div>
-                </section>
-
-                {/* =================================================
-                    ORGANIZATIONS + ACTIVITY
-                ================================================= */}
-
-                <section className="grid grid-cols-1 gap-5 xl:grid-cols-[1.7fr_1fr]">
-                    {/* Organizations */}
-
-                    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
-                        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
-                            <div>
-                                <h2 className="text-sm font-bold text-slate-950 dark:text-white">
-                                    Recent Organizations
-                                </h2>
-
-                                <p className="mt-1 text-[10px] text-slate-400">
-                                    Latest organizations on the platform
-                                </p>
-                            </div>
-
-                            <button
-                                type="button"
+                            <p
                                 className="
+                                    mt-1
                                     text-[10px]
-                                    font-bold
-                                    text-blue-600
-                                    transition
-                                    hover:text-blue-700
-
-                                    dark:text-teal-400
-                                    dark:hover:text-teal-300
+                                    text-slate-400
                                 "
                             >
-                                View all
-                            </button>
+                                Current registered users
+                            </p>
+
                         </div>
 
-                        {/* Desktop table */}
 
-                        <div className="hidden overflow-x-auto md:block">
-                            <table className="w-full">
-                                <thead>
-                                    <tr className="border-b border-slate-100 dark:border-slate-800">
-                                        <th className="px-5 py-3 text-left text-[9px] font-bold uppercase tracking-wider text-slate-400">
-                                            Organization
-                                        </th>
+                        <div
+                            className="
+                                flex
+                                items-center
+                                gap-4
+                                rounded-xl
+                                border
+                                border-slate-100
+                                bg-slate-50
+                                p-4
+                                dark:border-slate-800
+                                dark:bg-slate-900/60
+                            "
+                        >
 
-                                        <th className="px-4 py-3 text-left text-[9px] font-bold uppercase tracking-wider text-slate-400">
-                                            Users
-                                        </th>
+                            <div
+                                className="
+                                    flex
+                                    h-11
+                                    w-11
+                                    items-center
+                                    justify-center
+                                    rounded-xl
+                                    bg-teal-50
+                                    text-teal-600
+                                    dark:bg-teal-500/10
+                                    dark:text-teal-400
+                                "
+                            >
 
-                                        <th className="px-4 py-3 text-left text-[9px] font-bold uppercase tracking-wider text-slate-400">
-                                            Courses
-                                        </th>
+                                <Users size={20} />
 
-                                        <th className="px-4 py-3 text-left text-[9px] font-bold uppercase tracking-wider text-slate-400">
-                                            Status
-                                        </th>
-
-                                        <th className="px-4 py-3 text-right text-[9px] font-bold uppercase tracking-wider text-slate-400">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {organizations.map((organization) => (
-                                        <tr
-                                            key={organization.name}
-                                            className="border-b border-slate-100 transition hover:bg-slate-50/80 dark:border-slate-800 dark:hover:bg-slate-800/30"
-                                        >
-                                            <td className="px-5 py-3.5">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-teal-500 text-[9px] font-bold text-white">
-                                                        {organization.initials}
-                                                    </div>
-
-                                                    <div className="min-w-0">
-                                                        <p className="truncate text-[11px] font-bold text-slate-800 dark:text-slate-200">
-                                                            {
-                                                                organization.name
-                                                            }
-                                                        </p>
-
-                                                        <p className="truncate text-[9px] text-slate-400">
-                                                            {
-                                                                organization.email
-                                                            }
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td className="px-4 py-3.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300">
-                                                {organization.users}
-                                            </td>
-
-                                            <td className="px-4 py-3.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300">
-                                                {organization.courses}
-                                            </td>
-
-                                            <td className="px-4 py-3.5">
-                                                {organization.status ===
-                                                    "Active" ? (
-                                                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-1 text-[9px] font-bold text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
-                                                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                                                        Active
-                                                    </span>
-                                                ) : (
-                                                    <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2 py-1 text-[9px] font-bold text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
-                                                        <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                                                        Pending
-                                                    </span>
-                                                )}
-                                            </td>
-
-                                            <td className="px-4 py-3.5 text-right">
-                                                <button
-                                                    type="button"
-                                                    className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white"
-                                                >
-                                                    <MoreVertical size={15} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        {/* Mobile cards */}
-
-                        <div className="divide-y divide-slate-100 md:hidden dark:divide-slate-800">
-                            {organizations.map((organization) => (
-                                <div
-                                    key={organization.name}
-                                    className="flex items-center gap-3 p-4"
-                                >
-                                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-teal-500 text-[9px] font-bold text-white">
-                                        {organization.initials}
-                                    </div>
-
-                                    <div className="min-w-0 flex-1">
-                                        <p className="truncate text-[11px] font-bold text-slate-800 dark:text-slate-200">
-                                            {organization.name}
-                                        </p>
-
-                                        <p className="mt-0.5 text-[9px] text-slate-400">
-                                            {organization.users} users ·{" "}
-                                            {organization.courses} courses
-                                        </p>
-                                    </div>
-
-                                    <span
-                                        className={`h-2 w-2 rounded-full ${organization.status === "Active"
-                                            ? "bg-emerald-500"
-                                            : "bg-amber-500"
-                                            }`}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Activity */}
-
-                    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
-                        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
-                            <div>
-                                <h2 className="text-sm font-bold text-slate-950 dark:text-white">
-                                    Recent Activity
-                                </h2>
-
-                                <p className="mt-1 text-[10px] text-slate-400">
-                                    Latest platform events
-                                </p>
                             </div>
 
-                            <Activity
-                                size={16}
-                                className="text-teal-500"
-                            />
+
+                            <div className="flex-1">
+
+                                <p
+                                    className="
+                                        text-xs
+                                        font-bold
+                                        text-slate-700
+                                        dark:text-slate-200
+                                    "
+                                >
+                                    Total Registered Users
+                                </p>
+
+                                <p
+                                    className="
+                                        mt-1
+                                        text-[9px]
+                                        text-slate-400
+                                    "
+                                >
+                                    Users currently stored
+                                    in PostgreSQL
+                                </p>
+
+                            </div>
+
+
+                            <span
+                                className="
+                                    text-2xl
+                                    font-bold
+                                    text-slate-900
+                                    dark:text-white
+                                "
+                            >
+                                {stats.total_users}
+                            </span>
+
                         </div>
 
-                        <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                            {activities.map((activity) => {
-                                const Icon = activity.icon;
 
-                                return (
-                                    <div
-                                        key={activity.title}
-                                        className="flex gap-3 px-5 py-4"
-                                    >
-                                        <span
-                                            className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${activity.iconStyle}`}
-                                        >
-                                            <Icon size={14} />
-                                        </span>
+                        <div
+                            className="
+                                mt-4
+                                rounded-xl
+                                border
+                                border-slate-100
+                                bg-slate-50
+                                p-4
+                                dark:border-slate-800
+                                dark:bg-slate-900/60
+                            "
+                        >
 
-                                        <div className="min-w-0 flex-1">
-                                            <p className="truncate text-[10px] font-bold text-slate-700 dark:text-slate-200">
-                                                {activity.title}
-                                            </p>
+                            <div
+                                className="
+                                    flex
+                                    items-center
+                                    gap-2
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
+                            >
 
-                                            <p className="mt-0.5 truncate text-[9px] text-slate-400">
-                                                {activity.description}
-                                            </p>
+                                <Layers3 size={15} />
 
-                                            <p className="mt-1 text-[8px] font-medium text-slate-300 dark:text-slate-600">
-                                                {activity.time}
-                                            </p>
-                                        </div>
-                                    </div>
-                                );
-                            })}
+                                <span
+                                    className="
+                                        text-[10px]
+                                        font-semibold
+                                    "
+                                >
+                                    Role analytics
+                                </span>
+
+                            </div>
+
+
+                            <p
+                                className="
+                                    mt-2
+                                    text-[9px]
+                                    leading-relaxed
+                                    text-slate-400
+                                "
+                            >
+                                Student, teacher and admin
+                                counts will be displayed here
+                                after role-based analytics are
+                                connected to the backend.
+                            </p>
+
                         </div>
+
                     </div>
+
                 </section>
 
+
                 {/* =================================================
-                    MESSAGES + SUMMARY
+                    ORGANIZATIONS
                 ================================================= */}
 
-                <section className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
-                    {/* Messages */}
+                <section
+                    className="
+                        mb-5
+                        overflow-hidden
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white
+                        shadow-sm
+                        dark:border-slate-800
+                        dark:bg-[#0b1727]
+                    "
+                >
 
-                    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
-                        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
-                            <div className="flex items-center gap-2">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-400">
-                                    <MessageCircle size={15} />
-                                </div>
+                    {/* HEADER */}
 
-                                <div>
-                                    <h2 className="text-sm font-bold text-slate-950 dark:text-white">
-                                        Messages
-                                    </h2>
+                    <div
+                        className="
+                            flex
+                            items-center
+                            justify-between
+                            border-b
+                            border-slate-100
+                            px-5
+                            py-4
+                            dark:border-slate-800
+                        "
+                    >
 
-                                    <p className="text-[9px] text-slate-400">
-                                        Recent conversations
-                                    </p>
-                                </div>
-                            </div>
+                        <div>
 
-                            <span className="rounded-full bg-blue-50 px-2 py-1 text-[9px] font-bold text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
-                                3 new
-                            </span>
-                        </div>
-
-                        <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                            {messages.map((message) => (
-                                <div
-                                    key={message.name}
-                                    className="flex items-center gap-3 px-5 py-3.5 transition hover:bg-slate-50 dark:hover:bg-slate-800/30"
-                                >
-                                    <div
-                                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${message.style} text-[9px] font-bold text-white`}
-                                    >
-                                        {message.initials}
-                                    </div>
-
-                                    <div className="min-w-0 flex-1">
-                                        <div className="flex items-center justify-between gap-2">
-                                            <p className="truncate text-[10px] font-bold text-slate-700 dark:text-slate-200">
-                                                {message.name}
-                                            </p>
-
-                                            <span className="shrink-0 text-[8px] text-slate-400">
-                                                {message.time}
-                                            </span>
-                                        </div>
-
-                                        <p className="mt-0.5 truncate text-[9px] text-slate-400">
-                                            {message.message}
-                                        </p>
-                                    </div>
-
-                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Platform Summary */}
-
-                    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
-                        <div className="border-b border-slate-100 px-5 py-4 dark:border-slate-800">
-                            <h2 className="text-sm font-bold text-slate-950 dark:text-white">
-                                Platform Summary
+                            <h2
+                                className="
+                                    text-sm
+                                    font-bold
+                                    text-slate-950
+                                    dark:text-white
+                                "
+                            >
+                                Recent Organizations
                             </h2>
 
-                            <p className="mt-1 text-[9px] text-slate-400">
-                                Current platform performance
+                            <p
+                                className="
+                                    mt-1
+                                    text-[10px]
+                                    text-slate-400
+                                "
+                            >
+                                Organizations loaded from PostgreSQL
                             </p>
+
                         </div>
 
-                        <div className="grid grid-cols-3 divide-x divide-slate-100 dark:divide-slate-800">
-                            <div className="p-5">
-                                <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
-                                    <CreditCard size={15} />
-                                </div>
 
-                                <p className="text-lg font-bold text-slate-900 dark:text-white">
-                                    ₹2.18L
-                                </p>
+                        <span
+                            className="
+                                rounded-full
+                                bg-blue-50
+                                px-2.5
+                                py-1
+                                text-[9px]
+                                font-bold
+                                text-blue-600
+                                dark:bg-blue-500/10
+                                dark:text-blue-400
+                            "
+                        >
+                            {organizations.length} total
+                        </span>
 
-                                <p className="mt-1 text-[9px] text-slate-400">
-                                    Monthly Revenue
-                                </p>
-
-                                <div className="mt-2 flex items-center gap-1 text-[8px] font-bold text-emerald-500">
-                                    <TrendingUp size={10} />
-                                    24.6%
-                                </div>
-                            </div>
-
-                            <div className="p-5">
-                                <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-400">
-                                    <CheckCircle2 size={15} />
-                                </div>
-
-                                <p className="text-lg font-bold text-slate-900 dark:text-white">
-                                    96
-                                </p>
-
-                                <p className="mt-1 text-[9px] text-slate-400">
-                                    Active Plans
-                                </p>
-
-                                <div className="mt-2 flex items-center gap-1 text-[8px] font-bold text-emerald-500">
-                                    <ArrowUpRight size={10} />
-                                    14 new
-                                </div>
-                            </div>
-
-                            <div className="p-5">
-                                <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
-                                    <BookOpen size={15} />
-                                </div>
-
-                                <p className="text-lg font-bold text-slate-900 dark:text-white">
-                                    1,245
-                                </p>
-
-                                <p className="mt-1 text-[9px] text-slate-400">
-                                    Active Courses
-                                </p>
-
-                                <div className="mt-2 flex items-center gap-1 text-[8px] font-bold text-emerald-500">
-                                    <ArrowUpRight size={10} />
-                                    87 added
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="mx-5 mb-5 flex items-center justify-between rounded-xl bg-gradient-to-r from-blue-50 to-teal-50 px-4 py-3 dark:from-blue-500/5 dark:to-teal-500/5">
-                            <div className="flex items-center gap-2">
-                                <Clock3
-                                    size={14}
-                                    className="text-teal-500"
-                                />
-
-                                <span className="text-[9px] font-semibold text-slate-500 dark:text-slate-400">
-                                    Platform uptime
-                                </span>
-                            </div>
-
-                            <span className="text-xs font-bold text-slate-800 dark:text-white">
-                                99.98%
-                            </span>
-                        </div>
                     </div>
+
+
+                    {/* EMPTY */}
+
+                    {organizations.length === 0 ? (
+
+                        <div
+                            className="
+                                px-5
+                                py-12
+                                text-center
+                            "
+                        >
+
+                            <Building2
+                                size={30}
+                                className="
+                                    mx-auto
+                                    text-slate-300
+                                    dark:text-slate-700
+                                "
+                            />
+
+                            <p
+                                className="
+                                    mt-3
+                                    text-sm
+                                    font-semibold
+                                    text-slate-600
+                                    dark:text-slate-300
+                                "
+                            >
+                                No organizations found
+                            </p>
+
+                            <p
+                                className="
+                                    mt-1
+                                    text-[10px]
+                                    text-slate-400
+                                "
+                            >
+                                Create an organization
+                                to see it here.
+                            </p>
+
+                        </div>
+
+                    ) : (
+
+                        <div className="overflow-x-auto">
+
+                            <table className="w-full">
+
+                                <thead>
+
+                                    <tr
+                                        className="
+                                            border-b
+                                            border-slate-100
+                                            dark:border-slate-800
+                                        "
+                                    >
+
+                                        <TableHeader>
+                                            Organization
+                                        </TableHeader>
+
+                                        <TableHeader>
+                                            Users
+                                        </TableHeader>
+
+                                        <TableHeader>
+                                            Courses
+                                        </TableHeader>
+
+                                        <TableHeader>
+                                            Plan
+                                        </TableHeader>
+
+                                        <TableHeader>
+                                            Status
+                                        </TableHeader>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    {organizations
+                                        .slice(0, 5)
+                                        .map(
+                                            (
+                                                organization
+                                            ) => (
+
+                                                <tr
+                                                    key={
+                                                        organization.id
+                                                    }
+                                                    className="
+                                                        border-b
+                                                        border-slate-100
+                                                        transition
+                                                        hover:bg-slate-50
+                                                        dark:border-slate-800
+                                                        dark:hover:bg-slate-800/30
+                                                    "
+                                                >
+
+                                                    {/* ORGANIZATION */}
+
+                                                    <td className="px-5 py-3.5">
+
+                                                        <div
+                                                            className="
+                                                                flex
+                                                                items-center
+                                                                gap-3
+                                                            "
+                                                        >
+
+                                                            <div
+                                                                className="
+                                                                    flex
+                                                                    h-9
+                                                                    w-9
+                                                                    shrink-0
+                                                                    items-center
+                                                                    justify-center
+                                                                    rounded-lg
+                                                                    bg-gradient-to-br
+                                                                    from-blue-500
+                                                                    to-teal-500
+                                                                    text-[9px]
+                                                                    font-bold
+                                                                    text-white
+                                                                "
+                                                            >
+
+                                                                {getInitials(
+                                                                    organization.name
+                                                                )}
+
+                                                            </div>
+
+
+                                                            <div
+                                                                className="
+                                                                    min-w-0
+                                                                "
+                                                            >
+
+                                                                <p
+                                                                    className="
+                                                                        truncate
+                                                                        text-[11px]
+                                                                        font-bold
+                                                                        text-slate-800
+                                                                        dark:text-slate-200
+                                                                    "
+                                                                >
+                                                                    {
+                                                                        organization.name
+                                                                    }
+                                                                </p>
+
+                                                                <p
+                                                                    className="
+                                                                        truncate
+                                                                        text-[9px]
+                                                                        text-slate-400
+                                                                    "
+                                                                >
+                                                                    {
+                                                                        organization.email
+                                                                    }
+                                                                </p>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </td>
+
+
+                                                    {/* USERS */}
+
+                                                    <td
+                                                        className="
+                                                            px-4
+                                                            py-3.5
+                                                            text-[11px]
+                                                            font-semibold
+                                                            text-slate-600
+                                                            dark:text-slate-300
+                                                        "
+                                                    >
+                                                        {
+                                                            organization.users ??
+                                                            0
+                                                        }
+                                                    </td>
+
+
+                                                    {/* COURSES */}
+
+                                                    <td
+                                                        className="
+                                                            px-4
+                                                            py-3.5
+                                                            text-[11px]
+                                                            font-semibold
+                                                            text-slate-600
+                                                            dark:text-slate-300
+                                                        "
+                                                    >
+                                                        {
+                                                            organization.courses ??
+                                                            0
+                                                        }
+                                                    </td>
+
+
+                                                    {/* PLAN */}
+
+                                                    <td
+                                                        className="
+                                                            px-4
+                                                            py-3.5
+                                                            text-[11px]
+                                                            font-semibold
+                                                            text-slate-600
+                                                            dark:text-slate-300
+                                                        "
+                                                    >
+                                                        {
+                                                            organization.plan ||
+                                                            "Basic"
+                                                        }
+                                                    </td>
+
+
+                                                    {/* STATUS */}
+
+                                                    <td className="px-4 py-3.5">
+
+                                                        <span
+                                                            className={`
+                                                                inline-flex
+                                                                items-center
+                                                                gap-1.5
+                                                                rounded-full
+                                                                px-2
+                                                                py-1
+                                                                text-[9px]
+                                                                font-bold
+                                                                ${String(
+                                                                organization.status
+                                                            ).toLowerCase() ===
+                                                                    "active"
+                                                                    ? `
+                                                                        bg-emerald-50
+                                                                        text-emerald-600
+                                                                        dark:bg-emerald-500/10
+                                                                        dark:text-emerald-400
+                                                                    `
+                                                                    : `
+                                                                        bg-amber-50
+                                                                        text-amber-600
+                                                                        dark:bg-amber-500/10
+                                                                        dark:text-amber-400
+                                                                    `
+                                                                }
+                                                            `}
+                                                        >
+
+                                                            <span
+                                                                className={`
+                                                                    h-1.5
+                                                                    w-1.5
+                                                                    rounded-full
+                                                                    ${String(
+                                                                    organization.status
+                                                                ).toLowerCase() ===
+                                                                        "active"
+                                                                        ? "bg-emerald-500"
+                                                                        : "bg-amber-500"
+                                                                    }
+                                                                `}
+                                                            />
+
+                                                            {
+                                                                organization.status ||
+                                                                "Active"
+                                                            }
+
+                                                        </span>
+
+                                                    </td>
+
+                                                </tr>
+
+                                            )
+                                        )}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    )}
+
                 </section>
 
+
                 {/* =================================================
-                    FOOTER ACCENT
+                    SYSTEM INFORMATION
                 ================================================= */}
 
-                <div className="mt-8 flex items-center justify-center gap-2">
-                    <span className="h-px w-16 bg-gradient-to-r from-transparent to-blue-300 dark:to-blue-800" />
+                <section
+                    className="
+                        grid
+                        grid-cols-1
+                        gap-5
+                        lg:grid-cols-3
+                    "
+                >
 
-                    <span className="text-[8px] font-semibold uppercase tracking-[0.2em] text-slate-300 dark:text-slate-700">
+                    <InfoCard
+                        icon={Building2}
+                        title="Organizations"
+                        value={
+                            stats.total_organizations
+                        }
+                        description="
+                            Total organizations registered
+                            on Shiyora.
+                        "
+                    />
+
+
+                    <InfoCard
+                        icon={Users}
+                        title="Users"
+                        value={
+                            stats.total_users
+                        }
+                        description="
+                            Total users currently registered
+                            on the platform.
+                        "
+                    />
+
+
+                    <InfoCard
+                        icon={BookOpen}
+                        title="Courses"
+                        value={
+                            stats.total_courses
+                        }
+                        description="
+                            Total courses currently available
+                            in the database.
+                        "
+                    />
+
+                </section>
+
+
+                {/* =================================================
+                    FOOTER
+                ================================================= */}
+
+                <div
+                    className="
+                        mt-8
+                        flex
+                        items-center
+                        justify-center
+                        gap-2
+                    "
+                >
+
+                    <span
+                        className="
+                            h-px
+                            w-16
+                            bg-gradient-to-r
+                            from-transparent
+                            to-blue-300
+                            dark:to-blue-800
+                        "
+                    />
+
+                    <span
+                        className="
+                            text-[8px]
+                            font-semibold
+                            uppercase
+                            tracking-[0.2em]
+                            text-slate-300
+                            dark:text-slate-700
+                        "
+                    >
                         Shiyora Administration
                     </span>
 
-                    <span className="h-px w-16 bg-gradient-to-l from-transparent to-teal-300 dark:to-teal-800" />
+                    <span
+                        className="
+                            h-px
+                            w-16
+                            bg-gradient-to-l
+                            from-transparent
+                            to-teal-300
+                            dark:to-teal-800
+                        "
+                    />
+
                 </div>
+
             </div>
+
         </main>
+
     );
 };
+
+
+// =========================================================
+// STAT CARD
+// =========================================================
+
+const StatCard = ({
+    title,
+    value,
+    icon: Icon,
+    iconStyle,
+    footer,
+}) => {
+
+    return (
+
+        <div
+            className="
+                group
+                relative
+                overflow-hidden
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                p-5
+                shadow-sm
+                transition-all
+                duration-300
+                hover:-translate-y-0.5
+                hover:border-blue-200
+                hover:shadow-md
+                dark:border-slate-800
+                dark:bg-[#0b1727]
+            "
+        >
+
+            <div
+                className="
+                    flex
+                    items-start
+                    justify-between
+                "
+            >
+
+                <div>
+
+                    <p
+                        className="
+                            text-[11px]
+                            font-semibold
+                            text-slate-500
+                            dark:text-slate-400
+                        "
+                    >
+                        {title}
+                    </p>
+
+
+                    <p
+                        className="
+                            mt-2
+                            text-2xl
+                            font-bold
+                            tracking-tight
+                            text-slate-950
+                            dark:text-white
+                        "
+                    >
+                        {value}
+                    </p>
+
+                </div>
+
+
+                <div
+                    className={`
+                        flex
+                        h-10
+                        w-10
+                        items-center
+                        justify-center
+                        rounded-xl
+                        ${iconStyle}
+                    `}
+                >
+
+                    <Icon size={19} />
+
+                </div>
+
+            </div>
+
+
+            <div
+                className="
+                    mt-4
+                    border-t
+                    border-slate-100
+                    pt-3
+                    text-[10px]
+                    text-slate-400
+                    dark:border-slate-800
+                "
+            >
+                {footer}
+            </div>
+
+        </div>
+
+    );
+
+};
+
+
+// =========================================================
+// OVERVIEW CARD
+// =========================================================
+
+const OverviewCard = ({
+    title,
+    value,
+    icon: Icon,
+    style,
+}) => {
+
+    return (
+
+        <div
+            className="
+                rounded-xl
+                border
+                border-slate-100
+                bg-slate-50
+                p-4
+                dark:border-slate-800
+                dark:bg-slate-900/60
+            "
+        >
+
+            <div
+                className={`
+                    mb-3
+                    flex
+                    h-9
+                    w-9
+                    items-center
+                    justify-center
+                    rounded-lg
+                    ${style}
+                `}
+            >
+
+                <Icon size={17} />
+
+            </div>
+
+
+            <p
+                className="
+                    text-[10px]
+                    font-semibold
+                    text-slate-400
+                "
+            >
+                {title}
+            </p>
+
+
+            <p
+                className="
+                    mt-1
+                    text-xl
+                    font-bold
+                    text-slate-900
+                    dark:text-white
+                "
+            >
+                {value}
+            </p>
+
+        </div>
+
+    );
+
+};
+
+
+// =========================================================
+// INFO CARD
+// =========================================================
+
+const InfoCard = ({
+    icon: Icon,
+    title,
+    value,
+    description,
+}) => {
+
+    return (
+
+        <div
+            className="
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                p-5
+                shadow-sm
+                dark:border-slate-800
+                dark:bg-[#0b1727]
+            "
+        >
+
+            <div
+                className="
+                    flex
+                    items-center
+                    justify-between
+                "
+            >
+
+                <div
+                    className="
+                        flex
+                        h-9
+                        w-9
+                        items-center
+                        justify-center
+                        rounded-lg
+                        bg-slate-100
+                        text-slate-600
+                        dark:bg-slate-800
+                        dark:text-slate-300
+                    "
+                >
+
+                    <Icon size={17} />
+
+                </div>
+
+
+                <span
+                    className="
+                        text-xl
+                        font-bold
+                        text-slate-900
+                        dark:text-white
+                    "
+                >
+                    {value}
+                </span>
+
+            </div>
+
+
+            <h3
+                className="
+                    mt-4
+                    text-xs
+                    font-bold
+                    text-slate-800
+                    dark:text-slate-200
+                "
+            >
+                {title}
+            </h3>
+
+
+            <p
+                className="
+                    mt-1
+                    text-[10px]
+                    leading-relaxed
+                    text-slate-400
+                "
+            >
+                {description}
+            </p>
+
+        </div>
+
+    );
+
+};
+
+
+// =========================================================
+// TABLE HEADER
+// =========================================================
+
+const TableHeader = ({ children }) => {
+
+    return (
+
+        <th
+            className="
+                px-4
+                py-3
+                text-left
+                text-[9px]
+                font-bold
+                uppercase
+                tracking-wider
+                text-slate-400
+            "
+        >
+            {children}
+        </th>
+
+    );
+
+};
+
+
+// =========================================================
+// GET ORGANIZATION INITIALS
+// =========================================================
+
+const getInitials = (name = "") => {
+
+    const words = name
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+    if (words.length === 0) {
+        return "OR";
+    }
+
+    if (words.length === 1) {
+        return words[0]
+            .slice(0, 2)
+            .toUpperCase();
+    }
+
+    return (
+        words[0][0] +
+        words[1][0]
+    ).toUpperCase();
+
+};
+
 
 export default Dashboard;

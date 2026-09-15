@@ -53,6 +53,8 @@ const initializeDatabase = async() => {
             );
         `);
 
+
+
         // Add organization_id if users table already existed
         await pool.query(`
             ALTER TABLE users
@@ -60,6 +62,10 @@ const initializeDatabase = async() => {
             REFERENCES organizations(id)
             ON DELETE SET NULL;
         `);
+        await pool.query(`
+             ALTER TABLE users
+             ADD COLUMN IF NOT EXISTS status VARCHAR(30) DEFAULT 'Active';
+             `);
 
         console.log("Users table is ready!");
 
