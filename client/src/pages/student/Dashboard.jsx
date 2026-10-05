@@ -1,1210 +1,868 @@
-import React, { useEffect, useState } from "react";
 import {
-    Building2,
-    Users,
     BookOpen,
-    CreditCard,
-    TrendingUp,
-    Activity,
-    ArrowRight,
     CheckCircle2,
     Clock3,
-    UserPlus,
-    Plus,
-    BarChart3,
-    Settings,
-    ShieldCheck,
-    AlertCircle,
+    PlayCircle,
+    Trophy,
+    ClipboardCheck,
+    ArrowRight,
+    CalendarDays,
+    TrendingUp,
+    Award,
+    Bell,
+    MoreHorizontal,
+    Flame,
+    Target,
 } from "lucide-react";
 
-import {
-    getOrganizations,
-    getOrganizationStats,
-} from "../../services/organizationService";
-
-
 // =====================================================
-// SUPER ADMIN DASHBOARD
+// STUDENT DASHBOARD
 // =====================================================
 
 const Dashboard = () => {
+    // -------------------------------------------------
+    // TEMPORARY STUDENT DATA
+    // Replace with API data later
+    // -------------------------------------------------
 
-    // =================================================
-    // STATE
-    // =================================================
-
-    const [organizations, setOrganizations] = useState([]);
-
-    const [stats, setStats] = useState({
-        total_organizations: 0,
-        active_organizations: 0,
-        total_users: 0,
-        total_courses: 0,
-    });
-
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-
-
-    // =================================================
-    // LOAD DASHBOARD DATA
-    // =================================================
-
-    useEffect(() => {
-        loadDashboardData();
-    }, []);
-
-
-    const loadDashboardData = async () => {
-
-        try {
-
-            setLoading(true);
-            setError("");
-
-            const [
-                organizationsResponse,
-                statsResponse,
-            ] = await Promise.all([
-                getOrganizations(),
-                getOrganizationStats(),
-            ]);
-
-            setOrganizations(
-                organizationsResponse?.data || []
-            );
-
-            setStats(
-                statsResponse?.data || {
-                    total_organizations: 0,
-                    active_organizations: 0,
-                    total_users: 0,
-                    total_courses: 0,
-                }
-            );
-
-        } catch (err) {
-
-            console.error(
-                "Dashboard loading error:",
-                err
-            );
-
-            setError(
-                err.message ||
-                "Failed to load dashboard data"
-            );
-
-        } finally {
-
-            setLoading(false);
-
-        }
+    const student = {
+        name: "Student",
+        enrolledCourses: 6,
+        inProgress: 3,
+        completedCourses: 2,
+        learningHours: 28,
+        overallProgress: 68,
     };
 
+    const courses = [
+        {
+            id: 1,
+            title: "Full Stack Web Development",
+            category: "Web Development",
+            instructor: "Shiyora Instructor",
+            progress: 72,
+            lesson: "React Components",
+            totalLessons: 42,
+            completedLessons: 30,
+        },
+        {
+            id: 2,
+            title: "Java Programming",
+            category: "Programming",
+            instructor: "Shiyora Instructor",
+            progress: 54,
+            lesson: "Object Oriented Programming",
+            totalLessons: 36,
+            completedLessons: 19,
+        },
+        {
+            id: 3,
+            title: "Database Management",
+            category: "Database",
+            instructor: "Shiyora Instructor",
+            progress: 38,
+            lesson: "PostgreSQL Basics",
+            totalLessons: 28,
+            completedLessons: 11,
+        },
+    ];
 
-    // =================================================
-    // FORMAT DATE
-    // =================================================
+    const assignments = [
+        {
+            id: 1,
+            title: "React Dashboard Assignment",
+            course: "Full Stack Web Development",
+            due: "Sep 18, 2026",
+            status: "Pending",
+        },
+        {
+            id: 2,
+            title: "Java OOP Practice",
+            course: "Java Programming",
+            due: "Sep 20, 2026",
+            status: "Pending",
+        },
+        {
+            id: 3,
+            title: "SQL Query Assignment",
+            course: "Database Management",
+            due: "Sep 22, 2026",
+            status: "Submitted",
+        },
+    ];
 
-    const formatDate = (date) => {
+    const quizzes = [
+        {
+            id: 1,
+            title: "Java OOP Quiz",
+            course: "Java Programming",
+            score: "86%",
+            date: "Sep 14, 2026",
+        },
+        {
+            id: 2,
+            title: "React Basics Quiz",
+            course: "Full Stack Web Development",
+            score: "92%",
+            date: "Sep 12, 2026",
+        },
+        {
+            id: 3,
+            title: "SQL Fundamentals",
+            course: "Database Management",
+            score: "78%",
+            date: "Sep 10, 2026",
+        },
+    ];
 
-        if (!date) {
-            return "—";
-        }
-
-        return new Date(date).toLocaleDateString(
-            "en-IN",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-            }
-        );
-    };
-
-
-    // =================================================
-    // STATUS STYLE
-    // =================================================
-
-    const getStatusStyle = (status) => {
-
-        if (
-            String(status).toLowerCase() ===
-            "active"
-        ) {
-
-            return {
-                background: "#ECFDF5",
-                color: "#059669",
-            };
-
-        }
-
-        return {
-            background: "#FEF2F2",
-            color: "#DC2626",
-        };
-    };
-
-
-    // =================================================
-    // LOADING SCREEN
-    // =================================================
-
-    if (loading) {
-
-        return (
-            <div
-                style={{
-                    minHeight: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "40px",
-                    background: "#F8FAFC",
-                }}
-            >
-
-                <div
-                    style={{
-                        textAlign: "center",
-                    }}
-                >
-
-                    <div
-                        style={{
-                            width: "42px",
-                            height: "42px",
-                            border:
-                                "4px solid #E2E8F0",
-                            borderTop:
-                                "4px solid #2563EB",
-                            borderRadius: "50%",
-                            margin: "0 auto 16px",
-                            animation:
-                                "shiyoraSpin 0.8s linear infinite",
-                        }}
-                    />
-
-                    <p
-                        style={{
-                            margin: 0,
-                            color: "#64748B",
-                            fontSize: "14px",
-                        }}
-                    >
-                        Loading dashboard...
-                    </p>
-
-                    <style>
-                        {`
-                            @keyframes shiyoraSpin {
-                                from {
-                                    transform: rotate(0deg);
-                                }
-                                to {
-                                    transform: rotate(360deg);
-                                }
-                            }
-                        `}
-                    </style>
-
-                </div>
-
-            </div>
-        );
-    }
-
-
-    // =================================================
-    // DASHBOARD
-    // =================================================
+    const activities = [
+        {
+            id: 1,
+            icon: <PlayCircle size={16} />,
+            title: "Completed a lesson",
+            description: "React State & Props",
+            time: "2 hours ago",
+            type: "blue",
+        },
+        {
+            id: 2,
+            icon: <ClipboardCheck size={16} />,
+            title: "Submitted assignment",
+            description: "SQL Query Assignment",
+            time: "Yesterday",
+            type: "teal",
+        },
+        {
+            id: 3,
+            icon: <Trophy size={16} />,
+            title: "Earned a badge",
+            description: "Java Beginner",
+            time: "2 days ago",
+            type: "amber",
+        },
+        {
+            id: 4,
+            icon: <CheckCircle2 size={16} />,
+            title: "Completed a quiz",
+            description: "React Basics Quiz",
+            time: "3 days ago",
+            type: "emerald",
+        },
+    ];
 
     return (
-
         <div
-            style={{
-                minHeight: "100%",
-                background: "#F8FAFC",
-                color: "#0F172A",
-                padding: "32px 36px 50px",
-                fontFamily:
-                    "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-            }}
+            className="
+                min-h-full
+                bg-slate-50
+                px-4 py-6
+                text-slate-700
+                sm:px-6
+                lg:px-8
+                lg:py-8
+                dark:bg-[#07111f]
+                dark:text-slate-300
+            "
         >
-
             {/* =================================================
-                HEADER
+                WELCOME HEADER
             ================================================= */}
 
             <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "flex-start",
-                    gap: "24px",
-                    marginBottom: "30px",
-                    flexWrap: "wrap",
-                }}
+                className="
+                    mb-7 flex flex-col
+                    gap-5
+                    xl:flex-row
+                    xl:items-center
+                    xl:justify-between
+                "
             >
+                {/* WELCOME TEXT */}
 
                 <div>
-
                     <div
-                        style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "8px",
-                            padding: "7px 14px",
-                            borderRadius: "999px",
-                            background: "#EFF6FF",
-                            border:
-                                "1px solid #BFDBFE",
-                            color: "#2563EB",
-                            fontSize: "12px",
-                            fontWeight: 700,
-                            marginBottom: "12px",
-                        }}
+                        className="
+                            mb-2 flex items-center
+                            gap-2 text-xs
+                            font-semibold
+                            text-blue-600
+                            dark:text-teal-400
+                        "
                     >
-
-                        <Activity size={14} />
-
-                        ADMINISTRATION
-
                         <span
-                            style={{
-                                color: "#CBD5E1",
-                            }}
-                        >
-                            •
-                        </span>
+                            className="
+                                h-2 w-2 rounded-full
+                                bg-teal-500
+                            "
+                        />
 
-                        <span
-                            style={{
-                                color: "#94A3B8",
-                            }}
-                        >
-                            Overview
-                        </span>
-
+                        STUDENT PORTAL
                     </div>
 
-
                     <h1
-                        style={{
-                            margin: 0,
-                            fontSize: "34px",
-                            lineHeight: 1.15,
-                            fontWeight: 800,
-                            letterSpacing: "-1px",
-                            color: "#020617",
-                        }}
+                        className="
+                            text-2xl font-extrabold
+                            tracking-tight
+                            text-slate-950
+                            sm:text-3xl
+                            dark:text-white
+                        "
                     >
-                        Super Admin Dashboard
+                        Welcome back,{" "}
+                        <span
+                            className="
+                                bg-gradient-to-r
+                                from-blue-600
+                                to-teal-500
+                                bg-clip-text
+                                text-transparent
+                            "
+                        >
+                            {student.name}
+                        </span>
+                        ! 👋
                     </h1>
 
-
                     <p
-                        style={{
-                            margin:
-                                "8px 0 0",
-                            color: "#64748B",
-                            fontSize: "16px",
-                        }}
+                        className="
+                            mt-2 text-sm
+                            text-slate-500
+                            dark:text-slate-400
+                        "
                     >
-                        Monitor your Shiyora learning
-                        platform and manage everything
-                        from one place.
+                        Keep learning, stay consistent,
+                        and reach your goals.
                     </p>
-
                 </div>
 
-
-                {/* REFRESH BUTTON */}
-
-                <button
-                    onClick={loadDashboardData}
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        padding:
-                            "11px 16px",
-                        borderRadius: "10px",
-                        border:
-                            "1px solid #E2E8F0",
-                        background: "#FFFFFF",
-                        color: "#334155",
-                        fontWeight: 600,
-                        cursor: "pointer",
-                        boxShadow:
-                            "0 2px 8px rgba(15,23,42,0.05)",
-                    }}
-                >
-
-                    <Activity size={17} />
-
-                    Refresh
-
-                </button>
-
-            </div>
-
-
-            {/* =================================================
-                ERROR
-            ================================================= */}
-
-            {error && (
+                {/* RIGHT SIDE */}
 
                 <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                        padding: "14px 16px",
-                        marginBottom: "24px",
-                        borderRadius: "12px",
-                        background: "#FEF2F2",
-                        border:
-                            "1px solid #FECACA",
-                        color: "#B91C1C",
-                    }}
+                    className="
+                        flex flex-wrap
+                        items-center gap-3
+                    "
                 >
+                    {/* =========================================
+                        TAKE A BREAK BUTTON
+                    ========================================= */}
 
-                    <AlertCircle size={18} />
+                    <a
+                        href="https://street-races.netlify.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="
+                            inline-flex
+                            items-center
+                            justify-center
+                            gap-2
+                            rounded-xl
+                            bg-gradient-to-r
+                            from-blue-600
+                            to-teal-500
+                            px-5 py-3
+                            text-sm
+                            font-bold
+                            text-white
+                            shadow-md
+                            shadow-blue-500/20
+                            transition-all
+                            duration-200
+                            hover:-translate-y-0.5
+                            hover:shadow-lg
+                            hover:shadow-teal-500/20
+                            dark:from-blue-500
+                            dark:to-teal-400
+                        "
+                    >
+                        <span className="text-base">
+                            🎮
+                        </span>
 
-                    <span>
-                        {error}
-                    </span>
+                        Take a Break
+                    </a>
 
+                    {/* =========================================
+                        DAILY STREAK
+                    ========================================= */}
+
+                    <div
+                        className="
+                            flex items-center
+                            gap-3
+                            rounded-2xl
+                            border
+                            border-blue-100
+                            bg-white
+                            px-4 py-3
+                            shadow-sm
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
+                        "
+                    >
+                        <div
+                            className="
+                                flex h-10 w-10
+                                items-center
+                                justify-center
+                                rounded-xl
+                                bg-orange-50
+                                text-orange-500
+                                dark:bg-orange-500/10
+                                dark:text-orange-400
+                            "
+                        >
+                            <Flame size={20} />
+                        </div>
+
+                        <div>
+                            <p
+                                className="
+                                    text-xs font-bold
+                                    text-slate-900
+                                    dark:text-white
+                                "
+                            >
+                                5 Day Streak
+                            </p>
+
+                            <p
+                                className="
+                                    mt-0.5 text-[10px]
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
+                            >
+                                Keep it going!
+                            </p>
+                        </div>
+                    </div>
                 </div>
-
-            )}
-
+            </div>
 
             {/* =================================================
-                TOP STAT CARDS
+                STAT CARDS
             ================================================= */}
 
             <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                        "repeat(4, minmax(0, 1fr))",
-                    gap: "18px",
-                    marginBottom: "24px",
-                }}
+                className="
+                    mb-6 grid grid-cols-1
+                    gap-4
+                    sm:grid-cols-2
+                    xl:grid-cols-4
+                "
             >
-
-                {/* ORGANIZATIONS */}
-
                 <StatCard
-                    title="Total Organizations"
-                    value={
-                        stats.total_organizations
-                    }
-                    icon={<Building2 size={22} />}
-                    iconBackground="#EFF6FF"
-                    iconColor="#2563EB"
-                    footer={
-                        `${stats.active_organizations} active organizations`
-                    }
+                    title="Enrolled Courses"
+                    value={student.enrolledCourses}
+                    description="Courses you're learning"
+                    icon={<BookOpen size={21} />}
+                    type="blue"
                 />
 
-
-                {/* USERS */}
-
                 <StatCard
-                    title="Total Users"
-                    value={
-                        stats.total_users
-                    }
-                    icon={<Users size={22} />}
-                    iconBackground="#ECFDF5"
-                    iconColor="#0F766E"
-                    footer="Registered platform users"
+                    title="In Progress"
+                    value={student.inProgress}
+                    description="Courses currently active"
+                    icon={<PlayCircle size={21} />}
+                    type="teal"
                 />
 
-
-                {/* COURSES */}
-
                 <StatCard
-                    title="Total Courses"
-                    value={
-                        stats.total_courses
-                    }
-                    icon={<BookOpen size={22} />}
-                    iconBackground="#EEF2FF"
-                    iconColor="#4F46E5"
-                    footer="Courses available on platform"
+                    title="Completed"
+                    value={student.completedCourses}
+                    description="Courses successfully completed"
+                    icon={<CheckCircle2 size={21} />}
+                    type="emerald"
                 />
 
-
-                {/* REVENUE */}
-
                 <StatCard
-                    title="Total Revenue"
-                    value="—"
-                    icon={<CreditCard size={22} />}
-                    iconBackground="#ECFEFF"
-                    iconColor="#0891B2"
-                    footer="Billing system not connected"
+                    title="Learning Hours"
+                    value={`${student.learningHours}h`}
+                    description="Total learning time"
+                    icon={<Clock3 size={21} />}
+                    type="indigo"
                 />
-
             </div>
-
 
             {/* =================================================
                 MAIN GRID
             ================================================= */}
 
             <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                        "minmax(0, 2fr) minmax(300px, 1fr)",
-                    gap: "24px",
-                    marginBottom: "24px",
-                }}
+                className="
+                    mb-6 grid grid-cols-1
+                    gap-6
+                    xl:grid-cols-[minmax(0,2fr)_minmax(300px,1fr)]
+                "
             >
+                {/* CONTINUE LEARNING */}
 
-                {/* =================================================
-                    PLATFORM OVERVIEW
-                ================================================= */}
-
-                <div
-                    style={{
-                        background: "#FFFFFF",
-                        border:
-                            "1px solid #E2E8F0",
-                        borderRadius: "16px",
-                        padding: "24px",
-                        boxShadow:
-                            "0 2px 8px rgba(15,23,42,0.04)",
-                    }}
+                <section
+                    className="
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white
+                        shadow-sm
+                        dark:border-[#1e334a]
+                        dark:bg-[#0b1727]
+                    "
                 >
-
                     <div
-                        style={{
-                            display: "flex",
-                            justifyContent:
-                                "space-between",
-                            alignItems: "center",
-                            marginBottom: "26px",
-                        }}
+                        className="
+                            flex items-center
+                            justify-between
+                            border-b
+                            border-slate-100
+                            px-5 py-4
+                            sm:px-6
+                            dark:border-[#1e334a]
+                        "
                     >
-
                         <div>
-
                             <h2
-                                style={{
-                                    margin: 0,
-                                    fontSize: "18px",
-                                    fontWeight: 750,
-                                }}
+                                className="
+                                    text-lg font-bold
+                                    text-slate-900
+                                    dark:text-white
+                                "
                             >
-                                Platform Overview
+                                Continue Learning
                             </h2>
 
                             <p
-                                style={{
-                                    margin:
-                                        "5px 0 0",
-                                    color: "#94A3B8",
-                                    fontSize: "13px",
-                                }}
+                                className="
+                                    mt-1 text-xs
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
                             >
-                                Current platform statistics
+                                Pick up where you left off
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            className="
+                                hidden
+                                items-center
+                                gap-1
+                                text-xs
+                                font-bold
+                                text-blue-600
+                                sm:flex
+                                dark:text-teal-400
+                            "
+                        >
+                            View all
+                            <ArrowRight size={14} />
+                        </button>
+                    </div>
+
+                    <div
+                        className="
+                            divide-y
+                            divide-slate-100
+                            dark:divide-[#1e334a]
+                        "
+                    >
+                        {courses.map((course) => (
+                            <CourseProgress
+                                key={course.id}
+                                course={course}
+                            />
+                        ))}
+                    </div>
+                </section>
+
+                {/* OVERALL PROGRESS */}
+
+                <section
+                    className="
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white
+                        p-5
+                        shadow-sm
+                        sm:p-6
+                        dark:border-[#1e334a]
+                        dark:bg-[#0b1727]
+                    "
+                >
+                    <div
+                        className="
+                            flex items-center
+                            justify-between
+                        "
+                    >
+                        <div>
+                            <h2
+                                className="
+                                    text-lg font-bold
+                                    text-slate-900
+                                    dark:text-white
+                                "
+                            >
+                                Learning Progress
+                            </h2>
+
+                            <p
+                                className="
+                                    mt-1 text-xs
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
+                            >
+                                Your overall performance
+                            </p>
+                        </div>
+
+                        <TrendingUp
+                            size={20}
+                            className="
+                                text-teal-600
+                                dark:text-teal-400
+                            "
+                        />
+                    </div>
+
+                    {/* PROGRESS CIRCLE */}
+
+                    <div
+                        className="
+                            mx-auto my-7
+                            flex h-40 w-40
+                            items-center
+                            justify-center
+                            rounded-full
+                            border-[14px]
+                            border-blue-100
+                            dark:border-blue-500/10
+                        "
+                    >
+                        <div className="text-center">
+                            <p
+                                className="
+                                    text-3xl font-extrabold
+                                    text-slate-900
+                                    dark:text-white
+                                "
+                            >
+                                {student.overallProgress}%
                             </p>
 
-                        </div>
-
-
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "8px",
-                                color: "#64748B",
-                                fontSize: "13px",
-                                fontWeight: 600,
-                            }}
-                        >
-
-                            <BarChart3 size={17} />
-
-                            Live Data
-
-                        </div>
-
-                    </div>
-
-
-                    {/* REAL PLATFORM DATA */}
-
-                    <div
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns:
-                                "repeat(3, minmax(0, 1fr))",
-                            gap: "16px",
-                        }}
-                    >
-
-                        <OverviewItem
-                            label="Organizations"
-                            value={
-                                stats.total_organizations
-                            }
-                            icon={
-                                <Building2 size={20} />
-                            }
-                            color="#2563EB"
-                        />
-
-                        <OverviewItem
-                            label="Users"
-                            value={
-                                stats.total_users
-                            }
-                            icon={
-                                <Users size={20} />
-                            }
-                            color="#0F766E"
-                        />
-
-                        <OverviewItem
-                            label="Courses"
-                            value={
-                                stats.total_courses
-                            }
-                            icon={
-                                <BookOpen size={20} />
-                            }
-                            color="#4F46E5"
-                        />
-
-                    </div>
-
-
-                    {/* PLATFORM STATUS */}
-
-                    <div
-                        style={{
-                            marginTop: "24px",
-                            padding: "16px",
-                            borderRadius: "12px",
-                            background: "#F8FAFC",
-                            border:
-                                "1px solid #E2E8F0",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "12px",
-                        }}
-                    >
-
-                        <div
-                            style={{
-                                width: "38px",
-                                height: "38px",
-                                borderRadius: "10px",
-                                background: "#ECFDF5",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                            }}
-                        >
-
-                            <CheckCircle2
-                                size={20}
-                                color="#059669"
-                            />
-
-                        </div>
-
-
-                        <div>
-
-                            <div
-                                style={{
-                                    fontSize: "14px",
-                                    fontWeight: 700,
-                                    color: "#0F172A",
-                                }}
+                            <p
+                                className="
+                                    text-[10px]
+                                    font-medium
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
                             >
-                                Platform data connected
-                            </div>
-
-                            <div
-                                style={{
-                                    fontSize: "12px",
-                                    color: "#64748B",
-                                    marginTop: "3px",
-                                }}
-                            >
-                                Statistics are being loaded
-                                from PostgreSQL.
-                            </div>
-
+                                Overall
+                            </p>
                         </div>
-
                     </div>
 
-                </div>
+                    {/* PROGRESS BAR */}
 
-
-                {/* =================================================
-                    PLATFORM USERS
-                ================================================= */}
-
-                <div
-                    style={{
-                        background: "#FFFFFF",
-                        border:
-                            "1px solid #E2E8F0",
-                        borderRadius: "16px",
-                        padding: "24px",
-                        boxShadow:
-                            "0 2px 8px rgba(15,23,42,0.04)",
-                    }}
-                >
-
-                    <h2
-                        style={{
-                            margin: 0,
-                            fontSize: "18px",
-                            fontWeight: 750,
-                        }}
-                    >
-                        Platform Users
-                    </h2>
-
-                    <p
-                        style={{
-                            margin:
-                                "5px 0 24px",
-                            color: "#94A3B8",
-                            fontSize: "13px",
-                        }}
-                    >
-                        User distribution by role
-                    </p>
-
-
-                    <RoleNotice
-                        icon={
-                            <Users size={19} />
-                        }
-                        title="User distribution"
-                        value={
-                            stats.total_users
-                        }
-                        description="Total registered users"
-                        color="#2563EB"
-                    />
-
-
-                    <div
-                        style={{
-                            marginTop: "18px",
-                            padding: "14px",
-                            borderRadius: "12px",
-                            background: "#F8FAFC",
-                            border:
-                                "1px solid #E2E8F0",
-                            fontSize: "12px",
-                            color: "#64748B",
-                            lineHeight: 1.5,
-                        }}
-                    >
-
-                        Role-wise student,
-                        teacher and admin statistics
-                        will appear here once the
-                        role analytics API is connected.
-
-                    </div>
-
-
-                    <div
-                        style={{
-                            marginTop: "20px",
-                            padding: "15px",
-                            borderRadius: "12px",
-                            background: "#F8FAFC",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent:
-                                "space-between",
-                        }}
-                    >
-
+                    <div>
                         <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "9px",
-                            }}
+                            className="
+                                mb-2 flex
+                                justify-between
+                            "
                         >
-
-                            <ShieldCheck
-                                size={18}
-                                color="#0F766E"
-                            />
-
                             <span
-                                style={{
-                                    fontSize: "13px",
-                                    color: "#475569",
-                                    fontWeight: 600,
-                                }}
+                                className="
+                                    text-xs font-semibold
+                                    text-slate-600
+                                    dark:text-slate-300
+                                "
                             >
-                                Active organizations
+                                Course completion
                             </span>
 
+                            <span
+                                className="
+                                    text-xs font-bold
+                                    text-blue-600
+                                    dark:text-teal-400
+                                "
+                            >
+                                {student.overallProgress}%
+                            </span>
                         </div>
 
-
-                        <strong
-                            style={{
-                                fontSize: "16px",
-                            }}
+                        <div
+                            className="
+                                h-2 overflow-hidden
+                                rounded-full
+                                bg-slate-100
+                                dark:bg-[#102337]
+                            "
                         >
-                            {
-                                stats.active_organizations
-                            }
-                        </strong>
-
+                            <div
+                                className="
+                                    h-full rounded-full
+                                    bg-gradient-to-r
+                                    from-blue-600
+                                    to-teal-500
+                                "
+                                style={{
+                                    width: `${student.overallProgress}%`,
+                                }}
+                            />
+                        </div>
                     </div>
 
-                </div>
+                    {/* GOAL */}
 
+                    <div
+                        className="
+                            mt-5 flex items-center
+                            gap-3
+                            rounded-xl
+                            bg-slate-50
+                            p-3
+                            dark:bg-[#102337]
+                        "
+                    >
+                        <div
+                            className="
+                                flex h-9 w-9
+                                items-center
+                                justify-center
+                                rounded-lg
+                                bg-teal-50
+                                text-teal-600
+                                dark:bg-teal-500/10
+                                dark:text-teal-400
+                            "
+                        >
+                            <Target size={17} />
+                        </div>
+
+                        <div>
+                            <p
+                                className="
+                                    text-xs font-bold
+                                    text-slate-900
+                                    dark:text-white
+                                "
+                            >
+                                Keep your momentum
+                            </p>
+
+                            <p
+                                className="
+                                    mt-0.5 text-[10px]
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
+                            >
+                                You're doing great!
+                            </p>
+                        </div>
+                    </div>
+                </section>
             </div>
 
-
             {/* =================================================
-                RECENT ORGANIZATIONS
+                ASSIGNMENTS + QUIZZES
             ================================================= */}
 
             <div
-                style={{
-                    background: "#FFFFFF",
-                    border:
-                        "1px solid #E2E8F0",
-                    borderRadius: "16px",
-                    padding: "24px",
-                    boxShadow:
-                        "0 2px 8px rgba(15,23,42,0.04)",
-                    marginBottom: "24px",
-                }}
+                className="
+                    mb-6 grid grid-cols-1
+                    gap-6
+                    xl:grid-cols-2
+                "
             >
+                {/* ASSIGNMENTS */}
 
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent:
-                            "space-between",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                    }}
+                <section
+                    className="
+                        overflow-hidden
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white
+                        shadow-sm
+                        dark:border-[#1e334a]
+                        dark:bg-[#0b1727]
+                    "
                 >
+                    <SectionHeader
+                        title="Upcoming Assignments"
+                        subtitle="Stay on top of your deadlines"
+                        icon={<ClipboardCheck size={18} />}
+                    />
 
+                    <div
+                        className="
+                            divide-y
+                            divide-slate-100
+                            dark:divide-[#1e334a]
+                        "
+                    >
+                        {assignments.map(
+                            (assignment) => (
+                                <AssignmentItem
+                                    key={assignment.id}
+                                    assignment={assignment}
+                                />
+                            )
+                        )}
+                    </div>
+                </section>
+
+                {/* QUIZZES */}
+
+                <section
+                    className="
+                        overflow-hidden
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white
+                        shadow-sm
+                        dark:border-[#1e334a]
+                        dark:bg-[#0b1727]
+                    "
+                >
+                    <SectionHeader
+                        title="Recent Quizzes"
+                        subtitle="Review your latest results"
+                        icon={<Award size={18} />}
+                    />
+
+                    <div
+                        className="
+                            divide-y
+                            divide-slate-100
+                            dark:divide-[#1e334a]
+                        "
+                    >
+                        {quizzes.map((quiz) => (
+                            <QuizItem
+                                key={quiz.id}
+                                quiz={quiz}
+                            />
+                        ))}
+                    </div>
+                </section>
+            </div>
+
+            {/* =================================================
+                RECENT ACTIVITY
+            ================================================= */}
+
+            <section
+                className="
+                    rounded-2xl
+                    border
+                    border-slate-200
+                    bg-white
+                    shadow-sm
+                    dark:border-[#1e334a]
+                    dark:bg-[#0b1727]
+                "
+            >
+                <div
+                    className="
+                        flex items-center
+                        justify-between
+                        border-b
+                        border-slate-100
+                        px-5 py-4
+                        sm:px-6
+                        dark:border-[#1e334a]
+                    "
+                >
                     <div>
-
                         <h2
-                            style={{
-                                margin: 0,
-                                fontSize: "18px",
-                                fontWeight: 750,
-                            }}
+                            className="
+                                text-lg font-bold
+                                text-slate-900
+                                dark:text-white
+                            "
                         >
-                            Recent Organizations
+                            Recent Activity
                         </h2>
 
                         <p
-                            style={{
-                                margin:
-                                    "5px 0 0",
-                                color: "#94A3B8",
-                                fontSize: "13px",
-                            }}
+                            className="
+                                mt-1 text-xs
+                                text-slate-500
+                                dark:text-slate-400
+                            "
                         >
-                            Organizations recently added
-                            to Shiyora
+                            Your latest learning activities
                         </p>
-
                     </div>
 
-
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "7px",
-                            color: "#2563EB",
-                            fontSize: "13px",
-                            fontWeight: 700,
-                        }}
+                    <button
+                        type="button"
+                        className="
+                            rounded-lg
+                            p-2
+                            text-slate-400
+                            transition
+                            hover:bg-slate-100
+                            hover:text-slate-700
+                            dark:hover:bg-[#102337]
+                            dark:hover:text-slate-200
+                        "
                     >
-
-                        <Building2 size={16} />
-
-                        {organizations.length} total
-
-                    </div>
-
+                        <MoreHorizontal size={18} />
+                    </button>
                 </div>
 
-
-                {organizations.length === 0 ? (
-
-                    <div
-                        style={{
-                            padding: "35px",
-                            textAlign: "center",
-                            color: "#64748B",
-                            border:
-                                "1px dashed #CBD5E1",
-                            borderRadius: "12px",
-                        }}
-                    >
-
-                        <Building2
-                            size={28}
-                            style={{
-                                marginBottom: "8px",
-                            }}
+                <div
+                    className="
+                        grid grid-cols-1
+                        divide-y
+                        divide-slate-100
+                        sm:grid-cols-2
+                        sm:divide-x
+                        sm:divide-y-0
+                        lg:grid-cols-4
+                        dark:divide-[#1e334a]
+                    "
+                >
+                    {activities.map((activity) => (
+                        <ActivityItem
+                            key={activity.id}
+                            activity={activity}
                         />
-
-                        <div
-                            style={{
-                                fontWeight: 700,
-                                marginBottom: "4px",
-                            }}
-                        >
-                            No organizations found
-                        </div>
-
-                        <div
-                            style={{
-                                fontSize: "13px",
-                            }}
-                        >
-                            Create an organization to
-                            see it here.
-                        </div>
-
-                    </div>
-
-                ) : (
-
-                    <div
-                        style={{
-                            overflowX: "auto",
-                        }}
-                    >
-
-                        <table
-                            style={{
-                                width: "100%",
-                                borderCollapse:
-                                    "collapse",
-                                minWidth: "700px",
-                            }}
-                        >
-
-                            <thead>
-
-                                <tr
-                                    style={{
-                                        borderBottom:
-                                            "1px solid #E2E8F0",
-                                    }}
-                                >
-
-                                    <TableHeader>
-                                        Organization
-                                    </TableHeader>
-
-                                    <TableHeader>
-                                        Email
-                                    </TableHeader>
-
-                                    <TableHeader>
-                                        Plan
-                                    </TableHeader>
-
-                                    <TableHeader>
-                                        Users
-                                    </TableHeader>
-
-                                    <TableHeader>
-                                        Courses
-                                    </TableHeader>
-
-                                    <TableHeader>
-                                        Status
-                                    </TableHeader>
-
-                                    <TableHeader>
-                                        Created
-                                    </TableHeader>
-
-                                </tr>
-
-                            </thead>
-
-
-                            <tbody>
-
-                                {organizations
-                                    .slice(0, 5)
-                                    .map(
-                                        (organization) => (
-
-                                            <tr
-                                                key={
-                                                    organization.id
-                                                }
-                                                style={{
-                                                    borderBottom:
-                                                        "1px solid #F1F5F9",
-                                                }}
-                                            >
-
-                                                <TableCell>
-
-                                                    <div
-                                                        style={{
-                                                            display:
-                                                                "flex",
-                                                            alignItems:
-                                                                "center",
-                                                            gap: "10px",
-                                                        }}
-                                                    >
-
-                                                        <div
-                                                            style={{
-                                                                width:
-                                                                    "36px",
-                                                                height:
-                                                                    "36px",
-                                                                borderRadius:
-                                                                    "10px",
-                                                                background:
-                                                                    "#EFF6FF",
-                                                                display:
-                                                                    "flex",
-                                                                alignItems:
-                                                                    "center",
-                                                                justifyContent:
-                                                                    "center",
-                                                            }}
-                                                        >
-
-                                                            <Building2
-                                                                size={
-                                                                    17
-                                                                }
-                                                                color="#2563EB"
-                                                            />
-
-                                                        </div>
-
-
-                                                        <div>
-
-                                                            <div
-                                                                style={{
-                                                                    fontWeight:
-                                                                        700,
-                                                                    color:
-                                                                        "#0F172A",
-                                                                }}
-                                                            >
-                                                                {
-                                                                    organization.name
-                                                                }
-                                                            </div>
-
-                                                            <div
-                                                                style={{
-                                                                    fontSize:
-                                                                        "11px",
-                                                                    color:
-                                                                        "#94A3B8",
-                                                                }}
-                                                            >
-                                                                ID #
-                                                                {
-                                                                    organization.id
-                                                                }
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </TableCell>
-
-
-                                                <TableCell>
-                                                    {
-                                                        organization.email
-                                                    }
-                                                </TableCell>
-
-
-                                                <TableCell>
-
-                                                    <span
-                                                        style={{
-                                                            fontWeight:
-                                                                600,
-                                                        }}
-                                                    >
-                                                        {
-                                                            organization.plan ||
-                                                            "Basic"
-                                                        }
-                                                    </span>
-
-                                                </TableCell>
-
-
-                                                <TableCell>
-                                                    {
-                                                        organization.users ??
-                                                        0
-                                                    }
-                                                </TableCell>
-
-
-                                                <TableCell>
-                                                    {
-                                                        organization.courses ??
-                                                        0
-                                                    }
-                                                </TableCell>
-
-
-                                                <TableCell>
-
-                                                    <span
-                                                        style={{
-                                                            ...getStatusStyle(
-                                                                organization.status
-                                                            ),
-                                                            padding:
-                                                                "5px 10px",
-                                                            borderRadius:
-                                                                "999px",
-                                                            fontSize:
-                                                                "11px",
-                                                            fontWeight:
-                                                                700,
-                                                        }}
-                                                    >
-                                                        {
-                                                            organization.status ||
-                                                            "Active"
-                                                        }
-                                                    </span>
-
-                                                </TableCell>
-
-
-                                                <TableCell>
-
-                                                    {
-                                                        formatDate(
-                                                            organization.created_at
-                                                        )
-                                                    }
-
-                                                </TableCell>
-
-                                            </tr>
-
-                                        )
-                                    )}
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                )}
-
-            </div>
-
+                    ))}
+                </div>
+            </section>
 
             {/* =================================================
-                QUICK ACTIONS
+                FOOTER INFO
             ================================================= */}
 
             <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                        "repeat(3, minmax(0, 1fr))",
-                    gap: "18px",
-                }}
+                className="
+                    mt-6 flex items-center
+                    justify-center gap-2
+                    text-center text-[11px]
+                    text-slate-400
+                    dark:text-slate-500
+                "
             >
+                <Bell size={13} />
 
-                <QuickAction
-                    icon={<Plus size={19} />}
-                    title="Add Organization"
-                    description="Create a new organization"
-                />
-
-                <QuickAction
-                    icon={<UserPlus size={19} />}
-                    title="Manage Users"
-                    description="View and manage platform users"
-                />
-
-                <QuickAction
-                    icon={<Settings size={19} />}
-                    title="Platform Settings"
-                    description="Configure Shiyora settings"
-                />
-
+                You're all caught up with your
+                learning activities.
             </div>
-
-
-            {/* =================================================
-                INFORMATION
-            ================================================= */}
-
-            <div
-                style={{
-                    marginTop: "24px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "8px",
-                    color: "#94A3B8",
-                    fontSize: "12px",
-                }}
-            >
-
-                <Clock3 size={14} />
-
-                Dashboard data is loaded from
-                your Shiyora PostgreSQL database.
-
-            </div>
-
         </div>
     );
 };
-
 
 // =====================================================
 // STAT CARD
@@ -1213,391 +871,553 @@ const Dashboard = () => {
 const StatCard = ({
     title,
     value,
+    description,
     icon,
-    iconBackground,
-    iconColor,
-    footer,
+    type,
 }) => {
+    const styles = {
+        blue: `
+            bg-blue-50 text-blue-600
+            dark:bg-blue-500/10
+            dark:text-blue-400
+        `,
+        teal: `
+            bg-teal-50 text-teal-600
+            dark:bg-teal-500/10
+            dark:text-teal-400
+        `,
+        emerald: `
+            bg-emerald-50 text-emerald-600
+            dark:bg-emerald-500/10
+            dark:text-emerald-400
+        `,
+        indigo: `
+            bg-indigo-50 text-indigo-600
+            dark:bg-indigo-500/10
+            dark:text-indigo-400
+        `,
+    };
 
     return (
-
         <div
-            style={{
-                background: "#FFFFFF",
-                border:
-                    "1px solid #E2E8F0",
-                borderRadius: "16px",
-                padding: "22px",
-                boxShadow:
-                    "0 2px 8px rgba(15,23,42,0.05)",
-            }}
+            className="
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                p-5
+                shadow-sm
+                transition-all
+                duration-200
+                hover:-translate-y-0.5
+                hover:shadow-md
+                dark:border-[#1e334a]
+                dark:bg-[#0b1727]
+            "
         >
-
             <div
-                style={{
-                    display: "flex",
-                    justifyContent:
-                        "space-between",
-                    alignItems: "flex-start",
-                }}
+                className="
+                    flex items-start
+                    justify-between gap-3
+                "
             >
-
                 <div>
-
-                    <div
-                        style={{
-                            color: "#64748B",
-                            fontSize: "13px",
-                            fontWeight: 650,
-                            marginBottom: "8px",
-                        }}
+                    <p
+                        className="
+                            text-xs font-semibold
+                            text-slate-500
+                            dark:text-slate-400
+                        "
                     >
                         {title}
-                    </div>
+                    </p>
 
-
-                    <div
-                        style={{
-                            fontSize: "30px",
-                            fontWeight: 800,
-                            letterSpacing: "-0.7px",
-                            color: "#020617",
-                        }}
+                    <p
+                        className="
+                            mt-2 text-2xl
+                            font-extrabold
+                            text-slate-950
+                            dark:text-white
+                        "
                     >
                         {value}
-                    </div>
-
+                    </p>
                 </div>
 
-
                 <div
-                    style={{
-                        width: "48px",
-                        height: "48px",
-                        borderRadius: "14px",
-                        background:
-                            iconBackground,
-                        color: iconColor,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
+                    className={`
+                        flex h-11 w-11
+                        items-center
+                        justify-center
+                        rounded-xl
+                        ${styles[type]}
+                    `}
                 >
                     {icon}
                 </div>
-
             </div>
 
-
-            <div
-                style={{
-                    marginTop: "18px",
-                    paddingTop: "13px",
-                    borderTop:
-                        "1px solid #F1F5F9",
-                    color: "#94A3B8",
-                    fontSize: "12px",
-                }}
+            <p
+                className="
+                    mt-4 text-[11px]
+                    text-slate-400
+                    dark:text-slate-500
+                "
             >
-                {footer}
-            </div>
-
+                {description}
+            </p>
         </div>
-
     );
 };
 
-
 // =====================================================
-// OVERVIEW ITEM
+// COURSE PROGRESS
 // =====================================================
 
-const OverviewItem = ({
-    label,
-    value,
-    icon,
-    color,
-}) => {
-
+const CourseProgress = ({ course }) => {
     return (
-
-        <div
-            style={{
-                padding: "18px",
-                border:
-                    "1px solid #E2E8F0",
-                borderRadius: "13px",
-                background: "#FFFFFF",
-            }}
-        >
-
-            <div
-                style={{
-                    width: "38px",
-                    height: "38px",
-                    borderRadius: "10px",
-                    background: "#F8FAFC",
-                    color,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: "12px",
-                }}
-            >
-                {icon}
-            </div>
-
-
-            <div
-                style={{
-                    color: "#64748B",
-                    fontSize: "12px",
-                    marginBottom: "4px",
-                }}
-            >
-                {label}
-            </div>
-
-
-            <div
-                style={{
-                    fontSize: "23px",
-                    fontWeight: 800,
-                    color: "#0F172A",
-                }}
-            >
-                {value}
-            </div>
-
-        </div>
-
-    );
-};
-
-
-// =====================================================
-// ROLE NOTICE
-// =====================================================
-
-const RoleNotice = ({
-    icon,
-    title,
-    value,
-    description,
-    color,
-}) => {
-
-    return (
-
-        <div
-            style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "13px",
-                padding: "16px",
-                borderRadius: "13px",
-                background: "#F8FAFC",
-                border:
-                    "1px solid #E2E8F0",
-            }}
-        >
-
-            <div
-                style={{
-                    width: "42px",
-                    height: "42px",
-                    borderRadius: "11px",
-                    background: "#EFF6FF",
-                    color,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                {icon}
-            </div>
-
-
-            <div
-                style={{
-                    flex: 1,
-                }}
-            >
-
+        <div className="p-5 sm:p-6">
+            <div className="flex gap-4">
                 <div
-                    style={{
-                        fontSize: "13px",
-                        fontWeight: 700,
-                    }}
+                    className="
+                        hidden h-14 w-14
+                        shrink-0 items-center
+                        justify-center
+                        rounded-xl
+                        bg-gradient-to-br
+                        from-blue-600
+                        to-teal-500
+                        text-white
+                        shadow-sm
+                        sm:flex
+                    "
+                >
+                    <BookOpen size={22} />
+                </div>
+
+                <div className="min-w-0 flex-1">
+                    <div
+                        className="
+                            flex flex-col gap-2
+                            sm:flex-row
+                            sm:items-start
+                            sm:justify-between
+                        "
+                    >
+                        <div>
+                            <span
+                                className="
+                                    text-[10px]
+                                    font-bold
+                                    uppercase
+                                    tracking-wide
+                                    text-blue-600
+                                    dark:text-teal-400
+                                "
+                            >
+                                {course.category}
+                            </span>
+
+                            <h3
+                                className="
+                                    mt-1 text-sm font-bold
+                                    text-slate-900
+                                    dark:text-white
+                                "
+                            >
+                                {course.title}
+                            </h3>
+
+                            <p
+                                className="
+                                    mt-1 text-[11px]
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
+                            >
+                                Next: {course.lesson}
+                            </p>
+                        </div>
+
+                        <span
+                            className="
+                                text-sm font-extrabold
+                                text-blue-600
+                                dark:text-teal-400
+                            "
+                        >
+                            {course.progress}%
+                        </span>
+                    </div>
+
+                    <div
+                        className="
+                            mt-3 h-2
+                            overflow-hidden
+                            rounded-full
+                            bg-slate-100
+                            dark:bg-[#102337]
+                        "
+                    >
+                        <div
+                            className="
+                                h-full rounded-full
+                                bg-gradient-to-r
+                                from-blue-600
+                                to-teal-500
+                            "
+                            style={{
+                                width: `${course.progress}%`,
+                            }}
+                        />
+                    </div>
+
+                    <div
+                        className="
+                            mt-2 flex items-center
+                            justify-between
+                        "
+                    >
+                        <span
+                            className="
+                                text-[10px]
+                                text-slate-400
+                            "
+                        >
+                            {course.completedLessons} of{" "}
+                            {course.totalLessons} lessons
+                        </span>
+
+                        <button
+                            type="button"
+                            className="
+                                flex items-center
+                                gap-1 text-[11px]
+                                font-bold
+                                text-blue-600
+                                hover:text-blue-700
+                                dark:text-teal-400
+                            "
+                        >
+                            Continue
+                            <ArrowRight size={13} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// =====================================================
+// SECTION HEADER
+// =====================================================
+
+const SectionHeader = ({
+    title,
+    subtitle,
+    icon,
+}) => {
+    return (
+        <div
+            className="
+                flex items-center gap-3
+                border-b
+                border-slate-100
+                px-5 py-4
+                dark:border-[#1e334a]
+            "
+        >
+            <div
+                className="
+                    flex h-9 w-9
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-blue-50
+                    text-blue-600
+                    dark:bg-blue-500/10
+                    dark:text-blue-400
+                "
+            >
+                {icon}
+            </div>
+
+            <div>
+                <h2
+                    className="
+                        text-sm font-bold
+                        text-slate-900
+                        dark:text-white
+                    "
                 >
                     {title}
-                </div>
+                </h2>
 
-                <div
-                    style={{
-                        color: "#94A3B8",
-                        fontSize: "11px",
-                        marginTop: "2px",
-                    }}
+                <p
+                    className="
+                        mt-0.5 text-[10px]
+                        text-slate-500
+                        dark:text-slate-400
+                    "
                 >
-                    {description}
-                </div>
-
+                    {subtitle}
+                </p>
             </div>
-
-
-            <strong
-                style={{
-                    fontSize: "20px",
-                }}
-            >
-                {value}
-            </strong>
-
         </div>
-
     );
 };
 
-
 // =====================================================
-// QUICK ACTION
+// ASSIGNMENT ITEM
 // =====================================================
 
-const QuickAction = ({
-    icon,
-    title,
-    description,
-}) => {
+const AssignmentItem = ({ assignment }) => {
+    const submitted =
+        assignment.status === "Submitted";
 
     return (
-
-        <button
-            type="button"
-            style={{
-                border:
-                    "1px solid #E2E8F0",
-                background: "#FFFFFF",
-                borderRadius: "14px",
-                padding: "18px",
-                display: "flex",
-                alignItems: "center",
-                gap: "14px",
-                textAlign: "left",
-                cursor: "pointer",
-                boxShadow:
-                    "0 2px 8px rgba(15,23,42,0.03)",
-            }}
+        <div
+            className="
+                flex items-center gap-3
+                px-5 py-4
+                transition
+                hover:bg-slate-50
+                sm:px-6
+                dark:hover:bg-[#102337]
+            "
         >
-
             <div
-                style={{
-                    width: "42px",
-                    height: "42px",
-                    borderRadius: "11px",
-                    background: "#EFF6FF",
-                    color: "#2563EB",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                }}
+                className="
+                    flex h-10 w-10
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-indigo-50
+                    text-indigo-600
+                    dark:bg-indigo-500/10
+                    dark:text-indigo-400
+                "
             >
-                {icon}
+                <ClipboardCheck size={18} />
             </div>
 
-
-            <div
-                style={{
-                    flex: 1,
-                }}
-            >
-
-                <div
-                    style={{
-                        fontSize: "14px",
-                        fontWeight: 750,
-                        color: "#0F172A",
-                    }}
+            <div className="min-w-0 flex-1">
+                <p
+                    className="
+                        truncate text-xs font-bold
+                        text-slate-900
+                        dark:text-white
+                    "
                 >
-                    {title}
-                </div>
+                    {assignment.title}
+                </p>
 
-
-                <div
-                    style={{
-                        fontSize: "11px",
-                        color: "#94A3B8",
-                        marginTop: "3px",
-                    }}
+                <p
+                    className="
+                        mt-1 truncate text-[10px]
+                        text-slate-500
+                        dark:text-slate-400
+                    "
                 >
-                    {description}
-                </div>
-
+                    {assignment.course}
+                </p>
             </div>
 
+            <div className="text-right">
+                <span
+                    className={`
+                        inline-flex
+                        rounded-full
+                        px-2 py-1
+                        text-[9px]
+                        font-bold
+                        ${submitted
+                            ? `
+                                    bg-emerald-50
+                                    text-emerald-700
+                                    dark:bg-emerald-500/10
+                                    dark:text-emerald-400
+                                `
+                            : `
+                                    bg-amber-50
+                                    text-amber-700
+                                    dark:bg-amber-500/10
+                                    dark:text-amber-400
+                                `
+                        }
+                    `}
+                >
+                    {assignment.status}
+                </span>
 
-            <ArrowRight
-                size={17}
-                color="#94A3B8"
-            />
-
-        </button>
-
+                <p
+                    className="
+                        mt-1 flex items-center
+                        justify-end gap-1
+                        text-[9px]
+                        text-slate-400
+                    "
+                >
+                    <CalendarDays size={10} />
+                    {assignment.due}
+                </p>
+            </div>
+        </div>
     );
 };
 
+// =====================================================
+// QUIZ ITEM
+// =====================================================
+
+const QuizItem = ({ quiz }) => {
+    return (
+        <div
+            className="
+                flex items-center gap-3
+                px-5 py-4
+                transition
+                hover:bg-slate-50
+                sm:px-6
+                dark:hover:bg-[#102337]
+            "
+        >
+            <div
+                className="
+                    flex h-10 w-10
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-teal-50
+                    text-teal-600
+                    dark:bg-teal-500/10
+                    dark:text-teal-400
+                "
+            >
+                <Trophy size={18} />
+            </div>
+
+            <div className="min-w-0 flex-1">
+                <p
+                    className="
+                        truncate text-xs font-bold
+                        text-slate-900
+                        dark:text-white
+                    "
+                >
+                    {quiz.title}
+                </p>
+
+                <p
+                    className="
+                        mt-1 truncate text-[10px]
+                        text-slate-500
+                        dark:text-slate-400
+                    "
+                >
+                    {quiz.course}
+                </p>
+            </div>
+
+            <div className="text-right">
+                <p
+                    className="
+                        text-sm font-extrabold
+                        text-teal-600
+                        dark:text-teal-400
+                    "
+                >
+                    {quiz.score}
+                </p>
+
+                <p
+                    className="
+                        mt-1 text-[9px]
+                        text-slate-400
+                    "
+                >
+                    {quiz.date}
+                </p>
+            </div>
+        </div>
+    );
+};
 
 // =====================================================
-// TABLE HEADER
+// ACTIVITY ITEM
 // =====================================================
 
-const TableHeader = ({ children }) => {
+const ActivityItem = ({ activity }) => {
+    const styles = {
+        blue: `
+            bg-blue-50 text-blue-600
+            dark:bg-blue-500/10
+            dark:text-blue-400
+        `,
+        teal: `
+            bg-teal-50 text-teal-600
+            dark:bg-teal-500/10
+            dark:text-teal-400
+        `,
+        amber: `
+            bg-amber-50 text-amber-600
+            dark:bg-amber-500/10
+            dark:text-amber-400
+        `,
+        emerald: `
+            bg-emerald-50 text-emerald-600
+            dark:bg-emerald-500/10
+            dark:text-emerald-400
+        `,
+    };
 
     return (
+        <div className="p-5 sm:p-6">
+            <div
+                className={`
+                    mb-3 flex h-9 w-9
+                    items-center
+                    justify-center
+                    rounded-xl
+                    ${styles[activity.type]}
+                `}
+            >
+                {activity.icon}
+            </div>
 
-        <th
-            style={{
-                textAlign: "left",
-                padding:
-                    "11px 12px",
-                fontSize: "11px",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px",
-                color: "#94A3B8",
-                fontWeight: 750,
-                whiteSpace: "nowrap",
-            }}
-        >
-            {children}
-        </th>
+            <p
+                className="
+                    text-xs font-bold
+                    text-slate-900
+                    dark:text-white
+                "
+            >
+                {activity.title}
+            </p>
 
+            <p
+                className="
+                    mt-1 text-[10px]
+                    text-slate-500
+                    dark:text-slate-400
+                "
+            >
+                {activity.description}
+            </p>
+
+            <p
+                className="
+                    mt-2 text-[9px]
+                    text-slate-400
+                "
+            >
+                {activity.time}
+            </p>
+        </div>
     );
 };
-
-
-// =====================================================
-// TABLE CELL
-// =====================================================
-
-const TableCell = ({ children }) => {
-
-    return (
-
-        <td
-            style={{
-                padding:
-                    "13px 12px",
-                fontSize: "12px",
-                color: "#475569",
-                whiteSpace: "nowrap",
-            }}
-        >
-            {children}
-        </td>
-
-    );
-};
-
 
 export default Dashboard;

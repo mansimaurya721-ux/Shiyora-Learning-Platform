@@ -1,5 +1,5 @@
-//import React from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
     LayoutDashboard,
     BookOpen,
@@ -11,14 +11,39 @@ import {
     LifeBuoy,
     LogOut,
     X,
+    Sun,
+    Moon,
 } from "lucide-react";
 
 const AdminSidebar = ({ isOpen, onClose }) => {
+    const navigate = useNavigate();
 
-    // =====================================================
-    // ADMIN MENU ITEMS
-    // =====================================================
+    // ==============================
+    // DARK / LIGHT MODE
+    // ==============================
+    const [darkMode, setDarkMode] = useState(() => {
+        return localStorage.getItem("shiyora-theme") === "dark";
+    });
 
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add("dark");
+            document.documentElement.style.colorScheme = "dark";
+            localStorage.setItem("shiyora-theme", "dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+            document.documentElement.style.colorScheme = "light";
+            localStorage.setItem("shiyora-theme", "light");
+        }
+    }, [darkMode]);
+
+    const toggleTheme = () => {
+        setDarkMode((current) => !current);
+    };
+
+    // ==============================
+    // ADMIN MENU
+    // ==============================
     const menuItems = [
         {
             name: "Dashboard",
@@ -67,46 +92,38 @@ const AdminSidebar = ({ isOpen, onClose }) => {
         },
     ];
 
-
-    // =====================================================
+    // ==============================
     // LOGOUT
-    // =====================================================
-
+    // ==============================
     const handleLogout = () => {
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("userRole");
 
-        window.location.href = "/login";
+        navigate("/login", { replace: true });
     };
-
 
     return (
         <>
-            {/* =================================================
+            {/* =====================================
                 MOBILE OVERLAY
-            ================================================== */}
-
+            ====================================== */}
             {isOpen && (
                 <div
                     className="
                         fixed
                         inset-0
                         z-40
-
-                        bg-black/30
+                        bg-slate-900/40
                         backdrop-blur-sm
-
                         lg:hidden
                     "
                     onClick={onClose}
                 />
             )}
 
-
-            {/* =================================================
+            {/* =====================================
                 SIDEBAR
-            ================================================== */}
-
+            ====================================== */}
             <aside
                 className={`
                     fixed
@@ -120,11 +137,14 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                     flex-col
 
                     border-r
-                    border-[#F3EEDD]/10
+                    border-slate-200
+                    bg-white
 
-                    bg-[#141C17]
+                    shadow-[4px_0_25px_rgba(15,23,42,0.06)]
 
-                    shadow-[4px_0_25px_rgba(226,180,189,0.18)]
+                    dark:border-[#1e334a]
+                    dark:bg-[#07111f]
+                    dark:shadow-[4px_0_25px_rgba(0,0,0,0.25)]
 
                     transition-transform
                     duration-300
@@ -132,17 +152,12 @@ const AdminSidebar = ({ isOpen, onClose }) => {
 
                     lg:translate-x-0
 
-                    ${isOpen
-                        ? "translate-x-0"
-                        : "-translate-x-full"
-                    }
+                    ${isOpen ? "translate-x-0" : "-translate-x-full"}
                 `}
             >
-
-                {/* =================================================
+                {/* =====================================
                     BRAND
-                ================================================== */}
-
+                ====================================== */}
                 <div
                     className="
                         flex
@@ -150,18 +165,14 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                         shrink-0
                         items-center
                         justify-between
-
                         border-b
-                       border-[#F3EEDD]/10
-
+                        border-slate-200
                         px-5
+                        dark:border-[#1e334a]
                     "
                 >
-
                     <div className="flex items-center gap-3">
-
-                        {/* Logo */}
-
+                        {/* Shiyora Logo */}
                         <div
                             className="
                                 flex
@@ -169,33 +180,27 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                                 w-10
                                 items-center
                                 justify-center
-
                                 rounded-xl
-
-                                 bg-[#F2B84B]
-
+                                bg-gradient-to-br
+                                from-blue-600
+                                to-teal-500
                                 text-lg
                                 font-bold
-
-                                text-[#161F19]
-
+                                text-white
                                 shadow-sm
                             "
                         >
                             S
                         </div>
 
-
-                        {/* Brand Name */}
-
                         <div>
-
                             <h1
                                 className="
                                     text-lg
                                     font-bold
                                     tracking-tight
-                                    text-[#f7f0f0]
+                                    text-slate-900
+                                    dark:text-white
                                 "
                             >
                                 Shiyora
@@ -203,344 +208,321 @@ const AdminSidebar = ({ isOpen, onClose }) => {
 
                             <p
                                 className="
-                                    text-xs
-                                     text-[#F3EEDD]/40
+                                    text-[11px]
+                                    font-medium
+                                    text-slate-500
+                                    dark:text-slate-400
                                 "
                             >
-                                LMS Platform
+                                Admin Panel
                             </p>
-
                         </div>
-
                     </div>
 
-
                     {/* Mobile Close */}
-
                     <button
                         type="button"
                         onClick={onClose}
-                        aria-label="Close sidebar"
                         className="
                             rounded-lg
                             p-2
-
-                            text-[#F3EEDD]/50
-
+                            text-slate-500
                             transition
-
-                            hover:bg-[#F7D6D0]
-                            hover:text-[#F3EEDD]
-
+                            hover:bg-slate-100
+                            hover:text-slate-800
+                            dark:text-slate-400
+                            dark:hover:bg-[#102337]
+                            dark:hover:text-white
                             lg:hidden
                         "
+                        aria-label="Close sidebar"
                     >
-                        <X size={20} />
+                        <X className="h-5 w-5" />
                     </button>
-
                 </div>
 
-
-                {/* =================================================
-                    ADMIN LABEL
-                ================================================== */}
-
-                <div className="shrink-0 px-5 pt-6">
-
+                {/* =====================================
+                    NAVIGATION
+                ====================================== */}
+                <nav className="flex-1 overflow-y-auto px-3 py-5">
                     <p
                         className="
-                            text-[11px]
+                            mb-3
+                            px-3
+                            text-[10px]
                             font-semibold
                             uppercase
                             tracking-[0.15em]
-
-                            text-[#F3EEDD]/40
+                            text-slate-400
+                            dark:text-slate-500
                         "
                     >
-                        Admin
+                        Administration
                     </p>
 
-                </div>
+                    <div className="space-y-1">
+                        {menuItems.map((item) => {
+                            const Icon = item.icon;
 
-
-                {/* =================================================
-                    NAVIGATION
-                ================================================== */}
-
-                <nav
-                    className="
-                        mt-3
-                        flex-1
-                        space-y-1
-
-                        overflow-y-auto
-
-                        px-3
-                        pb-4
-                    "
-                >
-
-                    {menuItems.map((item) => {
-
-                        const Icon = item.icon;
-
-                        return (
-                            <NavLink
-                                key={item.name}
-                                to={item.path}
-                                onClick={onClose}
-                                className={({ isActive }) =>
-                                    `
+                            return (
+                                <NavLink
+                                    key={item.path}
+                                    to={item.path}
+                                    onClick={onClose}
+                                    className={({ isActive }) =>
+                                        `
                                         group
-
                                         flex
                                         items-center
                                         gap-3
-
                                         rounded-xl
-
-                                        px-4
+                                        px-3
                                         py-3
-
                                         text-sm
                                         font-medium
-
                                         transition-all
                                         duration-200
 
                                         ${isActive
-                                        ? `
-                                                    bg-[#F7D6D0]
+                                            ? `
+                                                    bg-blue-50
+                                                    text-blue-600
 
-                                                    text-[#4A4A4A]
-
-                                                    shadow-[inset_3px_0_0_#E2B4BD]
+                                                    dark:bg-blue-500/10
+                                                    dark:text-blue-400
                                                 `
-                                        : `
-                                                    text-[#4A4A4A]/70
+                                            : `
+                                                    text-slate-600
 
-                                                    hover:bg-[#F7D6D0]/60
+                                                    hover:bg-slate-50
+                                                    hover:text-slate-900
 
-                                                    hover:text-[#4A4A4A]
+                                                    dark:text-slate-400
+                                                    dark:hover:bg-[#102337]
+                                                    dark:hover:text-slate-100
                                                 `
-                                    }
+                                        }
                                     `
-                                }
-                            >
+                                    }
+                                >
+                                    <Icon
+                                        className="
+                                            h-5
+                                            w-5
+                                            shrink-0
+                                            text-teal-500
+                                            transition-colors
+                                            group-hover:text-blue-600
+                                            dark:text-teal-400
+                                            dark:group-hover:text-blue-400
+                                        "
+                                    />
 
-                                {({ isActive }) => (
-                                    <>
-                                        {/* Icon */}
-
-                                        <Icon
-                                            size={19}
-                                            strokeWidth={
-                                                isActive ? 2.2 : 2
-                                            }
-                                            className={`
-                                                shrink-0
-
-                                                transition-colors
-                                                duration-200
-
-                                                ${isActive
-                                                    ? "text-[#4A4A4A]"
-                                                    : `
-                                                            text-[#4A4A4A]/45
-                                                            group-hover:text-[#4A4A4A]
-                                                        `
-                                                }
-                                            `}
-                                        />
-
-
-                                        {/* Menu Name */}
-
-                                        <span className="truncate">
-                                            {item.name}
-                                        </span>
-
-
-                                        {/* Active Indicator */}
-
-                                        {isActive && (
-                                            <span
-                                                className="
-                                                    ml-auto
-                                                    h-1.5
-                                                    w-1.5
-                                                    shrink-0
-
-                                                    rounded-full
-
-                                                    bg-[#E2B4BD]
-                                                "
-                                            />
-                                        )}
-
-                                    </>
-                                )}
-
-                            </NavLink>
-                        );
-                    })}
-
+                                    <span>{item.name}</span>
+                                </NavLink>
+                            );
+                        })}
+                    </div>
                 </nav>
 
-
-                {/* =================================================
-                    ADMIN PROFILE + LOGOUT
-                ================================================== */}
-
+                {/* =====================================
+                    BOTTOM AREA
+                ====================================== */}
                 <div
                     className="
                         shrink-0
-
                         border-t
-                        border-[#E2B4BD]/50
-
-                        bg-[#FFF5F5]
-
+                        border-slate-200
                         p-3
+                        dark:border-[#1e334a]
                     "
                 >
-
-                    {/* Admin Profile */}
-
-                    <div
+                    {/* =================================
+                        THEME BUTTON
+                    ================================== */}
+                    <button
+                        type="button"
+                        onClick={toggleTheme}
                         className="
-                            mb-2
-
+                            mb-3
                             flex
+                            w-full
                             items-center
-                            gap-3
-
+                            justify-between
                             rounded-xl
-
                             border
-                            border-[#E2B4BD]/50
-
-                            bg-[#F7D6D0]/40
-
+                            border-slate-200
+                            bg-slate-50
                             px-3
                             py-3
+                            text-sm
+                            font-semibold
+                            text-slate-700
+                            transition-all
+                            duration-200
+                            hover:border-blue-200
+                            hover:bg-blue-50
+
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
+                            dark:text-slate-300
+                            dark:hover:border-teal-500/30
+                            dark:hover:bg-[#102337]
                         "
                     >
+                        <div className="flex items-center gap-3">
+                            {darkMode ? (
+                                <Moon
+                                    className="
+                                        h-5
+                                        w-5
+                                        text-teal-400
+                                    "
+                                />
+                            ) : (
+                                <Sun
+                                    className="
+                                        h-5
+                                        w-5
+                                        text-blue-600
+                                    "
+                                />
+                            )}
 
-                        {/* Avatar */}
+                            <span>
+                                {darkMode ? "Dark Mode" : "Light Mode"}
+                            </span>
+                        </div>
 
+                        {/* Toggle */}
                         <div
-                            className="
-                                flex
-                                h-9
-                                w-9
+                            className={`
+                                relative
+                                h-6
+                                w-11
                                 shrink-0
-
-                                items-center
-                                justify-center
-
                                 rounded-full
-
-                                bg-[#E2B4BD]
-
-                                text-sm
-                                font-bold
-
-                                text-[#4A4A4A]
-                            "
+                                transition-colors
+                                duration-200
+                                ${darkMode
+                                    ? "bg-teal-500"
+                                    : "bg-slate-300"
+                                }
+                            `}
                         >
-                            A
+                            <span
+                                className={`
+                                    absolute
+                                    top-1
+                                    h-4
+                                    w-4
+                                    rounded-full
+                                    bg-white
+                                    shadow
+                                    transition-transform
+                                    duration-200
+                                    ${darkMode
+                                        ? "translate-x-6"
+                                        : "translate-x-1"
+                                    }
+                                `}
+                            />
                         </div>
+                    </button>
 
+                    {/* =================================
+                        ADMIN PROFILE
+                    ================================== */}
+                    <div
+                        className="
+                            mb-3
+                            rounded-xl
+                            border
+                            border-slate-200
+                            bg-slate-50
+                            p-3
 
-                        {/* Admin Details */}
-
-                        <div className="min-w-0">
-
-                            <p
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
+                        "
+                    >
+                        <div className="flex items-center gap-3">
+                            <div
                                 className="
-                                    truncate
-
+                                    flex
+                                    h-10
+                                    w-10
+                                    shrink-0
+                                    items-center
+                                    justify-center
+                                    rounded-full
+                                    bg-gradient-to-br
+                                    from-blue-600
+                                    to-teal-500
                                     text-sm
-                                    font-semibold
-
-                                    text-[#4A4A4A]
+                                    font-bold
+                                    text-white
                                 "
                             >
-                                Admin
-                            </p>
+                                A
+                            </div>
 
-                            <p
-                                className="
-                                    truncate
+                            <div className="min-w-0">
+                                <p
+                                    className="
+                                        truncate
+                                        text-sm
+                                        font-semibold
+                                        text-slate-900
+                                        dark:text-slate-100
+                                    "
+                                >
+                                    Admin
+                                </p>
 
-                                    text-xs
-
-                                    text-[#4A4A4A]/55
-                                "
-                            >
-                                Organization Admin
-                            </p>
-
+                                <p
+                                    className="
+                                        truncate
+                                        text-xs
+                                        text-slate-500
+                                        dark:text-slate-400
+                                    "
+                                >
+                                    Administrator
+                                </p>
+                            </div>
                         </div>
-
                     </div>
 
-
-                    {/* =================================================
+                    {/* =================================
                         LOGOUT
-                    ================================================== */}
-
+                    ================================== */}
                     <button
                         type="button"
                         onClick={handleLogout}
                         className="
-                            group
-
                             flex
                             w-full
                             items-center
                             gap-3
-
                             rounded-xl
-
-                            px-4
+                            px-3
                             py-3
-
                             text-sm
-                            font-medium
+                            font-semibold
+                            text-rose-600
+                            transition
+                            hover:bg-rose-50
 
-                            text-[#4A4A4A]/70
-
-                            transition-all
-                            duration-200
-
-                            hover:bg-red-50
-                            hover:text-red-600
+                            dark:text-rose-400
+                            dark:hover:bg-rose-500/10
                         "
                     >
+                        <LogOut className="h-5 w-5" />
 
-                        <LogOut
-                            size={19}
-                            className="
-                                shrink-0
-
-                                text-[#4A4A4A]/45
-
-                                transition-colors
-
-                                group-hover:text-red-600
-                            "
-                        />
-
-                        <span>
-                            Logout
-                        </span>
-
+                        <span>Logout</span>
                     </button>
-
                 </div>
-
             </aside>
         </>
     );

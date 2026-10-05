@@ -1,4 +1,3 @@
-//import React from "react";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
@@ -136,116 +135,207 @@ function Dashboard() {
     const activities = [
         {
             title: "New student enrolled",
-            description: "A student joined Full Stack Web Development.",
+            description:
+                "A student joined Full Stack Web Development.",
             time: "12 min ago",
         },
         {
             title: "Assignment submitted",
-            description: "7 students submitted Java Assignment #4.",
+            description:
+                "7 students submitted Java Assignment #4.",
             time: "45 min ago",
         },
         {
             title: "Quiz completed",
-            description: "Database Management quiz was completed by 31 students.",
+            description:
+                "Database Management quiz was completed by 31 students.",
             time: "2 hrs ago",
         },
         {
             title: "Course updated",
-            description: "New lesson added to Full Stack Web Development.",
+            description:
+                "New lesson added to Full Stack Web Development.",
             time: "4 hrs ago",
         },
     ];
 
     return (
-        <div className="space-y-8">
+        <div className="min-h-full space-y-6 bg-slate-50 text-slate-700 transition-colors duration-300 dark:bg-[#07111f] dark:text-slate-200">
 
-            {/* ------------------------------------------------ */}
-            {/* HEADER */}
-            {/* ------------------------------------------------ */}
+            {/* ================================================= */}
+            {/* WELCOME HEADER */}
+            {/* ================================================= */}
 
-            <section className="relative overflow-hidden rounded-3xl border border-[#F2B84B]/15 bg-[#1B241E] p-7 lg:p-9">
+            <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition-colors duration-300 dark:border-slate-800 dark:bg-[#0b1727] lg:p-9">
 
-                {/* Decorative elements */}
-                <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-[#F2B84B]/5 blur-3xl" />
+                {/* Background decoration */}
+                <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl dark:bg-blue-500/10" />
 
-                <div className="pointer-events-none absolute -bottom-24 left-1/3 h-52 w-52 rounded-full bg-[#7C9A82]/5 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-24 left-1/3 h-60 w-60 rounded-full bg-teal-400/10 blur-3xl dark:bg-teal-400/10" />
 
-                <div className="relative flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
+                <div className="relative">
 
-                    <div>
-                        <p className="mb-2 font-mono text-xs uppercase tracking-[0.25em] text-[#7C9A82]">
-                            Teacher Workspace
-                        </p>
+                    <div className="max-w-3xl">
 
-                        <h1 className="font-['Space_Grotesk'] text-3xl font-bold tracking-tight text-[#F3EEDD] md:text-4xl">
+                        <div className="mb-4 flex items-center gap-3">
+                            <span className="h-px w-8 bg-blue-500" />
+
+                            <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-blue-600 dark:text-blue-400">
+                                Teacher Workspace
+                            </p>
+                        </div>
+
+                        <h1 className="font-['Space_Grotesk'] text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">
                             Good afternoon, Teacher.
                         </h1>
 
-                        <p className="mt-3 max-w-2xl text-sm leading-6 text-[#F3EEDD]/55">
-                            Manage your courses, guide your students, review
-                            assignments and keep your classroom moving forward.
+                        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
+                            Manage your assigned courses, guide students,
+                            review submissions and keep your classroom
+                            moving forward.
                         </p>
+
+                        <div className="mt-6 flex flex-wrap gap-3">
+
+                            <Link
+                                to="/teacher/courses"
+                                className="
+                                    inline-flex items-center gap-2
+                                    rounded-xl
+                                    bg-blue-600
+                                    px-5 py-3
+                                    text-sm font-semibold
+                                    text-white
+                                    shadow-sm
+                                    transition
+                                    hover:bg-blue-700
+                                    hover:-translate-y-0.5
+                                    dark:bg-blue-500
+                                    dark:hover:bg-blue-600
+                                "
+                            >
+                                View My Courses
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    className="h-4 w-4"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M5 12h14M13 6l6 6-6 6"
+                                    />
+                                </svg>
+                            </Link>
+
+                            <Link
+                                to="/teacher/students"
+                                className="
+                                    inline-flex items-center gap-2
+                                    rounded-xl
+                                    border border-slate-200
+                                    bg-slate-50
+                                    px-5 py-3
+                                    text-sm font-semibold
+                                    text-slate-700
+                                    transition
+                                    hover:border-teal-300
+                                    hover:bg-teal-50
+                                    hover:text-teal-700
+                                    dark:border-slate-700
+                                    dark:bg-slate-900/60
+                                    dark:text-slate-300
+                                    dark:hover:border-teal-500/40
+                                    dark:hover:bg-teal-500/10
+                                    dark:hover:text-teal-400
+                                "
+                            >
+                                View Students
+                            </Link>
+
+                        </div>
                     </div>
-
-                    <Link
-                        to="/teacher/courses/create"
-                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#F2B84B] px-5 py-3 text-sm font-bold text-[#161F19] transition hover:-translate-y-0.5 hover:bg-[#F2B84B]/90"
-                    >
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="h-5 w-5"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                d="M12 5v14M5 12h14"
-                            />
-                        </svg>
-
-                        Create Course
-                    </Link>
 
                 </div>
             </section>
 
 
-            {/* ------------------------------------------------ */}
+            {/* ================================================= */}
             {/* STAT CARDS */}
-            {/* ------------------------------------------------ */}
+            {/* ================================================= */}
 
             <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
                 {stats.map((stat) => (
                     <div
                         key={stat.title}
-                        className="group rounded-2xl border border-[#F2B84B]/10 bg-[#1B241E] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#F2B84B]/25"
+                        className="
+                            group
+                            rounded-2xl
+                            border border-slate-200
+                            bg-white
+                            p-5
+                            shadow-sm
+                            transition-all
+                            duration-300
+                            hover:-translate-y-1
+                            hover:border-blue-200
+                            hover:shadow-md
+                            dark:border-slate-800
+                            dark:bg-[#0b1727]
+                            dark:hover:border-blue-500/30
+                        "
                     >
 
                         <div className="flex items-start justify-between">
 
-                            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#F2B84B]/15 bg-[#F2B84B]/10 text-[#F2B84B]">
+                            <div
+                                className="
+                                    flex h-11 w-11
+                                    items-center justify-center
+                                    rounded-xl
+                                    border border-blue-100
+                                    bg-blue-50
+                                    text-blue-600
+                                    dark:border-blue-500/20
+                                    dark:bg-blue-500/10
+                                    dark:text-blue-400
+                                "
+                            >
                                 {stat.icon}
                             </div>
 
-                            <span className="font-mono text-[10px] uppercase tracking-wider text-[#7C9A82]">
+                            <span
+                                className="
+                                    rounded-full
+                                    bg-teal-50
+                                    px-2.5 py-1
+                                    font-mono text-[9px]
+                                    uppercase tracking-wider
+                                    text-teal-600
+                                    dark:bg-teal-500/10
+                                    dark:text-teal-400
+                                "
+                            >
                                 Overview
                             </span>
 
                         </div>
 
-                        <p className="mt-5 text-sm text-[#F3EEDD]/50">
+                        <p className="mt-5 text-sm text-slate-500 dark:text-slate-400">
                             {stat.title}
                         </p>
 
                         <div className="mt-1 flex items-end justify-between gap-3">
 
-                            <h2 className="font-['Space_Grotesk'] text-3xl font-bold text-[#F3EEDD]">
+                            <h2 className="font-['Space_Grotesk'] text-3xl font-bold text-slate-900 dark:text-white">
                                 {stat.value}
                             </h2>
 
-                            <span className="mb-1 text-right font-mono text-[10px] text-[#7C9A82]">
+                            <span className="mb-1 text-right font-mono text-[10px] text-teal-600 dark:text-teal-400">
                                 {stat.change}
                             </span>
 
@@ -257,31 +347,40 @@ function Dashboard() {
             </section>
 
 
-            {/* ------------------------------------------------ */}
-            {/* MAIN GRID */}
-            {/* ------------------------------------------------ */}
+            {/* ================================================= */}
+            {/* COURSES + QUICK ACTIONS */}
+            {/* ================================================= */}
 
             <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
 
-                {/* COURSE OVERVIEW */}
+                {/* ================================================= */}
+                {/* MY COURSES */}
+                {/* ================================================= */}
 
-                <div className="xl:col-span-2 rounded-3xl border border-[#F2B84B]/10 bg-[#1B241E]">
+                <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b1727] xl:col-span-2">
 
-                    <div className="flex items-center justify-between border-b border-[#F2B84B]/10 px-6 py-5">
+                    <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-800">
 
                         <div>
-                            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7C9A82]">
+                            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                                 Classroom
                             </p>
 
-                            <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-bold text-[#F3EEDD]">
+                            <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-bold text-slate-900 dark:text-white">
                                 Your Courses
                             </h2>
                         </div>
 
                         <Link
                             to="/teacher/courses"
-                            className="text-xs font-semibold text-[#F2B84B] transition hover:text-[#F3EEDD]"
+                            className="
+                                text-xs font-semibold
+                                text-blue-600
+                                transition
+                                hover:text-blue-700
+                                dark:text-blue-400
+                                dark:hover:text-blue-300
+                            "
                         >
                             View all →
                         </Link>
@@ -289,41 +388,105 @@ function Dashboard() {
                     </div>
 
 
-                    <div className="divide-y divide-[#F2B84B]/10">
+                    <div className="divide-y divide-slate-100 dark:divide-slate-800">
 
                         {courses.map((course) => (
                             <div
                                 key={course.title}
-                                className="p-6 transition hover:bg-[#161F19]/40"
+                                className="
+                                    p-6
+                                    transition
+                                    hover:bg-slate-50
+                                    dark:hover:bg-slate-900/40
+                                "
                             >
 
-                                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 
                                     <div className="min-w-0">
 
                                         <div className="mb-2 flex flex-wrap items-center gap-2">
 
-                                            <span className="rounded-full border border-[#7C9A82]/20 bg-[#7C9A82]/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-wider text-[#7C9A82]">
+                                            <span
+                                                className="
+                                                    rounded-full
+                                                    border border-teal-200
+                                                    bg-teal-50
+                                                    px-2.5 py-1
+                                                    font-mono text-[9px]
+                                                    uppercase tracking-wider
+                                                    text-teal-700
+                                                    dark:border-teal-500/20
+                                                    dark:bg-teal-500/10
+                                                    dark:text-teal-400
+                                                "
+                                            >
                                                 {course.category}
                                             </span>
 
-                                            <span className="rounded-full border border-[#F2B84B]/15 bg-[#F2B84B]/5 px-2.5 py-1 font-mono text-[9px] uppercase tracking-wider text-[#F2B84B]">
+                                            <span
+                                                className="
+                                                    rounded-full
+                                                    border border-blue-200
+                                                    bg-blue-50
+                                                    px-2.5 py-1
+                                                    font-mono text-[9px]
+                                                    uppercase tracking-wider
+                                                    text-blue-600
+                                                    dark:border-blue-500/20
+                                                    dark:bg-blue-500/10
+                                                    dark:text-blue-400
+                                                "
+                                            >
                                                 {course.status}
                                             </span>
 
                                         </div>
 
-                                        <h3 className="truncate font-['Space_Grotesk'] text-base font-bold text-[#F3EEDD]">
+                                        <h3 className="truncate font-['Space_Grotesk'] text-base font-bold text-slate-900 dark:text-white">
                                             {course.title}
                                         </h3>
 
-                                        <div className="mt-2 flex flex-wrap gap-4 text-xs text-[#F3EEDD]/45">
+                                        <div className="mt-2 flex flex-wrap gap-4 text-xs text-slate-500 dark:text-slate-400">
 
-                                            <span>
+                                            <span className="flex items-center gap-1.5">
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.8"
+                                                    className="h-3.5 w-3.5"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"
+                                                    />
+                                                    <circle
+                                                        cx="9"
+                                                        cy="7"
+                                                        r="4"
+                                                    />
+                                                </svg>
+
                                                 {course.students} students
                                             </span>
 
-                                            <span>
+                                            <span className="flex items-center gap-1.5">
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.8"
+                                                    className="h-3.5 w-3.5"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M4 6.5A2.5 2.5 0 016.5 4H20v16H6.5A2.5 2.5 0 014 17.5v-11z"
+                                                    />
+                                                </svg>
+
                                                 {course.lessons} lessons
                                             </span>
 
@@ -335,22 +498,26 @@ function Dashboard() {
                                     <div className="w-full sm:w-44">
 
                                         <div className="mb-2 flex items-center justify-between">
-                                            <span className="font-mono text-[10px] uppercase tracking-wider text-[#F3EEDD]/40">
+
+                                            <span className="font-mono text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                                 Completion
                                             </span>
 
-                                            <span className="font-mono text-xs font-bold text-[#F2B84B]">
+                                            <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400">
                                                 {course.progress}%
                                             </span>
+
                                         </div>
 
-                                        <div className="h-1.5 overflow-hidden rounded-full bg-[#161F19]">
+                                        <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+
                                             <div
-                                                className="h-full rounded-full bg-[#F2B84B]"
+                                                className="h-full rounded-full bg-gradient-to-r from-blue-600 to-teal-500"
                                                 style={{
                                                     width: `${course.progress}%`,
                                                 }}
                                             />
+
                                         </div>
 
                                     </div>
@@ -365,31 +532,26 @@ function Dashboard() {
                 </div>
 
 
+                {/* ================================================= */}
                 {/* QUICK ACTIONS */}
+                {/* ================================================= */}
 
-                <div className="rounded-3xl border border-[#F2B84B]/10 bg-[#1B241E]">
+                <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
 
-                    <div className="border-b border-[#F2B84B]/10 px-6 py-5">
+                    <div className="border-b border-slate-200 px-6 py-5 dark:border-slate-800">
 
-                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7C9A82]">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                             Shortcuts
                         </p>
 
-                        <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-bold text-[#F3EEDD]">
-                            Quick Actions
+                        <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-bold text-slate-900 dark:text-white">
+                            Teaching Tools
                         </h2>
 
                     </div>
 
 
                     <div className="space-y-2 p-4">
-
-                        <QuickAction
-                            to="/teacher/courses/create"
-                            title="Create Course"
-                            description="Start a new course"
-                            icon="+"
-                        />
 
                         <QuickAction
                             to="/teacher/lessons"
@@ -426,23 +588,25 @@ function Dashboard() {
             </section>
 
 
-            {/* ------------------------------------------------ */}
-            {/* LOWER SECTION */}
-            {/* ------------------------------------------------ */}
+            {/* ================================================= */}
+            {/* PERFORMANCE + ACTIVITY */}
+            {/* ================================================= */}
 
             <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 
+                {/* ================================================= */}
                 {/* STUDENT PERFORMANCE */}
+                {/* ================================================= */}
 
-                <div className="rounded-3xl border border-[#F2B84B]/10 bg-[#1B241E]">
+                <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
 
-                    <div className="border-b border-[#F2B84B]/10 px-6 py-5">
+                    <div className="border-b border-slate-200 px-6 py-5 dark:border-slate-800">
 
-                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7C9A82]">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                             Performance
                         </p>
 
-                        <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-bold text-[#F3EEDD]">
+                        <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-bold text-slate-900 dark:text-white">
                             Student Progress
                         </h2>
 
@@ -454,16 +618,18 @@ function Dashboard() {
                         <div className="flex items-end justify-between">
 
                             <div>
-                                <p className="text-sm text-[#F3EEDD]/50">
+
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
                                     Average completion
                                 </p>
 
-                                <p className="mt-1 font-['Space_Grotesk'] text-4xl font-bold text-[#F2B84B]">
+                                <p className="mt-1 font-['Space_Grotesk'] text-4xl font-bold text-blue-600 dark:text-blue-400">
                                     78%
                                 </p>
+
                             </div>
 
-                            <span className="font-mono text-xs text-[#7C9A82]">
+                            <span className="font-mono text-xs text-teal-600 dark:text-teal-400">
                                 +6.4% this month
                             </span>
 
@@ -499,24 +665,26 @@ function Dashboard() {
                 </div>
 
 
+                {/* ================================================= */}
                 {/* RECENT ACTIVITY */}
+                {/* ================================================= */}
 
-                <div className="rounded-3xl border border-[#F2B84B]/10 bg-[#1B241E]">
+                <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
 
-                    <div className="border-b border-[#F2B84B]/10 px-6 py-5">
+                    <div className="border-b border-slate-200 px-6 py-5 dark:border-slate-800">
 
-                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7C9A82]">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                             Activity Log
                         </p>
 
-                        <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-bold text-[#F3EEDD]">
+                        <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-bold text-slate-900 dark:text-white">
                             Recent Activity
                         </h2>
 
                     </div>
 
 
-                    <div className="divide-y divide-[#F2B84B]/10">
+                    <div className="divide-y divide-slate-100 dark:divide-slate-800">
 
                         {activities.map((activity, index) => (
                             <div
@@ -524,27 +692,35 @@ function Dashboard() {
                                 className="flex gap-4 px-6 py-4"
                             >
 
-                                <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#F2B84B]/15 bg-[#F2B84B]/10">
-
-                                    <span className="h-2 w-2 rounded-full bg-[#F2B84B]" />
-
+                                <div
+                                    className="
+                                        mt-1 flex h-8 w-8
+                                        shrink-0 items-center
+                                        justify-center rounded-full
+                                        border border-teal-200
+                                        bg-teal-50
+                                        dark:border-teal-500/20
+                                        dark:bg-teal-500/10
+                                    "
+                                >
+                                    <span className="h-2 w-2 rounded-full bg-teal-500" />
                                 </div>
 
                                 <div className="min-w-0 flex-1">
 
                                     <div className="flex flex-col justify-between gap-1 sm:flex-row">
 
-                                        <h3 className="text-sm font-semibold text-[#F3EEDD]">
+                                        <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                                             {activity.title}
                                         </h3>
 
-                                        <span className="font-mono text-[10px] text-[#F3EEDD]/30">
+                                        <span className="font-mono text-[10px] text-slate-400 dark:text-slate-600">
                                             {activity.time}
                                         </span>
 
                                     </div>
 
-                                    <p className="mt-1 text-xs leading-5 text-[#F3EEDD]/45">
+                                    <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
                                         {activity.description}
                                     </p>
 
@@ -560,18 +736,28 @@ function Dashboard() {
             </section>
 
 
-            {/* ------------------------------------------------ */}
+            {/* ================================================= */}
             {/* FOOTER NOTE */}
-            {/* ------------------------------------------------ */}
+            {/* ================================================= */}
 
-            <div className="flex flex-col gap-3 border-t border-[#F2B84B]/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div
+                className="
+                    flex flex-col gap-3
+                    border-t border-slate-200
+                    pt-6
+                    sm:flex-row
+                    sm:items-center
+                    sm:justify-between
+                    dark:border-slate-800
+                "
+            >
 
-                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#F3EEDD]/25">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-400 dark:text-slate-600">
                     Shiyora / Teacher Workspace
                 </p>
 
-                <p className="text-xs text-[#F3EEDD]/30">
-                    Keep teaching. Keep building. Keep growing.
+                <p className="text-xs text-slate-400 dark:text-slate-600">
+                    Teach. Guide. Inspire.
                 </p>
 
             </div>
@@ -589,26 +775,62 @@ function QuickAction({ to, title, description, icon }) {
     return (
         <Link
             to={to}
-            className="group flex items-center gap-4 rounded-2xl border border-transparent p-3 transition hover:border-[#F2B84B]/10 hover:bg-[#161F19]"
+            className="
+                group
+                flex items-center gap-4
+                rounded-2xl
+                border border-transparent
+                p-3
+                transition-all duration-200
+                hover:border-blue-100
+                hover:bg-blue-50/70
+                dark:hover:border-blue-500/20
+                dark:hover:bg-blue-500/5
+            "
         >
 
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#F2B84B]/15 bg-[#F2B84B]/10 font-mono text-sm font-bold text-[#F2B84B] transition group-hover:bg-[#F2B84B]/15">
+            <div
+                className="
+                    flex h-10 w-10
+                    shrink-0 items-center justify-center
+                    rounded-xl
+                    border border-blue-100
+                    bg-blue-50
+                    font-mono text-sm font-bold
+                    text-blue-600
+                    transition
+                    group-hover:bg-blue-100
+                    dark:border-blue-500/20
+                    dark:bg-blue-500/10
+                    dark:text-blue-400
+                    dark:group-hover:bg-blue-500/15
+                "
+            >
                 {icon}
             </div>
 
             <div className="min-w-0 flex-1">
 
-                <p className="text-sm font-semibold text-[#F3EEDD]">
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                     {title}
                 </p>
 
-                <p className="mt-0.5 text-xs text-[#F3EEDD]/40">
+                <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-500">
                     {description}
                 </p>
 
             </div>
 
-            <span className="text-[#F3EEDD]/20 transition group-hover:translate-x-1 group-hover:text-[#F2B84B]">
+            <span
+                className="
+                    text-slate-300
+                    transition
+                    group-hover:translate-x-1
+                    group-hover:text-blue-500
+                    dark:text-slate-600
+                    dark:group-hover:text-teal-400
+                "
+            >
                 →
             </span>
 
@@ -627,20 +849,20 @@ function ProgressRow({ label, value }) {
 
             <div className="mb-2 flex items-center justify-between gap-4">
 
-                <span className="truncate text-xs text-[#F3EEDD]/60">
+                <span className="truncate text-xs text-slate-600 dark:text-slate-400">
                     {label}
                 </span>
 
-                <span className="font-mono text-[10px] font-bold text-[#F2B84B]">
+                <span className="font-mono text-[10px] font-bold text-blue-600 dark:text-blue-400">
                     {value}%
                 </span>
 
             </div>
 
-            <div className="h-1.5 overflow-hidden rounded-full bg-[#161F19]">
+            <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
 
                 <div
-                    className="h-full rounded-full bg-[#F2B84B]"
+                    className="h-full rounded-full bg-gradient-to-r from-blue-600 to-teal-500"
                     style={{
                         width: `${value}%`,
                     }}

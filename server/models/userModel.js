@@ -1,10 +1,12 @@
 const pool = require("../config/db");
 
+
 // =====================================================
 // GET ALL USERS
 // =====================================================
 
 const getUsers = async() => {
+
     const result = await pool.query(`
         SELECT
             u.id,
@@ -30,6 +32,7 @@ const getUsers = async() => {
 // =====================================================
 
 const getUserById = async(id) => {
+
     const result = await pool.query(`
         SELECT
             u.id,
@@ -51,10 +54,35 @@ const getUserById = async(id) => {
 
 
 // =====================================================
+// FIND USER BY EMAIL
+// =====================================================
+
+const findUserByEmail = async(email) => {
+
+    const result = await pool.query(`
+        SELECT
+            id,
+            name,
+            email,
+            password,
+            role,
+            organization_id,
+            status,
+            created_at
+        FROM users
+        WHERE LOWER(email) = LOWER($1)
+    `, [email]);
+
+    return result.rows[0];
+};
+
+
+// =====================================================
 // GET USER STATISTICS
 // =====================================================
 
 const getUserStats = async() => {
+
     const result = await pool.query(`
         SELECT
             COUNT(*)::int AS total_users,
@@ -98,6 +126,7 @@ const createUser = async(
     organizationId = null,
     status = "Active"
 ) => {
+
     const result = await pool.query(`
         INSERT INTO users (
             name,
@@ -141,6 +170,7 @@ const updateUser = async(
     organizationId,
     status
 ) => {
+
     const result = await pool.query(`
         UPDATE users
         SET
@@ -176,6 +206,7 @@ const updateUser = async(
 // =====================================================
 
 const deleteUser = async(id) => {
+
     const result = await pool.query(`
         DELETE FROM users
         WHERE id = $1
@@ -191,6 +222,7 @@ const deleteUser = async(id) => {
 // =====================================================
 
 const updateUserStatus = async(id, status) => {
+
     const result = await pool.query(`
         UPDATE users
         SET status = $1
@@ -214,11 +246,21 @@ const updateUserStatus = async(id, status) => {
 // =====================================================
 
 module.exports = {
+
     getUsers,
+
     getUserById,
+
+    findUserByEmail,
+
     getUserStats,
+
     createUser,
+
     updateUser,
+
     deleteUser,
+
     updateUserStatus
+
 };

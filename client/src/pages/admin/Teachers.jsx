@@ -97,7 +97,7 @@ const Teachers = () => {
     // ============================================================
 
     const filteredTeachers = useMemo(() => {
-        const searchValue = search.toLowerCase();
+        const searchValue = search.toLowerCase().trim();
 
         return teachers.filter((teacher) => {
             const matchesSearch =
@@ -152,51 +152,15 @@ const Teachers = () => {
     // ============================================================
 
     return (
-        <main
-            className="
-                relative
-                min-h-screen
-                overflow-hidden
-                bg-[#161F19]
-                px-4
-                py-6
-                text-[#F3EEDD]
-                sm:px-6
-                lg:px-8
-            "
-        >
+        <main className="relative min-h-screen overflow-hidden bg-slate-50 px-4 py-6 text-slate-700 dark:bg-[#07111f] dark:text-slate-300 sm:px-6 lg:px-8">
 
             {/* =====================================================
-                BACKGROUND GLOW
+                BACKGROUND GLOWS
             ====================================================== */}
 
-            <div
-                className="
-                    pointer-events-none
-                    fixed
-                    -left-40
-                    -top-40
-                    h-125
-                    w-125
-                    rounded-full
-                    bg-[#F2B84B]/5
-                    blur-[130px]
-                "
-            />
+            <div className="pointer-events-none fixed -left-40 -top-40 h-125 w-125 rounded-full bg-blue-500/5 blur-[130px] dark:bg-blue-500/10" />
 
-            <div
-                className="
-                    pointer-events-none
-                    fixed
-                    -right-40
-                    bottom-0
-                    h-125
-                    w-125
-                    rounded-full
-                    bg-[#7C9A82]/[0.07]
-                    blur-[140px]
-                "
-            />
+            <div className="pointer-events-none fixed -right-40 bottom-0 h-125 w-125 rounded-full bg-teal-500/5 blur-[140px] dark:bg-teal-500/8" />
 
             {/* =====================================================
                 CONTENT
@@ -208,56 +172,19 @@ const Teachers = () => {
                     HEADER
                 ================================================== */}
 
-                <div
-                    className="
-                        mb-8
-                        flex
-                        flex-col
-                        gap-5
-                        md:flex-row
-                        md:items-end
-                        md:justify-between
-                    "
-                >
+                <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
 
                     <div>
 
-                        <p
-                            className="
-                                mb-1
-                                font-['JetBrains_Mono']
-                                text-[10px]
-                                font-semibold
-                                uppercase
-                                tracking-[0.2em]
-                                text-[#F2B84B]
-                            "
-                        >
+                        <p className="mb-1 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
                             Administration
                         </p>
 
-                        <h1
-                            className="
-                                font-['Space_Grotesk']
-                                text-3xl
-                                font-bold
-                                tracking-tight
-                                text-[#F3EEDD]
-                                md:text-4xl
-                            "
-                        >
+                        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50 md:text-4xl">
                             Teachers
                         </h1>
 
-                        <p
-                            className="
-                                mt-2
-                                max-w-xl
-                                text-sm
-                                leading-relaxed
-                                text-[#F3EEDD]/50
-                            "
-                        >
+                        <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-500 dark:text-slate-400">
                             Manage teachers, assigned courses and teaching
                             activities across the Shiyora LMS platform.
                         </p>
@@ -270,30 +197,12 @@ const Teachers = () => {
 
                     <div className="flex flex-wrap items-center gap-3">
 
-                        {/* ADD TEACHER BUTTON */}
+                        {/* ADD TEACHER */}
 
                         <button
                             type="button"
                             onClick={handleAddTeacher}
-                            className="
-                                flex
-                                items-center
-                                gap-2
-                                rounded-xl
-                                bg-[#F2B84B]
-                                px-5
-                                py-3
-                                font-['Space_Grotesk']
-                                text-sm
-                                font-semibold
-                                text-[#161F19]
-                                shadow-[0_8px_20px_rgba(242,184,75,0.15)]
-                                transition-all
-                                duration-200
-                                hover:-translate-y-0.5
-                                hover:bg-[#E8AE42]
-                                active:translate-y-0
-                            "
+                            className="inline-flex items-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-md active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:border-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus-visible:outline-blue-400"
                         >
                             <Plus size={18} />
                             Add Teacher
@@ -301,49 +210,20 @@ const Teachers = () => {
 
                         {/* TEACHER COUNT */}
 
-                        <div
-                            className="
-                                flex
-                                w-fit
-                                items-center
-                                gap-3
-                                rounded-xl
-                                border
-                                border-[#F3EEDD]/10
-                                bg-[#1B241E]
-                                px-5
-                                py-3
-                            "
-                        >
+                        <div className="flex w-fit items-center gap-3 rounded-xl border border-slate-200 bg-white px-5 py-3 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
 
                             <Users
                                 size={18}
-                                className="text-[#F2B84B]"
+                                className="text-blue-600 dark:text-blue-400"
                             />
 
                             <div>
 
-                                <p
-                                    className="
-                                        font-['JetBrains_Mono']
-                                        text-[9px]
-                                        uppercase
-                                        tracking-widest
-                                        text-[#F3EEDD]/30
-                                    "
-                                >
+                                <p className="font-mono text-[9px] uppercase tracking-widest text-slate-400 dark:text-slate-500">
                                     Total Teachers
                                 </p>
 
-                                <p
-                                    className="
-                                        mt-1
-                                        font-['JetBrains_Mono']
-                                        text-lg
-                                        font-semibold
-                                        text-[#F2B84B]
-                                    "
-                                >
+                                <p className="mt-1 font-mono text-lg font-semibold text-blue-600 dark:text-blue-400">
                                     {totalTeachers}
                                 </p>
 
@@ -359,74 +239,31 @@ const Teachers = () => {
                     STATISTICS
                 ================================================== */}
 
-                <div
-                    className="
-                        mb-6
-                        grid
-                        grid-cols-1
-                        gap-4
-                        sm:grid-cols-2
-                        xl:grid-cols-4
-                    "
-                >
+                <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
                     {/* TOTAL TEACHERS */}
 
-                    <div
-                        className="
-                            rounded-2xl
-                            border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
-                            p-5
-                            shadow-[0_15px_35px_rgba(0,0,0,0.15)]
-                            transition-all
-                            duration-300
-                            motion-safe:hover:-translate-y-1
-                            hover:border-[#F2B84B]/30
-                        "
-                    >
+                    <div className="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm transition-all duration-300 motion-safe:hover:-translate-y-1 hover:border-blue-200 hover:shadow-md dark:border-blue-500/20 dark:bg-[#0b1727] dark:hover:border-blue-500/30">
 
                         <div className="flex items-center justify-between">
 
                             <div>
 
-                                <p className="text-xs text-[#F3EEDD]/45">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                     Total Teachers
                                 </p>
 
-                                <h2
-                                    className="
-                                        mt-2
-                                        font-['JetBrains_Mono']
-                                        text-2xl
-                                        font-semibold
-                                        text-[#F3EEDD]
-                                    "
-                                >
+                                <h2 className="mt-2 font-mono text-2xl font-semibold text-slate-900 dark:text-slate-50">
                                     {totalTeachers}
                                 </h2>
 
-                                <p className="mt-1 text-[11px] text-[#F3EEDD]/30">
+                                <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-500">
                                     Registered teachers
                                 </p>
 
                             </div>
 
-                            <div
-                                className="
-                                    flex
-                                    h-12
-                                    w-12
-                                    items-center
-                                    justify-center
-                                    rounded-xl
-                                    border
-                                    border-[#F2B84B]/20
-                                    bg-[#F2B84B]/10
-                                    text-[#F2B84B]
-                                "
-                            >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-600 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-400">
                                 <Users size={22} />
                             </div>
 
@@ -436,61 +273,27 @@ const Teachers = () => {
 
                     {/* ACTIVE TEACHERS */}
 
-                    <div
-                        className="
-                            rounded-2xl
-                            border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
-                            p-5
-                            shadow-[0_15px_35px_rgba(0,0,0,0.15)]
-                            transition-all
-                            duration-300
-                            motion-safe:hover:-translate-y-1
-                            hover:border-[#7C9A82]/30
-                        "
-                    >
+                    <div className="rounded-2xl border border-teal-100 bg-white p-5 shadow-sm transition-all duration-300 motion-safe:hover:-translate-y-1 hover:border-teal-200 hover:shadow-md dark:border-teal-500/20 dark:bg-[#0b1727] dark:hover:border-teal-500/30">
 
                         <div className="flex items-center justify-between">
 
                             <div>
 
-                                <p className="text-xs text-[#F3EEDD]/45">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                     Active Teachers
                                 </p>
 
-                                <h2
-                                    className="
-                                        mt-2
-                                        font-['JetBrains_Mono']
-                                        text-2xl
-                                        font-semibold
-                                        text-[#F3EEDD]
-                                    "
-                                >
+                                <h2 className="mt-2 font-mono text-2xl font-semibold text-slate-900 dark:text-slate-50">
                                     {activeTeachers}
                                 </h2>
 
-                                <p className="mt-1 text-[11px] text-[#7C9A82]">
+                                <p className="mt-1 text-[11px] text-teal-600 dark:text-teal-400">
                                     Currently teaching
                                 </p>
 
                             </div>
 
-                            <div
-                                className="
-                                    flex
-                                    h-12
-                                    w-12
-                                    items-center
-                                    justify-center
-                                    rounded-xl
-                                    border
-                                    border-[#7C9A82]/20
-                                    bg-[#7C9A82]/10
-                                    text-[#7C9A82]
-                                "
-                            >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-teal-100 bg-teal-50 text-teal-600 dark:border-teal-500/20 dark:bg-teal-500/10 dark:text-teal-400">
                                 <UserCheck size={22} />
                             </div>
 
@@ -500,61 +303,27 @@ const Teachers = () => {
 
                     {/* INACTIVE TEACHERS */}
 
-                    <div
-                        className="
-                            rounded-2xl
-                            border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
-                            p-5
-                            shadow-[0_15px_35px_rgba(0,0,0,0.15)]
-                            transition-all
-                            duration-300
-                            motion-safe:hover:-translate-y-1
-                            hover:border-[#B96868]/30
-                        "
-                    >
+                    <div className="rounded-2xl border border-red-100 bg-white p-5 shadow-sm transition-all duration-300 motion-safe:hover:-translate-y-1 hover:border-red-200 hover:shadow-md dark:border-red-500/20 dark:bg-[#0b1727] dark:hover:border-red-500/30">
 
                         <div className="flex items-center justify-between">
 
                             <div>
 
-                                <p className="text-xs text-[#F3EEDD]/45">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                     Inactive Teachers
                                 </p>
 
-                                <h2
-                                    className="
-                                        mt-2
-                                        font-['JetBrains_Mono']
-                                        text-2xl
-                                        font-semibold
-                                        text-[#F3EEDD]
-                                    "
-                                >
+                                <h2 className="mt-2 font-mono text-2xl font-semibold text-slate-900 dark:text-slate-50">
                                     {inactiveTeachers}
                                 </h2>
 
-                                <p className="mt-1 text-[11px] text-[#B96868]">
+                                <p className="mt-1 text-[11px] text-red-600 dark:text-red-400">
                                     Currently inactive
                                 </p>
 
                             </div>
 
-                            <div
-                                className="
-                                    flex
-                                    h-12
-                                    w-12
-                                    items-center
-                                    justify-center
-                                    rounded-xl
-                                    border
-                                    border-[#B96868]/20
-                                    bg-[#B96868]/10
-                                    text-[#B96868]
-                                "
-                            >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-red-100 bg-red-50 text-red-600 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-400">
                                 <UserX size={22} />
                             </div>
 
@@ -564,61 +333,27 @@ const Teachers = () => {
 
                     {/* TOTAL COURSES */}
 
-                    <div
-                        className="
-                            rounded-2xl
-                            border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
-                            p-5
-                            shadow-[0_15px_35px_rgba(0,0,0,0.15)]
-                            transition-all
-                            duration-300
-                            motion-safe:hover:-translate-y-1
-                            hover:border-[#F2B84B]/30
-                        "
-                    >
+                    <div className="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm transition-all duration-300 motion-safe:hover:-translate-y-1 hover:border-blue-200 hover:shadow-md dark:border-blue-500/20 dark:bg-[#0b1727] dark:hover:border-blue-500/30">
 
                         <div className="flex items-center justify-between">
 
                             <div>
 
-                                <p className="text-xs text-[#F3EEDD]/45">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                     Assigned Courses
                                 </p>
 
-                                <h2
-                                    className="
-                                        mt-2
-                                        font-['JetBrains_Mono']
-                                        text-2xl
-                                        font-semibold
-                                        text-[#F3EEDD]
-                                    "
-                                >
+                                <h2 className="mt-2 font-mono text-2xl font-semibold text-slate-900 dark:text-slate-50">
                                     {totalCourses}
                                 </h2>
 
-                                <p className="mt-1 text-[11px] text-[#F3EEDD]/30">
+                                <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-500">
                                     Across all teachers
                                 </p>
 
                             </div>
 
-                            <div
-                                className="
-                                    flex
-                                    h-12
-                                    w-12
-                                    items-center
-                                    justify-center
-                                    rounded-xl
-                                    border
-                                    border-[#F2B84B]/20
-                                    bg-[#F2B84B]/10
-                                    text-[#F2B84B]
-                                "
-                            >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-600 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-400">
                                 <BookOpen size={22} />
                             </div>
 
@@ -632,23 +367,7 @@ const Teachers = () => {
                     SEARCH + FILTER
                 ================================================== */}
 
-                <div
-                    className="
-                        mb-6
-                        flex
-                        flex-col
-                        gap-4
-                        rounded-2xl
-                        border
-                        border-[#F3EEDD]/10
-                        bg-[#1B241E]
-                        p-4
-                        shadow-[0_15px_35px_rgba(0,0,0,0.15)]
-                        md:flex-row
-                        md:items-center
-                        md:justify-between
-                    "
-                >
+                <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] md:flex-row md:items-center md:justify-between">
 
                     {/* SEARCH */}
 
@@ -656,13 +375,7 @@ const Teachers = () => {
 
                         <Search
                             size={19}
-                            className="
-                                absolute
-                                left-3
-                                top-1/2
-                                -translate-y-1/2
-                                text-[#F3EEDD]/30
-                            "
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
                         />
 
                         <input
@@ -670,24 +383,7 @@ const Teachers = () => {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search teachers..."
-                            className="
-                                w-full
-                                rounded-xl
-                                border
-                                border-[#F3EEDD]/10
-                                bg-[#141C17]
-                                py-3
-                                pl-10
-                                pr-4
-                                text-sm
-                                text-[#F3EEDD]
-                                outline-none
-                                placeholder:text-[#F3EEDD]/25
-                                transition
-                                focus:border-[#F2B84B]/40
-                                focus:ring-2
-                                focus:ring-[#F2B84B]/10
-                            "
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm text-slate-700 outline-none placeholder:text-slate-400 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-blue-400"
                         />
 
                     </div>
@@ -696,56 +392,33 @@ const Teachers = () => {
 
                     <div className="flex items-center gap-3">
 
-                        <span
-                            className="
-                                font-['JetBrains_Mono']
-                                text-[9px]
-                                uppercase
-                                tracking-wider
-                                text-[#F3EEDD]/30
-                            "
-                        >
+                        <span className="font-mono text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
                             Status
                         </span>
 
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="
-                                rounded-xl
-                                border
-                                border-[#F3EEDD]/10
-                                bg-[#141C17]
-                                px-4
-                                py-3
-                                text-sm
-                                font-medium
-                                text-[#F3EEDD]/70
-                                outline-none
-                                transition
-                                focus:border-[#F2B84B]/40
-                                focus:ring-2
-                                focus:ring-[#F2B84B]/10
-                            "
+                            className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:focus:border-blue-400"
                         >
 
                             <option
                                 value="All"
-                                className="bg-[#1B241E]"
+                                className="bg-white dark:bg-[#102337]"
                             >
                                 All Teachers
                             </option>
 
                             <option
                                 value="Active"
-                                className="bg-[#1B241E]"
+                                className="bg-white dark:bg-[#102337]"
                             >
                                 Active
                             </option>
 
                             <option
                                 value="Inactive"
-                                className="bg-[#1B241E]"
+                                className="bg-white dark:bg-[#102337]"
                             >
                                 Inactive
                             </option>
@@ -760,75 +433,29 @@ const Teachers = () => {
                     TEACHER TABLE
                 ================================================== */}
 
-                <section
-                    className="
-                        overflow-hidden
-                        rounded-2xl
-                        border
-                        border-[#F3EEDD]/10
-                        bg-[#F8F5EF]
-                        shadow-[0_20px_50px_rgba(0,0,0,0.18)]
-                    "
-                >
+                <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
 
                     {/* SECTION HEADER */}
 
-                    <div
-                        className="
-                            flex
-                            flex-col
-                            gap-3
-                            border-b
-                            border-[#E7DED5]
-                            bg-[#FBF9F5]
-                            p-6
-                            sm:flex-row
-                            sm:items-center
-                            sm:justify-between
-                        "
-                    >
+                    <div className="flex flex-col gap-3 border-b border-slate-200 bg-white p-6 dark:border-[#1e334a] dark:bg-[#0b1727] sm:flex-row sm:items-center sm:justify-between">
 
                         <div>
 
                             <div className="flex items-center gap-2">
 
-                                <span
-                                    className="
-                                        h-2
-                                        w-2
-                                        rounded-full
-                                        bg-[#F2B84B]
-                                    "
-                                />
+                                <span className="h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-400" />
 
-                                <p
-                                    className="
-                                        font-['JetBrains_Mono']
-                                        text-[10px]
-                                        font-semibold
-                                        uppercase
-                                        tracking-[0.18em]
-                                        text-[#8C7134]
-                                    "
-                                >
+                                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">
                                     Teachers
                                 </p>
 
                             </div>
 
-                            <h2
-                                className="
-                                    mt-1
-                                    font-['Space_Grotesk']
-                                    text-xl
-                                    font-semibold
-                                    text-[#303B32]
-                                "
-                            >
+                            <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-slate-50">
                                 All Teachers
                             </h2>
 
-                            <p className="mt-1 text-xs text-[#7C817B]">
+                            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 Teachers working on the Shiyora LMS platform.
                             </p>
 
@@ -836,32 +463,14 @@ const Teachers = () => {
 
                         {/* RESULTS */}
 
-                        <div
-                            className="
-                                flex
-                                w-fit
-                                items-center
-                                gap-2
-                                rounded-lg
-                                bg-[#F0EBE3]
-                                px-3
-                                py-2
-                            "
-                        >
+                        <div className="flex w-fit items-center gap-2 rounded-lg bg-teal-50 px-3 py-2 dark:bg-teal-500/10">
 
                             <TrendingUp
                                 size={14}
-                                className="text-[#7C9A82]"
+                                className="text-teal-600 dark:text-teal-400"
                             />
 
-                            <span
-                                className="
-                                    font-['JetBrains_Mono']
-                                    text-[10px]
-                                    font-semibold
-                                    text-[#63816A]
-                                "
-                            >
+                            <span className="font-mono text-[10px] font-semibold text-teal-700 dark:text-teal-300">
                                 {filteredTeachers.length} RESULTS
                             </span>
 
@@ -875,39 +484,39 @@ const Teachers = () => {
 
                         <table className="w-full min-w-287.5">
 
-                            <thead className="bg-[#F1ECE5]">
+                            <thead className="bg-slate-50 dark:bg-[#102337]">
 
                                 <tr>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#817B74]">
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Teacher
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#817B74]">
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Specialization
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#817B74]">
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Courses
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#817B74]">
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Students
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#817B74]">
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Experience
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#817B74]">
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Joined
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#817B817B74]">
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Status
                                     </th>
 
-                                    <th className="px-6 py-4 text-right text-[10px] font-semibold uppercase tracking-wider text-[#817B74]">
+                                    <th className="px-6 py-4 text-right font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Action
                                     </th>
 
@@ -915,16 +524,13 @@ const Teachers = () => {
 
                             </thead>
 
-                            <tbody className="divide-y divide-[#E7DED5]">
+                            <tbody className="divide-y divide-slate-200 dark:divide-[#1e334a]">
 
                                 {filteredTeachers.map((teacher) => (
 
                                     <tr
                                         key={teacher.id}
-                                        className="
-                                            transition-colors
-                                            hover:bg-[#FFFDF9]
-                                        "
+                                        className="transition-colors hover:bg-slate-50 dark:hover:bg-[#102337]/70"
                                     >
 
                                         {/* TEACHER */}
@@ -933,40 +539,17 @@ const Teachers = () => {
 
                                             <div className="flex items-center gap-3">
 
-                                                <div
-                                                    className="
-                                                        flex
-                                                        h-11
-                                                        w-11
-                                                        shrink-0
-                                                        items-center
-                                                        justify-center
-                                                        rounded-xl
-                                                        border
-                                                        border-[#F2B84B]/30
-                                                        bg-[#F7E6B9]
-                                                        font-['Space_Grotesk']
-                                                        font-bold
-                                                        text-[#6E5926]
-                                                    "
-                                                >
+                                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 font-bold text-blue-700 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-400">
                                                     {teacher.name.charAt(0)}
                                                 </div>
 
                                                 <div>
 
-                                                    <p
-                                                        className="
-                                                            font-['Space_Grotesk']
-                                                            text-sm
-                                                            font-semibold
-                                                            text-[#303B32]
-                                                        "
-                                                    >
+                                                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                                                         {teacher.name}
                                                     </p>
 
-                                                    <p className="mt-1 text-xs text-[#8A8E89]">
+                                                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                                         {teacher.email}
                                                     </p>
 
@@ -984,17 +567,10 @@ const Teachers = () => {
 
                                                 <GraduationCap
                                                     size={17}
-                                                    className="shrink-0 text-[#7C9A82]"
+                                                    className="shrink-0 text-teal-600 dark:text-teal-400"
                                                 />
 
-                                                <p
-                                                    className="
-                                                        max-w-55
-                                                        text-sm
-                                                        font-medium
-                                                        text-[#536058]
-                                                    "
-                                                >
+                                                <p className="max-w-55 text-sm font-medium text-slate-600 dark:text-slate-300">
                                                     {teacher.specialization}
                                                 </p>
 
@@ -1010,17 +586,10 @@ const Teachers = () => {
 
                                                 <BookOpen
                                                     size={16}
-                                                    className="text-[#8C7134]"
+                                                    className="text-blue-600 dark:text-blue-400"
                                                 />
 
-                                                <span
-                                                    className="
-                                                        font-['JetBrains_Mono']
-                                                        text-xs
-                                                        font-semibold
-                                                        text-[#536058]
-                                                    "
-                                                >
+                                                <span className="font-mono text-xs font-semibold text-slate-600 dark:text-slate-300">
                                                     {teacher.courses}
                                                 </span>
 
@@ -1036,17 +605,10 @@ const Teachers = () => {
 
                                                 <Users
                                                     size={16}
-                                                    className="text-[#7C9A82]"
+                                                    className="text-teal-600 dark:text-teal-400"
                                                 />
 
-                                                <span
-                                                    className="
-                                                        font-['JetBrains_Mono']
-                                                        text-xs
-                                                        font-semibold
-                                                        text-[#536058]
-                                                    "
-                                                >
+                                                <span className="font-mono text-xs font-semibold text-slate-600 dark:text-slate-300">
                                                     {teacher.students}
                                                 </span>
 
@@ -1058,13 +620,7 @@ const Teachers = () => {
 
                                         <td className="px-6 py-5">
 
-                                            <span
-                                                className="
-                                                    font-['JetBrains_Mono']
-                                                    text-xs
-                                                    text-[#536058]
-                                                "
-                                            >
+                                            <span className="font-mono text-xs text-slate-600 dark:text-slate-300">
                                                 {teacher.experience}
                                             </span>
 
@@ -1074,13 +630,7 @@ const Teachers = () => {
 
                                         <td className="px-6 py-5">
 
-                                            <span
-                                                className="
-                                                    font-['JetBrains_Mono']
-                                                    text-xs
-                                                    text-[#536058]
-                                                "
-                                            >
+                                            <span className="font-mono text-xs text-slate-600 dark:text-slate-300">
                                                 {teacher.joinedDate}
                                             </span>
 
@@ -1100,11 +650,10 @@ const Teachers = () => {
                                                     py-1
                                                     text-xs
                                                     font-semibold
-
                                                     ${teacher.status ===
                                                         "Active"
-                                                        ? "bg-[#EDF6EF] text-[#64856C]"
-                                                        : "bg-[#FFF5DD] text-[#A27E35]"
+                                                        ? "bg-teal-50 text-teal-700 dark:bg-teal-500/10 dark:text-teal-300"
+                                                        : "bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300"
                                                     }
                                                 `}
                                             >
@@ -1114,11 +663,10 @@ const Teachers = () => {
                                                         h-1.5
                                                         w-1.5
                                                         rounded-full
-
                                                         ${teacher.status ===
                                                             "Active"
-                                                            ? "bg-[#7C9A82]"
-                                                            : "bg-[#D0A052]"
+                                                            ? "bg-teal-500 dark:bg-teal-400"
+                                                            : "bg-amber-500 dark:bg-amber-400"
                                                         }
                                                     `}
                                                 />
@@ -1142,14 +690,7 @@ const Teachers = () => {
                                                             : teacher.id
                                                     )
                                                 }
-                                                className="
-                                                    rounded-lg
-                                                    p-2
-                                                    text-[#8A8E89]
-                                                    transition
-                                                    hover:bg-[#F3EEDD]
-                                                    hover:text-[#303B32]
-                                                "
+                                                className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-200 dark:focus-visible:outline-teal-400"
                                             >
                                                 <MoreVertical size={18} />
                                             </button>
@@ -1158,85 +699,42 @@ const Teachers = () => {
 
                                             {openMenu === teacher.id && (
 
-                                                <div
-                                                    className="
-                                                        absolute
-                                                        right-6
-                                                        top-14
-                                                        z-30
-                                                        w-36
-                                                        overflow-hidden
-                                                        rounded-xl
-                                                        border
-                                                        border-[#E4DED4]
-                                                        bg-white
-                                                        py-1
-                                                        text-left
-                                                        shadow-[0_15px_35px_rgba(22,31,25,0.15)]
-                                                    "
-                                                >
+                                                <div className="absolute right-6 top-14 z-30 w-36 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 text-left shadow-lg dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                                                    {/* VIEW */}
 
                                                     <button
                                                         type="button"
                                                         onClick={() =>
                                                             setOpenMenu(null)
                                                         }
-                                                        className="
-                                                            flex
-                                                            w-full
-                                                            items-center
-                                                            gap-2
-                                                            px-4
-                                                            py-2.5
-                                                            text-sm
-                                                            text-[#536058]
-                                                            transition
-                                                            hover:bg-[#FFF9E9]
-                                                        "
+                                                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400"
                                                     >
                                                         <Eye size={15} />
                                                         View
                                                     </button>
 
-                                                    <button
-                                                        type="button"
-                                                        onClick={() =>
-                                                            setOpenMenu(null)
-                                                        }
-                                                        className="
-                                                            flex
-                                                            w-full
-                                                            items-center
-                                                            gap-2
-                                                            px-4
-                                                            py-2.5
-                                                            text-sm
-                                                            text-[#536058]
-                                                            transition
-                                                            hover:bg-[#FFF9E9]
-                                                        "
-                                                    >
-                                                        <Pencil size={15} />
-                                                        Edit
-                                                    </button>
+                                                    {/* EDIT */}
 
                                                     <button
                                                         type="button"
                                                         onClick={() =>
                                                             setOpenMenu(null)
                                                         }
-                                                        className="
-                                                            flex
-                                                            w-full
-                                                            items-center
-                                                            gap-2
-                                                            px-4
-                                                            py-2.5
-                                                            text-sm
-                                                            text-[#B96868]
-                                                            transition
-                                                            hover:bg-[#FFF3F3]
-                                                        "
+                                                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400"
+                                                    >
+                                                        <Pencil size={15} />
+                                                        Edit
+                                                    </button>
+
+                                                    {/* DELETE */}
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            setOpenMenu(null)
+                                                        }
+                                                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
                                                     >
                                                         <Trash2 size={15} />
                                                         Delete
@@ -1262,35 +760,17 @@ const Teachers = () => {
 
                     {filteredTeachers.length === 0 && (
 
-                        <div className="px-6 py-14 text-center">
+                        <div className="border-t border-slate-200 px-6 py-14 text-center dark:border-[#1e334a]">
 
-                            <div
-                                className="
-                                    mx-auto
-                                    flex
-                                    h-14
-                                    w-14
-                                    items-center
-                                    justify-center
-                                    rounded-2xl
-                                    bg-[#FFF5DD]
-                                    text-[#A27E35]
-                                "
-                            >
+                            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
                                 <Users size={26} />
                             </div>
 
-                            <h3
-                                className="
-                                    mt-4
-                                    font-semibold
-                                    text-[#303B32]
-                                "
-                            >
+                            <h3 className="mt-4 font-semibold text-slate-900 dark:text-slate-50">
                                 No teachers found
                             </h3>
 
-                            <p className="mt-1 text-sm text-[#8A8E89]">
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                 Try changing your search or status filter.
                             </p>
 
@@ -1304,29 +784,13 @@ const Teachers = () => {
                     FOOTER NOTE
                 ================================================== */}
 
-                <div className="mt-5 flex items-center justify-between">
+                <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-                    <p
-                        className="
-                            font-['JetBrains_Mono']
-                            text-[9px]
-                            uppercase
-                            tracking-wider
-                            text-[#F3EEDD]/25
-                        "
-                    >
+                    <p className="font-mono text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-600">
                         Shiyora Administration
                     </p>
 
-                    <p
-                        className="
-                            font-['JetBrains_Mono']
-                            text-[9px]
-                            uppercase
-                            tracking-wider
-                            text-[#F3EEDD]/25
-                        "
-                    >
+                    <p className="font-mono text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-600">
                         Teacher Management
                     </p>
 

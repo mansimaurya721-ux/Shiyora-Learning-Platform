@@ -9,13 +9,6 @@ import {
     ChevronUp,
 } from "lucide-react";
 
-// ============================================================
-// FONT IMPORTS
-// ============================================================
-
-const FONT_IMPORTS =
-    "@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');";
-
 const Support = () => {
     const [search, setSearch] = useState("");
     const [openFaq, setOpenFaq] = useState(null);
@@ -57,15 +50,15 @@ const Support = () => {
     };
 
     return (
-        <div className="relative min-h-screen overflow-hidden bg-[#161F19] px-4 py-6 text-[#F3EEDD] sm:px-6 lg:px-8">
-            <style>{FONT_IMPORTS}</style>
+        <div className="relative min-h-screen overflow-hidden bg-slate-50 px-4 py-6 text-slate-700 dark:bg-[#07111f] dark:text-slate-300 sm:px-6 lg:px-8">
 
             {/* =====================================================
                 BACKGROUND GLOW
             ===================================================== */}
 
-            <div className="pointer-events-none fixed -left-40 -top-40 h-125 w-125 rounded-full bg-[#F2B84B]/5 blur-[130px]" />
-            <div className="pointer-events-none fixed -right-40 bottom-0 h-125 w-125 rounded-full bg-[#7C9A82]/[0.07] blur-[140px]" />
+            <div className="pointer-events-none fixed -left-40 -top-40 h-125 w-125 rounded-full bg-blue-500/5 blur-[130px] dark:bg-blue-500/10" />
+
+            <div className="pointer-events-none fixed -right-40 bottom-0 h-125 w-125 rounded-full bg-teal-500/5 blur-[140px] dark:bg-teal-500/8" />
 
             <div className="relative z-10 mx-auto max-w-7xl">
 
@@ -75,18 +68,21 @@ const Support = () => {
 
                 <div className="mb-8">
                     <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#F2B84B]/20 bg-[#F2B84B]/10 text-[#F2B84B]">
+
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
                             <LifeBuoy size={24} />
                         </div>
 
                         <div>
-                            <p className="font-['JetBrains_Mono'] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F2B84B]">
+                            <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
                                 Administration
                             </p>
-                            <h1 className="font-['Space_Grotesk'] text-2xl font-bold tracking-tight text-[#F3EEDD] sm:text-3xl">
+
+                            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
                                 Help &amp; Support
                             </h1>
-                            <p className="mt-1 text-sm text-[#F3EEDD]/50">
+
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                 Find answers and get help with your Shiyora LMS.
                             </p>
                         </div>
@@ -101,23 +97,24 @@ const Support = () => {
 
                     {/* Documentation */}
 
-                    <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-6 shadow-[0_15px_35px_rgba(0,0,0,0.15)] transition-all duration-300 motion-safe:hover:-translate-y-1 hover:border-[#F2B84B]/30">
-                        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-[#F2B84B]/20 bg-[#F2B84B]/10 text-[#F2B84B]">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lg dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
                             <BookOpen size={21} />
                         </div>
 
-                        <h2 className="font-['Space_Grotesk'] text-lg font-semibold text-[#F3EEDD]">
+                        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                             Documentation
                         </h2>
 
-                        <p className="mt-2 text-sm leading-6 text-[#F3EEDD]/50">
+                        <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                             Learn how to use the different features of your
                             organization dashboard.
                         </p>
 
                         <button
                             type="button"
-                            className="mt-4 text-sm font-semibold text-[#F2B84B] transition hover:text-[#F7C968] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B]"
+                            className="mt-4 text-sm font-semibold text-blue-600 transition hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:text-blue-400 dark:hover:text-blue-300 dark:focus-visible:outline-blue-400"
                         >
                             View Guides →
                         </button>
@@ -125,23 +122,24 @@ const Support = () => {
 
                     {/* Support Center */}
 
-                    <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-6 shadow-[0_15px_35px_rgba(0,0,0,0.15)] transition-all duration-300 motion-safe:hover:-translate-y-1 hover:border-[#7C9A82]/30">
-                        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-[#7C9A82]/25 bg-[#7C9A82]/10 text-[#7C9A82]">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lg dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-teal-200 bg-teal-50 text-teal-600 dark:border-teal-400/20 dark:bg-teal-500/10 dark:text-teal-400">
                             <MessageCircle size={21} />
                         </div>
 
-                        <h2 className="font-['Space_Grotesk'] text-lg font-semibold text-[#F3EEDD]">
+                        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                             Support Center
                         </h2>
 
-                        <p className="mt-2 text-sm leading-6 text-[#F3EEDD]/50">
+                        <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                             Get assistance with account, course, student,
                             and teacher management.
                         </p>
 
                         <button
                             type="button"
-                            className="mt-4 text-sm font-semibold text-[#7C9A82] transition hover:text-[#9BB89F] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7C9A82]"
+                            className="mt-4 text-sm font-semibold text-teal-600 transition hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 dark:text-teal-400 dark:hover:text-teal-300 dark:focus-visible:outline-teal-400"
                         >
                             Get Support →
                         </button>
@@ -149,23 +147,24 @@ const Support = () => {
 
                     {/* Contact Support */}
 
-                    <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-6 shadow-[0_15px_35px_rgba(0,0,0,0.15)] transition-all duration-300 motion-safe:hover:-translate-y-1 hover:border-[#D6402C]/30">
-                        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-[#D6402C]/20 bg-[#D6402C]/10 text-[#D6402C]">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lg dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
                             <Mail size={21} />
                         </div>
 
-                        <h2 className="font-['Space_Grotesk'] text-lg font-semibold text-[#F3EEDD]">
+                        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                             Contact Support
                         </h2>
 
-                        <p className="mt-2 text-sm leading-6 text-[#F3EEDD]/50">
+                        <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                             Need direct assistance? Contact the Shiyora
                             support team.
                         </p>
 
                         <button
                             type="button"
-                            className="mt-4 text-sm font-semibold text-[#D6402C] transition hover:text-[#e06148] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D6402C]"
+                            className="mt-4 text-sm font-semibold text-blue-600 transition hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:text-blue-400 dark:hover:text-blue-300 dark:focus-visible:outline-blue-400"
                         >
                             Contact Us →
                         </button>
@@ -173,32 +172,39 @@ const Support = () => {
                 </div>
 
                 {/* =====================================================
-                    FAQ SECTION — styled as a paper index card
+                    FAQ SECTION
                 ===================================================== */}
 
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#F8F5EF] p-5 shadow-[0_20px_50px_rgba(0,0,0,0.18)] sm:p-7">
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7 dark:border-[#1e334a] dark:bg-[#0b1727]">
 
-                    <div className="mb-6 flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-[#F2B84B]" />
+                    {/* FAQ HEADER */}
+
+                    <div className="mb-6 flex items-center gap-3">
+
+                        <span className="h-2 w-2 shrink-0 rounded-full bg-blue-600 dark:bg-blue-400" />
+
                         <div>
-                            <p className="font-['JetBrains_Mono'] text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8C7134]">
+                            <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">
                                 FAQ
                             </p>
-                            <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-semibold text-[#303B32]">
+
+                            <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-white">
                                 Frequently Asked Questions
                             </h2>
-                            <p className="mt-1 text-sm text-[#7C817B]">
+
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                 Find quick answers to common questions.
                             </p>
                         </div>
                     </div>
 
-                    {/* Search */}
+                    {/* SEARCH */}
 
                     <div className="relative mb-6">
+
                         <Search
                             size={19}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8A8E89]"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
                         />
 
                         <input
@@ -206,38 +212,47 @@ const Support = () => {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search questions..."
-                            className="w-full rounded-xl border border-[#E4DED4] bg-white py-3 pl-11 pr-4 text-sm text-[#303B32] outline-none transition placeholder:text-[#8A8E89] focus:border-[#F2B84B]/50 focus:ring-2 focus:ring-[#F2B84B]/15"
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-blue-400 dark:focus:ring-blue-400/15"
                         />
                     </div>
 
                     {/* FAQ LIST */}
 
                     <div className="space-y-3">
+
                         {filteredFaqs.length > 0 ? (
                             filteredFaqs.map((faq, index) => (
                                 <div
                                     key={faq.question}
-                                    className="overflow-hidden rounded-xl border border-[#E4DED4]"
+                                    className="overflow-hidden rounded-xl border border-slate-200 dark:border-[#1e334a]"
                                 >
+
                                     <button
                                         type="button"
                                         onClick={() => toggleFaq(index)}
-                                        className="flex w-full items-center justify-between gap-4 bg-white px-4 py-4 text-left transition hover:bg-[#FFF9E9] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#F2B84B]"
+                                        className="flex w-full items-center justify-between gap-4 bg-white px-4 py-4 text-left transition hover:bg-slate-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-600 dark:bg-[#0b1727] dark:hover:bg-[#102337] dark:focus-visible:outline-blue-400"
                                     >
-                                        <span className="text-sm font-semibold text-[#303B32]">
+
+                                        <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                                             {faq.question}
                                         </span>
 
                                         {openFaq === index ? (
-                                            <ChevronUp size={18} className="shrink-0 text-[#F2B84B]" />
+                                            <ChevronUp
+                                                size={18}
+                                                className="shrink-0 text-blue-600 dark:text-blue-400"
+                                            />
                                         ) : (
-                                            <ChevronDown size={18} className="shrink-0 text-[#8A8E89]" />
+                                            <ChevronDown
+                                                size={18}
+                                                className="shrink-0 text-slate-400 dark:text-slate-500"
+                                            />
                                         )}
                                     </button>
 
                                     {openFaq === index && (
-                                        <div className="border-t border-[#E4DED4] bg-[#FBF9F5] px-4 py-4">
-                                            <p className="text-sm leading-6 text-[#536058]">
+                                        <div className="border-t border-slate-200 bg-slate-50 px-4 py-4 dark:border-[#1e334a] dark:bg-[#102337]">
+                                            <p className="text-sm leading-6 text-slate-600 dark:text-slate-400">
                                                 {faq.answer}
                                             </p>
                                         </div>
@@ -245,13 +260,15 @@ const Support = () => {
                                 </div>
                             ))
                         ) : (
-                            <div className="rounded-xl bg-[#F1ECE5] px-5 py-8 text-center">
-                                <p className="text-sm text-[#7C817B]">No questions found.</p>
+                            <div className="rounded-xl border border-slate-200 bg-slate-50 px-5 py-8 text-center dark:border-[#1e334a] dark:bg-[#102337]">
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
+                                    No questions found.
+                                </p>
                             </div>
                         )}
+
                     </div>
                 </div>
-
             </div>
         </div>
     );

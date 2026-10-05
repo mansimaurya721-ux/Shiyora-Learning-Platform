@@ -1,73 +1,113 @@
 /* =========================================================
-   SHIYORA — GLOBAL APP STYLES
+   SHIYORA — APP STYLES
+   Blue + Teal SaaS / LMS + Glassmorphism
    ========================================================= */
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    ROOT
---------------------------------------------------------- */
+   ========================================================= */
 
 #root {
     min-height: 100vh;
+    width: 100%;
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    BODY
---------------------------------------------------------- */
+   ========================================================= */
 
 html {
-    scroll-behavior: smooth;
+    min-width: 320px;
+    background: #f8fafc;
 }
 
 body {
     margin: 0;
     min-width: 320px;
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    transition: background-color 0.4s ease, color 0.4s ease;
+    background: #f8fafc;
+    color: #334155;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+html.dark,
+html.dark body {
+    background: #07111f;
+    color: #cbd5e1;
+}
+
+
+/* =========================================================
    SELECTION
---------------------------------------------------------- */
+   ========================================================= */
 
 ::selection {
-    background: rgba(124, 58, 237, 0.3);
-    color: inherit;
+    background: rgba(37, 99, 235, 0.18);
+    color: #0f172a;
+}
+
+html.dark ::selection {
+    background: rgba(45, 212, 191, 0.18);
+    color: #f8fafc;
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    SCROLLBAR
---------------------------------------------------------- */
+   ========================================================= */
 
 ::-webkit-scrollbar {
-    width: 9px;
+    width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f8f9fc;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient( to bottom, #7c3aed, #06b6d4);
+    background: #cbd5e1;
     border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient( to bottom, #6d28d9, #0891b2);
+    background: #94a3b8;
 }
 
 
 /* DARK SCROLLBAR */
 
-.dark ::-webkit-scrollbar-track {
-    background: #080b14;
+html.dark ::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-.dark ::-webkit-scrollbar-thumb {
-    background: linear-gradient( to bottom, #8b5cf6, #22d3ee);
+html.dark ::-webkit-scrollbar-thumb {
+    background: #334155;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+    background: #2dd4bf;
+}
+
+
+/* Firefox */
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+html.dark {
+    scrollbar-color: #334155 transparent;
 }
 
 
@@ -98,9 +138,9 @@ body {
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    INTRO FADE OUT
---------------------------------------------------------- */
+   ========================================================= */
 
 .animate-fade-out {
     animation: shiyoraFadeOut 0.6s ease forwards;
@@ -142,28 +182,28 @@ body {
 
 
 /* =========================================================
-   SHIYORA GLOW ANIMATION
+   SHIYORA GLOW
    ========================================================= */
 
 @keyframes shiyoraGlow {
     0%,
     100% {
-        opacity: 0.45;
+        opacity: 0.40;
         transform: scale(1);
     }
     50% {
-        opacity: 0.7;
+        opacity: 0.65;
         transform: scale(1.08);
     }
 }
 
 
 /* =========================================================
-   GRADIENT TEXT ANIMATION
+   GRADIENT TEXT
    ========================================================= */
 
 .shiyora-gradient-text {
-    background: linear-gradient( 90deg, #7c3aed, #a855f7, #06b6d4);
+    background: linear-gradient( 90deg, #2563eb, #0d9488, #2563eb);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -201,6 +241,84 @@ body {
 
 
 /* =========================================================
+   GLASSMORPHISM
+   ========================================================= */
+
+.shiyora-glass {
+    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 20px 55px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+
+/* DARK GLASS */
+
+html.dark .shiyora-glass {
+    background: rgba(11, 23, 39, 0.60);
+    border-color: rgba(148, 163, 184, 0.15);
+    box-shadow: 0 24px 65px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+
+/* =========================================================
+   STRONG GLASS
+   ========================================================= */
+
+.shiyora-glass-strong {
+    background: rgba(255, 255, 255, 0.64);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+html.dark .shiyora-glass-strong {
+    background: rgba(11, 23, 39, 0.68);
+    border-color: rgba(148, 163, 184, 0.16);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+
+/* =========================================================
+   GLASS HOVER
+   ========================================================= */
+
+.shiyora-glass-hover {
+    transition: transform 0.35s cubic-bezier(.22, 1, .36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.shiyora-glass-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+html.dark .shiyora-glass-hover:hover {
+    box-shadow: 0 28px 75px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+
+/* =========================================================
+   GLASS PANEL
+   ========================================================= */
+
+.shiyora-glass-panel {
+    background: linear-gradient( 135deg, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.38));
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.80);
+}
+
+html.dark .shiyora-glass-panel {
+    background: linear-gradient( 135deg, rgba(15, 35, 55, 0.66), rgba(7, 17, 31, 0.54));
+    border-color: rgba(148, 163, 184, 0.14);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+
+/* =========================================================
    CARD HOVER
    ========================================================= */
 
@@ -210,21 +328,16 @@ body {
 
 .shiyora-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 50px rgba(124, 58, 237, 0.08);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+html.dark .shiyora-card:hover {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
 }
 
 
 /* =========================================================
-   DARK CARD
-   ========================================================= */
-
-.dark .shiyora-card:hover {
-    box-shadow: 0 20px 60px rgba(124, 58, 237, 0.12);
-}
-
-
-/* =========================================================
-   BUTTON PRESS EFFECT
+   BUTTON / LINK TAP
    ========================================================= */
 
 button,
@@ -243,14 +356,25 @@ a:active {
    ========================================================= */
 
 button:focus-visible,
-a:focus-visible {
-    outline: 2px solid #06b6d4;
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid #2563eb;
     outline-offset: 3px;
+}
+
+html.dark button:focus-visible,
+html.dark a:focus-visible,
+html.dark input:focus-visible,
+html.dark textarea:focus-visible,
+html.dark select:focus-visible {
+    outline-color: #2dd4bf;
 }
 
 
 /* =========================================================
-   RESPONSIVE TEXT
+   MOBILE CENTER
    ========================================================= */
 
 @media (max-width: 768px) {
@@ -272,6 +396,17 @@ a:focus-visible {
 
 
 /* =========================================================
+   MOBILE OVERFLOW
+   ========================================================= */
+
+@media (max-width: 640px) {
+    body {
+        overflow-x: hidden;
+    }
+}
+
+
+/* =========================================================
    REDUCED MOTION
    ========================================================= */
 
@@ -282,28 +417,16 @@ a:focus-visible {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
     }
 }
 
 
 /* =========================================================
-   DARK MODE BODY
-   ========================================================= */
-
-html.dark,
-html.dark body {
-    background: #080b14;
-    color: #f8fafc;
-}
-
-
-/* =========================================================
-   SMOOTH THEME TRANSITION
+   THEME TRANSITION
    ========================================================= */
 
 html,
 body,
 #root {
-    transition: background-color 0.4s ease, color 0.4s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }

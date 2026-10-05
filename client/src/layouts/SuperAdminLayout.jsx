@@ -5,7 +5,68 @@ import { Menu } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 
 function SuperAdminLayout() {
+    // =========================================================
+    // SIDEBAR STATE
+    // =========================================================
+
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const [sidebarWidth, setSidebarWidth] = useState(() => {
+        const savedWidth = Number(
+            localStorage.getItem("shiyora-sidebar-width")
+        );
+
+        return savedWidth >= 220 && savedWidth <= 360
+            ? savedWidth
+            : 260;
+    });
+
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+        return localStorage.getItem("shiyora-sidebar-collapsed") === "true";
+    });
+
+    // =========================================================
+    // SIDEBAR WIDTH
+    // =========================================================
+
+    const handleSidebarResize = (newWidth) => {
+        const width = Math.min(
+            Math.max(newWidth, 220),
+            360
+        );
+
+        setSidebarWidth(width);
+
+        localStorage.setItem(
+            "shiyora-sidebar-width",
+            String(width)
+        );
+    };
+
+    // =========================================================
+    // SIDEBAR COLLAPSE
+    // =========================================================
+
+    const handleSidebarCollapse = () => {
+        setSidebarCollapsed((previous) => {
+            const next = !previous;
+
+            localStorage.setItem(
+                "shiyora-sidebar-collapsed",
+                String(next)
+            );
+
+            return next;
+        });
+    };
+
+    // =========================================================
+    // EFFECTIVE SIDEBAR WIDTH
+    // =========================================================
+
+    const effectiveSidebarWidth = sidebarCollapsed
+        ? 76
+        : sidebarWidth;
 
     return (
         <div
@@ -22,6 +83,9 @@ function SuperAdminLayout() {
                 dark:bg-[#07111f]
                 dark:text-slate-100
             "
+            style={{
+                "--sidebar-width": `${effectiveSidebarWidth}px`,
+            }}
         >
             {/* =========================================================
                 SIDEBAR
@@ -30,6 +94,10 @@ function SuperAdminLayout() {
             <Sidebar
                 isOpen={sidebarOpen}
                 onClose={() => setSidebarOpen(false)}
+                sidebarWidth={sidebarWidth}
+                collapsed={sidebarCollapsed}
+                onResize={handleSidebarResize}
+                onToggleCollapse={handleSidebarCollapse}
             />
 
             {/* =========================================================
@@ -39,7 +107,12 @@ function SuperAdminLayout() {
             <main
                 className="
                     min-h-screen
-                    lg:ml-[260px]
+
+                    lg:ml-[var(--sidebar-width)]
+
+                    transition-[margin-left]
+                    duration-200
+                    ease-out
                 "
             >
                 {/* =====================================================
@@ -111,7 +184,10 @@ function SuperAdminLayout() {
                         "
                         aria-label="Open sidebar"
                     >
-                        <Menu size={20} strokeWidth={2} />
+                        <Menu
+                            size={20}
+                            strokeWidth={2}
+                        />
                     </button>
 
                     {/* =================================================

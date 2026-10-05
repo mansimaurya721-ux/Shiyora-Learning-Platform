@@ -1,4 +1,4 @@
-//import React from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
     LayoutDashboard,
@@ -11,11 +11,39 @@ import {
     User,
     LogOut,
     X,
-    ClipboardCheck,
+    Sun,
+    Moon,
+    ChevronRight,
 } from "lucide-react";
 
 const StudentSidebar = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
+
+    // =========================================================
+    // THEME
+    // =========================================================
+
+    const [darkMode, setDarkMode] = useState(() => {
+        return localStorage.getItem("shiyora-theme") === "dark";
+    });
+
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("shiyora-theme", "dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("shiyora-theme", "light");
+        }
+    }, [darkMode]);
+
+    const toggleTheme = () => {
+        setDarkMode((previous) => !previous);
+    };
+
+    // =========================================================
+    // MENU ITEMS
+    // =========================================================
 
     const menuItems = [
         {
@@ -41,7 +69,7 @@ const StudentSidebar = ({ isOpen, onClose }) => {
         {
             name: "Quizzes",
             path: "/student/quizzes",
-            icon: ClipboardCheck,
+            icon: ClipboardList,
         },
         {
             name: "Progress",
@@ -65,65 +93,170 @@ const StudentSidebar = ({ isOpen, onClose }) => {
         },
     ];
 
+    // =========================================================
+    // LOGOUT
+    // =========================================================
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         localStorage.removeItem("userRole");
         localStorage.removeItem("isLoggedIn");
 
+        onClose();
         navigate("/login");
     };
 
+    // =========================================================
+    // UI
+    // =========================================================
+
     return (
         <>
-            {/* Mobile Overlay */}
+            {/* =====================================================
+                MOBILE OVERLAY
+            ===================================================== */}
+
             {isOpen && (
                 <div
-                    className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+                    className="
+                        fixed inset-0 z-40
+                        bg-slate-950/50
+                        backdrop-blur-sm
+                        lg:hidden
+                    "
                     onClick={onClose}
                 />
             )}
 
-            {/* Sidebar */}
+            {/* =====================================================
+                SIDEBAR
+            ===================================================== */}
+
             <aside
                 className={`
-                    fixed top-0 left-0 z-50
+                    fixed left-0 top-0 z-50
                     flex h-screen w-64 flex-col
-                    border-r border-[#7C9A82]/30
-                    bg-[#1B241E]
+                    border-r border-slate-200
+                    bg-white
+                    text-slate-700
+                    shadow-xl shadow-slate-200/40
                     transition-transform duration-300
+
+                    dark:border-[#1e334a]
+                    dark:bg-[#0b1727]
+                    dark:text-slate-300
+                    dark:shadow-black/20
+
                     ${isOpen ? "translate-x-0" : "-translate-x-full"}
                     lg:translate-x-0
                 `}
             >
-                {/* Logo */}
-                <div className="flex h-20 items-center justify-between border-b border-[#7C9A82]/20 px-6">
-                    <div>
-                        <h1 className="text-2xl font-bold tracking-wide text-[#F3EEDD]">
-                            Shiyora
-                        </h1>
+                {/* =================================================
+                    LOGO
+                ================================================= */}
 
-                        <p className="mt-0.5 text-xs text-[#7C9A82]">
-                            Student Portal
-                        </p>
+                <div
+                    className="
+                        flex h-20 shrink-0
+                        items-center justify-between
+                        border-b border-slate-200
+                        px-5
+
+                        dark:border-[#1e334a]
+                    "
+                >
+                    <div className="flex items-center gap-3">
+
+                        {/* Logo */}
+                        <div
+                            className="
+                                flex h-10 w-10
+                                items-center justify-center
+                                rounded-xl
+                                bg-gradient-to-br
+                                from-blue-600 to-teal-500
+                                text-sm font-bold
+                                text-white
+                                shadow-lg
+                                shadow-blue-500/20
+                            "
+                        >
+                            S
+                        </div>
+
+                        {/* Brand */}
+                        <div>
+                            <h1
+                                className="
+                                    text-xl font-bold
+                                    tracking-tight
+                                    text-slate-900
+                                    dark:text-white
+                                "
+                            >
+                                Shiyora
+                            </h1>
+
+                            <p
+                                className="
+                                    mt-0.5
+                                    text-[11px]
+                                    font-medium
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
+                            >
+                                Student Portal
+                            </p>
+                        </div>
                     </div>
 
                     {/* Mobile Close */}
                     <button
+                        type="button"
                         onClick={onClose}
-                        className="rounded-lg p-2 text-[#F3EEDD] hover:bg-[#161F19] lg:hidden"
+                        aria-label="Close sidebar"
+                        className="
+                            rounded-lg p-2
+                            text-slate-500
+                            transition-colors
+                            hover:bg-slate-100
+                            hover:text-slate-900
+
+                            dark:text-slate-400
+                            dark:hover:bg-[#102337]
+                            dark:hover:text-white
+
+                            lg:hidden
+                        "
                     >
                         <X size={20} />
                     </button>
                 </div>
 
-                {/* Navigation */}
-                <nav className="flex-1 overflow-y-auto px-4 py-6">
-                    <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-widest text-[#7C9A82]">
+                {/* =================================================
+                    NAVIGATION
+                ================================================= */}
+
+                <nav className="flex-1 overflow-y-auto px-3 py-5">
+
+                    {/* Section */}
+                    <p
+                        className="
+                            mb-3 px-3
+                            text-[10px]
+                            font-bold
+                            uppercase
+                            tracking-[0.16em]
+                            text-slate-400
+                            dark:text-slate-500
+                        "
+                    >
                         Learning
                     </p>
 
-                    <div className="space-y-1.5">
+                    <div className="space-y-1">
                         {menuItems.map((item) => {
                             const Icon = item.icon;
 
@@ -134,62 +267,371 @@ const StudentSidebar = ({ isOpen, onClose }) => {
                                     onClick={onClose}
                                     className={({ isActive }) =>
                                         `
-                                        group flex items-center gap-3
-                                        rounded-xl px-3 py-3
+                                        group relative
+                                        flex items-center gap-3
+                                        rounded-xl
+                                        px-3 py-2.5
                                         text-sm font-medium
                                         transition-all duration-200
+
                                         ${isActive
-                                            ? "bg-[#F2B84B] text-[#161F19] shadow-lg shadow-[#F2B84B]/10"
-                                            : "text-[#F3EEDD]/75 hover:bg-[#161F19] hover:text-[#F3EEDD]"
+                                            ? `
+                                                    bg-blue-50
+                                                    text-blue-700
+                                                    shadow-sm
+
+                                                    dark:bg-teal-500/10
+                                                    dark:text-teal-300
+                                                `
+                                            : `
+                                                    text-slate-600
+                                                    hover:bg-slate-100
+                                                    hover:text-slate-900
+
+                                                    dark:text-slate-400
+                                                    dark:hover:bg-[#102337]
+                                                    dark:hover:text-slate-100
+                                                `
                                         }
-                                        `
+                                    `
                                     }
                                 >
-                                    <Icon
-                                        size={19}
-                                        strokeWidth={2}
-                                        className="shrink-0"
-                                    />
+                                    {({ isActive }) => (
+                                        <>
+                                            {/* Active Indicator */}
+                                            {isActive && (
+                                                <span
+                                                    className="
+                                                        absolute left-0
+                                                        h-6 w-[3px]
+                                                        rounded-r-full
+                                                        bg-gradient-to-b
+                                                        from-blue-600
+                                                        to-teal-500
+                                                    "
+                                                />
+                                            )}
 
-                                    <span>{item.name}</span>
+                                            {/* Icon */}
+                                            <span
+                                                className={`
+                                                    flex h-8 w-8
+                                                    shrink-0
+                                                    items-center
+                                                    justify-center
+                                                    rounded-lg
+                                                    transition-all duration-200
+
+                                                    ${isActive
+                                                        ? `
+                                                                bg-blue-100
+                                                                text-blue-600
+
+                                                                dark:bg-teal-500/15
+                                                                dark:text-teal-300
+                                                            `
+                                                        : `
+                                                                text-slate-500
+                                                                group-hover:bg-white
+                                                                group-hover:text-blue-600
+
+                                                                dark:text-slate-500
+                                                                dark:group-hover:bg-[#1e334a]
+                                                                dark:group-hover:text-teal-300
+                                                            `
+                                                    }
+                                                `}
+                                            >
+                                                <Icon
+                                                    size={17}
+                                                    strokeWidth={2}
+                                                />
+                                            </span>
+
+                                            <span className="truncate">
+                                                {item.name}
+                                            </span>
+
+                                            {/* Active Dot */}
+                                            {isActive && (
+                                                <span
+                                                    className="
+                                                        ml-auto
+                                                        h-1.5 w-1.5
+                                                        rounded-full
+                                                        bg-blue-600
+                                                        dark:bg-teal-400
+                                                    "
+                                                />
+                                            )}
+                                        </>
+                                    )}
                                 </NavLink>
                             );
                         })}
                     </div>
                 </nav>
 
-                {/* Student Profile */}
-                <div className="border-t border-[#7C9A82]/20 p-4">
-                    <div className="mb-3 flex items-center gap-3 rounded-xl bg-[#161F19] p-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F2B84B] font-bold text-[#161F19]">
+                {/* =================================================
+                    BOTTOM SECTION
+                ================================================= */}
+
+                <div
+                    className="
+                        shrink-0
+                        border-t border-slate-200
+                        p-3
+
+                        dark:border-[#1e334a]
+                    "
+                >
+                    {/* =================================================
+                        STUDENT PROFILE
+                    ================================================= */}
+
+                    <div
+                        className="
+                            mb-2
+                            flex items-center gap-3
+                            rounded-xl
+                            border border-slate-200
+                            bg-slate-50
+                            p-3
+
+                            dark:border-[#1e334a]
+                            dark:bg-[#102337]
+                        "
+                    >
+                        {/* Avatar */}
+                        <div
+                            className="
+                                flex h-10 w-10
+                                shrink-0
+                                items-center justify-center
+                                rounded-full
+                                bg-gradient-to-br
+                                from-blue-600 to-teal-500
+                                text-sm font-bold
+                                text-white
+                                shadow-md
+                                shadow-blue-500/20
+                            "
+                        >
                             S
                         </div>
 
-                        <div className="min-w-0">
-                            <p className="truncate text-sm font-semibold text-[#F3EEDD]">
+                        {/* User Info */}
+                        <div className="min-w-0 flex-1">
+                            <p
+                                className="
+                                    truncate
+                                    text-sm font-semibold
+                                    text-slate-900
+                                    dark:text-white
+                                "
+                            >
                                 Student
                             </p>
 
-                            <p className="truncate text-xs text-[#7C9A82]">
+                            <p
+                                className="
+                                    truncate
+                                    text-xs
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
+                            >
                                 Learner
                             </p>
                         </div>
+
+                        {/* Online */}
+                        <span
+                            className="
+                                h-2 w-2
+                                shrink-0
+                                rounded-full
+                                bg-emerald-500
+                                ring-4
+                                ring-emerald-500/10
+                            "
+                            title="Online"
+                        />
                     </div>
 
-                    {/* Logout */}
-                    <button
-                        onClick={handleLogout}
+                    {/* =================================================
+                        THEME TOGGLE
+                    ================================================= */}
+
+                    <div
                         className="
-                            flex w-full items-center gap-3
-                            rounded-xl px-3 py-3
-                            text-sm font-medium
-                            text-[#D6402C]
-                            transition-all duration-200
-                            hover:bg-[#D6402C]/10
+                            mb-2
+                            flex items-center
+                            justify-between
+                            rounded-xl
+                            border border-slate-200
+                            bg-slate-50
+                            px-3 py-2.5
+
+                            dark:border-[#1e334a]
+                            dark:bg-[#102337]
                         "
                     >
-                        <LogOut size={19} />
+                        {/* Theme Info */}
+                        <div className="flex items-center gap-2.5">
+
+                            <div
+                                className="
+                                    flex h-8 w-8
+                                    items-center justify-center
+                                    rounded-lg
+                                    bg-white
+                                    text-slate-600
+                                    shadow-sm
+
+                                    dark:bg-[#172337]
+                                    dark:text-slate-300
+                                "
+                            >
+                                {darkMode ? (
+                                    <Moon size={15} />
+                                ) : (
+                                    <Sun size={15} />
+                                )}
+                            </div>
+
+                            <div>
+                                <p
+                                    className="
+                                        text-[10px]
+                                        font-bold
+                                        text-slate-900
+                                        dark:text-white
+                                    "
+                                >
+                                    Appearance
+                                </p>
+
+                                <p
+                                    className="
+                                        text-[8px]
+                                        font-semibold
+                                        text-slate-500
+                                        dark:text-slate-400
+                                    "
+                                >
+                                    {darkMode
+                                        ? "Dark mode"
+                                        : "Light mode"}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Toggle Button */}
+                        <button
+                            type="button"
+                            onClick={toggleTheme}
+                            aria-label={
+                                darkMode
+                                    ? "Switch to light mode"
+                                    : "Switch to dark mode"
+                            }
+                            title={
+                                darkMode
+                                    ? "Switch to light mode"
+                                    : "Switch to dark mode"
+                            }
+                            className={`
+                                relative
+                                h-6 w-11
+                                rounded-full
+                                p-0.5
+                                transition-colors
+                                duration-200
+
+                                ${darkMode
+                                    ? "bg-teal-500"
+                                    : "bg-slate-300"
+                                }
+                            `}
+                        >
+                            <span
+                                className={`
+                                    flex h-5 w-5
+                                    items-center justify-center
+                                    rounded-full
+                                    bg-white
+                                    text-slate-600
+                                    shadow
+                                    transition-transform
+                                    duration-200
+
+                                    ${darkMode
+                                        ? "translate-x-5"
+                                        : "translate-x-0"
+                                    }
+                                `}
+                            >
+                                {darkMode ? (
+                                    <Moon size={11} />
+                                ) : (
+                                    <Sun size={11} />
+                                )}
+                            </span>
+                        </button>
+                    </div>
+
+                    {/* =================================================
+                        LOGOUT
+                    ================================================= */}
+
+                    <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="
+                            group
+                            flex w-full
+                            items-center gap-3
+                            rounded-xl
+                            px-3 py-2.5
+                            text-sm font-medium
+                            text-slate-600
+                            transition-all duration-200
+
+                            hover:bg-red-50
+                            hover:text-red-600
+
+                            dark:text-slate-400
+                            dark:hover:bg-red-500/10
+                            dark:hover:text-red-400
+                        "
+                    >
+                        <span
+                            className="
+                                flex h-8 w-8
+                                items-center justify-center
+                                rounded-lg
+                                transition-colors
+
+                                group-hover:bg-red-100
+
+                                dark:group-hover:bg-red-500/10
+                            "
+                        >
+                            <LogOut size={17} />
+                        </span>
+
                         <span>Logout</span>
+
+                        <ChevronRight
+                            size={15}
+                            className="
+                                ml-auto
+                                opacity-0
+                                transition-opacity
+                                group-hover:opacity-100
+                            "
+                        />
                     </button>
                 </div>
             </aside>

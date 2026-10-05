@@ -4,17 +4,16 @@ import {
     Users,
     Building2,
     BookOpen,
-    CreditCard,
-    Activity,
     Bell,
     MessageCircle,
     Search,
-    ChevronDown,
     CalendarDays,
     ShieldCheck,
-    Layers3,
     RefreshCw,
     AlertCircle,
+    GraduationCap,
+    UserRoundCheck,
+    Activity,
 } from "lucide-react";
 
 import {
@@ -22,35 +21,46 @@ import {
     getOrganizationStats,
 } from "../../services/organizationService";
 
+import {
+    getUserStats,
+} from "../../services/userService";
 
-// =========================================================
-// SUPER ADMIN DASHBOARD
-// =========================================================
+
+// =====================================================
+// DASHBOARD
+// =====================================================
 
 const Dashboard = () => {
 
-    // =========================================================
+    // =====================================================
     // STATE
-    // =========================================================
+    // =====================================================
 
     const [organizations, setOrganizations] = useState([]);
 
-    const [stats, setStats] = useState({
+    const [organizationStats, setOrganizationStats] = useState({
         total_organizations: 0,
         active_organizations: 0,
-        total_users: 0,
         total_courses: 0,
     });
 
+    const [userStats, setUserStats] = useState({
+        total_users: 0,
+        active_users: 0,
+        inactive_users: 0,
+        total_teachers: 0,
+        total_students: 0,
+        total_admins: 0,
+    });
+
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState("");
 
-    const [refreshing, setRefreshing] = useState(false);
 
-
-    // =========================================================
-    // LOAD DATA
-    // =========================================================
+    // =====================================================
+    // LOAD DASHBOARD DATA
+    // =====================================================
 
     const loadDashboardData = async () => {
 
@@ -60,39 +70,44 @@ const Dashboard = () => {
 
             const [
                 organizationsResponse,
-                statsResponse,
+                organizationStatsResponse,
+                userStatsResponse,
             ] = await Promise.all([
                 getOrganizations(),
                 getOrganizationStats(),
+                getUserStats(),
             ]);
 
-
-            // ---------------------------------------------
-            // ORGANIZATIONS
-            // ---------------------------------------------
 
             setOrganizations(
                 organizationsResponse?.data || []
             );
 
 
-            // ---------------------------------------------
-            // STATISTICS
-            // ---------------------------------------------
-
-            setStats(
-                statsResponse?.data || {
+            setOrganizationStats(
+                organizationStatsResponse?.data || {
                     total_organizations: 0,
                     active_organizations: 0,
-                    total_users: 0,
                     total_courses: 0,
+                }
+            );
+
+
+            setUserStats(
+                userStatsResponse?.data || {
+                    total_users: 0,
+                    active_users: 0,
+                    inactive_users: 0,
+                    total_teachers: 0,
+                    total_students: 0,
+                    total_admins: 0,
                 }
             );
 
         } catch (err) {
 
             console.error(
-                "Super Admin Dashboard Error:",
+                "Dashboard error:",
                 err
             );
 
@@ -106,9 +121,9 @@ const Dashboard = () => {
     };
 
 
-    // =========================================================
-    // FIRST LOAD
-    // =========================================================
+    // =====================================================
+    // INITIAL LOAD
+    // =====================================================
 
     useEffect(() => {
 
@@ -127,9 +142,9 @@ const Dashboard = () => {
     }, []);
 
 
-    // =========================================================
+    // =====================================================
     // REFRESH
-    // =========================================================
+    // =====================================================
 
     const handleRefresh = async () => {
 
@@ -148,9 +163,9 @@ const Dashboard = () => {
     };
 
 
-    // =========================================================
+    // =====================================================
     // DATE
-    // =========================================================
+    // =====================================================
 
     const currentDate = new Date().toLocaleDateString(
         "en-IN",
@@ -162,9 +177,9 @@ const Dashboard = () => {
     );
 
 
-    // =========================================================
+    // =====================================================
     // LOADING
-    // =========================================================
+    // =====================================================
 
     if (loading) {
 
@@ -172,19 +187,19 @@ const Dashboard = () => {
 
             <main
                 className="
-                    flex min-h-screen
-                    items-center justify-center
+                    flex
+                    min-h-screen
+                    items-center
+                    justify-center
                     bg-slate-50
-                    text-slate-700
                     dark:bg-[#07111f]
-                    dark:text-slate-200
                 "
             >
 
                 <div className="text-center">
 
                     <RefreshCw
-                        size={32}
+                        size={30}
                         className="
                             mx-auto
                             animate-spin
@@ -195,7 +210,7 @@ const Dashboard = () => {
                     <p
                         className="
                             mt-3
-                            text-sm
+                            text-xs
                             font-medium
                             text-slate-500
                             dark:text-slate-400
@@ -213,9 +228,9 @@ const Dashboard = () => {
     }
 
 
-    // =========================================================
-    // MAIN DASHBOARD
-    // =========================================================
+    // =====================================================
+    // MAIN
+    // =====================================================
 
     return (
 
@@ -230,7 +245,7 @@ const Dashboard = () => {
         >
 
             {/* =================================================
-                BACKGROUND DECORATION
+                BACKGROUND
             ================================================= */}
 
             <div
@@ -271,10 +286,6 @@ const Dashboard = () => {
             </div>
 
 
-            {/* =================================================
-                CONTENT
-            ================================================= */}
-
             <div
                 className="
                     relative
@@ -303,8 +314,6 @@ const Dashboard = () => {
                         xl:justify-between
                     "
                 >
-
-                    {/* LEFT */}
 
                     <div>
 
@@ -345,7 +354,6 @@ const Dashboard = () => {
 
                             </span>
 
-
                             <span
                                 className="
                                     h-1
@@ -355,7 +363,6 @@ const Dashboard = () => {
                                     dark:bg-slate-700
                                 "
                             />
-
 
                             <span
                                 className="
@@ -393,15 +400,14 @@ const Dashboard = () => {
                                 dark:text-slate-400
                             "
                         >
-                            Monitor your Shiyora learning
-                            platform and manage everything
+                            Monitor your Shiyora platform
                             from one place.
                         </p>
 
                     </div>
 
 
-                    {/* RIGHT */}
+                    {/* HEADER ACTIONS */}
 
                     <div
                         className="
@@ -410,8 +416,6 @@ const Dashboard = () => {
                             gap-2
                         "
                     >
-
-                        {/* SEARCH */}
 
                         <button
                             type="button"
@@ -458,8 +462,6 @@ const Dashboard = () => {
                         </button>
 
 
-                        {/* NOTIFICATIONS */}
-
                         <button
                             type="button"
                             aria-label="Notifications"
@@ -486,8 +488,6 @@ const Dashboard = () => {
 
                         </button>
 
-
-                        {/* MESSAGES */}
 
                         <button
                             type="button"
@@ -516,8 +516,6 @@ const Dashboard = () => {
                         </button>
 
 
-                        {/* REFRESH */}
-
                         <button
                             type="button"
                             onClick={handleRefresh}
@@ -539,7 +537,6 @@ const Dashboard = () => {
                                 transition
                                 hover:border-blue-200
                                 hover:text-blue-600
-                                disabled:cursor-not-allowed
                                 disabled:opacity-60
                                 dark:border-slate-800
                                 dark:bg-slate-900/60
@@ -560,8 +557,6 @@ const Dashboard = () => {
 
                         </button>
 
-
-                        {/* DATE */}
 
                         <div
                             className="
@@ -640,484 +635,11 @@ const Dashboard = () => {
 
 
                 {/* =================================================
-                    KPI CARDS
+                    MAIN ANALYTICS CARD
                 ================================================= */}
 
                 <section
                     className="
-                        mb-7
-                        grid
-                        grid-cols-1
-                        gap-4
-                        sm:grid-cols-2
-                        xl:grid-cols-4
-                    "
-                >
-
-                    <StatCard
-                        title="Total Organizations"
-                        value={
-                            stats.total_organizations
-                        }
-                        icon={Building2}
-                        iconStyle="
-                            bg-blue-50
-                            text-blue-600
-                            dark:bg-blue-500/10
-                            dark:text-blue-400
-                        "
-                        footer={
-                            `${stats.active_organizations} active organizations`
-                        }
-                    />
-
-
-                    <StatCard
-                        title="Total Users"
-                        value={
-                            stats.total_users
-                        }
-                        icon={Users}
-                        iconStyle="
-                            bg-teal-50
-                            text-teal-600
-                            dark:bg-teal-500/10
-                            dark:text-teal-400
-                        "
-                        footer="Registered platform users"
-                    />
-
-
-                    <StatCard
-                        title="Total Courses"
-                        value={
-                            stats.total_courses
-                        }
-                        icon={BookOpen}
-                        iconStyle="
-                            bg-indigo-50
-                            text-indigo-600
-                            dark:bg-indigo-500/10
-                            dark:text-indigo-400
-                        "
-                        footer="Courses in the platform"
-                    />
-
-
-                    <StatCard
-                        title="Total Revenue"
-                        value="—"
-                        icon={CreditCard}
-                        iconStyle="
-                            bg-cyan-50
-                            text-cyan-600
-                            dark:bg-cyan-500/10
-                            dark:text-cyan-400
-                        "
-                        footer="Billing data not connected"
-                    />
-
-                </section>
-
-
-                {/* =================================================
-                    PLATFORM OVERVIEW + USERS
-                ================================================= */}
-
-                <section
-                    className="
-                        mb-7
-                        grid
-                        grid-cols-1
-                        gap-5
-                        xl:grid-cols-[1.7fr_1fr]
-                    "
-                >
-
-                    {/* =================================================
-                        PLATFORM OVERVIEW
-                    ================================================= */}
-
-                    <div
-                        className="
-                            rounded-2xl
-                            border
-                            border-slate-200
-                            bg-white
-                            p-5
-                            shadow-sm
-                            dark:border-slate-800
-                            dark:bg-[#0b1727]
-                        "
-                    >
-
-                        <div
-                            className="
-                                mb-6
-                                flex
-                                items-center
-                                justify-between
-                            "
-                        >
-
-                            <div>
-
-                                <h2
-                                    className="
-                                        text-sm
-                                        font-bold
-                                        text-slate-950
-                                        dark:text-white
-                                    "
-                                >
-                                    Platform Overview
-                                </h2>
-
-                                <p
-                                    className="
-                                        mt-1
-                                        text-[10px]
-                                        text-slate-400
-                                    "
-                                >
-                                    Current live platform statistics
-                                </p>
-
-                            </div>
-
-
-                            <div
-                                className="
-                                    flex
-                                    items-center
-                                    gap-1.5
-                                    rounded-lg
-                                    bg-emerald-50
-                                    px-2.5
-                                    py-1.5
-                                    text-[10px]
-                                    font-bold
-                                    text-emerald-600
-                                    dark:bg-emerald-500/10
-                                    dark:text-emerald-400
-                                "
-                            >
-
-                                <span
-                                    className="
-                                        h-1.5
-                                        w-1.5
-                                        rounded-full
-                                        bg-emerald-500
-                                    "
-                                />
-
-                                Live Data
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            className="
-                                grid
-                                grid-cols-1
-                                gap-4
-                                sm:grid-cols-3
-                            "
-                        >
-
-                            <OverviewCard
-                                title="Organizations"
-                                value={
-                                    stats.total_organizations
-                                }
-                                icon={Building2}
-                                style="
-                                    bg-blue-50
-                                    text-blue-600
-                                    dark:bg-blue-500/10
-                                    dark:text-blue-400
-                                "
-                            />
-
-
-                            <OverviewCard
-                                title="Users"
-                                value={
-                                    stats.total_users
-                                }
-                                icon={Users}
-                                style="
-                                    bg-teal-50
-                                    text-teal-600
-                                    dark:bg-teal-500/10
-                                    dark:text-teal-400
-                                "
-                            />
-
-
-                            <OverviewCard
-                                title="Courses"
-                                value={
-                                    stats.total_courses
-                                }
-                                icon={BookOpen}
-                                style="
-                                    bg-indigo-50
-                                    text-indigo-600
-                                    dark:bg-indigo-500/10
-                                    dark:text-indigo-400
-                                "
-                            />
-
-                        </div>
-
-
-                        {/* STATUS */}
-
-                        <div
-                            className="
-                                mt-5
-                                flex
-                                items-center
-                                gap-3
-                                rounded-xl
-                                border
-                                border-emerald-100
-                                bg-emerald-50/70
-                                px-4
-                                py-3
-                                dark:border-emerald-500/10
-                                dark:bg-emerald-500/5
-                            "
-                        >
-
-                            <ShieldCheck
-                                size={18}
-                                className="
-                                    text-emerald-600
-                                    dark:text-emerald-400
-                                "
-                            />
-
-                            <div>
-
-                                <p
-                                    className="
-                                        text-[10px]
-                                        font-bold
-                                        text-emerald-700
-                                        dark:text-emerald-300
-                                    "
-                                >
-                                    PostgreSQL connected
-                                </p>
-
-                                <p
-                                    className="
-                                        mt-0.5
-                                        text-[9px]
-                                        text-emerald-600/70
-                                        dark:text-emerald-400/70
-                                    "
-                                >
-                                    Dashboard statistics are loaded
-                                    from the backend.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    {/* =================================================
-                        USER SUMMARY
-                    ================================================= */}
-
-                    <div
-                        className="
-                            rounded-2xl
-                            border
-                            border-slate-200
-                            bg-white
-                            p-5
-                            shadow-sm
-                            dark:border-slate-800
-                            dark:bg-[#0b1727]
-                        "
-                    >
-
-                        <div className="mb-6">
-
-                            <h2
-                                className="
-                                    text-sm
-                                    font-bold
-                                    text-slate-950
-                                    dark:text-white
-                                "
-                            >
-                                Platform Users
-                            </h2>
-
-                            <p
-                                className="
-                                    mt-1
-                                    text-[10px]
-                                    text-slate-400
-                                "
-                            >
-                                Current registered users
-                            </p>
-
-                        </div>
-
-
-                        <div
-                            className="
-                                flex
-                                items-center
-                                gap-4
-                                rounded-xl
-                                border
-                                border-slate-100
-                                bg-slate-50
-                                p-4
-                                dark:border-slate-800
-                                dark:bg-slate-900/60
-                            "
-                        >
-
-                            <div
-                                className="
-                                    flex
-                                    h-11
-                                    w-11
-                                    items-center
-                                    justify-center
-                                    rounded-xl
-                                    bg-teal-50
-                                    text-teal-600
-                                    dark:bg-teal-500/10
-                                    dark:text-teal-400
-                                "
-                            >
-
-                                <Users size={20} />
-
-                            </div>
-
-
-                            <div className="flex-1">
-
-                                <p
-                                    className="
-                                        text-xs
-                                        font-bold
-                                        text-slate-700
-                                        dark:text-slate-200
-                                    "
-                                >
-                                    Total Registered Users
-                                </p>
-
-                                <p
-                                    className="
-                                        mt-1
-                                        text-[9px]
-                                        text-slate-400
-                                    "
-                                >
-                                    Users currently stored
-                                    in PostgreSQL
-                                </p>
-
-                            </div>
-
-
-                            <span
-                                className="
-                                    text-2xl
-                                    font-bold
-                                    text-slate-900
-                                    dark:text-white
-                                "
-                            >
-                                {stats.total_users}
-                            </span>
-
-                        </div>
-
-
-                        <div
-                            className="
-                                mt-4
-                                rounded-xl
-                                border
-                                border-slate-100
-                                bg-slate-50
-                                p-4
-                                dark:border-slate-800
-                                dark:bg-slate-900/60
-                            "
-                        >
-
-                            <div
-                                className="
-                                    flex
-                                    items-center
-                                    gap-2
-                                    text-slate-500
-                                    dark:text-slate-400
-                                "
-                            >
-
-                                <Layers3 size={15} />
-
-                                <span
-                                    className="
-                                        text-[10px]
-                                        font-semibold
-                                    "
-                                >
-                                    Role analytics
-                                </span>
-
-                            </div>
-
-
-                            <p
-                                className="
-                                    mt-2
-                                    text-[9px]
-                                    leading-relaxed
-                                    text-slate-400
-                                "
-                            >
-                                Student, teacher and admin
-                                counts will be displayed here
-                                after role-based analytics are
-                                connected to the backend.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                {/* =================================================
-                    ORGANIZATIONS
-                ================================================= */}
-
-                <section
-                    className="
-                        mb-5
                         overflow-hidden
                         rounded-2xl
                         border
@@ -1129,7 +651,435 @@ const Dashboard = () => {
                     "
                 >
 
-                    {/* HEADER */}
+                    {/* =================================================
+                        SECTION HEADER
+                    ================================================= */}
+
+                    <div
+                        className="
+                            flex
+                            flex-col
+                            gap-3
+                            border-b
+                            border-slate-100
+                            px-5
+                            py-5
+                            sm:flex-row
+                            sm:items-center
+                            sm:justify-between
+                            dark:border-slate-800
+                        "
+                    >
+
+                        <div>
+
+                            <h2
+                                className="
+                                    text-sm
+                                    font-bold
+                                    text-slate-950
+                                    dark:text-white
+                                "
+                            >
+                                Platform Overview
+                            </h2>
+
+                            <p
+                                className="
+                                    mt-1
+                                    text-[10px]
+                                    text-slate-400
+                                "
+                            >
+                                Live statistics from your
+                                Shiyora database
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            className="
+                                flex
+                                w-fit
+                                items-center
+                                gap-1.5
+                                rounded-full
+                                bg-emerald-50
+                                px-2.5
+                                py-1.5
+                                text-[9px]
+                                font-bold
+                                text-emerald-600
+                                dark:bg-emerald-500/10
+                                dark:text-emerald-400
+                            "
+                        >
+
+                            <span
+                                className="
+                                    h-1.5
+                                    w-1.5
+                                    rounded-full
+                                    bg-emerald-500
+                                "
+                            />
+
+                            Live Data
+
+                        </div>
+
+                    </div>
+
+
+                    {/* =================================================
+                        PRIMARY NUMBERS
+                    ================================================= */}
+
+                    <div
+                        className="
+                            grid
+                            grid-cols-1
+                            divide-y
+                            divide-slate-100
+                            sm:grid-cols-3
+                            sm:divide-x
+                            sm:divide-y-0
+                            dark:divide-slate-800
+                        "
+                    >
+
+                        <MainMetric
+                            title="Organizations"
+                            value={
+                                organizationStats.total_organizations
+                            }
+                            subtitle={
+                                `${organizationStats.active_organizations} active`
+                            }
+                            icon={Building2}
+                        />
+
+
+                        <MainMetric
+                            title="Total Users"
+                            value={
+                                userStats.total_users
+                            }
+                            subtitle={
+                                `${userStats.active_users} active`
+                            }
+                            icon={Users}
+                        />
+
+
+                        <MainMetric
+                            title="Courses"
+                            value={
+                                organizationStats.total_courses
+                            }
+                            subtitle="Across all organizations"
+                            icon={BookOpen}
+                        />
+
+                    </div>
+
+
+                    {/* =================================================
+                        BREAKDOWN
+                    ================================================= */}
+
+                    <div
+                        className="
+                            border-t
+                            border-slate-100
+                            dark:border-slate-800
+                        "
+                    >
+
+                        <div
+                            className="
+                                grid
+                                grid-cols-1
+                                lg:grid-cols-2
+                            "
+                        >
+
+                            {/* =================================================
+                                USERS BY ROLE
+                            ================================================= */}
+
+                            <div
+                                className="
+                                    border-b
+                                    border-slate-100
+                                    p-5
+                                    lg:border-b-0
+                                    lg:border-r
+                                    dark:border-slate-800
+                                "
+                            >
+
+                                <div
+                                    className="
+                                        mb-4
+                                        flex
+                                        items-center
+                                        justify-between
+                                    "
+                                >
+
+                                    <div>
+
+                                        <h3
+                                            className="
+                                                text-xs
+                                                font-bold
+                                                text-slate-800
+                                                dark:text-slate-200
+                                            "
+                                        >
+                                            Users by Role
+                                        </h3>
+
+                                        <p
+                                            className="
+                                                mt-1
+                                                text-[9px]
+                                                text-slate-400
+                                            "
+                                        >
+                                            Breakdown of registered users
+                                        </p>
+
+                                    </div>
+
+                                    <Users
+                                        size={16}
+                                        className="
+                                            text-slate-400
+                                        "
+                                    />
+
+                                </div>
+
+
+                                <div
+                                    className="
+                                        grid
+                                        grid-cols-3
+                                        gap-3
+                                    "
+                                >
+
+                                    <RoleMetric
+                                        title="Students"
+                                        value={
+                                            userStats.total_students
+                                        }
+                                        icon={GraduationCap}
+                                    />
+
+
+                                    <RoleMetric
+                                        title="Teachers"
+                                        value={
+                                            userStats.total_teachers
+                                        }
+                                        icon={UserRoundCheck}
+                                    />
+
+
+                                    <RoleMetric
+                                        title="Admins"
+                                        value={
+                                            userStats.total_admins
+                                        }
+                                        icon={ShieldCheck}
+                                    />
+
+                                </div>
+
+                            </div>
+
+
+                            {/* =================================================
+                                ORGANIZATION STATUS
+                            ================================================= */}
+
+                            <div
+                                className="
+                                    p-5
+                                "
+                            >
+
+                                <div
+                                    className="
+                                        mb-4
+                                        flex
+                                        items-center
+                                        justify-between
+                                    "
+                                >
+
+                                    <div>
+
+                                        <h3
+                                            className="
+                                                text-xs
+                                                font-bold
+                                                text-slate-800
+                                                dark:text-slate-200
+                                            "
+                                        >
+                                            Organization Status
+                                        </h3>
+
+                                        <p
+                                            className="
+                                                mt-1
+                                                text-[9px]
+                                                text-slate-400
+                                            "
+                                        >
+                                            Current organization health
+                                        </p>
+
+                                    </div>
+
+                                    <Building2
+                                        size={16}
+                                        className="
+                                            text-slate-400
+                                        "
+                                    />
+
+                                </div>
+
+
+                                <div
+                                    className="
+                                        grid
+                                        grid-cols-2
+                                        gap-3
+                                    "
+                                >
+
+                                    <StatusMetric
+                                        title="Active"
+                                        value={
+                                            organizationStats.active_organizations
+                                        }
+                                        type="active"
+                                    />
+
+
+                                    <StatusMetric
+                                        title="Inactive"
+                                        value={
+                                            Math.max(
+                                                0,
+                                                organizationStats.total_organizations -
+                                                organizationStats.active_organizations
+                                            )
+                                        }
+                                        type="inactive"
+                                    />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {/* =================================================
+                        USER STATUS FOOTER
+                    ================================================= */}
+
+                    <div
+                        className="
+                            border-t
+                            border-slate-100
+                            px-5
+                            py-3.5
+                            dark:border-slate-800
+                        "
+                    >
+
+                        <div
+                            className="
+                                flex
+                                flex-col
+                                gap-2
+                                sm:flex-row
+                                sm:items-center
+                                sm:justify-between
+                            "
+                        >
+
+                            <span
+                                className="
+                                    text-[9px]
+                                    font-semibold
+                                    text-slate-400
+                                "
+                            >
+                                User account status
+                            </span>
+
+
+                            <div
+                                className="
+                                    flex
+                                    items-center
+                                    gap-5
+                                "
+                            >
+
+                                <StatusText
+                                    label="Active Users"
+                                    value={
+                                        userStats.active_users
+                                    }
+                                    active
+                                />
+
+                                <StatusText
+                                    label="Inactive Users"
+                                    value={
+                                        userStats.inactive_users
+                                    }
+                                />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                {/* =================================================
+                    RECENT ORGANIZATIONS
+                ================================================= */}
+
+                <section
+                    className="
+                        mt-6
+                        overflow-hidden
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white
+                        shadow-sm
+                        dark:border-slate-800
+                        dark:bg-[#0b1727]
+                    "
+                >
 
                     <div
                         className="
@@ -1164,7 +1114,8 @@ const Dashboard = () => {
                                     text-slate-400
                                 "
                             >
-                                Organizations loaded from PostgreSQL
+                                Latest organizations registered
+                                on the platform
                             </p>
 
                         </div>
@@ -1183,13 +1134,13 @@ const Dashboard = () => {
                                 dark:text-blue-400
                             "
                         >
-                            {organizations.length} total
+                            {organizationStats.total_organizations}
+                            {" "}
+                            total
                         </span>
 
                     </div>
 
-
-                    {/* EMPTY */}
 
                     {organizations.length === 0 ? (
 
@@ -1220,17 +1171,6 @@ const Dashboard = () => {
                                 "
                             >
                                 No organizations found
-                            </p>
-
-                            <p
-                                className="
-                                    mt-1
-                                    text-[10px]
-                                    text-slate-400
-                                "
-                            >
-                                Create an organization
-                                to see it here.
                             </p>
 
                         </div>
@@ -1280,220 +1220,214 @@ const Dashboard = () => {
 
                                     {organizations
                                         .slice(0, 5)
-                                        .map(
-                                            (
-                                                organization
-                                            ) => (
+                                        .map((organization) => (
 
-                                                <tr
-                                                    key={
-                                                        organization.id
-                                                    }
+                                            <tr
+                                                key={
+                                                    organization.id
+                                                }
+                                                className="
+                                                    border-b
+                                                    border-slate-100
+                                                    transition
+                                                    hover:bg-slate-50
+                                                    dark:border-slate-800
+                                                    dark:hover:bg-slate-800/30
+                                                "
+                                            >
+
+                                                <td
                                                     className="
-                                                        border-b
-                                                        border-slate-100
-                                                        transition
-                                                        hover:bg-slate-50
-                                                        dark:border-slate-800
-                                                        dark:hover:bg-slate-800/30
+                                                        px-5
+                                                        py-3.5
                                                     "
                                                 >
 
-                                                    {/* ORGANIZATION */}
-
-                                                    <td className="px-5 py-3.5">
+                                                    <div
+                                                        className="
+                                                            flex
+                                                            items-center
+                                                            gap-3
+                                                        "
+                                                    >
 
                                                         <div
                                                             className="
                                                                 flex
+                                                                h-9
+                                                                w-9
+                                                                shrink-0
                                                                 items-center
-                                                                gap-3
+                                                                justify-center
+                                                                rounded-lg
+                                                                bg-gradient-to-br
+                                                                from-blue-500
+                                                                to-teal-500
+                                                                text-[9px]
+                                                                font-bold
+                                                                text-white
+                                                            "
+                                                        >
+                                                            {getInitials(
+                                                                organization.name
+                                                            )}
+                                                        </div>
+
+
+                                                        <div
+                                                            className="
+                                                                min-w-0
                                                             "
                                                         >
 
-                                                            <div
+                                                            <p
                                                                 className="
-                                                                    flex
-                                                                    h-9
-                                                                    w-9
-                                                                    shrink-0
-                                                                    items-center
-                                                                    justify-center
-                                                                    rounded-lg
-                                                                    bg-gradient-to-br
-                                                                    from-blue-500
-                                                                    to-teal-500
-                                                                    text-[9px]
+                                                                    truncate
+                                                                    text-[11px]
                                                                     font-bold
-                                                                    text-white
+                                                                    text-slate-800
+                                                                    dark:text-slate-200
                                                                 "
                                                             >
-
-                                                                {getInitials(
+                                                                {
                                                                     organization.name
-                                                                )}
+                                                                }
+                                                            </p>
 
-                                                            </div>
-
-
-                                                            <div
+                                                            <p
                                                                 className="
-                                                                    min-w-0
+                                                                    truncate
+                                                                    text-[9px]
+                                                                    text-slate-400
                                                                 "
                                                             >
-
-                                                                <p
-                                                                    className="
-                                                                        truncate
-                                                                        text-[11px]
-                                                                        font-bold
-                                                                        text-slate-800
-                                                                        dark:text-slate-200
-                                                                    "
-                                                                >
-                                                                    {
-                                                                        organization.name
-                                                                    }
-                                                                </p>
-
-                                                                <p
-                                                                    className="
-                                                                        truncate
-                                                                        text-[9px]
-                                                                        text-slate-400
-                                                                    "
-                                                                >
-                                                                    {
-                                                                        organization.email
-                                                                    }
-                                                                </p>
-
-                                                            </div>
+                                                                {
+                                                                    organization.email
+                                                                }
+                                                            </p>
 
                                                         </div>
 
-                                                    </td>
+                                                    </div>
+
+                                                </td>
 
 
-                                                    {/* USERS */}
-
-                                                    <td
-                                                        className="
-                                                            px-4
-                                                            py-3.5
-                                                            text-[11px]
-                                                            font-semibold
-                                                            text-slate-600
-                                                            dark:text-slate-300
-                                                        "
-                                                    >
-                                                        {
-                                                            organization.users ??
-                                                            0
-                                                        }
-                                                    </td>
+                                                <td
+                                                    className="
+                                                        px-4
+                                                        py-3.5
+                                                        text-[11px]
+                                                        font-semibold
+                                                        text-slate-600
+                                                        dark:text-slate-300
+                                                    "
+                                                >
+                                                    {
+                                                        organization.users ??
+                                                        0
+                                                    }
+                                                </td>
 
 
-                                                    {/* COURSES */}
-
-                                                    <td
-                                                        className="
-                                                            px-4
-                                                            py-3.5
-                                                            text-[11px]
-                                                            font-semibold
-                                                            text-slate-600
-                                                            dark:text-slate-300
-                                                        "
-                                                    >
-                                                        {
-                                                            organization.courses ??
-                                                            0
-                                                        }
-                                                    </td>
+                                                <td
+                                                    className="
+                                                        px-4
+                                                        py-3.5
+                                                        text-[11px]
+                                                        font-semibold
+                                                        text-slate-600
+                                                        dark:text-slate-300
+                                                    "
+                                                >
+                                                    {
+                                                        organization.courses ??
+                                                        0
+                                                    }
+                                                </td>
 
 
-                                                    {/* PLAN */}
-
-                                                    <td
-                                                        className="
-                                                            px-4
-                                                            py-3.5
-                                                            text-[11px]
-                                                            font-semibold
-                                                            text-slate-600
-                                                            dark:text-slate-300
-                                                        "
-                                                    >
-                                                        {
-                                                            organization.plan ||
-                                                            "Basic"
-                                                        }
-                                                    </td>
+                                                <td
+                                                    className="
+                                                        px-4
+                                                        py-3.5
+                                                        text-[11px]
+                                                        font-semibold
+                                                        text-slate-600
+                                                        dark:text-slate-300
+                                                    "
+                                                >
+                                                    {
+                                                        organization.plan ||
+                                                        "Basic"
+                                                    }
+                                                </td>
 
 
-                                                    {/* STATUS */}
+                                                <td
+                                                    className="
+                                                        px-4
+                                                        py-3.5
+                                                    "
+                                                >
 
-                                                    <td className="px-4 py-3.5">
-
-                                                        <span
-                                                            className={`
-                                                                inline-flex
-                                                                items-center
-                                                                gap-1.5
-                                                                rounded-full
-                                                                px-2
-                                                                py-1
-                                                                text-[9px]
-                                                                font-bold
-                                                                ${String(
-                                                                organization.status
-                                                            ).toLowerCase() ===
-                                                                    "active"
-                                                                    ? `
+                                                    <span
+                                                        className={`
+                                                            inline-flex
+                                                            items-center
+                                                            gap-1.5
+                                                            rounded-full
+                                                            px-2
+                                                            py-1
+                                                            text-[9px]
+                                                            font-bold
+                                                            ${String(
+                                                            organization.status
+                                                        ).toLowerCase() ===
+                                                                "active"
+                                                                ? `
                                                                         bg-emerald-50
                                                                         text-emerald-600
                                                                         dark:bg-emerald-500/10
                                                                         dark:text-emerald-400
                                                                     `
-                                                                    : `
+                                                                : `
                                                                         bg-amber-50
                                                                         text-amber-600
                                                                         dark:bg-amber-500/10
                                                                         dark:text-amber-400
                                                                     `
+                                                            }
+                                                        `}
+                                                    >
+
+                                                        <span
+                                                            className={`
+                                                                h-1.5
+                                                                w-1.5
+                                                                rounded-full
+                                                                ${String(
+                                                                organization.status
+                                                            ).toLowerCase() ===
+                                                                    "active"
+                                                                    ? "bg-emerald-500"
+                                                                    : "bg-amber-500"
                                                                 }
                                                             `}
-                                                        >
+                                                        />
 
-                                                            <span
-                                                                className={`
-                                                                    h-1.5
-                                                                    w-1.5
-                                                                    rounded-full
-                                                                    ${String(
-                                                                    organization.status
-                                                                ).toLowerCase() ===
-                                                                        "active"
-                                                                        ? "bg-emerald-500"
-                                                                        : "bg-amber-500"
-                                                                    }
-                                                                `}
-                                                            />
+                                                        {
+                                                            organization.status ||
+                                                            "Active"
+                                                        }
 
-                                                            {
-                                                                organization.status ||
-                                                                "Active"
-                                                            }
+                                                    </span>
 
-                                                        </span>
+                                                </td>
 
-                                                    </td>
+                                            </tr>
 
-                                                </tr>
-
-                                            )
-                                        )}
+                                        ))}
 
                                 </tbody>
 
@@ -1502,60 +1436,6 @@ const Dashboard = () => {
                         </div>
 
                     )}
-
-                </section>
-
-
-                {/* =================================================
-                    SYSTEM INFORMATION
-                ================================================= */}
-
-                <section
-                    className="
-                        grid
-                        grid-cols-1
-                        gap-5
-                        lg:grid-cols-3
-                    "
-                >
-
-                    <InfoCard
-                        icon={Building2}
-                        title="Organizations"
-                        value={
-                            stats.total_organizations
-                        }
-                        description="
-                            Total organizations registered
-                            on Shiyora.
-                        "
-                    />
-
-
-                    <InfoCard
-                        icon={Users}
-                        title="Users"
-                        value={
-                            stats.total_users
-                        }
-                        description="
-                            Total users currently registered
-                            on the platform.
-                        "
-                    />
-
-
-                    <InfoCard
-                        icon={BookOpen}
-                        title="Courses"
-                        value={
-                            stats.total_courses
-                        }
-                        description="
-                            Total courses currently available
-                            in the database.
-                        "
-                    />
 
                 </section>
 
@@ -1616,69 +1496,78 @@ const Dashboard = () => {
         </main>
 
     );
+
 };
 
 
-// =========================================================
-// STAT CARD
-// =========================================================
+// =====================================================
+// MAIN METRIC
+// =====================================================
 
-const StatCard = ({
+const MainMetric = ({
     title,
     value,
+    subtitle,
     icon: Icon,
-    iconStyle,
-    footer,
 }) => {
 
     return (
 
         <div
             className="
-                group
-                relative
-                overflow-hidden
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                p-5
-                shadow-sm
-                transition-all
-                duration-300
-                hover:-translate-y-0.5
-                hover:border-blue-200
-                hover:shadow-md
-                dark:border-slate-800
-                dark:bg-[#0b1727]
+                flex
+                items-center
+                gap-4
+                px-5
+                py-5
             "
         >
 
             <div
                 className="
                     flex
-                    items-start
-                    justify-between
+                    h-11
+                    w-11
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-slate-100
+                    text-slate-600
+                    dark:bg-slate-800
+                    dark:text-slate-300
                 "
             >
 
-                <div>
+                <Icon size={20} />
 
-                    <p
+            </div>
+
+
+            <div className="min-w-0">
+
+                <p
+                    className="
+                        text-[10px]
+                        font-semibold
+                        text-slate-400
+                    "
+                >
+                    {title}
+                </p>
+
+
+                <div
+                    className="
+                        mt-1
+                        flex
+                        items-baseline
+                        gap-2
+                    "
+                >
+
+                    <span
                         className="
-                            text-[11px]
-                            font-semibold
-                            text-slate-500
-                            dark:text-slate-400
-                        "
-                    >
-                        {title}
-                    </p>
-
-
-                    <p
-                        className="
-                            mt-2
                             text-2xl
                             font-bold
                             tracking-tight
@@ -1687,42 +1576,21 @@ const StatCard = ({
                         "
                     >
                         {value}
-                    </p>
+                    </span>
 
                 </div>
 
 
-                <div
-                    className={`
-                        flex
-                        h-10
-                        w-10
-                        items-center
-                        justify-center
-                        rounded-xl
-                        ${iconStyle}
-                    `}
+                <p
+                    className="
+                        mt-0.5
+                        text-[9px]
+                        text-slate-400
+                    "
                 >
+                    {subtitle}
+                </p>
 
-                    <Icon size={19} />
-
-                </div>
-
-            </div>
-
-
-            <div
-                className="
-                    mt-4
-                    border-t
-                    border-slate-100
-                    pt-3
-                    text-[10px]
-                    text-slate-400
-                    dark:border-slate-800
-                "
-            >
-                {footer}
             </div>
 
         </div>
@@ -1732,15 +1600,14 @@ const StatCard = ({
 };
 
 
-// =========================================================
-// OVERVIEW CARD
-// =========================================================
+// =====================================================
+// ROLE METRIC
+// =====================================================
 
-const OverviewCard = ({
+const RoleMetric = ({
     title,
     value,
     icon: Icon,
-    style,
 }) => {
 
     return (
@@ -1751,117 +1618,29 @@ const OverviewCard = ({
                 border
                 border-slate-100
                 bg-slate-50
-                p-4
+                p-3
                 dark:border-slate-800
                 dark:bg-slate-900/60
             "
         >
 
             <div
-                className={`
-                    mb-3
-                    flex
-                    h-9
-                    w-9
-                    items-center
-                    justify-center
-                    rounded-lg
-                    ${style}
-                `}
-            >
-
-                <Icon size={17} />
-
-            </div>
-
-
-            <p
                 className="
-                    text-[10px]
-                    font-semibold
-                    text-slate-400
-                "
-            >
-                {title}
-            </p>
-
-
-            <p
-                className="
-                    mt-1
-                    text-xl
-                    font-bold
-                    text-slate-900
-                    dark:text-white
-                "
-            >
-                {value}
-            </p>
-
-        </div>
-
-    );
-
-};
-
-
-// =========================================================
-// INFO CARD
-// =========================================================
-
-const InfoCard = ({
-    icon: Icon,
-    title,
-    value,
-    description,
-}) => {
-
-    return (
-
-        <div
-            className="
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                p-5
-                shadow-sm
-                dark:border-slate-800
-                dark:bg-[#0b1727]
-            "
-        >
-
-            <div
-                className="
+                    mb-2
                     flex
                     items-center
                     justify-between
                 "
             >
 
-                <div
-                    className="
-                        flex
-                        h-9
-                        w-9
-                        items-center
-                        justify-center
-                        rounded-lg
-                        bg-slate-100
-                        text-slate-600
-                        dark:bg-slate-800
-                        dark:text-slate-300
-                    "
-                >
-
-                    <Icon size={17} />
-
-                </div>
-
+                <Icon
+                    size={15}
+                    className="text-slate-400"
+                />
 
                 <span
                     className="
-                        text-xl
+                        text-lg
                         font-bold
                         text-slate-900
                         dark:text-white
@@ -1873,28 +1652,14 @@ const InfoCard = ({
             </div>
 
 
-            <h3
-                className="
-                    mt-4
-                    text-xs
-                    font-bold
-                    text-slate-800
-                    dark:text-slate-200
-                "
-            >
-                {title}
-            </h3>
-
-
             <p
                 className="
-                    mt-1
-                    text-[10px]
-                    leading-relaxed
+                    text-[9px]
+                    font-semibold
                     text-slate-400
                 "
             >
-                {description}
+                {title}
             </p>
 
         </div>
@@ -1904,11 +1669,166 @@ const InfoCard = ({
 };
 
 
-// =========================================================
-// TABLE HEADER
-// =========================================================
+// =====================================================
+// STATUS METRIC
+// =====================================================
 
-const TableHeader = ({ children }) => {
+const StatusMetric = ({
+    title,
+    value,
+    type,
+}) => {
+
+    const isActive = type === "active";
+
+    return (
+
+        <div
+            className={`
+                rounded-xl
+                border
+                p-4
+                ${isActive
+                    ? `
+                            border-emerald-100
+                            bg-emerald-50/70
+                            dark:border-emerald-500/10
+                            dark:bg-emerald-500/5
+                        `
+                    : `
+                            border-slate-100
+                            bg-slate-50
+                            dark:border-slate-800
+                            dark:bg-slate-900/60
+                        `
+                }
+            `}
+        >
+
+            <div
+                className="
+                    flex
+                    items-center
+                    justify-between
+                "
+            >
+
+                <div>
+
+                    <p
+                        className="
+                            text-[9px]
+                            font-semibold
+                            text-slate-400
+                        "
+                    >
+                        {title}
+                    </p>
+
+                    <p
+                        className={`
+                            mt-1
+                            text-xl
+                            font-bold
+                            ${isActive
+                                ? "text-emerald-600 dark:text-emerald-400"
+                                : "text-slate-700 dark:text-slate-300"
+                            }
+                        `}
+                    >
+                        {value}
+                    </p>
+
+                </div>
+
+
+                <span
+                    className={`
+                        h-2
+                        w-2
+                        rounded-full
+                        ${isActive
+                            ? "bg-emerald-500"
+                            : "bg-slate-400"
+                        }
+                    `}
+                />
+
+            </div>
+
+        </div>
+
+    );
+
+};
+
+
+// =====================================================
+// STATUS TEXT
+// =====================================================
+
+const StatusText = ({
+    label,
+    value,
+    active = false,
+}) => {
+
+    return (
+
+        <div
+            className="
+                flex
+                items-center
+                gap-2
+            "
+        >
+
+            <span
+                className={`
+                    h-1.5
+                    w-1.5
+                    rounded-full
+                    ${active
+                        ? "bg-emerald-500"
+                        : "bg-slate-400"
+                    }
+                `}
+            />
+
+            <span
+                className="
+                    text-[9px]
+                    text-slate-400
+                "
+            >
+                {label}
+            </span>
+
+            <span
+                className="
+                    text-[10px]
+                    font-bold
+                    text-slate-700
+                    dark:text-slate-200
+                "
+            >
+                {value}
+            </span>
+
+        </div>
+
+    );
+
+};
+
+
+// =====================================================
+// TABLE HEADER
+// =====================================================
+
+const TableHeader = ({
+    children,
+}) => {
 
     return (
 
@@ -1932,9 +1852,9 @@ const TableHeader = ({ children }) => {
 };
 
 
-// =========================================================
-// GET ORGANIZATION INITIALS
-// =========================================================
+// =====================================================
+// ORGANIZATION INITIALS
+// =====================================================
 
 const getInitials = (name = "") => {
 
@@ -1948,9 +1868,11 @@ const getInitials = (name = "") => {
     }
 
     if (words.length === 1) {
+
         return words[0]
             .slice(0, 2)
             .toUpperCase();
+
     }
 
     return (

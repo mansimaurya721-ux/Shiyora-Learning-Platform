@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+
+import {
+    useLocation,
+    useNavigate,
+} from "react-router-dom";
 
 import Login from "./Login";
 import Signup from "./Signup";
 
+import "./Auth.css";
+
 import {
     signupUser,
-    loginUser
+    loginUser,
 } from "../../services/authService";
 
 
@@ -16,72 +22,86 @@ function Auth() {
     const navigate = useNavigate();
 
 
-    // ==========================================
+    // =========================================================
     // AUTH MODE
-    // ==========================================
+    // =========================================================
 
     const [isSignup, setIsSignup] = useState(
         location.pathname === "/signup"
     );
 
 
-    // ==========================================
+    // =========================================================
     // LOGIN STATE
-    // ==========================================
+    // =========================================================
 
-    const [loginEmail, setLoginEmail] = useState(
-        localStorage.getItem(
-            "shiyoraRememberedEmail"
-        ) || ""
-    );
+    const [loginEmail, setLoginEmail] =
+        useState(
+            localStorage.getItem(
+                "shiyoraRememberedEmail"
+            ) || ""
+        );
+
 
     const [loginPassword, setLoginPassword] =
         useState("");
 
-    const [rememberMe, setRememberMe] = useState(
-        Boolean(
-            localStorage.getItem(
-                "shiyoraRememberedEmail"
+
+    const [rememberMe, setRememberMe] =
+        useState(
+            Boolean(
+                localStorage.getItem(
+                    "shiyoraRememberedEmail"
+                )
             )
-        )
-    );
+        );
 
 
-    // ==========================================
+    // =========================================================
     // SIGNUP STATE
-    // ==========================================
+    // =========================================================
 
     const [signupName, setSignupName] =
         useState("");
 
+
     const [signupEmail, setSignupEmail] =
         useState("");
+
 
     const [signupRole, setSignupRole] =
         useState("");
 
+
     const [signupPassword, setSignupPassword] =
         useState("");
 
+
     const [confirmPassword, setConfirmPassword] =
         useState("");
+
 
     const [agreeTerms, setAgreeTerms] =
         useState(false);
 
 
-    // ==========================================
+    // =========================================================
     // UI STATE
-    // ==========================================
+    // =========================================================
 
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [error, setError] =
+        useState("");
+
+    const [success, setSuccess] =
+        useState("");
+
+    const [loading, setLoading] =
+        useState(false);
 
 
-    // ==========================================
+    // =========================================================
     // ROUTE SYNC
-    // ==========================================
+    // =========================================================
 
     useEffect(() => {
 
@@ -95,9 +115,9 @@ function Auth() {
     }, [location.pathname]);
 
 
-    // ==========================================
+    // =========================================================
     // GO TO LOGIN
-    // ==========================================
+    // =========================================================
 
     const goToLogin = () => {
 
@@ -107,15 +127,15 @@ function Auth() {
         setIsSignup(false);
 
         navigate("/login", {
-            replace: true
+            replace: true,
         });
 
     };
 
 
-    // ==========================================
+    // =========================================================
     // GO TO SIGNUP
-    // ==========================================
+    // =========================================================
 
     const goToSignup = () => {
 
@@ -125,15 +145,15 @@ function Auth() {
         setIsSignup(true);
 
         navigate("/signup", {
-            replace: true
+            replace: true,
         });
 
     };
 
 
-    // ==========================================
+    // =========================================================
     // LOGIN
-    // ==========================================
+    // =========================================================
 
     const handleLogin = async () => {
 
@@ -141,19 +161,20 @@ function Auth() {
         setSuccess("");
 
 
-        // ==========================================
-        // CLEAN EMAIL
-        // ==========================================
-
         const email =
-            loginEmail.trim().toLowerCase();
+            loginEmail
+                .trim()
+                .toLowerCase();
 
 
-        // ==========================================
+        // -----------------------------------------------------
         // VALIDATION
-        // ==========================================
+        // -----------------------------------------------------
 
-        if (!email || !loginPassword) {
+        if (
+            !email ||
+            !loginPassword
+        ) {
 
             setError(
                 "Please enter your email and password."
@@ -168,29 +189,25 @@ function Auth() {
             setLoading(true);
 
 
-            // ==========================================
-            // LOGIN WITH BACKEND
-            // ==========================================
+            // -------------------------------------------------
+            // LOGIN API
+            // -------------------------------------------------
 
-            const response = await loginUser({
-
-                email: email,
-
-                password: loginPassword
-
-            });
-
-
-            // ==========================================
-            // GET USER
-            // ==========================================
-
-            const user = response.data;
+            const response =
+                await loginUser({
+                    email,
+                    password:
+                        loginPassword,
+                });
 
 
-            // ==========================================
+            const user =
+                response.data;
+
+
+            // -------------------------------------------------
             // SAVE USER
-            // ==========================================
+            // -------------------------------------------------
 
             localStorage.setItem(
                 "shiyoraUser",
@@ -208,9 +225,9 @@ function Auth() {
             );
 
 
-            // ==========================================
+            // -------------------------------------------------
             // REMEMBER EMAIL
-            // ==========================================
+            // -------------------------------------------------
 
             if (rememberMe) {
 
@@ -228,9 +245,9 @@ function Auth() {
             }
 
 
-            // ==========================================
+            // -------------------------------------------------
             // ROLE REDIRECT
-            // ==========================================
+            // -------------------------------------------------
 
             switch (user.role) {
 
@@ -279,7 +296,6 @@ function Auth() {
                     break;
             }
 
-
         } catch (err) {
 
             console.error(
@@ -292,19 +308,17 @@ function Auth() {
                 "Invalid email or password."
             );
 
-
         } finally {
 
             setLoading(false);
 
         }
-
     };
 
 
-    // ==========================================
+    // =========================================================
     // SIGNUP
-    // ==========================================
+    // =========================================================
 
     const handleSignup = async () => {
 
@@ -312,20 +326,19 @@ function Auth() {
         setSuccess("");
 
 
-        // ==========================================
-        // CLEAN INPUT
-        // ==========================================
-
         const name =
             signupName.trim();
 
+
         const email =
-            signupEmail.trim().toLowerCase();
+            signupEmail
+                .trim()
+                .toLowerCase();
 
 
-        // ==========================================
-        // REQUIRED FIELD VALIDATION
-        // ==========================================
+        // -----------------------------------------------------
+        // REQUIRED VALIDATION
+        // -----------------------------------------------------
 
         if (
             !name ||
@@ -341,9 +354,9 @@ function Auth() {
         }
 
 
-        // ==========================================
+        // -----------------------------------------------------
         // PASSWORD VALIDATION
-        // ==========================================
+        // -----------------------------------------------------
 
         if (
             !signupPassword ||
@@ -383,9 +396,9 @@ function Auth() {
         }
 
 
-        // ==========================================
-        // TERMS VALIDATION
-        // ==========================================
+        // -----------------------------------------------------
+        // TERMS
+        // -----------------------------------------------------
 
         if (!agreeTerms) {
 
@@ -397,32 +410,34 @@ function Auth() {
         }
 
 
-        // ==========================================
-        // SEND SIGNUP TO BACKEND
-        // ==========================================
-
         try {
 
             setLoading(true);
 
 
+            // -------------------------------------------------
+            // SIGNUP API
+            // -------------------------------------------------
+
             const response =
                 await signupUser({
 
-                    name: name,
+                    name,
 
-                    email: email,
+                    email,
 
-                    password: signupPassword,
+                    password:
+                        signupPassword,
 
-                    role: signupRole
+                    role:
+                        signupRole,
 
                 });
 
 
-            // ==========================================
+            // -------------------------------------------------
             // SUCCESS
-            // ==========================================
+            // -------------------------------------------------
 
             setSuccess(
                 response.message ||
@@ -430,9 +445,9 @@ function Auth() {
             );
 
 
-            // ==========================================
-            // CLEAR SIGNUP FORM
-            // ==========================================
+            // -------------------------------------------------
+            // CLEAR FORM
+            // -------------------------------------------------
 
             setSignupName("");
             setSignupEmail("");
@@ -442,16 +457,15 @@ function Auth() {
             setAgreeTerms(false);
 
 
-            // ==========================================
-            // MOVE TO LOGIN
-            // ==========================================
+            // -------------------------------------------------
+            // GO TO LOGIN
+            // -------------------------------------------------
 
             setTimeout(() => {
 
                 goToLogin();
 
             }, 1200);
-
 
         } catch (err) {
 
@@ -465,19 +479,17 @@ function Auth() {
                 "Unable to create account."
             );
 
-
         } finally {
 
             setLoading(false);
 
         }
-
     };
 
 
-    // ==========================================
+    // =========================================================
     // GOOGLE AUTH
-    // ==========================================
+    // =========================================================
 
     const handleGoogleAuth = () => {
 
@@ -487,9 +499,9 @@ function Auth() {
     };
 
 
-    // ==========================================
+    // =========================================================
     // LINKEDIN AUTH
-    // ==========================================
+    // =========================================================
 
     const handleLinkedInAuth = () => {
 
@@ -499,9 +511,9 @@ function Auth() {
     };
 
 
-    // ==========================================
+    // =========================================================
     // FORGOT PASSWORD
-    // ==========================================
+    // =========================================================
 
     const handleForgotPassword =
         async () => {
@@ -539,12 +551,13 @@ function Auth() {
 
                             headers: {
                                 "Content-Type":
-                                    "application/json"
+                                    "application/json",
                             },
 
-                            body: JSON.stringify({
-                                email
-                            })
+                            body:
+                                JSON.stringify({
+                                    email,
+                                }),
                         }
                     );
 
@@ -568,14 +581,12 @@ function Auth() {
                     "Password reset instructions have been sent."
                 );
 
-
             } catch (err) {
 
                 setError(
                     err.message ||
                     "Password reset service is not available yet."
                 );
-
 
             } finally {
 
@@ -586,203 +597,194 @@ function Auth() {
         };
 
 
-    // ==========================================
+    // =========================================================
     // UI
-    // ==========================================
+    // =========================================================
 
     return (
 
-        <main className="min-h-screen bg-slate-50 dark:bg-[#06101d]">
+        <main className="auth-page">
 
-            <div className="flex min-h-screen items-center justify-center px-3 py-4 sm:px-5">
+            <div
+                className={
+                    `auth-wrapper${isSignup
+                        ? " toggled"
+                        : ""
+                    }`
+                }
+            >
 
-                {/* ======================================
-                    AUTH VIEWPORT
-                ======================================= */}
+                {/* =================================================
+                    DIAGONAL BACKGROUND
+                ================================================== */}
 
-                <div className="w-full max-w-5xl overflow-hidden rounded-[24px]">
-
-                    {/* ==================================
-                        HORIZONTAL SLIDER
-                    =================================== */}
-
-                    <div
-                        className="flex w-[200%] items-start transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
-                        style={{
-                            transform:
-                                isSignup
-                                    ? "translateX(-50%)"
-                                    : "translateX(0)"
-                        }}
-                    >
-
-                        {/* ==================================
-                            LOGIN
-                        =================================== */}
-
-                        <div className="w-1/2 shrink-0">
-
-                            <Login
-
-                                loginEmail={
-                                    loginEmail
-                                }
-
-                                setLoginEmail={
-                                    setLoginEmail
-                                }
-
-                                loginPassword={
-                                    loginPassword
-                                }
-
-                                setLoginPassword={
-                                    setLoginPassword
-                                }
-
-                                rememberMe={
-                                    rememberMe
-                                }
-
-                                setRememberMe={
-                                    setRememberMe
-                                }
-
-                                handleLogin={
-                                    handleLogin
-                                }
-
-                                handleGoogleAuth={
-                                    handleGoogleAuth
-                                }
-
-                                handleLinkedInAuth={
-                                    handleLinkedInAuth
-                                }
-
-                                handleForgotPassword={
-                                    handleForgotPassword
-                                }
-
-                                goToSignup={
-                                    goToSignup
-                                }
-
-                                error={
-                                    error
-                                }
-
-                                success={
-                                    success
-                                }
-
-                                loading={
-                                    loading
-                                }
-
-                            />
-
-                        </div>
+                <div
+                    className="background-shape"
+                    aria-hidden="true"
+                />
 
 
-                        {/* ==================================
-                            SIGNUP
-                        =================================== */}
+                {/* =================================================
+                    LOGIN
+                ================================================== */}
 
-                        <div className="w-1/2 shrink-0">
+                <Login
 
-                            <Signup
+                    loginEmail={
+                        loginEmail
+                    }
 
-                                signupName={
-                                    signupName
-                                }
+                    setLoginEmail={
+                        setLoginEmail
+                    }
 
-                                setSignupName={
-                                    setSignupName
-                                }
+                    loginPassword={
+                        loginPassword
+                    }
 
-                                signupEmail={
-                                    signupEmail
-                                }
+                    setLoginPassword={
+                        setLoginPassword
+                    }
 
-                                setSignupEmail={
-                                    setSignupEmail
-                                }
+                    rememberMe={
+                        rememberMe
+                    }
 
-                                signupRole={
-                                    signupRole
-                                }
+                    setRememberMe={
+                        setRememberMe
+                    }
 
-                                setSignupRole={
-                                    setSignupRole
-                                }
+                    handleLogin={
+                        handleLogin
+                    }
 
-                                signupPassword={
-                                    signupPassword
-                                }
+                    handleGoogleAuth={
+                        handleGoogleAuth
+                    }
 
-                                setSignupPassword={
-                                    setSignupPassword
-                                }
+                    handleLinkedInAuth={
+                        handleLinkedInAuth
+                    }
 
-                                confirmPassword={
-                                    confirmPassword
-                                }
+                    handleForgotPassword={
+                        handleForgotPassword
+                    }
 
-                                setConfirmPassword={
-                                    setConfirmPassword
-                                }
+                    goToSignup={
+                        goToSignup
+                    }
 
-                                agreeTerms={
-                                    agreeTerms
-                                }
+                    error={
+                        isSignup
+                            ? ""
+                            : error
+                    }
 
-                                setAgreeTerms={
-                                    setAgreeTerms
-                                }
+                    success={
+                        isSignup
+                            ? ""
+                            : success
+                    }
 
-                                handleSignup={
-                                    handleSignup
-                                }
+                    loading={
+                        loading
+                    }
 
-                                handleGoogleAuth={
-                                    handleGoogleAuth
-                                }
+                />
 
-                                handleLinkedInAuth={
-                                    handleLinkedInAuth
-                                }
 
-                                goToLogin={
-                                    goToLogin
-                                }
+                {/* =================================================
+                    SIGNUP
+                ================================================== */}
 
-                                error={
-                                    error
-                                }
+                <Signup
 
-                                success={
-                                    success
-                                }
+                    signupName={
+                        signupName
+                    }
 
-                                loading={
-                                    loading
-                                }
+                    setSignupName={
+                        setSignupName
+                    }
 
-                            />
+                    signupEmail={
+                        signupEmail
+                    }
 
-                        </div>
+                    setSignupEmail={
+                        setSignupEmail
+                    }
 
-                    </div>
+                    signupRole={
+                        signupRole
+                    }
 
-                </div>
+                    setSignupRole={
+                        setSignupRole
+                    }
+
+                    signupPassword={
+                        signupPassword
+                    }
+
+                    setSignupPassword={
+                        setSignupPassword
+                    }
+
+                    confirmPassword={
+                        confirmPassword
+                    }
+
+                    setConfirmPassword={
+                        setConfirmPassword
+                    }
+
+                    agreeTerms={
+                        agreeTerms
+                    }
+
+                    setAgreeTerms={
+                        setAgreeTerms
+                    }
+
+                    handleSignup={
+                        handleSignup
+                    }
+
+                    handleGoogleAuth={
+                        handleGoogleAuth
+                    }
+
+                    handleLinkedInAuth={
+                        handleLinkedInAuth
+                    }
+
+                    goToLogin={
+                        goToLogin
+                    }
+
+                    error={
+                        isSignup
+                            ? error
+                            : ""
+                    }
+
+                    success={
+                        isSignup
+                            ? success
+                            : ""
+                    }
+
+                    loading={
+                        loading
+                    }
+
+                />
 
             </div>
 
         </main>
-
     );
-
 }
 
 

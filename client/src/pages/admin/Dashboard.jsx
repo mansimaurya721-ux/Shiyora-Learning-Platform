@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 import {
     Users,
     BookOpen,
@@ -23,7 +23,7 @@ const Dashboard = () => {
             change: "+12.5%",
             description: "this month",
             icon: Users,
-            accent: "gold",
+            accent: "blue",
         },
         {
             title: "Total Teachers",
@@ -31,7 +31,7 @@ const Dashboard = () => {
             change: "+8.2%",
             description: "this month",
             icon: GraduationCap,
-            accent: "green",
+            accent: "teal",
         },
         {
             title: "Total Courses",
@@ -39,7 +39,7 @@ const Dashboard = () => {
             change: "+15.4%",
             description: "this month",
             icon: BookOpen,
-            accent: "light",
+            accent: "blue",
         },
         {
             title: "Enrollments",
@@ -47,7 +47,7 @@ const Dashboard = () => {
             change: "+18.7%",
             description: "this month",
             icon: ClipboardCheck,
-            accent: "gold",
+            accent: "teal",
         },
     ];
 
@@ -115,10 +115,12 @@ const Dashboard = () => {
                 relative
                 min-h-screen
                 overflow-hidden
-                bg-[#161F19]
+                bg-slate-50
                 px-4
                 py-6
-                text-[#F3EEDD]
+                text-slate-700
+                dark:bg-[#07111f]
+                dark:text-slate-300
                 sm:px-6
                 lg:px-8
             "
@@ -136,8 +138,9 @@ const Dashboard = () => {
                     h-125
                     w-125
                     rounded-full
-                    bg-[#F2B84B]/5
+                    bg-blue-500/5
                     blur-[130px]
+                    dark:bg-blue-400/10
                 "
             />
 
@@ -150,8 +153,9 @@ const Dashboard = () => {
                     h-125
                     w-125
                     rounded-full
-                    bg-[#7C9A82]/[0.07]
+                    bg-teal-500/5
                     blur-[140px]
+                    dark:bg-teal-400/10
                 "
             />
 
@@ -177,16 +181,16 @@ const Dashboard = () => {
                     "
                 >
                     <div>
-
                         <p
                             className="
                                 mb-1
-                                font-['JetBrains_Mono']
+                                font-mono
                                 text-[10px]
                                 font-semibold
                                 uppercase
                                 tracking-[0.2em]
-                                text-[#F2B84B]
+                                text-blue-600
+                                dark:text-teal-400
                             "
                         >
                             Administration
@@ -194,11 +198,11 @@ const Dashboard = () => {
 
                         <h1
                             className="
-                                font-['Space_Grotesk']
                                 text-3xl
                                 font-bold
                                 tracking-tight
-                                text-[#F3EEDD]
+                                text-slate-900
+                                dark:text-slate-100
                                 md:text-4xl
                             "
                         >
@@ -211,13 +215,13 @@ const Dashboard = () => {
                                 max-w-xl
                                 text-sm
                                 leading-relaxed
-                                text-[#F3EEDD]/50
+                                text-slate-500
+                                dark:text-slate-400
                             "
                         >
                             Welcome back! Here's what's happening with
                             your organization today.
                         </p>
-
                     </div>
 
                     {/* HEADER ACTIONS */}
@@ -232,28 +236,27 @@ const Dashboard = () => {
                                 gap-2
                                 rounded-xl
                                 border
-                                border-[#F3EEDD]/10
-                                bg-[#1B241E]
+                                border-slate-200
+                                bg-white
                                 px-4
                                 py-3
-                                font-['Space_Grotesk']
                                 text-sm
                                 font-semibold
-                                text-[#F3EEDD]/70
-                                shadow-[0_10px_25px_rgba(0,0,0,0.12)]
+                                text-slate-700
+                                shadow-sm
                                 transition-all
                                 duration-300
-                                motion-safe:hover:-translate-y-0.5
-                                hover:border-[#7C9A82]/30
-                                hover:bg-[#202B23]
-                                hover:text-[#F3EEDD]
-                                focus-visible:outline-2
-                                focus-visible:outline-offset-2
-                                focus-visible:outline-[#7C9A82]
+                                hover:-translate-y-0.5
+                                hover:border-blue-200
+                                hover:text-blue-600
+                                dark:border-[#1e334a]
+                                dark:bg-[#0b1727]
+                                dark:text-slate-300
+                                dark:hover:border-blue-500/30
+                                dark:hover:text-blue-400
                             "
                         >
                             <TrendingUp size={17} />
-
                             View Reports
                         </button>
 
@@ -264,29 +267,23 @@ const Dashboard = () => {
                                 items-center
                                 gap-2
                                 rounded-xl
-                                border
-                                border-[#F2B84B]/30
-                                bg-[#F2B84B]
+                                bg-linear-to-r
+                                from-blue-600
+                                to-teal-500
                                 px-4
                                 py-3
-                                font-['Space_Grotesk']
                                 text-sm
                                 font-semibold
-                                text-[#161F19]
-                                shadow-[0_10px_30px_rgba(242,184,75,0.12)]
+                                text-white
+                                shadow-sm
                                 transition-all
                                 duration-300
-                                motion-safe:hover:-translate-y-0.5
-                                hover:bg-[#F7C968]
-                                hover:shadow-[0_12px_35px_rgba(242,184,75,0.18)]
-                                active:scale-[0.98]
-                                focus-visible:outline-2
-                                focus-visible:outline-offset-2
-                                focus-visible:outline-[#F2B84B]
+                                hover:-translate-y-0.5
+                                hover:from-blue-700
+                                hover:to-teal-600
                             "
                         >
                             <Plus size={17} />
-
                             Add Course
                         </button>
 
@@ -307,50 +304,42 @@ const Dashboard = () => {
                         xl:grid-cols-4
                     "
                 >
-
                     {stats.map((stat) => {
 
                         const Icon = stat.icon;
 
-                        const iconContainer =
-                            stat.accent === "gold"
-                                ? "border-[#F2B84B]/20 bg-[#F2B84B]/10 text-[#F2B84B]"
-                                : stat.accent === "green"
-                                    ? "border-[#7C9A82]/20 bg-[#7C9A82]/10 text-[#7C9A82]"
-                                    : "border-[#F3EEDD]/15 bg-[#F3EEDD]/5 text-[#F3EEDD]/70";
-
-                        const hoverBorder =
-                            stat.accent === "green"
-                                ? "hover:border-[#7C9A82]/30"
-                                : "hover:border-[#F2B84B]/30";
+                        const isTeal = stat.accent === "teal";
 
                         return (
                             <div
                                 key={stat.title}
-                                className={`
+                                className="
                                     group
                                     rounded-2xl
                                     border
-                                    border-[#F3EEDD]/10
-                                    bg-[#1B241E]
+                                    border-slate-200
+                                    bg-white
                                     p-5
-                                    shadow-[0_15px_35px_rgba(0,0,0,0.15)]
+                                    shadow-sm
                                     transition-all
                                     duration-300
-                                    motion-safe:hover:-translate-y-1
-                                    ${hoverBorder}
-                                `}
+                                    hover:-translate-y-1
+                                    hover:shadow-lg
+                                    hover:shadow-blue-500/5
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#0b1727]
+                                    dark:hover:border-blue-500/20
+                                "
                             >
-
                                 <div className="flex items-start justify-between">
 
                                     <div>
-
                                         <p
                                             className="
                                                 text-xs
                                                 font-medium
-                                                text-[#F3EEDD]/45
+                                                text-slate-500
+                                                dark:text-slate-400
                                             "
                                         >
                                             {stat.title}
@@ -359,10 +348,11 @@ const Dashboard = () => {
                                         <h2
                                             className="
                                                 mt-2
-                                                font-['JetBrains_Mono']
+                                                font-mono
                                                 text-2xl
                                                 font-semibold
-                                                text-[#F3EEDD]
+                                                text-slate-900
+                                                dark:text-slate-100
                                             "
                                         >
                                             {stat.value}
@@ -373,54 +363,51 @@ const Dashboard = () => {
                                             <TrendingUp
                                                 size={13}
                                                 className={
-                                                    stat.accent === "green"
-                                                        ? "text-[#7C9A82]"
-                                                        : "text-[#F2B84B]"
+                                                    isTeal
+                                                        ? "text-teal-600 dark:text-teal-400"
+                                                        : "text-blue-600 dark:text-blue-400"
                                                 }
                                             />
 
                                             <span
-                                                className={`
-                                                    text-[11px]
-                                                    font-semibold
-                                                    ${stat.accent === "green"
-                                                        ? "text-[#7C9A82]"
-                                                        : "text-[#F2B84B]"
-                                                    }
-                                                `}
+                                                className={
+                                                    `text-[11px] font-semibold ${isTeal
+                                                        ? "text-teal-600 dark:text-teal-400"
+                                                        : "text-blue-600 dark:text-blue-400"
+                                                    }`
+                                                }
                                             >
                                                 {stat.change}
                                             </span>
 
-                                            <span className="text-[11px] text-[#F3EEDD]/30">
+                                            <span
+                                                className="
+                                                    text-[11px]
+                                                    text-slate-400
+                                                    dark:text-slate-500
+                                                "
+                                            >
                                                 {stat.description}
                                             </span>
 
                                         </div>
-
                                     </div>
 
                                     <div
-                                        className={`
-                                            flex
-                                            h-12
-                                            w-12
-                                            items-center
-                                            justify-center
-                                            rounded-xl
-                                            border
-                                            ${iconContainer}
-                                        `}
+                                        className={
+                                            `flex h-12 w-12 items-center justify-center rounded-xl border ${isTeal
+                                                ? "border-teal-200 bg-teal-50 text-teal-600 dark:border-teal-500/20 dark:bg-teal-500/10 dark:text-teal-400"
+                                                : "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-400"
+                                            }`
+                                        }
                                     >
                                         <Icon size={21} />
                                     </div>
 
                                 </div>
-
                             </div>
                         );
                     })}
-
                 </div>
 
                 {/* =================================================
@@ -445,10 +432,12 @@ const Dashboard = () => {
                             overflow-hidden
                             rounded-2xl
                             border
-                            border-[#E4DED4]
-                            bg-[#F8F5EF]
-                            shadow-[0_20px_50px_rgba(0,0,0,0.18)]
+                            border-slate-200
+                            bg-white
+                            shadow-sm
                             xl:col-span-2
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
                         "
                     >
 
@@ -460,15 +449,14 @@ const Dashboard = () => {
                                 flex-col
                                 gap-3
                                 border-b
-                                border-[#E7DED5]
-                                bg-[#FBF9F5]
+                                border-slate-200
                                 p-6
                                 sm:flex-row
                                 sm:items-center
                                 sm:justify-between
+                                dark:border-[#1e334a]
                             "
                         >
-
                             <div>
 
                                 <div className="flex items-center gap-2">
@@ -478,18 +466,19 @@ const Dashboard = () => {
                                             h-2
                                             w-2
                                             rounded-full
-                                            bg-[#F2B84B]
+                                            bg-blue-500
                                         "
                                     />
 
                                     <p
                                         className="
-                                            font-['JetBrains_Mono']
+                                            font-mono
                                             text-[10px]
                                             font-semibold
                                             uppercase
                                             tracking-[0.18em]
-                                            text-[#8C7134]
+                                            text-blue-600
+                                            dark:text-blue-400
                                         "
                                     >
                                         Courses
@@ -500,16 +489,23 @@ const Dashboard = () => {
                                 <h2
                                     className="
                                         mt-1
-                                        font-['Space_Grotesk']
                                         text-xl
                                         font-semibold
-                                        text-[#303B32]
+                                        text-slate-900
+                                        dark:text-slate-100
                                     "
                                 >
                                     Recent Courses
                                 </h2>
 
-                                <p className="mt-1 text-xs text-[#7C817B]">
+                                <p
+                                    className="
+                                        mt-1
+                                        text-xs
+                                        text-slate-500
+                                        dark:text-slate-400
+                                    "
+                                >
                                     Recently created courses.
                                 </p>
 
@@ -523,22 +519,22 @@ const Dashboard = () => {
                                     gap-1
                                     text-sm
                                     font-semibold
-                                    text-[#63816A]
+                                    text-blue-600
                                     transition
-                                    hover:text-[#4E6854]
+                                    hover:text-blue-700
+                                    dark:text-blue-400
+                                    dark:hover:text-blue-300
                                 "
                             >
                                 View All
-
                                 <ArrowUpRight size={16} />
-
                             </button>
 
                         </div>
 
                         {/* COURSE LIST */}
 
-                        <div className="divide-y divide-[#E7DED5]">
+                        <div className="divide-y divide-slate-200 dark:divide-[#1e334a]">
 
                             {recentCourses.map((course) => (
 
@@ -550,10 +546,11 @@ const Dashboard = () => {
                                         gap-4
                                         p-5
                                         transition
-                                        hover:bg-[#FFFDF9]
+                                        hover:bg-slate-50
                                         sm:flex-row
                                         sm:items-center
                                         sm:justify-between
+                                        dark:hover:bg-[#102337]
                                     "
                                 >
 
@@ -569,9 +566,12 @@ const Dashboard = () => {
                                                 justify-center
                                                 rounded-xl
                                                 border
-                                                border-[#F2B84B]/30
-                                                bg-[#F7E6B9]
-                                                text-[#6E5926]
+                                                border-blue-200
+                                                bg-blue-50
+                                                text-blue-600
+                                                dark:border-blue-500/20
+                                                dark:bg-blue-500/10
+                                                dark:text-blue-400
                                             "
                                         >
                                             <BookOpen size={20} />
@@ -581,16 +581,23 @@ const Dashboard = () => {
 
                                             <h3
                                                 className="
-                                                    font-['Space_Grotesk']
                                                     text-sm
                                                     font-semibold
-                                                    text-[#303B32]
+                                                    text-slate-900
+                                                    dark:text-slate-100
                                                 "
                                             >
                                                 {course.name}
                                             </h3>
 
-                                            <p className="mt-1 text-xs text-[#8A8E89]">
+                                            <p
+                                                className="
+                                                    mt-1
+                                                    text-xs
+                                                    text-slate-500
+                                                    dark:text-slate-400
+                                                "
+                                            >
                                                 By {course.teacher}
                                             </p>
 
@@ -604,48 +611,44 @@ const Dashboard = () => {
 
                                             <p
                                                 className="
-                                                    font-['JetBrains_Mono']
+                                                    font-mono
                                                     text-sm
                                                     font-semibold
-                                                    text-[#536058]
+                                                    text-slate-700
+                                                    dark:text-slate-200
                                                 "
                                             >
                                                 {course.students}
                                             </p>
 
-                                            <p className="text-[11px] text-[#8A8E89]">
+                                            <p
+                                                className="
+                                                    text-[11px]
+                                                    text-slate-400
+                                                    dark:text-slate-500
+                                                "
+                                            >
                                                 Students
                                             </p>
 
                                         </div>
 
                                         <span
-                                            className={`
-                                                inline-flex
-                                                items-center
-                                                gap-1.5
-                                                rounded-full
-                                                px-3
-                                                py-1
-                                                text-xs
-                                                font-semibold
-                                                ${course.status === "Active"
-                                                    ? "bg-[#EDF6EF] text-[#64856C]"
-                                                    : "bg-[#F5F1E9] text-[#817667]"
-                                                }
-                                            `}
+                                            className={
+                                                `inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${course.status === "Active"
+                                                    ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400"
+                                                    : "bg-slate-100 text-slate-500 dark:bg-slate-700/40 dark:text-slate-400"
+                                                }`
+                                            }
                                         >
 
                                             <span
-                                                className={`
-                                                    h-1.5
-                                                    w-1.5
-                                                    rounded-full
-                                                    ${course.status === "Active"
-                                                        ? "bg-[#7C9A82]"
-                                                        : "bg-[#B9AA95]"
-                                                    }
-                                                `}
+                                                className={
+                                                    `h-1.5 w-1.5 rounded-full ${course.status === "Active"
+                                                        ? "bg-emerald-500"
+                                                        : "bg-slate-400"
+                                                    }`
+                                                }
                                             />
 
                                             {course.status}
@@ -670,10 +673,12 @@ const Dashboard = () => {
                         className="
                             rounded-2xl
                             border
-                            border-[#E4DED4]
-                            bg-[#F8F5EF]
+                            border-slate-200
+                            bg-white
                             p-6
-                            shadow-[0_20px_50px_rgba(0,0,0,0.18)]
+                            shadow-sm
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
                         "
                     >
 
@@ -684,18 +689,19 @@ const Dashboard = () => {
                                     h-2
                                     w-2
                                     rounded-full
-                                    bg-[#7C9A82]
+                                    bg-teal-500
                                 "
                             />
 
                             <p
                                 className="
-                                    font-['JetBrains_Mono']
+                                    font-mono
                                     text-[10px]
                                     font-semibold
                                     uppercase
                                     tracking-[0.18em]
-                                    text-[#63816A]
+                                    text-teal-600
+                                    dark:text-teal-400
                                 "
                             >
                                 Shortcuts
@@ -706,16 +712,23 @@ const Dashboard = () => {
                         <h2
                             className="
                                 mt-2
-                                font-['Space_Grotesk']
                                 text-xl
                                 font-semibold
-                                text-[#303B32]
+                                text-slate-900
+                                dark:text-slate-100
                             "
                         >
                             Quick Actions
                         </h2>
 
-                        <p className="mt-1 text-xs text-[#7C817B]">
+                        <p
+                            className="
+                                mt-1
+                                text-xs
+                                text-slate-500
+                                dark:text-slate-400
+                            "
+                        >
                             Manage your organization quickly.
                         </p>
 
@@ -732,14 +745,18 @@ const Dashboard = () => {
                                     gap-4
                                     rounded-xl
                                     border
-                                    border-[#E4DED4]
-                                    bg-[#FBF9F5]
+                                    border-slate-200
+                                    bg-slate-50
                                     p-4
                                     text-left
                                     transition-all
                                     duration-300
-                                    hover:border-[#F2B84B]/40
-                                    hover:bg-[#FFF9E9]
+                                    hover:border-blue-200
+                                    hover:bg-blue-50
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#102337]
+                                    dark:hover:border-blue-500/30
+                                    dark:hover:bg-blue-500/5
                                 "
                             >
 
@@ -752,9 +769,12 @@ const Dashboard = () => {
                                         justify-center
                                         rounded-xl
                                         border
-                                        border-[#F2B84B]/20
-                                        bg-[#F7E6B9]
-                                        text-[#8C7134]
+                                        border-blue-200
+                                        bg-blue-50
+                                        text-blue-600
+                                        dark:border-blue-500/20
+                                        dark:bg-blue-500/10
+                                        dark:text-blue-400
                                     "
                                 >
                                     <Plus size={19} />
@@ -766,13 +786,21 @@ const Dashboard = () => {
                                         className="
                                             text-sm
                                             font-semibold
-                                            text-[#303B32]
+                                            text-slate-800
+                                            dark:text-slate-100
                                         "
                                     >
                                         Create Course
                                     </p>
 
-                                    <p className="mt-0.5 text-xs text-[#8A8E89]">
+                                    <p
+                                        className="
+                                            mt-0.5
+                                            text-xs
+                                            text-slate-500
+                                            dark:text-slate-400
+                                        "
+                                    >
                                         Add a new course
                                     </p>
 
@@ -791,14 +819,18 @@ const Dashboard = () => {
                                     gap-4
                                     rounded-xl
                                     border
-                                    border-[#E4DED4]
-                                    bg-[#FBF9F5]
+                                    border-slate-200
+                                    bg-slate-50
                                     p-4
                                     text-left
                                     transition-all
                                     duration-300
-                                    hover:border-[#7C9A82]/40
-                                    hover:bg-[#F3F8F3]
+                                    hover:border-teal-200
+                                    hover:bg-teal-50
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#102337]
+                                    dark:hover:border-teal-500/30
+                                    dark:hover:bg-teal-500/5
                                 "
                             >
 
@@ -811,9 +843,12 @@ const Dashboard = () => {
                                         justify-center
                                         rounded-xl
                                         border
-                                        border-[#7C9A82]/20
-                                        bg-[#EDF4EE]
-                                        text-[#63816A]
+                                        border-teal-200
+                                        bg-teal-50
+                                        text-teal-600
+                                        dark:border-teal-500/20
+                                        dark:bg-teal-500/10
+                                        dark:text-teal-400
                                     "
                                 >
                                     <UserPlus size={19} />
@@ -825,13 +860,21 @@ const Dashboard = () => {
                                         className="
                                             text-sm
                                             font-semibold
-                                            text-[#303B32]
+                                            text-slate-800
+                                            dark:text-slate-100
                                         "
                                     >
                                         Add Student
                                     </p>
 
-                                    <p className="mt-0.5 text-xs text-[#8A8E89]">
+                                    <p
+                                        className="
+                                            mt-0.5
+                                            text-xs
+                                            text-slate-500
+                                            dark:text-slate-400
+                                        "
+                                    >
                                         Register a new student
                                     </p>
 
@@ -850,14 +893,18 @@ const Dashboard = () => {
                                     gap-4
                                     rounded-xl
                                     border
-                                    border-[#E4DED4]
-                                    bg-[#FBF9F5]
+                                    border-slate-200
+                                    bg-slate-50
                                     p-4
                                     text-left
                                     transition-all
                                     duration-300
-                                    hover:border-[#F2B84B]/40
-                                    hover:bg-[#FFF9E9]
+                                    hover:border-blue-200
+                                    hover:bg-blue-50
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#102337]
+                                    dark:hover:border-blue-500/30
+                                    dark:hover:bg-blue-500/5
                                 "
                             >
 
@@ -870,9 +917,12 @@ const Dashboard = () => {
                                         justify-center
                                         rounded-xl
                                         border
-                                        border-[#F2B84B]/20
-                                        bg-[#F7E6B9]
-                                        text-[#8C7134]
+                                        border-blue-200
+                                        bg-blue-50
+                                        text-blue-600
+                                        dark:border-blue-500/20
+                                        dark:bg-blue-500/10
+                                        dark:text-blue-400
                                     "
                                 >
                                     <GraduationCap size={19} />
@@ -884,13 +934,21 @@ const Dashboard = () => {
                                         className="
                                             text-sm
                                             font-semibold
-                                            text-[#303B32]
+                                            text-slate-800
+                                            dark:text-slate-100
                                         "
                                     >
                                         Add Teacher
                                     </p>
 
-                                    <p className="mt-0.5 text-xs text-[#8A8E89]">
+                                    <p
+                                        className="
+                                            mt-0.5
+                                            text-xs
+                                            text-slate-500
+                                            dark:text-slate-400
+                                        "
+                                    >
                                         Add teaching staff
                                     </p>
 
@@ -927,9 +985,11 @@ const Dashboard = () => {
                             overflow-hidden
                             rounded-2xl
                             border
-                            border-[#E4DED4]
-                            bg-[#F8F5EF]
-                            shadow-[0_20px_50px_rgba(0,0,0,0.18)]
+                            border-slate-200
+                            bg-white
+                            shadow-sm
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
                         "
                     >
 
@@ -939,9 +999,9 @@ const Dashboard = () => {
                                 items-center
                                 justify-between
                                 border-b
-                                border-[#E7DED5]
-                                bg-[#FBF9F5]
+                                border-slate-200
                                 p-6
+                                dark:border-[#1e334a]
                             "
                         >
 
@@ -954,18 +1014,19 @@ const Dashboard = () => {
                                             h-2
                                             w-2
                                             rounded-full
-                                            bg-[#F2B84B]
+                                            bg-blue-500
                                         "
                                     />
 
                                     <p
                                         className="
-                                            font-['JetBrains_Mono']
+                                            font-mono
                                             text-[10px]
                                             font-semibold
                                             uppercase
                                             tracking-[0.18em]
-                                            text-[#8C7134]
+                                            text-blue-600
+                                            dark:text-blue-400
                                         "
                                     >
                                         Students
@@ -976,16 +1037,23 @@ const Dashboard = () => {
                                 <h2
                                     className="
                                         mt-1
-                                        font-['Space_Grotesk']
                                         text-xl
                                         font-semibold
-                                        text-[#303B32]
+                                        text-slate-900
+                                        dark:text-slate-100
                                     "
                                 >
                                     Recent Students
                                 </h2>
 
-                                <p className="mt-1 text-xs text-[#7C817B]">
+                                <p
+                                    className="
+                                        mt-1
+                                        text-xs
+                                        text-slate-500
+                                        dark:text-slate-400
+                                    "
+                                >
                                     Latest students registered.
                                 </p>
 
@@ -996,9 +1064,11 @@ const Dashboard = () => {
                                 className="
                                     text-sm
                                     font-semibold
-                                    text-[#63816A]
+                                    text-blue-600
                                     transition
-                                    hover:text-[#4E6854]
+                                    hover:text-blue-700
+                                    dark:text-blue-400
+                                    dark:hover:text-blue-300
                                 "
                             >
                                 View All
@@ -1006,7 +1076,7 @@ const Dashboard = () => {
 
                         </div>
 
-                        <div className="divide-y divide-[#E7DED5]">
+                        <div className="divide-y divide-slate-200 dark:divide-[#1e334a]">
 
                             {recentStudents.map((student) => (
 
@@ -1019,7 +1089,8 @@ const Dashboard = () => {
                                         gap-4
                                         p-5
                                         transition
-                                        hover:bg-[#FFFDF9]
+                                        hover:bg-slate-50
+                                        dark:hover:bg-[#102337]
                                     "
                                 >
 
@@ -1034,11 +1105,14 @@ const Dashboard = () => {
                                                 justify-center
                                                 rounded-xl
                                                 border
-                                                border-[#7C9A82]/20
-                                                bg-[#EDF4EE]
+                                                border-teal-200
+                                                bg-teal-50
                                                 text-sm
                                                 font-bold
-                                                text-[#63816A]
+                                                text-teal-600
+                                                dark:border-teal-500/20
+                                                dark:bg-teal-500/10
+                                                dark:text-teal-400
                                             "
                                         >
                                             {student.name.charAt(0)}
@@ -1048,16 +1122,23 @@ const Dashboard = () => {
 
                                             <p
                                                 className="
-                                                    font-['Space_Grotesk']
                                                     text-sm
                                                     font-semibold
-                                                    text-[#303B32]
+                                                    text-slate-800
+                                                    dark:text-slate-100
                                                 "
                                             >
                                                 {student.name}
                                             </p>
 
-                                            <p className="mt-0.5 text-xs text-[#8A8E89]">
+                                            <p
+                                                className="
+                                                    mt-0.5
+                                                    text-xs
+                                                    text-slate-500
+                                                    dark:text-slate-400
+                                                "
+                                            >
                                                 {student.email}
                                             </p>
 
@@ -1070,8 +1151,9 @@ const Dashboard = () => {
                                             hidden
                                             text-xs
                                             font-medium
-                                            text-[#6F7771]
+                                            text-slate-500
                                             sm:block
+                                            dark:text-slate-400
                                         "
                                     >
                                         {student.course}
@@ -1093,10 +1175,12 @@ const Dashboard = () => {
                         className="
                             rounded-2xl
                             border
-                            border-[#E4DED4]
-                            bg-[#F8F5EF]
+                            border-slate-200
+                            bg-white
                             p-6
-                            shadow-[0_20px_50px_rgba(0,0,0,0.18)]
+                            shadow-sm
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
                         "
                     >
 
@@ -1111,18 +1195,19 @@ const Dashboard = () => {
                                             h-2
                                             w-2
                                             rounded-full
-                                            bg-[#7C9A82]
+                                            bg-teal-500
                                         "
                                     />
 
                                     <p
                                         className="
-                                            font-['JetBrains_Mono']
+                                            font-mono
                                             text-[10px]
                                             font-semibold
                                             uppercase
                                             tracking-[0.18em]
-                                            text-[#63816A]
+                                            text-teal-600
+                                            dark:text-teal-400
                                         "
                                     >
                                         Activity
@@ -1133,16 +1218,23 @@ const Dashboard = () => {
                                 <h2
                                     className="
                                         mt-1
-                                        font-['Space_Grotesk']
                                         text-xl
                                         font-semibold
-                                        text-[#303B32]
+                                        text-slate-900
+                                        dark:text-slate-100
                                     "
                                 >
                                     Organization Overview
                                 </h2>
 
-                                <p className="mt-1 text-xs text-[#7C817B]">
+                                <p
+                                    className="
+                                        mt-1
+                                        text-xs
+                                        text-slate-500
+                                        dark:text-slate-400
+                                    "
+                                >
                                     Current platform activity.
                                 </p>
 
@@ -1157,9 +1249,12 @@ const Dashboard = () => {
                                     justify-center
                                     rounded-xl
                                     border
-                                    border-[#7C9A82]/20
-                                    bg-[#EDF4EE]
-                                    text-[#63816A]
+                                    border-teal-200
+                                    bg-teal-50
+                                    text-teal-600
+                                    dark:border-teal-500/20
+                                    dark:bg-teal-500/10
+                                    dark:text-teal-400
                                 "
                             >
                                 <Activity size={18} />
@@ -1181,7 +1276,8 @@ const Dashboard = () => {
                                         className="
                                             text-sm
                                             font-medium
-                                            text-[#536058]
+                                            text-slate-600
+                                            dark:text-slate-300
                                         "
                                     >
                                         Student Activity
@@ -1189,10 +1285,11 @@ const Dashboard = () => {
 
                                     <span
                                         className="
-                                            font-['JetBrains_Mono']
+                                            font-mono
                                             text-xs
                                             font-bold
-                                            text-[#303B32]
+                                            text-slate-800
+                                            dark:text-slate-200
                                         "
                                     >
                                         82%
@@ -1200,17 +1297,23 @@ const Dashboard = () => {
 
                                 </div>
 
-                                <div className="h-2 overflow-hidden rounded-full bg-[#E5E0D7]">
-
+                                <div
+                                    className="
+                                        h-2
+                                        overflow-hidden
+                                        rounded-full
+                                        bg-slate-100
+                                        dark:bg-slate-800
+                                    "
+                                >
                                     <div
                                         className="
                                             h-full
                                             w-[82%]
                                             rounded-full
-                                            bg-[#7C9A82]
+                                            bg-teal-500
                                         "
                                     />
-
                                 </div>
 
                             </div>
@@ -1225,7 +1328,8 @@ const Dashboard = () => {
                                         className="
                                             text-sm
                                             font-medium
-                                            text-[#536058]
+                                            text-slate-600
+                                            dark:text-slate-300
                                         "
                                     >
                                         Course Completion
@@ -1233,10 +1337,11 @@ const Dashboard = () => {
 
                                     <span
                                         className="
-                                            font-['JetBrains_Mono']
+                                            font-mono
                                             text-xs
                                             font-bold
-                                            text-[#303B32]
+                                            text-slate-800
+                                            dark:text-slate-200
                                         "
                                     >
                                         68%
@@ -1244,17 +1349,23 @@ const Dashboard = () => {
 
                                 </div>
 
-                                <div className="h-2 overflow-hidden rounded-full bg-[#E5E0D7]">
-
+                                <div
+                                    className="
+                                        h-2
+                                        overflow-hidden
+                                        rounded-full
+                                        bg-slate-100
+                                        dark:bg-slate-800
+                                    "
+                                >
                                     <div
                                         className="
                                             h-full
                                             w-[68%]
                                             rounded-full
-                                            bg-[#F2B84B]
+                                            bg-blue-500
                                         "
                                     />
-
                                 </div>
 
                             </div>
@@ -1269,7 +1380,8 @@ const Dashboard = () => {
                                         className="
                                             text-sm
                                             font-medium
-                                            text-[#536058]
+                                            text-slate-600
+                                            dark:text-slate-300
                                         "
                                     >
                                         Teacher Activity
@@ -1277,10 +1389,11 @@ const Dashboard = () => {
 
                                     <span
                                         className="
-                                            font-['JetBrains_Mono']
+                                            font-mono
                                             text-xs
                                             font-bold
-                                            text-[#303B32]
+                                            text-slate-800
+                                            dark:text-slate-200
                                         "
                                     >
                                         74%
@@ -1288,17 +1401,23 @@ const Dashboard = () => {
 
                                 </div>
 
-                                <div className="h-2 overflow-hidden rounded-full bg-[#E5E0D7]">
-
+                                <div
+                                    className="
+                                        h-2
+                                        overflow-hidden
+                                        rounded-full
+                                        bg-slate-100
+                                        dark:bg-slate-800
+                                    "
+                                >
                                     <div
                                         className="
                                             h-full
                                             w-[74%]
                                             rounded-full
-                                            bg-[#9E8B54]
+                                            bg-blue-400
                                         "
                                     />
-
                                 </div>
 
                             </div>
@@ -1312,15 +1431,23 @@ const Dashboard = () => {
                                 mt-8
                                 rounded-xl
                                 border
-                                border-[#E4DED4]
-                                bg-[#FBF9F5]
+                                border-blue-100
+                                bg-blue-50
                                 p-4
+                                dark:border-blue-500/10
+                                dark:bg-blue-500/5
                             "
                         >
 
                             <div className="flex items-start gap-3">
 
-                                <div className="mt-0.5 text-[#8C7134]">
+                                <div
+                                    className="
+                                        mt-0.5
+                                        text-blue-600
+                                        dark:text-blue-400
+                                    "
+                                >
                                     <TrendingUp size={18} />
                                 </div>
 
@@ -1330,7 +1457,8 @@ const Dashboard = () => {
                                         className="
                                             text-sm
                                             font-semibold
-                                            text-[#303B32]
+                                            text-slate-800
+                                            dark:text-slate-100
                                         "
                                     >
                                         Platform activity is growing
@@ -1341,7 +1469,8 @@ const Dashboard = () => {
                                             mt-1
                                             text-xs
                                             leading-relaxed
-                                            text-[#7C817B]
+                                            text-slate-500
+                                            dark:text-slate-400
                                         "
                                     >
                                         Student enrollments and course
@@ -1366,11 +1495,12 @@ const Dashboard = () => {
 
                     <p
                         className="
-                            font-['JetBrains_Mono']
+                            font-mono
                             text-[9px]
                             uppercase
                             tracking-wider
-                            text-[#F3EEDD]/25
+                            text-slate-400
+                            dark:text-slate-600
                         "
                     >
                         Shiyora Administration
@@ -1378,11 +1508,12 @@ const Dashboard = () => {
 
                     <p
                         className="
-                            font-['JetBrains_Mono']
+                            font-mono
                             text-[9px]
                             uppercase
                             tracking-wider
-                            text-[#F3EEDD]/25
+                            text-slate-400
+                            dark:text-slate-600
                         "
                     >
                         Organization Dashboard
@@ -1391,7 +1522,6 @@ const Dashboard = () => {
                 </div>
 
             </div>
-
         </main>
     );
 };

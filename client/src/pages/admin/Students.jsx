@@ -12,13 +12,6 @@ import {
 } from "lucide-react";
 
 // ============================================================
-// FONT IMPORTS
-// ============================================================
-
-const FONT_IMPORTS =
-    "@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');";
-
-// ============================================================
 // STUDENTS
 // ============================================================
 
@@ -93,7 +86,7 @@ const Students = () => {
     // ============================================================
 
     const filteredStudents = useMemo(() => {
-        const searchText = search.toLowerCase();
+        const searchText = search.toLowerCase().trim();
 
         return students.filter((student) => {
             const matchesSearch =
@@ -140,36 +133,48 @@ const Students = () => {
             value: totalStudents,
             description: "Registered students",
             icon: Users,
-            iconColor: "text-[#F2B84B]",
-            iconBg: "bg-[#F2B84B]/10",
-            border: "border-[#F2B84B]/20",
+            iconColor:
+                "text-blue-600 dark:text-blue-400",
+            iconBg:
+                "bg-blue-50 dark:bg-blue-500/10",
+            border:
+                "border-blue-100 dark:border-blue-500/20",
         },
         {
             title: "Active Students",
             value: activeStudents,
             description: "Currently learning",
             icon: UserCheck,
-            iconColor: "text-[#7C9A82]",
-            iconBg: "bg-[#7C9A82]/10",
-            border: "border-[#7C9A82]/20",
+            iconColor:
+                "text-teal-600 dark:text-teal-400",
+            iconBg:
+                "bg-teal-50 dark:bg-teal-500/10",
+            border:
+                "border-teal-100 dark:border-teal-500/20",
         },
         {
             title: "Inactive Students",
             value: inactiveStudents,
             description: "Currently inactive",
             icon: UserX,
-            iconColor: "text-[#D6402C]",
-            iconBg: "bg-[#D6402C]/10",
-            border: "border-[#D6402C]/20",
+            iconColor:
+                "text-red-600 dark:text-red-400",
+            iconBg:
+                "bg-red-50 dark:bg-red-500/10",
+            border:
+                "border-red-100 dark:border-red-500/20",
         },
         {
             title: "Average Progress",
             value: `${averageProgress}%`,
             description: "Overall learning progress",
             icon: TrendingUp,
-            iconColor: "text-[#F2B84B]",
-            iconBg: "bg-[#F2B84B]/10",
-            border: "border-[#F2B84B]/20",
+            iconColor:
+                "text-blue-600 dark:text-blue-400",
+            iconBg:
+                "bg-blue-50 dark:bg-blue-500/10",
+            border:
+                "border-blue-100 dark:border-blue-500/20",
         },
     ];
 
@@ -178,57 +183,15 @@ const Students = () => {
     // ============================================================
 
     return (
-        <main
-            className="
-                relative
-                min-h-screen
-                overflow-hidden
-                bg-[#161F19]
-                px-4
-                py-6
-                font-['Inter']
-                text-[#F3EEDD]
-                sm:px-6
-                lg:px-8
-            "
-        >
-            {/* ====================================================
-                FONT IMPORT
-            ==================================================== */}
-
-            <style>{FONT_IMPORTS}</style>
+        <main className="relative min-h-screen overflow-hidden bg-slate-50 px-4 py-6 text-slate-700 dark:bg-[#07111f] dark:text-slate-300 sm:px-6 lg:px-8">
 
             {/* ====================================================
-                BACKGROUND GLOW
+                BACKGROUND GLOWS
             ==================================================== */}
 
-            <div
-                className="
-                    pointer-events-none
-                    fixed
-                    -left-40
-                    -top-40
-                    h-125
-                    w-125
-                    rounded-full
-                    bg-[#F2B84B]/5
-                    blur-[130px]
-                "
-            />
+            <div className="pointer-events-none fixed -left-40 -top-40 h-125 w-125 rounded-full bg-blue-500/5 blur-[130px] dark:bg-blue-500/10" />
 
-            <div
-                className="
-                    pointer-events-none
-                    fixed
-                    -right-40
-                    bottom-0
-                    h-125
-                    w-125
-                    rounded-full
-                    bg-[#7C9A82]/[0.07]
-                    blur-[140px]
-                "
-            />
+            <div className="pointer-events-none fixed -right-40 bottom-0 h-125 w-125 rounded-full bg-teal-500/[0.05] blur-[140px] dark:bg-teal-500/[0.08]" />
 
             {/* ====================================================
                 CONTENT
@@ -240,55 +203,19 @@ const Students = () => {
                     HEADER
                 ================================================== */}
 
-                <div
-                    className="
-                        mb-8
-                        flex
-                        flex-col
-                        gap-5
-                        md:flex-row
-                        md:items-end
-                        md:justify-between
-                    "
-                >
+                <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+
                     <div>
 
-                        <p
-                            className="
-                                mb-1
-                                font-['JetBrains_Mono']
-                                text-[10px]
-                                font-semibold
-                                uppercase
-                                tracking-[0.2em]
-                                text-[#F2B84B]
-                            "
-                        >
+                        <p className="mb-1 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
                             Administration
                         </p>
 
-                        <h1
-                            className="
-                                font-['Space_Grotesk']
-                                text-3xl
-                                font-bold
-                                tracking-tight
-                                text-[#F3EEDD]
-                                md:text-4xl
-                            "
-                        >
+                        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50 md:text-4xl">
                             Students
                         </h1>
 
-                        <p
-                            className="
-                                mt-2
-                                max-w-xl
-                                text-sm
-                                leading-relaxed
-                                text-[#F3EEDD]/50
-                            "
-                        >
+                        <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-500 dark:text-slate-400">
                             Manage students, enrollments and learning
                             progress across your Shiyora LMS platform.
                         </p>
@@ -297,56 +224,26 @@ const Students = () => {
 
                     {/* TOTAL RECORDS */}
 
-                    <div
-                        className="
-                            rounded-xl
-                            border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
-                            px-5
-                            py-3
-                        "
-                    >
-                        <span
-                            className="
-                                font-['JetBrains_Mono']
-                                text-[9px]
-                                uppercase
-                                tracking-widest
-                                text-[#F3EEDD]/30
-                            "
-                        >
+                    <div className="rounded-xl border border-slate-200 bg-white px-5 py-3 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                        <span className="font-mono text-[9px] uppercase tracking-widest text-slate-400 dark:text-slate-500">
                             Total Records
                         </span>
 
-                        <p
-                            className="
-                                mt-1
-                                font-['JetBrains_Mono']
-                                text-lg
-                                font-semibold
-                                text-[#F2B84B]
-                            "
-                        >
+                        <p className="mt-1 font-mono text-lg font-semibold text-blue-600 dark:text-blue-400">
                             {totalStudents}
                         </p>
+
                     </div>
+
                 </div>
 
                 {/* ==================================================
                     STATISTICS
                 ================================================== */}
 
-                <div
-                    className="
-                        mb-6
-                        grid
-                        grid-cols-1
-                        gap-4
-                        sm:grid-cols-2
-                        xl:grid-cols-4
-                    "
-                >
+                <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
                     {statistics.map((stat) => {
                         const Icon = stat.icon;
 
@@ -360,15 +257,17 @@ const Students = () => {
                                     rounded-2xl
                                     border
                                     ${stat.border}
-                                    bg-[#1B241E]
+                                    bg-white
                                     p-5
-                                    shadow-[0_15px_35px_rgba(0,0,0,0.15)]
+                                    shadow-sm
                                     transition-all
                                     duration-300
                                     motion-safe:hover:-translate-y-1
-                                    hover:shadow-[0_20px_45px_rgba(0,0,0,0.25)]
+                                    hover:shadow-md
+                                    dark:bg-[#0b1727]
                                 `}
                             >
+
                                 {/* DECORATIVE GLOW */}
 
                                 <div
@@ -385,45 +284,19 @@ const Students = () => {
                                     `}
                                 />
 
-                                <div
-                                    className="
-                                        relative
-                                        flex
-                                        items-start
-                                        justify-between
-                                    "
-                                >
+                                <div className="relative flex items-start justify-between">
+
                                     <div>
 
-                                        <p
-                                            className="
-                                                text-xs
-                                                font-medium
-                                                text-[#F3EEDD]/40
-                                            "
-                                        >
+                                        <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
                                             {stat.title}
                                         </p>
 
-                                        <h2
-                                            className="
-                                                mt-2
-                                                font-['JetBrains_Mono']
-                                                text-2xl
-                                                font-semibold
-                                                text-[#F3EEDD]
-                                            "
-                                        >
+                                        <h2 className="mt-2 font-mono text-2xl font-semibold text-slate-900 dark:text-slate-50">
                                             {stat.value}
                                         </h2>
 
-                                        <p
-                                            className="
-                                                mt-2
-                                                text-[10px]
-                                                text-[#F3EEDD]/30
-                                            "
-                                        >
+                                        <p className="mt-2 text-[10px] text-slate-400 dark:text-slate-500">
                                             {stat.description}
                                         </p>
 
@@ -447,32 +320,18 @@ const Students = () => {
                                     </div>
 
                                 </div>
+
                             </div>
                         );
                     })}
+
                 </div>
 
                 {/* ==================================================
                     SEARCH + FILTER
                 ================================================== */}
 
-                <div
-                    className="
-                        mb-6
-                        flex
-                        flex-col
-                        gap-4
-                        rounded-2xl
-                        border
-                        border-[#F3EEDD]/10
-                        bg-[#1B241E]
-                        p-4
-                        shadow-[0_15px_35px_rgba(0,0,0,0.15)]
-                        md:flex-row
-                        md:items-center
-                        md:justify-between
-                    "
-                >
+                <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] md:flex-row md:items-center md:justify-between">
 
                     {/* SEARCH */}
 
@@ -480,13 +339,7 @@ const Students = () => {
 
                         <Search
                             size={19}
-                            className="
-                                absolute
-                                left-3
-                                top-1/2
-                                -translate-y-1/2
-                                text-[#F3EEDD]/30
-                            "
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
                         />
 
                         <input
@@ -494,24 +347,7 @@ const Students = () => {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search students..."
-                            className="
-                                w-full
-                                rounded-xl
-                                border
-                                border-[#F3EEDD]/10
-                                bg-[#141C17]
-                                py-3
-                                pl-10
-                                pr-4
-                                text-sm
-                                text-[#F3EEDD]
-                                outline-none
-                                placeholder:text-[#F3EEDD]/25
-                                transition
-                                focus:border-[#F2B84B]/40
-                                focus:ring-2
-                                focus:ring-[#F2B84B]/10
-                            "
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-blue-400"
                         />
 
                     </div>
@@ -520,17 +356,7 @@ const Students = () => {
 
                     <div className="flex items-center gap-3">
 
-                        <span
-                            className="
-                                hidden
-                                font-['JetBrains_Mono']
-                                text-[9px]
-                                uppercase
-                                tracking-wider
-                                text-[#F3EEDD]/30
-                                sm:block
-                            "
-                        >
+                        <span className="hidden font-mono text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-500 sm:block">
                             Status
                         </span>
 
@@ -539,130 +365,63 @@ const Students = () => {
                             onChange={(e) =>
                                 setStatusFilter(e.target.value)
                             }
-                            className="
-                                w-full
-                                rounded-xl
-                                border
-                                border-[#F3EEDD]/10
-                                bg-[#141C17]
-                                px-4
-                                py-3
-                                text-sm
-                                font-medium
-                                text-[#F3EEDD]/70
-                                outline-none
-                                transition
-                                focus:border-[#F2B84B]/40
-                                sm:w-auto
-                            "
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:focus:border-blue-400 sm:w-auto"
                         >
                             <option
                                 value="All"
-                                className="bg-[#1B241E]"
+                                className="bg-white dark:bg-[#102337]"
                             >
                                 All Students
                             </option>
 
                             <option
                                 value="Active"
-                                className="bg-[#1B241E]"
+                                className="bg-white dark:bg-[#102337]"
                             >
                                 Active
                             </option>
 
                             <option
                                 value="Inactive"
-                                className="bg-[#1B241E]"
+                                className="bg-white dark:bg-[#102337]"
                             >
                                 Inactive
                             </option>
                         </select>
 
                     </div>
+
                 </div>
 
                 {/* ==================================================
-                    WHITE STUDENT MANAGEMENT SECTION
-                    SAME STYLE AS ORGANIZATIONS
+                    STUDENT MANAGEMENT SECTION
                 ================================================== */}
 
-                <section
-                    className="
-                        overflow-hidden
-                        rounded-2xl
-                        border
-                        border-[#F3EEDD]/10
-                        bg-[#F8F5EF]
-                        shadow-[0_20px_50px_rgba(0,0,0,0.18)]
-                    "
-                >
+                <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
 
                     {/* ==================================================
                         TABLE SECTION HEADER
                     ================================================== */}
 
-                    <div
-                        className="
-                            flex
-                            flex-col
-                            gap-3
-                            border-b
-                            border-[#E7DED5]
-                            bg-[#FBF9F5]
-                            p-6
-                            sm:flex-row
-                            sm:items-center
-                            sm:justify-between
-                        "
-                    >
+                    <div className="flex flex-col gap-3 border-b border-slate-200 bg-white p-6 dark:border-[#1e334a] dark:bg-[#0b1727] sm:flex-row sm:items-center sm:justify-between">
 
                         <div>
 
                             <div className="flex items-center gap-2">
 
-                                <span
-                                    className="
-                                        h-2
-                                        w-2
-                                        rounded-full
-                                        bg-[#F2B84B]
-                                    "
-                                />
+                                <span className="h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-400" />
 
-                                <p
-                                    className="
-                                        font-['JetBrains_Mono']
-                                        text-[10px]
-                                        font-semibold
-                                        uppercase
-                                        tracking-[0.18em]
-                                        text-[#8C7134]
-                                    "
-                                >
+                                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">
                                     Student Management
                                 </p>
 
                             </div>
 
-                            <h2
-                                className="
-                                    mt-1
-                                    font-['Space_Grotesk']
-                                    text-xl
-                                    font-semibold
-                                    text-[#303B32]
-                                "
-                            >
+                            <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-slate-50">
                                 All Students
                             </h2>
 
-                            <p
-                                className="
-                                    mt-1
-                                    text-xs
-                                    text-[#7C817B]
-                                "
-                            >
+                            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 View and manage students enrolled in your
                                 courses.
                             </p>
@@ -671,32 +430,14 @@ const Students = () => {
 
                         {/* RESULTS */}
 
-                        <div
-                            className="
-                                flex
-                                w-fit
-                                items-center
-                                gap-2
-                                rounded-lg
-                                bg-[#F0EBE3]
-                                px-3
-                                py-2
-                            "
-                        >
+                        <div className="flex w-fit items-center gap-2 rounded-lg bg-teal-50 px-3 py-2 dark:bg-teal-500/10">
 
                             <TrendingUp
                                 size={14}
-                                className="text-[#7C9A82]"
+                                className="text-teal-600 dark:text-teal-400"
                             />
 
-                            <span
-                                className="
-                                    font-['JetBrains_Mono']
-                                    text-[10px]
-                                    font-semibold
-                                    text-[#63816A]
-                                "
-                            >
+                            <span className="font-mono text-[10px] font-semibold text-teal-700 dark:text-teal-300">
                                 {filteredStudents.length} RESULTS
                             </span>
 
@@ -714,103 +455,31 @@ const Students = () => {
 
                             {/* TABLE HEAD */}
 
-                            <thead className="bg-[#F1ECE5]">
+                            <thead className="bg-slate-50 dark:bg-[#102337]">
 
                                 <tr>
 
-                                    <th
-                                        className="
-                                            px-6
-                                            py-4
-                                            text-left
-                                            font-['JetBrains_Mono']
-                                            text-[9px]
-                                            font-semibold
-                                            uppercase
-                                            tracking-wider
-                                            text-[#817B74]
-                                        "
-                                    >
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Student
                                     </th>
 
-                                    <th
-                                        className="
-                                            px-6
-                                            py-4
-                                            text-left
-                                            font-['JetBrains_Mono']
-                                            text-[9px]
-                                            font-semibold
-                                            uppercase
-                                            tracking-wider
-                                            text-[#817B74]
-                                        "
-                                    >
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Course
                                     </th>
 
-                                    <th
-                                        className="
-                                            px-6
-                                            py-4
-                                            text-left
-                                            font-['JetBrains_Mono']
-                                            text-[9px]
-                                            font-semibold
-                                            uppercase
-                                            tracking-wider
-                                            text-[#817B74]
-                                        "
-                                    >
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Enrolled
                                     </th>
 
-                                    <th
-                                        className="
-                                            px-6
-                                            py-4
-                                            text-left
-                                            font-['JetBrains_Mono']
-                                            text-[9px]
-                                            font-semibold
-                                            uppercase
-                                            tracking-wider
-                                            text-[#817B74]
-                                        "
-                                    >
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Progress
                                     </th>
 
-                                    <th
-                                        className="
-                                            px-6
-                                            py-4
-                                            text-left
-                                            font-['JetBrains_Mono']
-                                            text-[9px]
-                                            font-semibold
-                                            uppercase
-                                            tracking-wider
-                                            text-[#817B74]
-                                        "
-                                    >
+                                    <th className="px-6 py-4 text-left font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Status
                                     </th>
 
-                                    <th
-                                        className="
-                                            px-6
-                                            py-4
-                                            text-right
-                                            font-['JetBrains_Mono']
-                                            text-[9px]
-                                            font-semibold
-                                            uppercase
-                                            tracking-wider
-                                            text-[#817B74]
-                                        "
-                                    >
+                                    <th className="px-6 py-4 text-right font-mono text-[9px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Action
                                     </th>
 
@@ -820,70 +489,32 @@ const Students = () => {
 
                             {/* TABLE BODY */}
 
-                            <tbody className="divide-y divide-[#E7DED5]">
+                            <tbody className="divide-y divide-slate-200 dark:divide-[#1e334a]">
 
                                 {filteredStudents.map((student) => (
 
                                     <tr
                                         key={student.id}
-                                        className="
-                                            transition-colors
-                                            hover:bg-[#FFFDF9]
-                                        "
+                                        className="transition-colors hover:bg-slate-50 dark:hover:bg-[#102337]/70"
                                     >
 
                                         {/* STUDENT */}
 
                                         <td className="px-6 py-5">
 
-                                            <div
-                                                className="
-                                                    flex
-                                                    items-center
-                                                    gap-3
-                                                "
-                                            >
+                                            <div className="flex items-center gap-3">
 
-                                                <div
-                                                    className="
-                                                        flex
-                                                        h-11
-                                                        w-11
-                                                        shrink-0
-                                                        items-center
-                                                        justify-center
-                                                        rounded-xl
-                                                        border
-                                                        border-[#F2B84B]/30
-                                                        bg-[#F7E6B9]
-                                                        font-['Space_Grotesk']
-                                                        font-bold
-                                                        text-[#6E5926]
-                                                    "
-                                                >
+                                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 font-bold text-blue-700 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-400">
                                                     {student.name.charAt(0)}
                                                 </div>
 
                                                 <div>
 
-                                                    <p
-                                                        className="
-                                                            font-['Space_Grotesk']
-                                                            text-sm
-                                                            font-semibold
-                                                            text-[#303B32]
-                                                        "
-                                                    >
+                                                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                                                         {student.name}
                                                     </p>
 
-                                                    <p
-                                                        className="
-                                                            mt-1
-                                                            text-xs
-                                                            text-[#8A8E89]
-                                                        "
-                                                    >
+                                                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                                         {student.email}
                                                     </p>
 
@@ -897,14 +528,7 @@ const Students = () => {
 
                                         <td className="px-6 py-5">
 
-                                            <p
-                                                className="
-                                                    max-w-65
-                                                    text-sm
-                                                    font-medium
-                                                    text-[#536058]
-                                                "
-                                            >
+                                            <p className="max-w-65 text-sm font-medium text-slate-600 dark:text-slate-300">
                                                 {student.enrolledCourse}
                                             </p>
 
@@ -912,15 +536,7 @@ const Students = () => {
 
                                         {/* ENROLLED DATE */}
 
-                                        <td
-                                            className="
-                                                px-6
-                                                py-5
-                                                font-['JetBrains_Mono']
-                                                text-[10px]
-                                                text-[#7B817B]
-                                            "
-                                        >
+                                        <td className="px-6 py-5 font-mono text-[10px] text-slate-500 dark:text-slate-400">
                                             {student.enrolledDate}
                                         </td>
 
@@ -930,53 +546,22 @@ const Students = () => {
 
                                             <div className="w-36">
 
-                                                <div
-                                                    className="
-                                                        mb-2
-                                                        flex
-                                                        items-center
-                                                        justify-between
-                                                    "
-                                                >
+                                                <div className="mb-2 flex items-center justify-between">
 
-                                                    <span
-                                                        className="
-                                                            text-[10px]
-                                                            text-[#8A8E89]
-                                                        "
-                                                    >
+                                                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
                                                         Progress
                                                     </span>
 
-                                                    <span
-                                                        className="
-                                                            font-['JetBrains_Mono']
-                                                            text-[10px]
-                                                            font-semibold
-                                                            text-[#9A792C]
-                                                        "
-                                                    >
+                                                    <span className="font-mono text-[10px] font-semibold text-blue-600 dark:text-blue-400">
                                                         {student.progress}%
                                                     </span>
 
                                                 </div>
 
-                                                <div
-                                                    className="
-                                                        h-1.5
-                                                        overflow-hidden
-                                                        rounded-full
-                                                        bg-[#E8E0D5]
-                                                    "
-                                                >
+                                                <div className="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
 
                                                     <div
-                                                        className="
-                                                            h-full
-                                                            rounded-full
-                                                            bg-[#F2B84B]
-                                                            transition-all
-                                                        "
+                                                        className="h-full rounded-full bg-gradient-to-r from-blue-600 to-teal-500 transition-all dark:from-blue-500 dark:to-teal-400"
                                                         style={{
                                                             width: `${student.progress}%`,
                                                         }}
@@ -1002,11 +587,9 @@ const Students = () => {
                                                     py-1
                                                     text-xs
                                                     font-semibold
-
-                                                    ${student.status ===
-                                                        "Active"
-                                                        ? "bg-[#EDF6EF] text-[#64856C]"
-                                                        : "bg-[#FFF0F0] text-[#B96868]"
+                                                    ${student.status === "Active"
+                                                        ? "bg-teal-50 text-teal-700 dark:bg-teal-500/10 dark:text-teal-300"
+                                                        : "bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-300"
                                                     }
                                                 `}
                                             >
@@ -1016,11 +599,9 @@ const Students = () => {
                                                         h-1.5
                                                         w-1.5
                                                         rounded-full
-
-                                                        ${student.status ===
-                                                            "Active"
-                                                            ? "bg-[#7C9A82]"
-                                                            : "bg-[#C98282]"
+                                                        ${student.status === "Active"
+                                                            ? "bg-teal-500 dark:bg-teal-400"
+                                                            : "bg-red-500 dark:bg-red-400"
                                                         }
                                                     `}
                                                 />
@@ -1033,14 +614,7 @@ const Students = () => {
 
                                         {/* ACTION */}
 
-                                        <td
-                                            className="
-                                                relative
-                                                px-6
-                                                py-5
-                                                text-right
-                                            "
-                                        >
+                                        <td className="relative px-6 py-5 text-right">
 
                                             <button
                                                 type="button"
@@ -1051,14 +625,7 @@ const Students = () => {
                                                             : student.id
                                                     )
                                                 }
-                                                className="
-                                                    rounded-lg
-                                                    p-2
-                                                    text-[#8A8E89]
-                                                    transition
-                                                    hover:bg-[#F3EEDD]
-                                                    hover:text-[#303B32]
-                                                "
+                                                className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-200 dark:focus-visible:outline-teal-400"
                                             >
                                                 <MoreVertical size={18} />
                                             </button>
@@ -1067,23 +634,7 @@ const Students = () => {
 
                                             {openMenu === student.id && (
 
-                                                <div
-                                                    className="
-                                                        absolute
-                                                        right-6
-                                                        top-14
-                                                        z-30
-                                                        w-36
-                                                        overflow-hidden
-                                                        rounded-xl
-                                                        border
-                                                        border-[#E4DED4]
-                                                        bg-white
-                                                        py-1
-                                                        text-left
-                                                        shadow-[0_15px_35px_rgba(22,31,25,0.15)]
-                                                    "
-                                                >
+                                                <div className="absolute right-6 top-14 z-30 w-36 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 text-left shadow-lg dark:border-[#1e334a] dark:bg-[#0b1727]">
 
                                                     {/* VIEW */}
 
@@ -1092,18 +643,7 @@ const Students = () => {
                                                         onClick={() =>
                                                             setOpenMenu(null)
                                                         }
-                                                        className="
-                                                            flex
-                                                            w-full
-                                                            items-center
-                                                            gap-2
-                                                            px-4
-                                                            py-2.5
-                                                            text-sm
-                                                            text-[#536058]
-                                                            transition
-                                                            hover:bg-[#FFF9E9]
-                                                        "
+                                                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400"
                                                     >
                                                         <Eye size={15} />
                                                         View
@@ -1116,18 +656,7 @@ const Students = () => {
                                                         onClick={() =>
                                                             setOpenMenu(null)
                                                         }
-                                                        className="
-                                                            flex
-                                                            w-full
-                                                            items-center
-                                                            gap-2
-                                                            px-4
-                                                            py-2.5
-                                                            text-sm
-                                                            text-[#536058]
-                                                            transition
-                                                            hover:bg-[#FFF9E9]
-                                                        "
+                                                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400"
                                                     >
                                                         <Pencil size={15} />
                                                         Edit
@@ -1140,18 +669,7 @@ const Students = () => {
                                                         onClick={() =>
                                                             setOpenMenu(null)
                                                         }
-                                                        className="
-                                                            flex
-                                                            w-full
-                                                            items-center
-                                                            gap-2
-                                                            px-4
-                                                            py-2.5
-                                                            text-sm
-                                                            text-[#B96868]
-                                                            transition
-                                                            hover:bg-[#FFF3F3]
-                                                        "
+                                                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
                                                     >
                                                         <Trash2 size={15} />
                                                         Delete
@@ -1179,50 +697,17 @@ const Students = () => {
 
                     {filteredStudents.length === 0 && (
 
-                        <div
-                            className="
-                                border-t
-                                border-[#E7DED5]
-                                px-6
-                                py-14
-                                text-center
-                            "
-                        >
+                        <div className="border-t border-slate-200 px-6 py-14 text-center dark:border-[#1e334a]">
 
-                            <div
-                                className="
-                                    mx-auto
-                                    flex
-                                    h-14
-                                    w-14
-                                    items-center
-                                    justify-center
-                                    rounded-2xl
-                                    bg-[#FFF5DD]
-                                    text-[#A27E35]
-                                "
-                            >
+                            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
                                 <Users size={26} />
                             </div>
 
-                            <h3
-                                className="
-                                    mt-4
-                                    font-['Space_Grotesk']
-                                    font-semibold
-                                    text-[#303B32]
-                                "
-                            >
+                            <h3 className="mt-4 font-semibold text-slate-900 dark:text-slate-50">
                                 No students found
                             </h3>
 
-                            <p
-                                className="
-                                    mt-1
-                                    text-sm
-                                    text-[#8A8E89]
-                                "
-                            >
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                 Try changing your search or status filter.
                             </p>
 
@@ -1236,39 +721,13 @@ const Students = () => {
                     FOOTER NOTE
                 ================================================== */}
 
-                <div
-                    className="
-                        mt-5
-                        flex
-                        flex-col
-                        gap-2
-                        sm:flex-row
-                        sm:items-center
-                        sm:justify-between
-                    "
-                >
+                <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-                    <p
-                        className="
-                            font-['JetBrains_Mono']
-                            text-[9px]
-                            uppercase
-                            tracking-wider
-                            text-[#F3EEDD]/25
-                        "
-                    >
+                    <p className="font-mono text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-600">
                         Showing {filteredStudents.length} of {totalStudents} students
                     </p>
 
-                    <p
-                        className="
-                            font-['JetBrains_Mono']
-                            text-[9px]
-                            uppercase
-                            tracking-wider
-                            text-[#F3EEDD]/25
-                        "
-                    >
+                    <p className="font-mono text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-600">
                         Shiyora / Students
                     </p>
 

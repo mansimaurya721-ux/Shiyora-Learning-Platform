@@ -5,7 +5,6 @@ import {
     Clock,
     CheckCircle,
     AlertCircle,
-    //User,
     Building2,
     X,
     Send,
@@ -40,7 +39,6 @@ const Support = () => {
             agent: "Unassigned",
             replies: [],
         },
-
         {
             id: "#1023",
             user: "Priya Singh",
@@ -62,7 +60,6 @@ const Support = () => {
                 },
             ],
         },
-
         {
             id: "#1022",
             user: "Aman Verma",
@@ -84,7 +81,6 @@ const Support = () => {
                 },
             ],
         },
-
         {
             id: "#1021",
             user: "Neha Gupta",
@@ -100,7 +96,6 @@ const Support = () => {
             agent: "Unassigned",
             replies: [],
         },
-
         {
             id: "#1020",
             user: "Arjun Patel",
@@ -123,7 +118,7 @@ const Support = () => {
     // ============================================================
 
     const filteredTickets = useMemo(() => {
-        const searchValue = search.toLowerCase();
+        const searchValue = search.toLowerCase().trim();
 
         return tickets.filter((ticket) => {
             const matchesSearch =
@@ -235,14 +230,14 @@ const Support = () => {
 
     const getStatusStyle = (status) => {
         if (status === "Open") {
-            return "border-[#D6402C]/30 bg-[#FFF3F3] text-[#B96868]";
+            return "border-red-200 bg-red-50 text-red-600 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-400";
         }
 
         if (status === "Pending") {
-            return "border-[#F2B84B]/40 bg-[#FFF9E9] text-[#8C7134]";
+            return "border-amber-200 bg-amber-50 text-amber-600 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-400";
         }
 
-        return "border-[#7C9A82]/30 bg-[#EDF6EF] text-[#64856C]";
+        return "border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400";
     };
 
     // ============================================================
@@ -251,14 +246,30 @@ const Support = () => {
 
     const getPriorityStyle = (priority) => {
         if (priority === "High") {
-            return "text-[#B96868]";
+            return "text-red-600 dark:text-red-400";
         }
 
         if (priority === "Medium") {
-            return "text-[#8C7134]";
+            return "text-amber-600 dark:text-amber-400";
         }
 
-        return "text-[#8A8E89]";
+        return "text-slate-500 dark:text-slate-400";
+    };
+
+    // ============================================================
+    // STATUS DOT
+    // ============================================================
+
+    const getStatusDot = (status) => {
+        if (status === "Open") {
+            return "bg-red-500";
+        }
+
+        if (status === "Pending") {
+            return "bg-amber-500";
+        }
+
+        return "bg-emerald-500";
     };
 
     // ============================================================
@@ -271,15 +282,18 @@ const Support = () => {
                 relative
                 min-h-screen
                 overflow-hidden
-                bg-[#161F19]
+                bg-slate-50
                 px-4
                 py-6
-                text-[#303B32]
+                text-slate-700
+                transition-colors
+                duration-300
+                dark:bg-[#07111f]
+                dark:text-slate-300
                 sm:px-6
                 lg:px-8
             "
         >
-
             {/* =====================================================
                 BACKGROUND DECORATION
             ====================================================== */}
@@ -290,11 +304,12 @@ const Support = () => {
                     fixed
                     -left-40
                     -top-40
-                    h-125
-                    w-125
+                    h-[500px]
+                    w-[500px]
                     rounded-full
-                    bg-[#F7E6B9]/6
+                    bg-blue-500/5
                     blur-[130px]
+                    dark:bg-blue-500/10
                 "
             />
 
@@ -302,13 +317,14 @@ const Support = () => {
                 className="
                     pointer-events-none
                     fixed
-                    right-0
-                    top-40
-                    h-112.5
-                    w-112.5
+                    -right-40
+                    bottom-0
+                    h-[500px]
+                    w-[500px]
                     rounded-full
-                    bg-[#7C9A82]/6
+                    bg-teal-400/5
                     blur-[140px]
+                    dark:bg-teal-400/10
                 "
             />
 
@@ -329,18 +345,16 @@ const Support = () => {
                         md:justify-between
                     "
                 >
-
                     <div>
-
                         <p
                             className="
                                 mb-1
-                                font-['JetBrains_Mono']
                                 text-[10px]
                                 font-semibold
                                 uppercase
                                 tracking-[0.2em]
-                                text-[#F2B84B]
+                                text-blue-600
+                                dark:text-teal-400
                             "
                         >
                             Administration
@@ -348,11 +362,11 @@ const Support = () => {
 
                         <h1
                             className="
-                                font-['Space_Grotesk']
                                 text-3xl
-                                font-semibold
+                                font-bold
                                 tracking-tight
-                                text-[#F3EEDD]
+                                text-slate-900
+                                dark:text-white
                                 md:text-4xl
                             "
                         >
@@ -365,13 +379,13 @@ const Support = () => {
                                 max-w-xl
                                 text-sm
                                 leading-relaxed
-                                text-[#F3EEDD]/50
+                                text-slate-500
+                                dark:text-slate-400
                             "
                         >
                             Manage queries and support requests from
                             users across the Shiyora LMS platform.
                         </p>
-
                     </div>
 
                     {/* AI AGENT */}
@@ -381,28 +395,41 @@ const Support = () => {
                             flex
                             w-fit
                             items-center
-                            gap-2
+                            gap-3
                             rounded-xl
                             border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
+                            border-slate-200
+                            bg-white
                             px-4
                             py-3
-                            shadow-[0_10px_30px_rgba(0,0,0,0.12)]
+                            shadow-sm
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
                         "
                     >
-
-                        <Bot
-                            size={18}
-                            className="text-[#F2B84B]"
-                        />
+                        <div
+                            className="
+                                flex
+                                h-8
+                                w-8
+                                items-center
+                                justify-center
+                                rounded-lg
+                                bg-gradient-to-br
+                                from-blue-500
+                                to-teal-500
+                                text-white
+                            "
+                        >
+                            <Bot size={17} />
+                        </div>
 
                         <span
                             className="
-                                font-['Space_Grotesk']
                                 text-sm
                                 font-semibold
-                                text-[#F3EEDD]
+                                text-slate-800
+                                dark:text-white
                             "
                         >
                             AI Agent
@@ -412,22 +439,23 @@ const Support = () => {
                             className="
                                 rounded-full
                                 border
-                                border-[#F3EEDD]/10
-                                bg-[#F3EEDD]/5
+                                border-blue-100
+                                bg-blue-50
                                 px-2
                                 py-1
-                                font-['JetBrains_Mono']
                                 text-[9px]
+                                font-semibold
                                 uppercase
                                 tracking-wider
-                                text-[#F3EEDD]/40
+                                text-blue-600
+                                dark:border-blue-500/20
+                                dark:bg-blue-500/10
+                                dark:text-blue-400
                             "
                         >
                             Coming Soon
                         </span>
-
                     </div>
-
                 </div>
 
                 {/* =================================================
@@ -444,48 +472,47 @@ const Support = () => {
                         xl:grid-cols-4
                     "
                 >
-
                     {/* TOTAL */}
 
                     <div
                         className="
                             rounded-2xl
                             border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
+                            border-slate-200
+                            bg-white
                             p-5
-                            shadow-[0_15px_35px_rgba(0,0,0,0.15)]
+                            shadow-sm
                             transition-all
                             duration-300
                             hover:-translate-y-1
-                            hover:border-[#F2B84B]/25
+                            hover:border-blue-200
+                            hover:shadow-md
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
+                            dark:hover:border-blue-500/30
                         "
                     >
-
                         <div className="flex items-center justify-between">
-
                             <div>
-
-                                <p className="text-xs text-[#F3EEDD]/45">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                     Total Tickets
                                 </p>
 
                                 <h2
                                     className="
                                         mt-2
-                                        font-['JetBrains_Mono']
                                         text-2xl
-                                        font-semibold
-                                        text-[#F3EEDD]
+                                        font-bold
+                                        text-slate-900
+                                        dark:text-white
                                     "
                                 >
                                     {totalTickets}
                                 </h2>
 
-                                <p className="mt-1 text-[11px] text-[#F3EEDD]/30">
+                                <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-500">
                                     All support requests
                                 </p>
-
                             </div>
 
                             <div
@@ -497,16 +524,17 @@ const Support = () => {
                                     justify-center
                                     rounded-xl
                                     border
-                                    border-[#F2B84B]/20
-                                    bg-[#F2B84B]/10
-                                    text-[#F2B84B]
+                                    border-blue-100
+                                    bg-blue-50
+                                    text-blue-600
+                                    dark:border-blue-500/20
+                                    dark:bg-blue-500/10
+                                    dark:text-blue-400
                                 "
                             >
                                 <MessageCircle size={22} />
                             </div>
-
                         </div>
-
                     </div>
 
                     {/* OPEN */}
@@ -515,41 +543,41 @@ const Support = () => {
                         className="
                             rounded-2xl
                             border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
+                            border-slate-200
+                            bg-white
                             p-5
-                            shadow-[0_15px_35px_rgba(0,0,0,0.15)]
+                            shadow-sm
                             transition-all
                             duration-300
                             hover:-translate-y-1
-                            hover:border-[#B96868]/30
+                            hover:border-red-200
+                            hover:shadow-md
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
+                            dark:hover:border-red-500/30
                         "
                     >
-
                         <div className="flex items-center justify-between">
-
                             <div>
-
-                                <p className="text-xs text-[#F3EEDD]/45">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                     Open Tickets
                                 </p>
 
                                 <h2
                                     className="
                                         mt-2
-                                        font-['JetBrains_Mono']
                                         text-2xl
-                                        font-semibold
-                                        text-[#F3EEDD]
+                                        font-bold
+                                        text-slate-900
+                                        dark:text-white
                                     "
                                 >
                                     {openTickets}
                                 </h2>
 
-                                <p className="mt-1 text-[11px] text-[#B96868]/80">
+                                <p className="mt-1 text-[11px] text-red-500 dark:text-red-400">
                                     Needs attention
                                 </p>
-
                             </div>
 
                             <div
@@ -561,16 +589,17 @@ const Support = () => {
                                     justify-center
                                     rounded-xl
                                     border
-                                    border-[#B96868]/20
-                                    bg-[#B96868]/10
-                                    text-[#B96868]
+                                    border-red-100
+                                    bg-red-50
+                                    text-red-600
+                                    dark:border-red-500/20
+                                    dark:bg-red-500/10
+                                    dark:text-red-400
                                 "
                             >
                                 <AlertCircle size={22} />
                             </div>
-
                         </div>
-
                     </div>
 
                     {/* PENDING */}
@@ -579,41 +608,41 @@ const Support = () => {
                         className="
                             rounded-2xl
                             border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
+                            border-slate-200
+                            bg-white
                             p-5
-                            shadow-[0_15px_35px_rgba(0,0,0,0.15)]
+                            shadow-sm
                             transition-all
                             duration-300
                             hover:-translate-y-1
-                            hover:border-[#F2B84B]/25
+                            hover:border-amber-200
+                            hover:shadow-md
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
+                            dark:hover:border-amber-500/30
                         "
                     >
-
                         <div className="flex items-center justify-between">
-
                             <div>
-
-                                <p className="text-xs text-[#F3EEDD]/45">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                     Pending Tickets
                                 </p>
 
                                 <h2
                                     className="
                                         mt-2
-                                        font-['JetBrains_Mono']
                                         text-2xl
-                                        font-semibold
-                                        text-[#F3EEDD]
+                                        font-bold
+                                        text-slate-900
+                                        dark:text-white
                                     "
                                 >
                                     {pendingTickets}
                                 </h2>
 
-                                <p className="mt-1 text-[11px] text-[#F2B84B]/80">
+                                <p className="mt-1 text-[11px] text-amber-600 dark:text-amber-400">
                                     Waiting for response
                                 </p>
-
                             </div>
 
                             <div
@@ -625,16 +654,17 @@ const Support = () => {
                                     justify-center
                                     rounded-xl
                                     border
-                                    border-[#F2B84B]/20
-                                    bg-[#F2B84B]/10
-                                    text-[#F2B84B]
+                                    border-amber-100
+                                    bg-amber-50
+                                    text-amber-600
+                                    dark:border-amber-500/20
+                                    dark:bg-amber-500/10
+                                    dark:text-amber-400
                                 "
                             >
                                 <Clock size={22} />
                             </div>
-
                         </div>
-
                     </div>
 
                     {/* RESOLVED */}
@@ -643,41 +673,41 @@ const Support = () => {
                         className="
                             rounded-2xl
                             border
-                            border-[#F3EEDD]/10
-                            bg-[#1B241E]
+                            border-slate-200
+                            bg-white
                             p-5
-                            shadow-[0_15px_35px_rgba(0,0,0,0.15)]
+                            shadow-sm
                             transition-all
                             duration-300
                             hover:-translate-y-1
-                            hover:border-[#7C9A82]/25
+                            hover:border-emerald-200
+                            hover:shadow-md
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
+                            dark:hover:border-emerald-500/30
                         "
                     >
-
                         <div className="flex items-center justify-between">
-
                             <div>
-
-                                <p className="text-xs text-[#F3EEDD]/45">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                     Resolved Tickets
                                 </p>
 
                                 <h2
                                     className="
                                         mt-2
-                                        font-['JetBrains_Mono']
                                         text-2xl
-                                        font-semibold
-                                        text-[#F3EEDD]
+                                        font-bold
+                                        text-slate-900
+                                        dark:text-white
                                     "
                                 >
                                     {resolvedTickets}
                                 </h2>
 
-                                <p className="mt-1 text-[11px] text-[#7C9A82]/80">
+                                <p className="mt-1 text-[11px] text-emerald-600 dark:text-emerald-400">
                                     Successfully resolved
                                 </p>
-
                             </div>
 
                             <div
@@ -689,18 +719,18 @@ const Support = () => {
                                     justify-center
                                     rounded-xl
                                     border
-                                    border-[#7C9A82]/20
-                                    bg-[#7C9A82]/10
-                                    text-[#7C9A82]
+                                    border-emerald-100
+                                    bg-emerald-50
+                                    text-emerald-600
+                                    dark:border-emerald-500/20
+                                    dark:bg-emerald-500/10
+                                    dark:text-emerald-400
                                 "
                             >
                                 <CheckCircle size={22} />
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
 
                 {/* =================================================
@@ -712,27 +742,28 @@ const Support = () => {
                         mb-6
                         rounded-2xl
                         border
-                        border-[#F3EEDD]/10
-                        bg-[#1B241E]
+                        border-slate-200
+                        bg-white
                         p-4
-                        shadow-[0_15px_35px_rgba(0,0,0,0.15)]
+                        shadow-sm
+                        dark:border-[#1e334a]
+                        dark:bg-[#0b1727]
                     "
                 >
-
                     <div className="flex flex-col gap-3 lg:flex-row">
 
                         {/* SEARCH */}
 
                         <div className="relative flex-1">
-
                             <Search
-                                size={19}
+                                size={18}
                                 className="
                                     absolute
                                     left-3
                                     top-1/2
                                     -translate-y-1/2
-                                    text-[#F3EEDD]/30
+                                    text-slate-400
+                                    dark:text-slate-500
                                 "
                             />
 
@@ -747,28 +778,32 @@ const Support = () => {
                                     w-full
                                     rounded-xl
                                     border
-                                    border-[#F3EEDD]/10
-                                    bg-[#141C17]
+                                    border-slate-200
+                                    bg-slate-50
                                     py-3
                                     pl-10
                                     pr-4
                                     text-sm
-                                    text-[#F3EEDD]
+                                    text-slate-800
                                     outline-none
-                                    placeholder:text-[#F3EEDD]/25
                                     transition
-                                    focus:border-[#F2B84B]/40
+                                    placeholder:text-slate-400
+                                    focus:border-blue-400
                                     focus:ring-2
-                                    focus:ring-[#F2B84B]/10
+                                    focus:ring-blue-500/10
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#07111f]
+                                    dark:text-slate-200
+                                    dark:placeholder:text-slate-600
+                                    dark:focus:border-teal-500
+                                    dark:focus:ring-teal-500/10
                                 "
                             />
-
                         </div>
 
                         {/* ROLE */}
 
                         <div className="relative">
-
                             <select
                                 value={roleFilter}
                                 onChange={(e) =>
@@ -779,30 +814,27 @@ const Support = () => {
                                     appearance-none
                                     rounded-xl
                                     border
-                                    border-[#F3EEDD]/10
-                                    bg-[#141C17]
+                                    border-slate-200
+                                    bg-slate-50
                                     px-4
                                     py-3
                                     pr-10
                                     text-sm
-                                    text-[#F3EEDD]/70
+                                    text-slate-700
                                     outline-none
+                                    transition
+                                    focus:border-blue-400
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#07111f]
+                                    dark:text-slate-300
+                                    dark:focus:border-teal-500
                                     lg:w-40
-                                    focus:border-[#F2B84B]/40
                                 "
                             >
-                                <option value="All">
-                                    All Roles
-                                </option>
-                                <option value="Admin">
-                                    Admin
-                                </option>
-                                <option value="Teacher">
-                                    Teacher
-                                </option>
-                                <option value="Student">
-                                    Student
-                                </option>
+                                <option value="All">All Roles</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Teacher">Teacher</option>
+                                <option value="Student">Student</option>
                             </select>
 
                             <ChevronDown
@@ -813,16 +845,15 @@ const Support = () => {
                                     right-3
                                     top-1/2
                                     -translate-y-1/2
-                                    text-[#F3EEDD]/30
+                                    text-slate-400
+                                    dark:text-slate-500
                                 "
                             />
-
                         </div>
 
                         {/* STATUS */}
 
                         <div className="relative">
-
                             <select
                                 value={statusFilter}
                                 onChange={(e) =>
@@ -833,30 +864,27 @@ const Support = () => {
                                     appearance-none
                                     rounded-xl
                                     border
-                                    border-[#F3EEDD]/10
-                                    bg-[#141C17]
+                                    border-slate-200
+                                    bg-slate-50
                                     px-4
                                     py-3
                                     pr-10
                                     text-sm
-                                    text-[#F3EEDD]/70
+                                    text-slate-700
                                     outline-none
+                                    transition
+                                    focus:border-blue-400
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#07111f]
+                                    dark:text-slate-300
+                                    dark:focus:border-teal-500
                                     lg:w-40
-                                    focus:border-[#F2B84B]/40
                                 "
                             >
-                                <option value="All">
-                                    All Status
-                                </option>
-                                <option value="Open">
-                                    Open
-                                </option>
-                                <option value="Pending">
-                                    Pending
-                                </option>
-                                <option value="Resolved">
-                                    Resolved
-                                </option>
+                                <option value="All">All Status</option>
+                                <option value="Open">Open</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Resolved">Resolved</option>
                             </select>
 
                             <ChevronDown
@@ -867,19 +895,16 @@ const Support = () => {
                                     right-3
                                     top-1/2
                                     -translate-y-1/2
-                                    text-[#F3EEDD]/30
+                                    text-slate-400
+                                    dark:text-slate-500
                                 "
                             />
-
                         </div>
-
                     </div>
-
                 </div>
 
                 {/* =================================================
                     SUPPORT TICKETS
-                    SAME LIGHT SECTION STYLE AS ORGANIZATIONS
                 ================================================== */}
 
                 <section
@@ -887,12 +912,13 @@ const Support = () => {
                         overflow-hidden
                         rounded-2xl
                         border
-                        border-[#F3EEDD]/30
-                        bg-[#F8F5EF]
-                        shadow-[0_20px_50px_rgba(0,0,0,0.18)]
+                        border-slate-200
+                        bg-white
+                        shadow-sm
+                        dark:border-[#1e334a]
+                        dark:bg-[#0b1727]
                     "
                 >
-
                     {/* SECTION HEADER */}
 
                     <div
@@ -901,59 +927,65 @@ const Support = () => {
                             flex-col
                             gap-3
                             border-b
-                            border-[#E7DED5]
-                            bg-[#FBF9F5]
+                            border-slate-200
+                            bg-slate-50/80
                             p-6
                             sm:flex-row
                             sm:items-center
                             sm:justify-between
+                            dark:border-[#1e334a]
+                            dark:bg-[#102337]/50
                         "
                     >
-
                         <div>
-
                             <div className="flex items-center gap-2">
-
                                 <span
                                     className="
                                         h-2
                                         w-2
                                         rounded-full
-                                        bg-[#F2B84B]
+                                        bg-gradient-to-r
+                                        from-blue-500
+                                        to-teal-500
                                     "
                                 />
 
                                 <p
                                     className="
-                                        font-['JetBrains_Mono']
                                         text-[10px]
                                         font-semibold
                                         uppercase
                                         tracking-[0.18em]
-                                        text-[#8C7134]
+                                        text-blue-600
+                                        dark:text-teal-400
                                     "
                                 >
                                     Support
                                 </p>
-
                             </div>
 
                             <h2
                                 className="
                                     mt-1
-                                    font-['Space_Grotesk']
                                     text-xl
-                                    font-semibold
-                                    text-[#303B32]
+                                    font-bold
+                                    text-slate-900
+                                    dark:text-white
                                 "
                             >
                                 Support Tickets
                             </h2>
 
-                            <p className="mt-1 text-xs text-[#536058]">
+                            <p
+                                className="
+                                    mt-1
+                                    text-xs
+                                    text-slate-500
+                                    dark:text-slate-400
+                                "
+                            >
                                 Manage support requests from Shiyora users.
                             </p>
-
                         </div>
 
                         <div
@@ -963,111 +995,111 @@ const Support = () => {
                                 items-center
                                 gap-2
                                 rounded-lg
-                                bg-[#F0EBE3]
+                                border
+                                border-blue-100
+                                bg-blue-50
                                 px-3
                                 py-2
+                                dark:border-blue-500/20
+                                dark:bg-blue-500/10
                             "
                         >
-
                             <MessageCircle
                                 size={14}
-                                className="text-[#64856C]"
+                                className="text-blue-600 dark:text-blue-400"
                             />
 
                             <span
                                 className="
-                                    font-['JetBrains_Mono']
                                     text-[10px]
-                                    font-semibold
-                                    text-[#64856C]
+                                    font-bold
+                                    text-blue-600
+                                    dark:text-blue-400
                                 "
                             >
                                 {filteredTickets.length} RESULTS
                             </span>
-
                         </div>
-
                     </div>
 
                     {/* TABLE */}
 
                     <div className="overflow-x-auto">
+                        <table className="w-full min-w-[1100px]">
 
-                        <table className="w-full min-w-275">
-
-                            <thead className="bg-[#F1ECE5]">
-
+                            <thead
+                                className="
+                                    border-b
+                                    border-slate-200
+                                    bg-slate-50
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#102337]
+                                "
+                            >
                                 <tr>
-
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#536058]">
+                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Ticket
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#536058]">
+                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         User
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#536058]">
+                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Organization
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#536058]">
+                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Subject
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#536058]">
+                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Priority
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#536058]">
+                                    <th className="px-6 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Status
                                     </th>
 
-                                    <th className="px-6 py-4 text-right text-[10px] font-semibold uppercase tracking-wider text-[#536058]">
+                                    <th className="px-6 py-4 text-right text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Action
                                     </th>
-
                                 </tr>
-
                             </thead>
 
-                            <tbody className="divide-y divide-[#E7DED5]">
+                            <tbody className="divide-y divide-slate-200 dark:divide-[#1e334a]">
 
                                 {filteredTickets.map((ticket) => (
-
                                     <tr
                                         key={ticket.id}
                                         className="
                                             transition-colors
-                                            hover:bg-[#FFFDF9]
+                                            hover:bg-slate-50
+                                            dark:hover:bg-[#102337]/60
                                         "
                                     >
-
                                         {/* TICKET */}
 
                                         <td className="px-6 py-5">
-
                                             <span
                                                 className="
-                                                    font-['JetBrains_Mono']
                                                     text-xs
-                                                    font-semibold
-                                                    text-[#8C7134]
+                                                    font-bold
+                                                    text-blue-600
+                                                    dark:text-teal-400
                                                 "
                                             >
                                                 {ticket.id}
                                             </span>
 
-                                            <p className="mt-1 text-[10px] text-[#8A8E89]">
+                                            <p className="mt-1 text-[10px] text-slate-400 dark:text-slate-500">
                                                 {ticket.createdAt}
                                             </p>
-
                                         </td>
 
                                         {/* USER */}
 
                                         <td className="px-6 py-5">
-
                                             <div className="flex items-center gap-3">
 
                                                 <div
@@ -1079,91 +1111,84 @@ const Support = () => {
                                                         items-center
                                                         justify-center
                                                         rounded-xl
-                                                        border
-                                                        border-[#F2B84B]/30
-                                                        bg-[#F7E6B9]
-                                                        font-['Space_Grotesk']
+                                                        bg-gradient-to-br
+                                                        from-blue-100
+                                                        to-teal-100
+                                                        text-sm
                                                         font-bold
-                                                        text-[#536058]
+                                                        text-blue-700
+                                                        dark:from-blue-500/20
+                                                        dark:to-teal-500/20
+                                                        dark:text-teal-300
                                                     "
                                                 >
                                                     {ticket.user.charAt(0)}
                                                 </div>
 
                                                 <div>
-
                                                     <p
                                                         className="
-                                                            font-['Space_Grotesk']
                                                             text-sm
                                                             font-semibold
-                                                            text-[#303B32]
+                                                            text-slate-800
+                                                            dark:text-white
                                                         "
                                                     >
                                                         {ticket.user}
                                                     </p>
 
-                                                    <p className="mt-1 text-xs text-[#536058]">
+                                                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                                         {ticket.role}
                                                     </p>
-
                                                 </div>
-
                                             </div>
-
                                         </td>
 
                                         {/* ORGANIZATION */}
 
                                         <td className="px-6 py-5">
-
                                             <div
                                                 className="
                                                     flex
                                                     items-center
                                                     gap-2
                                                     text-sm
-                                                    text-[#536058]
+                                                    text-slate-600
+                                                    dark:text-slate-300
                                                 "
                                             >
                                                 <Building2
                                                     size={15}
-                                                    className="text-[#536058]"
+                                                    className="text-slate-400 dark:text-slate-500"
                                                 />
 
                                                 {ticket.organization}
-
                                             </div>
-
                                         </td>
 
                                         {/* SUBJECT */}
 
                                         <td className="px-6 py-5">
-
                                             <p
                                                 className="
                                                     max-w-60
-                                                    font-['Space_Grotesk']
                                                     text-sm
                                                     font-semibold
-                                                    text-[#303B32]
+                                                    text-slate-800
+                                                    dark:text-slate-100
                                                 "
                                             >
                                                 {ticket.subject}
                                             </p>
-
                                         </td>
 
                                         {/* PRIORITY */}
 
                                         <td className="px-6 py-5">
-
                                             <span
                                                 className={`
-                                                    font-['JetBrains_Mono']
                                                     text-[10px]
-                                                    font-semibold
+                                                    font-bold
                                                     uppercase
                                                     tracking-wider
                                                     ${getPriorityStyle(
@@ -1173,13 +1198,11 @@ const Support = () => {
                                             >
                                                 {ticket.priority}
                                             </span>
-
                                         </td>
 
                                         {/* STATUS */}
 
                                         <td className="px-6 py-5">
-
                                             <span
                                                 className={`
                                                     inline-flex
@@ -1196,34 +1219,24 @@ const Support = () => {
                                                 )}
                                                 `}
                                             >
-
                                                 <span
                                                     className={`
                                                         h-1.5
                                                         w-1.5
                                                         rounded-full
- 
-                                                        ${ticket.status ===
-                                                            "Open"
-                                                            ? "bg-[#B96868]"
-                                                            : ticket.status ===
-                                                                "Pending"
-                                                                ? "bg-[#D0A052]"
-                                                                : "bg-[#7C9A82]"
-                                                        }
+                                                        ${getStatusDot(
+                                                        ticket.status
+                                                    )}
                                                     `}
                                                 />
 
                                                 {ticket.status}
-
                                             </span>
-
                                         </td>
 
                                         {/* ACTION */}
 
                                         <td className="px-6 py-5 text-right">
-
                                             <button
                                                 type="button"
                                                 onClick={() =>
@@ -1232,39 +1245,35 @@ const Support = () => {
                                                 className="
                                                     rounded-lg
                                                     border
-                                                    border-[#F2B84B]/30
-                                                    bg-[#FFF9E9]
+                                                    border-blue-200
+                                                    bg-blue-50
                                                     px-4
                                                     py-2
-                                                    font-['Space_Grotesk']
                                                     text-xs
                                                     font-semibold
-                                                    text-[#8C7134]
+                                                    text-blue-600
                                                     transition
-                                                    hover:bg-[#FFF5D9]
+                                                    hover:border-blue-300
+                                                    hover:bg-blue-100
+                                                    dark:border-blue-500/20
+                                                    dark:bg-blue-500/10
+                                                    dark:text-blue-400
+                                                    dark:hover:bg-blue-500/20
                                                 "
                                             >
                                                 View
                                             </button>
-
                                         </td>
-
                                     </tr>
-
                                 ))}
-
                             </tbody>
-
                         </table>
-
                     </div>
 
                     {/* EMPTY STATE */}
 
                     {filteredTickets.length === 0 && (
-
                         <div className="px-6 py-14 text-center">
-
                             <div
                                 className="
                                     mx-auto
@@ -1274,8 +1283,10 @@ const Support = () => {
                                     items-center
                                     justify-center
                                     rounded-2xl
-                                    bg-[#FFF9E9]
-                                    text-[#F2B84B]
+                                    bg-blue-50
+                                    text-blue-600
+                                    dark:bg-blue-500/10
+                                    dark:text-blue-400
                                 "
                             >
                                 <MessageCircle size={26} />
@@ -1284,37 +1295,41 @@ const Support = () => {
                             <h3
                                 className="
                                     mt-4
-                                    font-['Space_Grotesk']
                                     font-semibold
-                                    text-[#303B32]
+                                    text-slate-900
+                                    dark:text-white
                                 "
                             >
                                 No support tickets found
                             </h3>
 
-                            <p className="mt-1 text-sm text-[#536058]">
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                 Try changing your search or filters.
                             </p>
-
                         </div>
-
                     )}
-
                 </section>
 
                 {/* =================================================
                     FOOTER NOTE
                 ================================================== */}
 
-                <div className="mt-5 flex items-center justify-between">
-
+                <div
+                    className="
+                        mt-5
+                        flex
+                        items-center
+                        justify-between
+                    "
+                >
                     <p
                         className="
-                            font-['JetBrains_Mono']
                             text-[9px]
+                            font-semibold
                             uppercase
                             tracking-wider
-                            text-[#F3EEDD]/25
+                            text-slate-400
+                            dark:text-slate-600
                         "
                     >
                         Shiyora Administration
@@ -1322,18 +1337,17 @@ const Support = () => {
 
                     <p
                         className="
-                            font-['JetBrains_Mono']
                             text-[9px]
+                            font-semibold
                             uppercase
                             tracking-wider
-                            text-[#F3EEDD]/25
+                            text-slate-400
+                            dark:text-slate-600
                         "
                     >
                         Support Management
                     </p>
-
                 </div>
-
             </div>
 
             {/* =====================================================
@@ -1341,7 +1355,6 @@ const Support = () => {
             ====================================================== */}
 
             {selectedTicket && (
-
                 <div
                     className="
                         fixed
@@ -1350,12 +1363,11 @@ const Support = () => {
                         flex
                         items-center
                         justify-center
-                        bg-black/60
+                        bg-slate-950/60
                         p-4
                         backdrop-blur-sm
                     "
                 >
-
                     <div
                         className="
                             w-full
@@ -1364,9 +1376,11 @@ const Support = () => {
                             overflow-hidden
                             rounded-2xl
                             border
-                            border-[#E7DED5]
-                            bg-[#F8F5EF]
-                            shadow-[0_25px_70px_rgba(0,0,0,0.35)]
+                            border-slate-200
+                            bg-white
+                            shadow-2xl
+                            dark:border-[#1e334a]
+                            dark:bg-[#0b1727]
                         "
                     >
 
@@ -1378,23 +1392,23 @@ const Support = () => {
                                 items-center
                                 justify-between
                                 border-b
-                                border-[#E7DED5]
-                                bg-[#FBF9F5]
+                                border-slate-200
+                                bg-slate-50
                                 px-6
                                 py-5
+                                dark:border-[#1e334a]
+                                dark:bg-[#102337]
                             "
                         >
-
                             <div>
-
                                 <div className="flex flex-wrap items-center gap-3">
 
                                     <h2
                                         className="
-                                            font-['Space_Grotesk']
                                             text-xl
-                                            font-semibold
-                                            text-[#303B32]
+                                            font-bold
+                                            text-slate-900
+                                            dark:text-white
                                         "
                                     >
                                         {selectedTicket.subject}
@@ -1415,20 +1429,19 @@ const Support = () => {
                                     >
                                         {selectedTicket.status}
                                     </span>
-
                                 </div>
 
                                 <p
                                     className="
                                         mt-1
-                                        font-['JetBrains_Mono']
                                         text-[10px]
-                                        text-[#536058]
+                                        font-semibold
+                                        text-slate-500
+                                        dark:text-slate-400
                                     "
                                 >
                                     Ticket {selectedTicket.id}
                                 </p>
-
                             </div>
 
                             <button
@@ -1440,15 +1453,16 @@ const Support = () => {
                                 className="
                                     rounded-lg
                                     p-2
-                                    text-[#536058]
+                                    text-slate-400
                                     transition
-                                    hover:bg-[#F1ECE5]
-                                    hover:text-[#303B32]
+                                    hover:bg-slate-200
+                                    hover:text-slate-700
+                                    dark:hover:bg-[#1e334a]
+                                    dark:hover:text-white
                                 "
                             >
                                 <X size={20} />
                             </button>
-
                         </div>
 
                         {/* MODAL BODY */}
@@ -1460,7 +1474,6 @@ const Support = () => {
                                 p-6
                             "
                         >
-
                             {/* USER INFORMATION */}
 
                             <div
@@ -1472,21 +1485,22 @@ const Support = () => {
                                     md:grid-cols-3
                                 "
                             >
-
                                 <div
                                     className="
                                         rounded-xl
                                         border
-                                        border-[#E7DED5]
-                                        bg-[#FBF9F5]
+                                        border-slate-200
+                                        bg-slate-50
                                         p-4
+                                        dark:border-[#1e334a]
+                                        dark:bg-[#102337]/60
                                     "
                                 >
-                                    <p className="text-[10px] uppercase tracking-wider text-[#536058]">
+                                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                         User
                                     </p>
 
-                                    <p className="mt-1 text-sm font-semibold text-[#303B32]">
+                                    <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-white">
                                         {selectedTicket.user}
                                     </p>
                                 </div>
@@ -1495,16 +1509,18 @@ const Support = () => {
                                     className="
                                         rounded-xl
                                         border
-                                        border-[#E7DED5]
-                                        bg-[#FBF9F5]
+                                        border-slate-200
+                                        bg-slate-50
                                         p-4
+                                        dark:border-[#1e334a]
+                                        dark:bg-[#102337]/60
                                     "
                                 >
-                                    <p className="text-[10px] uppercase tracking-wider text-[#536058]">
+                                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                         Role
                                     </p>
 
-                                    <p className="mt-1 text-sm font-semibold text-[#303B32]">
+                                    <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-white">
                                         {selectedTicket.role}
                                     </p>
                                 </div>
@@ -1513,33 +1529,33 @@ const Support = () => {
                                     className="
                                         rounded-xl
                                         border
-                                        border-[#E7DED5]
-                                        bg-[#FBF9F5]
+                                        border-slate-200
+                                        bg-slate-50
                                         p-4
+                                        dark:border-[#1e334a]
+                                        dark:bg-[#102337]/60
                                     "
                                 >
-                                    <p className="text-[10px] uppercase tracking-wider text-[#536058]">
+                                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                         Organization
                                     </p>
 
-                                    <p className="mt-1 text-sm font-semibold text-[#303B32]">
+                                    <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-white">
                                         {selectedTicket.organization}
                                     </p>
                                 </div>
-
                             </div>
 
                             {/* USER QUERY */}
 
                             <div className="mb-6">
-
                                 <p
                                     className="
                                         mb-2
-                                        font-['Space_Grotesk']
                                         text-sm
                                         font-semibold
-                                        text-[#303B32]
+                                        text-slate-800
+                                        dark:text-white
                                     "
                                 >
                                     User Query
@@ -1549,99 +1565,91 @@ const Support = () => {
                                     className="
                                         rounded-xl
                                         border
-                                        border-[#E7DED5]
-                                        bg-white
+                                        border-slate-200
+                                        bg-slate-50
                                         p-4
+                                        dark:border-[#1e334a]
+                                        dark:bg-[#07111f]
                                     "
                                 >
-                                    <p className="text-sm leading-6 text-[#536058]">
+                                    <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                                         {selectedTicket.message}
                                     </p>
                                 </div>
-
                             </div>
 
                             {/* CONVERSATION */}
 
                             <div>
-
                                 <p
                                     className="
                                         mb-3
-                                        font-['Space_Grotesk']
                                         text-sm
                                         font-semibold
-                                        text-[#303B32]
+                                        text-slate-800
+                                        dark:text-white
                                     "
                                 >
                                     Conversation
                                 </p>
 
                                 <div className="space-y-3">
-
                                     {selectedTicket.replies.length === 0 ? (
-
                                         <div
                                             className="
                                                 rounded-xl
                                                 border
                                                 border-dashed
-                                                border-[#E7DED5]
-                                                bg-[#FBF9F5]
+                                                border-slate-300
+                                                bg-slate-50
                                                 p-5
                                                 text-center
+                                                dark:border-[#1e334a]
+                                                dark:bg-[#102337]/40
                                             "
                                         >
-                                            <p className="text-sm text-[#536058]">
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">
                                                 No replies yet.
                                             </p>
                                         </div>
-
                                     ) : (
-
                                         selectedTicket.replies.map(
                                             (item, index) => (
-
                                                 <div
                                                     key={index}
                                                     className="
                                                         rounded-xl
                                                         border
-                                                        border-[#F2B84B]/25
-                                                        bg-[#FFF9E9]
+                                                        border-blue-100
+                                                        bg-blue-50
                                                         p-4
+                                                        dark:border-teal-500/20
+                                                        dark:bg-teal-500/10
                                                     "
                                                 >
-
                                                     <p
                                                         className="
                                                             mb-1
-                                                            font-['JetBrains_Mono']
                                                             text-[10px]
-                                                            font-semibold
+                                                            font-bold
                                                             uppercase
                                                             tracking-wider
-                                                            text-[#8C7134]
+                                                            text-blue-600
+                                                            dark:text-teal-400
                                                         "
                                                     >
                                                         {item.sender}
                                                     </p>
 
-                                                    <p className="text-sm leading-6 text-[#536058]">
+                                                    <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">
                                                         {item.message}
                                                     </p>
-
                                                 </div>
-
                                             )
                                         )
-
                                     )}
-
                                 </div>
-
                             </div>
-
                         </div>
 
                         {/* MODAL FOOTER */}
@@ -1649,19 +1657,19 @@ const Support = () => {
                         <div
                             className="
                                 border-t
-                                border-[#E7DED5]
-                                bg-[#FBF9F5]
+                                border-slate-200
+                                bg-slate-50
                                 px-6
                                 py-4
+                                dark:border-[#1e334a]
+                                dark:bg-[#102337]
                             "
                         >
-
                             <div className="flex flex-col gap-3 sm:flex-row">
 
                                 {/* REPLY */}
 
                                 <div className="relative flex-1">
-
                                     <input
                                         type="text"
                                         value={reply}
@@ -1678,18 +1686,24 @@ const Support = () => {
                                             w-full
                                             rounded-xl
                                             border
-                                            border-[#E7DED5]
+                                            border-slate-200
                                             bg-white
                                             px-4
                                             py-3
                                             pr-12
                                             text-sm
-                                            text-[#303B32]
+                                            text-slate-800
                                             outline-none
-                                            placeholder:text-[#536058]
-                                            focus:border-[#F2B84B]
+                                            placeholder:text-slate-400
+                                            focus:border-blue-400
                                             focus:ring-2
-                                            focus:ring-[#F2B84B]/10
+                                            focus:ring-blue-500/10
+                                            dark:border-[#1e334a]
+                                            dark:bg-[#07111f]
+                                            dark:text-slate-200
+                                            dark:placeholder:text-slate-600
+                                            dark:focus:border-teal-500
+                                            dark:focus:ring-teal-500/10
                                         "
                                     />
 
@@ -1702,22 +1716,24 @@ const Support = () => {
                                             top-1/2
                                             -translate-y-1/2
                                             rounded-lg
-                                            bg-[#F2B84B]
+                                            bg-gradient-to-r
+                                            from-blue-600
+                                            to-teal-500
                                             p-2
-                                            text-[#161F19]
+                                            text-white
+                                            shadow-sm
                                             transition
-                                            hover:bg-[#F7C968]
+                                            hover:from-blue-700
+                                            hover:to-teal-600
                                         "
                                     >
                                         <Send size={16} />
                                     </button>
-
                                 </div>
 
                                 {/* STATUS */}
 
                                 <div className="relative">
-
                                     <select
                                         value={selectedTicket.status}
                                         onChange={(e) =>
@@ -1729,18 +1745,20 @@ const Support = () => {
                                             appearance-none
                                             rounded-xl
                                             border
-                                            border-[#E7DED5]
+                                            border-slate-200
                                             bg-white
                                             px-4
                                             py-3
                                             pr-10
                                             text-sm
-                                            text-[#536058]
+                                            text-slate-700
                                             outline-none
+                                            dark:border-[#1e334a]
+                                            dark:bg-[#07111f]
+                                            dark:text-slate-300
                                             sm:w-36
                                         "
                                     >
-
                                         <option value="Open">
                                             Open
                                         </option>
@@ -1752,7 +1770,6 @@ const Support = () => {
                                         <option value="Resolved">
                                             Resolved
                                         </option>
-
                                     </select>
 
                                     <ChevronDown
@@ -1763,22 +1780,16 @@ const Support = () => {
                                             right-3
                                             top-1/2
                                             -translate-y-1/2
-                                            text-[#536058]
+                                            text-slate-400
+                                            dark:text-slate-500
                                         "
                                     />
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             )}
-
         </main>
     );
 };

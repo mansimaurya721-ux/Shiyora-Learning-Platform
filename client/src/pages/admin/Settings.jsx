@@ -16,9 +16,14 @@ function Toggle({ checked, onChange, label, description }) {
     return (
         <div className="flex items-center justify-between gap-4 py-4">
             <div>
-                <p className="text-sm font-semibold text-[#303B32]">{label}</p>
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                    {label}
+                </p>
+
                 {description && (
-                    <p className="mt-0.5 text-xs text-[#7C817B]">{description}</p>
+                    <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                        {description}
+                    </p>
                 )}
             </div>
 
@@ -28,20 +33,19 @@ function Toggle({ checked, onChange, label, description }) {
                 aria-checked={checked}
                 aria-label={label}
                 onClick={() => onChange(!checked)}
-                className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B] ${checked ? "bg-[#F2B84B]" : "bg-[#E4DED4]"
+                className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-teal-400 ${checked
+                    ? "bg-blue-600 dark:bg-blue-500"
+                    : "bg-slate-300 dark:bg-slate-700"
                     }`}
             >
                 <span
-                    className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.2)] transition-transform duration-300 ${checked ? "translate-x-5.5" : "translate-x-0.5"
+                    className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-md transition-transform duration-300 ${checked ? "translate-x-5.5" : "translate-x-0.5"
                         }`}
                 />
             </button>
         </div>
     );
 }
-
-const FONT_IMPORTS =
-    "@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');";
 
 const Settings = () => {
     const [activeTab, setActiveTab] = useState("organization");
@@ -80,14 +84,32 @@ const Settings = () => {
     // ------------------------------------------------------------
 
     const tabs = [
-        { id: "organization", label: "Organization", icon: Building2 },
-        { id: "notifications", label: "Notifications", icon: Bell },
-        { id: "security", label: "Security", icon: ShieldCheck },
-        { id: "billing", label: "Billing", icon: CreditCard },
+        {
+            id: "organization",
+            label: "Organization",
+            icon: Building2,
+        },
+        {
+            id: "notifications",
+            label: "Notifications",
+            icon: Bell,
+        },
+        {
+            id: "security",
+            label: "Security",
+            icon: ShieldCheck,
+        },
+        {
+            id: "billing",
+            label: "Billing",
+            icon: CreditCard,
+        },
     ];
 
     const handleSave = (section) => {
-        alert(`${section} settings saved (this will be connected to the API later).`);
+        alert(
+            `${section} settings saved (this will be connected to the API later).`
+        );
     };
 
     // ============================================================
@@ -95,15 +117,15 @@ const Settings = () => {
     // ============================================================
 
     return (
-        <main className="relative min-h-screen overflow-hidden bg-[#161F19] px-4 py-6 text-[#F3EEDD] sm:px-6 lg:px-8">
-            <style>{FONT_IMPORTS}</style>
+        <main className="relative min-h-screen overflow-hidden bg-slate-50 px-4 py-6 text-slate-700 dark:bg-[#07111f] dark:text-slate-300 sm:px-6 lg:px-8">
 
             {/* =====================================================
-                BACKGROUND GLOW
+                BACKGROUND GLOWS
             ====================================================== */}
 
-            <div className="pointer-events-none fixed -left-40 -top-40 h-125 w-125 rounded-full bg-[#F2B84B]/5 blur-[130px]" />
-            <div className="pointer-events-none fixed -right-40 bottom-0 h-125 w-125 rounded-full bg-[#7C9A82]/[0.07] blur-[140px]" />
+            <div className="pointer-events-none fixed -left-40 -top-40 h-125 w-125 rounded-full bg-blue-500/5 blur-[130px] dark:bg-blue-500/10" />
+
+            <div className="pointer-events-none fixed -right-40 bottom-0 h-125 w-125 rounded-full bg-teal-500/[0.05] blur-[140px] dark:bg-teal-500/[0.08]" />
 
             <div className="relative z-10">
 
@@ -112,15 +134,17 @@ const Settings = () => {
                 ====================================================== */}
 
                 <div className="mb-7 flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#F2B84B]/20 bg-[#F2B84B]/10 text-[#F2B84B]">
+
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-blue-600 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-400">
                         <SettingsIcon size={22} />
                     </div>
 
                     <div>
-                        <p className="mb-1 font-['JetBrains_Mono'] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F2B84B]">
+                        <p className="mb-1 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
                             Administration
                         </p>
-                        <h1 className="font-['Space_Grotesk'] text-2xl font-bold tracking-tight text-[#F3EEDD] sm:text-3xl">
+
+                        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
                             Settings
                         </h1>
                     </div>
@@ -132,17 +156,19 @@ const Settings = () => {
                         TAB NAVIGATION
                     ================================================= */}
 
-                    <nav className="h-fit rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-2 shadow-[0_15px_35px_rgba(0,0,0,0.15)]">
+                    <nav className="h-fit rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+
                         {tabs.map((tab) => {
                             const isActive = activeTab === tab.id;
+
                             return (
                                 <button
                                     key={tab.id}
                                     type="button"
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B] ${isActive
-                                        ? "bg-[#F2B84B]/10 text-[#F2B84B]"
-                                        : "text-[#F3EEDD]/60 hover:bg-[#F3EEDD]/5 hover:text-[#F3EEDD]"
+                                    className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-teal-400 ${isActive
+                                        ? "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400"
+                                        : "text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-[#102337] dark:hover:text-slate-200"
                                         }`}
                                 >
                                     <tab.icon size={17} />
@@ -156,275 +182,399 @@ const Settings = () => {
                         PANEL
                     ================================================= */}
 
-                    <section className="rounded-2xl border border-[#F3EEDD]/10 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+                    <section className="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
 
-                        {/* ---------------- ORGANIZATION ---------------- */}
+                        {/* =================================================
+                            ORGANIZATION
+                        ================================================= */}
+
                         {activeTab === "organization" && (
                             <div className="p-6 sm:p-8">
-                                <h2 className="font-['Space_Grotesk'] text-lg font-bold text-[#303B32]">
+
+                                <h2 className="text-lg font-bold text-slate-900 dark:text-slate-50">
                                     Organization Details
                                 </h2>
-                                <p className="mt-1 text-sm text-[#7C817B]">
+
+                                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                     Basic information about your organization.
                                 </p>
 
                                 <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+                                    {/* ORGANIZATION NAME */}
+
                                     <div>
-                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[#7C817B]">
+                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                                             Organization Name
                                         </label>
+
                                         <input
                                             type="text"
                                             value={orgName}
-                                            onChange={(e) => setOrgName(e.target.value)}
-                                            className="w-full rounded-xl border border-[#E4DED4] bg-[#FBF9F5] px-4 py-3 text-sm text-[#303B32] outline-none transition focus:border-[#F2B84B]/50 focus:ring-2 focus:ring-[#F2B84B]/15"
+                                            onChange={(e) =>
+                                                setOrgName(e.target.value)
+                                            }
+                                            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:focus:border-blue-400 dark:focus:ring-blue-400/10"
                                         />
                                     </div>
 
+                                    {/* CONTACT EMAIL */}
+
                                     <div>
-                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[#7C817B]">
+                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                                             Contact Email
                                         </label>
+
                                         <input
                                             type="email"
                                             value={orgEmail}
-                                            onChange={(e) => setOrgEmail(e.target.value)}
-                                            className="w-full rounded-xl border border-[#E4DED4] bg-[#FBF9F5] px-4 py-3 text-sm text-[#303B32] outline-none transition focus:border-[#F2B84B]/50 focus:ring-2 focus:ring-[#F2B84B]/15"
+                                            onChange={(e) =>
+                                                setOrgEmail(e.target.value)
+                                            }
+                                            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:focus:border-blue-400 dark:focus:ring-blue-400/10"
                                         />
                                     </div>
 
+                                    {/* PHONE */}
+
                                     <div>
-                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[#7C817B]">
+                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                                             Phone Number
                                         </label>
+
                                         <input
                                             type="text"
                                             value={orgPhone}
-                                            onChange={(e) => setOrgPhone(e.target.value)}
-                                            className="w-full rounded-xl border border-[#E4DED4] bg-[#FBF9F5] px-4 py-3 text-sm text-[#303B32] outline-none transition focus:border-[#F2B84B]/50 focus:ring-2 focus:ring-[#F2B84B]/15"
+                                            onChange={(e) =>
+                                                setOrgPhone(e.target.value)
+                                            }
+                                            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:focus:border-blue-400 dark:focus:ring-blue-400/10"
                                         />
                                     </div>
 
+                                    {/* TIMEZONE */}
+
                                     <div>
-                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[#7C817B]">
+                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                                             Timezone
                                         </label>
+
                                         <select
                                             value={orgTimezone}
-                                            onChange={(e) => setOrgTimezone(e.target.value)}
-                                            className="w-full rounded-xl border border-[#E4DED4] bg-[#FBF9F5] px-4 py-3 text-sm text-[#303B32] outline-none focus:border-[#F2B84B]/50"
+                                            onChange={(e) =>
+                                                setOrgTimezone(e.target.value)
+                                            }
+                                            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:focus:border-blue-400"
                                         >
-                                            <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
-                                            <option value="Asia/Dubai">Asia/Dubai (GST)</option>
-                                            <option value="Europe/London">Europe/London (GMT)</option>
-                                            <option value="America/New_York">America/New York (EST)</option>
+                                            <option value="Asia/Kolkata">
+                                                Asia/Kolkata (IST)
+                                            </option>
+
+                                            <option value="Asia/Dubai">
+                                                Asia/Dubai (GST)
+                                            </option>
+
+                                            <option value="Europe/London">
+                                                Europe/London (GMT)
+                                            </option>
+
+                                            <option value="America/New_York">
+                                                America/New York (EST)
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
 
-                                <div className="mt-8 flex justify-end border-t border-[#E7DED5] pt-6">
+                                {/* SAVE */}
+
+                                <div className="mt-8 flex justify-end border-t border-slate-200 pt-6 dark:border-[#1e334a]">
+
                                     <button
                                         type="button"
-                                        onClick={() => handleSave("Organization")}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-[#F2B84B] px-6 py-3 font-['Space_Grotesk'] text-sm font-semibold text-[#161F19] shadow-[0_10px_30px_rgba(242,184,75,0.15)] transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-[#F7C968] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B]"
+                                        onClick={() =>
+                                            handleSave("Organization")
+                                        }
+                                        className="inline-flex items-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:border-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus-visible:outline-blue-400"
                                     >
                                         <Save size={16} />
                                         Save Changes
                                     </button>
+
                                 </div>
                             </div>
                         )}
 
-                        {/* ---------------- NOTIFICATIONS ---------------- */}
+                        {/* =================================================
+                            NOTIFICATIONS
+                        ================================================= */}
+
                         {activeTab === "notifications" && (
                             <div className="p-6 sm:p-8">
-                                <h2 className="font-['Space_Grotesk'] text-lg font-bold text-[#303B32]">
+
+                                <h2 className="text-lg font-bold text-slate-900 dark:text-slate-50">
                                     Notification Preferences
                                 </h2>
-                                <p className="mt-1 text-sm text-[#7C817B]">
+
+                                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                     Choose what you want to be notified about.
                                 </p>
 
-                                <div className="mt-4 divide-y divide-[#F1ECE5]">
+                                <div className="mt-4 divide-y divide-slate-200 dark:divide-[#1e334a]">
+
                                     <Toggle
                                         checked={notifyEnrollments}
                                         onChange={setNotifyEnrollments}
                                         label="New Enrollments"
                                         description="Get notified whenever a student enrolls in a course."
                                     />
+
                                     <Toggle
                                         checked={notifyCompletions}
                                         onChange={setNotifyCompletions}
                                         label="Course Completions"
                                         description="Get notified when a student completes a course."
                                     />
+
                                     <Toggle
                                         checked={notifyBilling}
                                         onChange={setNotifyBilling}
                                         label="Billing Alerts"
                                         description="Get notified about invoices, renewals and payment issues."
                                     />
+
                                     <Toggle
                                         checked={weeklyDigest}
                                         onChange={setWeeklyDigest}
                                         label="Weekly Digest"
                                         description="A weekly summary of activity across your organization."
                                     />
+
                                     <Toggle
                                         checked={notifyMarketing}
                                         onChange={setNotifyMarketing}
                                         label="Product Updates"
                                         description="Occasional news about new Shiyora features."
                                     />
+
                                 </div>
 
-                                <div className="mt-6 flex justify-end border-t border-[#E7DED5] pt-6">
+                                <div className="mt-6 flex justify-end border-t border-slate-200 pt-6 dark:border-[#1e334a]">
+
                                     <button
                                         type="button"
-                                        onClick={() => handleSave("Notification")}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-[#F2B84B] px-6 py-3 font-['Space_Grotesk'] text-sm font-semibold text-[#161F19] shadow-[0_10px_30px_rgba(242,184,75,0.15)] transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-[#F7C968] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B]"
+                                        onClick={() =>
+                                            handleSave("Notification")
+                                        }
+                                        className="inline-flex items-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:border-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus-visible:outline-blue-400"
                                     >
                                         <Save size={16} />
                                         Save Preferences
                                     </button>
+
                                 </div>
                             </div>
                         )}
 
-                        {/* ---------------- SECURITY ---------------- */}
+                        {/* =================================================
+                            SECURITY
+                        ================================================= */}
+
                         {activeTab === "security" && (
                             <div className="p-6 sm:p-8">
-                                <h2 className="font-['Space_Grotesk'] text-lg font-bold text-[#303B32]">
+
+                                <h2 className="text-lg font-bold text-slate-900 dark:text-slate-50">
                                     Security
                                 </h2>
-                                <p className="mt-1 text-sm text-[#7C817B]">
+
+                                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                     Manage your password and account protection.
                                 </p>
 
                                 <div className="mt-6 grid grid-cols-1 gap-5">
+
+                                    {/* CURRENT PASSWORD */}
+
                                     <div>
-                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[#7C817B]">
+                                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                                             Current Password
                                         </label>
+
                                         <input
                                             type="password"
                                             value={currentPassword}
-                                            onChange={(e) => setCurrentPassword(e.target.value)}
+                                            onChange={(e) =>
+                                                setCurrentPassword(
+                                                    e.target.value
+                                                )
+                                            }
                                             placeholder="••••••••"
-                                            className="w-full rounded-xl border border-[#E4DED4] bg-[#FBF9F5] px-4 py-3 text-sm text-[#303B32] outline-none transition placeholder:text-[#B8B2A7] focus:border-[#F2B84B]/50 focus:ring-2 focus:ring-[#F2B84B]/15"
+                                            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-blue-400"
                                         />
                                     </div>
 
                                     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+                                        {/* NEW PASSWORD */}
+
                                         <div>
-                                            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[#7C817B]">
+                                            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                                                 New Password
                                             </label>
+
                                             <input
                                                 type="password"
                                                 value={newPassword}
-                                                onChange={(e) => setNewPassword(e.target.value)}
+                                                onChange={(e) =>
+                                                    setNewPassword(
+                                                        e.target.value
+                                                    )
+                                                }
                                                 placeholder="••••••••"
-                                                className="w-full rounded-xl border border-[#E4DED4] bg-[#FBF9F5] px-4 py-3 text-sm text-[#303B32] outline-none transition placeholder:text-[#B8B2A7] focus:border-[#F2B84B]/50 focus:ring-2 focus:ring-[#F2B84B]/15"
+                                                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-blue-400"
                                             />
                                         </div>
 
+                                        {/* CONFIRM PASSWORD */}
+
                                         <div>
-                                            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[#7C817B]">
+                                            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                                                 Confirm New Password
                                             </label>
+
                                             <input
                                                 type="password"
                                                 value={confirmPassword}
-                                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                                onChange={(e) =>
+                                                    setConfirmPassword(
+                                                        e.target.value
+                                                    )
+                                                }
                                                 placeholder="••••••••"
-                                                className="w-full rounded-xl border border-[#E4DED4] bg-[#FBF9F5] px-4 py-3 text-sm text-[#303B32] outline-none transition placeholder:text-[#B8B2A7] focus:border-[#F2B84B]/50 focus:ring-2 focus:ring-[#F2B84B]/15"
+                                                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-blue-400"
                                             />
                                         </div>
+
                                     </div>
                                 </div>
 
-                                <div className="mt-2 divide-y divide-[#F1ECE5] border-t border-[#F1ECE5]">
+                                {/* SECURITY TOGGLES */}
+
+                                <div className="mt-2 divide-y divide-slate-200 border-t border-slate-200 dark:divide-[#1e334a] dark:border-[#1e334a]">
+
                                     <Toggle
                                         checked={twoFactor}
                                         onChange={setTwoFactor}
                                         label="Two-Factor Authentication"
                                         description="Require a verification code in addition to your password."
                                     />
+
                                     <Toggle
                                         checked={loginAlerts}
                                         onChange={setLoginAlerts}
                                         label="New Login Alerts"
                                         description="Get an email when your account is signed in from a new device."
                                     />
+
                                 </div>
 
-                                <div className="mt-6 flex justify-end border-t border-[#E7DED5] pt-6">
+                                <div className="mt-6 flex justify-end border-t border-slate-200 pt-6 dark:border-[#1e334a]">
+
                                     <button
                                         type="button"
-                                        onClick={() => handleSave("Security")}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-[#F2B84B] px-6 py-3 font-['Space_Grotesk'] text-sm font-semibold text-[#161F19] shadow-[0_10px_30px_rgba(242,184,75,0.15)] transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-[#F7C968] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B]"
+                                        onClick={() =>
+                                            handleSave("Security")
+                                        }
+                                        className="inline-flex items-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:border-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus-visible:outline-blue-400"
                                     >
                                         <Save size={16} />
                                         Update Security
                                     </button>
+
                                 </div>
                             </div>
                         )}
 
-                        {/* ---------------- BILLING ---------------- */}
+                        {/* =================================================
+                            BILLING
+                        ================================================= */}
+
                         {activeTab === "billing" && (
                             <div className="p-6 sm:p-8">
-                                <h2 className="font-['Space_Grotesk'] text-lg font-bold text-[#303B32]">
+
+                                <h2 className="text-lg font-bold text-slate-900 dark:text-slate-50">
                                     Billing
                                 </h2>
-                                <p className="mt-1 text-sm text-[#7C817B]">
+
+                                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                     Your current plan and payment details.
                                 </p>
 
-                                <div className="mt-6 flex flex-col items-start justify-between gap-4 rounded-xl border border-[#E4DED4] bg-[#FBF9F5] p-5 sm:flex-row sm:items-center">
+                                {/* CURRENT PLAN */}
+
+                                <div className="mt-6 flex flex-col items-start justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-[#1e334a] dark:bg-[#102337] sm:flex-row sm:items-center">
+
                                     <div>
-                                        <span className="inline-flex rounded-full bg-[#FFF9E9] px-3 py-1 text-xs font-semibold text-[#8C7134]">
+
+                                        <span className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">
                                             Professional Plan
                                         </span>
-                                        <p className="mt-2 text-sm text-[#536058]">
-                                            ₹5,999 / month · renews on 14 Oct 2026
+
+                                        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                                            ₹5,999 / month · renews on 14 Oct
+                                            2026
                                         </p>
+
                                     </div>
 
                                     <button
                                         type="button"
-                                        className="rounded-xl border border-[#E4DED4] bg-white px-4 py-2.5 text-sm font-semibold text-[#303B32] transition hover:border-[#F2B84B]/40 hover:text-[#F2B84B] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B]"
+                                        className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:text-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:border-[#1e334a] dark:bg-[#0b1727] dark:text-slate-200 dark:hover:border-blue-500/50 dark:hover:text-blue-400"
                                     >
                                         Manage Plan
                                     </button>
+
                                 </div>
 
-                                <div className="mt-6 flex items-center gap-3 rounded-xl border border-[#E4DED4] p-5">
-                                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#F1ECE5] text-[#536058]">
+                                {/* PAYMENT METHOD */}
+
+                                <div className="mt-6 flex items-center gap-3 rounded-xl border border-slate-200 p-5 dark:border-[#1e334a]">
+
+                                    <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-teal-100 bg-teal-50 text-teal-600 dark:border-teal-500/20 dark:bg-teal-500/10 dark:text-teal-400">
                                         <CreditCard size={20} />
                                     </div>
+
                                     <div>
-                                        <p className="text-sm font-semibold text-[#303B32]">
+                                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                                             Visa ending in 4242
                                         </p>
-                                        <p className="text-xs text-[#7C817B]">Expires 08/28</p>
+
+                                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                                            Expires 08/28
+                                        </p>
                                     </div>
+
                                 </div>
                             </div>
                         )}
                     </section>
                 </div>
 
-                {/* FOOTER NOTE */}
+                {/* =====================================================
+                    FOOTER NOTE
+                ====================================================== */}
+
                 <div className="mt-5 flex items-center justify-between">
-                    <p className="font-['JetBrains_Mono'] text-[9px] uppercase tracking-wider text-[#F3EEDD]/25">
+
+                    <p className="font-mono text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-600">
                         Shiyora Administration
                     </p>
-                    <p className="font-['JetBrains_Mono'] text-[9px] uppercase tracking-wider text-[#F3EEDD]/25">
+
+                    <p className="font-mono text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-600">
                         Account Settings
                     </p>
+
                 </div>
+
             </div>
         </main>
     );

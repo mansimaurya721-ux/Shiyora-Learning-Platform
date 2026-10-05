@@ -59,28 +59,24 @@ const activityData = [
         value: "84%",
         change: "+6.2%",
         description: "Average completion across your courses",
-        positive: true,
     },
     {
         title: "Assignment submissions",
         value: "91%",
         change: "+4.8%",
         description: "Students submitting assignments on time",
-        positive: true,
     },
     {
         title: "Quiz performance",
         value: "83%",
         change: "+3.4%",
         description: "Average score across published quizzes",
-        positive: true,
     },
     {
         title: "Student engagement",
         value: "89%",
         change: "+7.1%",
         description: "Learner activity during this period",
-        positive: true,
     },
 ];
 
@@ -102,93 +98,154 @@ function Analytics() {
         ...monthlyData.map((item) => item.students)
     );
 
+    /* ========================================================= */
+    /* SCORE COLORS */
+    /* ========================================================= */
+
     const getScoreText = (score) => {
-        if (score >= 85) return "text-[#9EB7A2]";
-        if (score >= 70) return "text-[#F2B84B]";
-        return "text-[#E97868]";
+        if (score >= 85) {
+            return "text-teal-600 dark:text-teal-400";
+        }
+
+        if (score >= 70) {
+            return "text-blue-600 dark:text-blue-400";
+        }
+
+        return "text-slate-500 dark:text-slate-400";
     };
 
     const getProgressColor = (value) => {
-        if (value >= 85) return "bg-[#7C9A82]";
-        if (value >= 70) return "bg-[#F2B84B]";
-        return "bg-[#D6402C]";
+        if (value >= 85) {
+            return "bg-teal-500";
+        }
+
+        if (value >= 70) {
+            return "bg-blue-500";
+        }
+
+        return "bg-slate-400";
     };
 
     return (
-        <div className="space-y-8">
-            {/* Header */}
-            <section className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
-                <div>
-                    <div className="mb-3 flex items-center gap-3">
-                        <span className="h-px w-10 bg-[#F2B84B]" />
+        <div className="space-y-7">
 
-                        <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#F2B84B]">
-                            Teacher Workspace
-                        </span>
+            {/* ===================================================== */}
+            {/* HEADER */}
+            {/* ===================================================== */}
+
+            <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-7 shadow-sm dark:border-slate-800 dark:bg-[#0b1727] lg:p-8">
+
+                {/* Background Glow */}
+
+                <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl dark:bg-blue-400/10" />
+
+                <div className="pointer-events-none absolute -bottom-24 left-1/3 h-64 w-64 rounded-full bg-teal-500/10 blur-3xl dark:bg-teal-400/10" />
+
+                <div className="relative flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
+
+                    <div>
+
+                        <div className="mb-3 flex items-center gap-3">
+
+                            <span className="h-px w-10 bg-blue-600 dark:bg-blue-400" />
+
+                            <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-blue-600 dark:text-blue-400">
+                                Teacher Workspace
+                            </span>
+
+                        </div>
+
+                        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">
+                            Analytics
+                        </h1>
+
+                        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
+                            Understand student performance, course engagement,
+                            and learning trends across your teaching
+                            workspace.
+                        </p>
+
                     </div>
 
-                    <h1 className="text-3xl font-bold tracking-tight text-[#F3EEDD] md:text-4xl">
-                        Analytics
-                    </h1>
+                    <div className="flex flex-wrap gap-3">
 
-                    <p className="mt-2 max-w-2xl text-sm leading-6 text-[#A9AAA1]">
-                        Understand student performance, course engagement, and
-                        learning trends across your teaching workspace.
-                    </p>
-                </div>
+                        {/* Period */}
 
-                <div className="flex flex-wrap gap-3">
-                    <select
-                        value={period}
-                        onChange={(e) => setPeriod(e.target.value)}
-                        className="rounded-xl border border-[#F3EEDD]/10 bg-[#1B241E] px-4 py-3 text-sm font-medium text-[#F3EEDD] outline-none transition focus:border-[#F2B84B]/40"
-                    >
-                        <option>Last 6 Months</option>
-                        <option>Last 3 Months</option>
-                        <option>This Month</option>
-                        <option>This Year</option>
-                    </select>
-
-                    <button
-                        type="button"
-                        className="inline-flex items-center gap-2 rounded-xl bg-[#F2B84B] px-5 py-3 text-sm font-bold text-[#161F19] transition hover:bg-[#f5c766]"
-                    >
-                        <svg
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
+                        <select
+                            value={period}
+                            onChange={(e) =>
+                                setPeriod(e.target.value)
+                            }
+                            className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-[#07111f] dark:text-slate-300 dark:focus:border-blue-500"
                         >
-                            <path d="M12 3v12" />
-                            <path d="m8 11 4 4 4-4" />
-                            <path d="M5 21h14" />
-                        </svg>
-                        Export Report
-                    </button>
+                            <option>Last 6 Months</option>
+                            <option>Last 3 Months</option>
+                            <option>This Month</option>
+                            <option>This Year</option>
+                        </select>
+
+                        {/* Export */}
+
+                        <button
+                            type="button"
+                            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                        >
+                            <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.8"
+                            >
+                                <path d="M12 3v12" />
+                                <path d="m8 11 4 4 4-4" />
+                                <path d="M5 21h14" />
+                            </svg>
+
+                            Export Report
+                        </button>
+
+                    </div>
+
                 </div>
+
             </section>
 
-            {/* Main Stats */}
+
+            {/* ===================================================== */}
+            {/* MAIN STATS */}
+            {/* ===================================================== */}
+
             <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                {activityData.map((item) => (
+
+                {activityData.map((item, index) => (
                     <div
                         key={item.title}
-                        className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-5"
+                        className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md dark:border-slate-800 dark:bg-[#0b1727] dark:hover:border-blue-900"
                     >
+
                         <div className="flex items-start justify-between gap-3">
+
                             <div>
-                                <p className="text-xs font-medium uppercase tracking-wider text-[#A9AAA1]">
+
+                                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                     {item.title}
                                 </p>
 
-                                <p className="mt-3 text-3xl font-bold text-[#F3EEDD]">
+                                <p className="mt-3 text-3xl font-bold text-slate-900 dark:text-white">
                                     {item.value}
                                 </p>
+
                             </div>
 
-                            <div className="rounded-xl border border-[#7C9A82]/20 bg-[#7C9A82]/10 p-3 text-[#9EB7A2]">
+                            <div
+                                className={`rounded-xl border p-3 ${index % 2 === 0
+                                    ? "border-blue-100 bg-blue-50 text-blue-600 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-400"
+                                    : "border-teal-100 bg-teal-50 text-teal-600 dark:border-teal-900/50 dark:bg-teal-950/40 dark:text-teal-400"
+                                    }`}
+                            >
+
                                 <svg
                                     width="20"
                                     height="20"
@@ -201,61 +258,94 @@ function Analytics() {
                                     <path d="M4 19h17" />
                                     <path d="m7 15 4-5 3 3 5-7" />
                                 </svg>
+
                             </div>
+
                         </div>
 
                         <div className="mt-4 flex items-center gap-2">
-                            <span className="text-xs font-semibold text-[#9EB7A2]">
+
+                            <span className="text-xs font-semibold text-teal-600 dark:text-teal-400">
                                 {item.change}
                             </span>
 
-                            <span className="text-xs text-[#777C74]">
+                            <span className="text-xs text-slate-400 dark:text-slate-500">
                                 vs previous period
                             </span>
+
                         </div>
 
-                        <p className="mt-2 text-xs leading-5 text-[#777C74]">
+                        <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
                             {item.description}
                         </p>
+
                     </div>
                 ))}
+
             </section>
 
-            {/* Chart + Summary */}
+
+            {/* ===================================================== */}
+            {/* CHART + SUMMARY */}
+            {/* ===================================================== */}
+
             <section className="grid grid-cols-1 gap-5 xl:grid-cols-3">
-                {/* Learning Trend */}
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-6 xl:col-span-2">
+
+                {/* ================================================= */}
+                {/* LEARNING TREND */}
+                {/* ================================================= */}
+
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-[#0b1727] xl:col-span-2">
+
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
                         <div>
-                            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#7C9A82]">
+
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                                 Learning Trend
                             </p>
 
-                            <h2 className="mt-2 text-xl font-bold text-[#F3EEDD]">
+                            <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
                                 Student growth & completion
                             </h2>
 
-                            <p className="mt-1 text-sm text-[#777C74]">
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                 Monthly learning activity across your courses.
                             </p>
+
                         </div>
 
                         <div className="flex items-center gap-4 text-xs">
-                            <div className="flex items-center gap-2 text-[#A9AAA1]">
-                                <span className="h-2 w-2 rounded-full bg-[#F2B84B]" />
+
+                            <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+
+                                <span className="h-2 w-2 rounded-full bg-blue-500" />
+
                                 Students
+
                             </div>
 
-                            <div className="flex items-center gap-2 text-[#A9AAA1]">
-                                <span className="h-2 w-2 rounded-full bg-[#7C9A82]" />
+                            <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+
+                                <span className="h-2 w-2 rounded-full bg-teal-500" />
+
                                 Completion
+
                             </div>
+
                         </div>
+
                     </div>
 
+
+                    {/* Chart */}
+
                     <div className="mt-8">
+
                         <div className="flex h-64 items-end gap-3 sm:gap-5">
+
                             {monthlyData.map((item) => {
+
                                 const studentHeight =
                                     (item.students / maxStudents) * 100;
 
@@ -264,242 +354,260 @@ function Analytics() {
                                         key={item.month}
                                         className="flex h-full flex-1 flex-col justify-end"
                                     >
+
                                         <div className="mb-2 text-center">
-                                            <span className="font-mono text-[10px] text-[#777C74]">
+
+                                            <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500">
                                                 {item.students}
                                             </span>
+
                                         </div>
 
                                         <div className="relative flex h-[210px] items-end justify-center gap-1.5">
+
+                                            {/* Students */}
+
                                             <div
-                                                className="w-1/2 rounded-t-lg bg-[#F2B84B]/70 transition-all hover:bg-[#F2B84B]"
+                                                className="w-1/2 rounded-t-lg bg-blue-500/70 transition-all hover:bg-blue-500"
                                                 style={{
                                                     height: `${studentHeight}%`,
                                                 }}
                                                 title={`${item.students} students`}
                                             />
 
+                                            {/* Completion */}
+
                                             <div
-                                                className="w-1/2 rounded-t-lg bg-[#7C9A82]/70 transition-all hover:bg-[#7C9A82]"
+                                                className="w-1/2 rounded-t-lg bg-teal-500/70 transition-all hover:bg-teal-500"
                                                 style={{
                                                     height: `${item.completion}%`,
                                                 }}
                                                 title={`${item.completion}% completion`}
                                             />
+
                                         </div>
 
-                                        <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-wider text-[#777C74]">
+                                        <p className="mt-3 text-center text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                             {item.month}
                                         </p>
+
                                     </div>
                                 );
                             })}
+
                         </div>
+
                     </div>
+
                 </div>
 
-                {/* Performance Summary */}
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-6">
-                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#7C9A82]">
+
+                {/* ================================================= */}
+                {/* PERFORMANCE SUMMARY */}
+                {/* ================================================= */}
+
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
+
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                         Performance Summary
                     </p>
 
-                    <h2 className="mt-2 text-xl font-bold text-[#F3EEDD]">
+                    <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
                         Teaching snapshot
                     </h2>
 
                     <div className="mt-7 space-y-6">
-                        <div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm text-[#A9AAA1]">
-                                    Overall course completion
-                                </span>
 
-                                <span className="font-mono text-sm font-semibold text-[#F3EEDD]">
-                                    84%
-                                </span>
-                            </div>
+                        <PerformanceBar
+                            label="Overall course completion"
+                            value={84}
+                            color="teal"
+                        />
 
-                            <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#141C17]">
-                                <div
-                                    className="h-full rounded-full bg-[#7C9A82]"
-                                    style={{ width: "84%" }}
-                                />
-                            </div>
-                        </div>
+                        <PerformanceBar
+                            label="Assignment completion"
+                            value={91}
+                            color="blue"
+                        />
 
-                        <div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm text-[#A9AAA1]">
-                                    Assignment completion
-                                </span>
+                        <PerformanceBar
+                            label="Average quiz score"
+                            value={83}
+                            color="blue"
+                        />
 
-                                <span className="font-mono text-sm font-semibold text-[#F3EEDD]">
-                                    91%
-                                </span>
-                            </div>
+                        <PerformanceBar
+                            label="Student engagement"
+                            value={89}
+                            color="teal"
+                        />
 
-                            <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#141C17]">
-                                <div
-                                    className="h-full rounded-full bg-[#F2B84B]"
-                                    style={{ width: "91%" }}
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm text-[#A9AAA1]">
-                                    Average quiz score
-                                </span>
-
-                                <span className="font-mono text-sm font-semibold text-[#F3EEDD]">
-                                    83%
-                                </span>
-                            </div>
-
-                            <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#141C17]">
-                                <div
-                                    className="h-full rounded-full bg-[#F2B84B]"
-                                    style={{ width: "83%" }}
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm text-[#A9AAA1]">
-                                    Student engagement
-                                </span>
-
-                                <span className="font-mono text-sm font-semibold text-[#F3EEDD]">
-                                    89%
-                                </span>
-                            </div>
-
-                            <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#141C17]">
-                                <div
-                                    className="h-full rounded-full bg-[#7C9A82]"
-                                    style={{ width: "89%" }}
-                                />
-                            </div>
-                        </div>
                     </div>
 
-                    <div className="mt-7 rounded-xl border border-[#F2B84B]/20 bg-[#F2B84B]/5 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-[#F2B84B]">
+
+                    {/* Insight */}
+
+                    <div className="mt-7 rounded-xl border border-blue-100 bg-blue-50/70 p-4 dark:border-blue-900/40 dark:bg-blue-950/20">
+
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
                             Insight
                         </p>
 
-                        <p className="mt-2 text-sm leading-6 text-[#A9AAA1]">
+                        <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
                             Your strongest area is assignment completion.
-                            Consider using the same teaching pattern in courses
-                            with lower quiz performance.
+                            Consider using the same teaching pattern in
+                            courses with lower quiz performance.
                         </p>
+
                     </div>
+
                 </div>
+
             </section>
 
-            {/* Course Performance */}
-            <section className="overflow-hidden rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E]">
-                <div className="flex flex-col gap-4 border-b border-[#F3EEDD]/10 px-5 py-5 md:flex-row md:items-center md:justify-between">
+
+            {/* ===================================================== */}
+            {/* COURSE PERFORMANCE */}
+            {/* ===================================================== */}
+
+            <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b1727]">
+
+                <div className="flex flex-col gap-4 border-b border-slate-200 px-5 py-5 dark:border-slate-800 md:flex-row md:items-center md:justify-between">
+
                     <div>
-                        <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#7C9A82]">
+
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                             Course Analysis
                         </p>
 
-                        <h2 className="mt-2 text-xl font-bold text-[#F3EEDD]">
+                        <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
                             Course performance
                         </h2>
 
-                        <p className="mt-1 text-sm text-[#777C74]">
+                        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             Compare performance across your published courses.
                         </p>
+
                     </div>
 
                     <select
                         value={courseFilter}
-                        onChange={(e) => setCourseFilter(e.target.value)}
-                        className="rounded-xl border border-[#F3EEDD]/10 bg-[#141C17] px-4 py-3 text-sm text-[#F3EEDD] outline-none focus:border-[#F2B84B]/40"
+                        onChange={(e) =>
+                            setCourseFilter(e.target.value)
+                        }
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-[#07111f] dark:text-slate-300 dark:focus:border-blue-500"
                     >
-                        <option>All Courses</option>
+
+                        <option>
+                            All Courses
+                        </option>
 
                         {coursePerformance.map((course) => (
-                            <option key={course.id} value={course.name}>
+                            <option
+                                key={course.id}
+                                value={course.name}
+                            >
                                 {course.name}
                             </option>
                         ))}
+
                     </select>
+
                 </div>
 
-                {/* Desktop Table */}
+
+                {/* ================================================= */}
+                {/* DESKTOP TABLE */}
+                {/* ================================================= */}
+
                 <div className="hidden overflow-x-auto lg:block">
+
                     <table className="w-full min-w-[900px]">
+
                         <thead>
-                            <tr className="border-b border-[#F3EEDD]/10 bg-[#141C17]/60">
-                                <th className="px-5 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#777C74]">
+
+                            <tr className="border-b border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-[#07111f]">
+
+                                <TableHeading>
                                     Course
-                                </th>
+                                </TableHeading>
 
-                                <th className="px-5 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#777C74]">
+                                <TableHeading>
                                     Students
-                                </th>
+                                </TableHeading>
 
-                                <th className="px-5 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#777C74]">
+                                <TableHeading>
                                     Completion
-                                </th>
+                                </TableHeading>
 
-                                <th className="px-5 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#777C74]">
+                                <TableHeading>
                                     Avg. Score
-                                </th>
+                                </TableHeading>
 
-                                <th className="px-5 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#777C74]">
+                                <TableHeading>
                                     Assignments
-                                </th>
+                                </TableHeading>
 
-                                <th className="px-5 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#777C74]">
+                                <TableHeading>
                                     Quizzes
-                                </th>
+                                </TableHeading>
 
-                                <th className="px-5 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-[#777C74]">
+                                <TableHeading>
                                     Engagement
-                                </th>
+                                </TableHeading>
+
                             </tr>
+
                         </thead>
 
+
                         <tbody>
+
                             {filteredCourses.map((course) => (
+
                                 <tr
                                     key={course.id}
-                                    className="border-b border-[#F3EEDD]/10 last:border-b-0 transition hover:bg-[#202B23]"
+                                    className="border-b border-slate-100 last:border-b-0 transition hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-900/40"
                                 >
+
                                     <td className="px-5 py-5">
+
                                         <div>
-                                            <p className="font-semibold text-[#F3EEDD]">
+
+                                            <p className="font-semibold text-slate-900 dark:text-white">
                                                 {course.name}
                                             </p>
 
-                                            <p className="mt-1 text-xs text-[#777C74]">
+                                            <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
                                                 Course performance
                                             </p>
+
                                         </div>
+
                                     </td>
 
                                     <td className="px-5 py-5">
-                                        <span className="font-mono text-sm text-[#F3EEDD]">
+
+                                        <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                                             {course.students}
                                         </span>
+
                                     </td>
 
                                     <td className="px-5 py-5">
+
                                         <div className="w-32">
+
                                             <div className="mb-2 flex justify-between">
-                                                <span className="font-mono text-xs text-[#F3EEDD]">
+
+                                                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                                                     {course.completion}%
                                                 </span>
+
                                             </div>
 
-                                            <div className="h-1.5 overflow-hidden rounded-full bg-[#141C17]">
+                                            <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+
                                                 <div
                                                     className={`h-full rounded-full ${getProgressColor(
                                                         course.completion
@@ -508,12 +616,15 @@ function Analytics() {
                                                         width: `${course.completion}%`,
                                                     }}
                                                 />
+
                                             </div>
+
                                         </div>
+
                                     </td>
 
                                     <td
-                                        className={`px-5 py-5 font-mono text-sm font-semibold ${getScoreText(
+                                        className={`px-5 py-5 text-sm font-semibold ${getScoreText(
                                             course.averageScore
                                         )}`}
                                     >
@@ -521,7 +632,7 @@ function Analytics() {
                                     </td>
 
                                     <td
-                                        className={`px-5 py-5 font-mono text-sm font-semibold ${getScoreText(
+                                        className={`px-5 py-5 text-sm font-semibold ${getScoreText(
                                             course.assignments
                                         )}`}
                                     >
@@ -529,7 +640,7 @@ function Analytics() {
                                     </td>
 
                                     <td
-                                        className={`px-5 py-5 font-mono text-sm font-semibold ${getScoreText(
+                                        className={`px-5 py-5 text-sm font-semibold ${getScoreText(
                                             course.quizzes
                                         )}`}
                                     >
@@ -537,50 +648,76 @@ function Analytics() {
                                     </td>
 
                                     <td
-                                        className={`px-5 py-5 font-mono text-sm font-semibold ${getScoreText(
+                                        className={`px-5 py-5 text-sm font-semibold ${getScoreText(
                                             course.engagement
                                         )}`}
                                     >
                                         {course.engagement}%
                                     </td>
+
                                 </tr>
+
                             ))}
+
                         </tbody>
+
                     </table>
+
                 </div>
 
-                {/* Mobile Cards */}
-                <div className="divide-y divide-[#F3EEDD]/10 lg:hidden">
+
+                {/* ================================================= */}
+                {/* MOBILE CARDS */}
+                {/* ================================================= */}
+
+                <div className="divide-y divide-slate-100 dark:divide-slate-800 lg:hidden">
+
                     {filteredCourses.map((course) => (
-                        <div key={course.id} className="space-y-5 p-5">
+
+                        <div
+                            key={course.id}
+                            className="space-y-5 p-5"
+                        >
+
                             <div className="flex items-start justify-between gap-4">
+
                                 <div>
-                                    <h3 className="font-semibold text-[#F3EEDD]">
+
+                                    <h3 className="font-semibold text-slate-900 dark:text-white">
                                         {course.name}
                                     </h3>
 
-                                    <p className="mt-1 text-xs text-[#777C74]">
+                                    <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
                                         {course.students} students
                                     </p>
+
                                 </div>
 
-                                <span className="rounded-lg border border-[#F2B84B]/20 bg-[#F2B84B]/10 px-3 py-1.5 font-mono text-xs text-[#F2B84B]">
+                                <span className="rounded-lg border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-600 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-400">
                                     {course.averageScore}% avg.
                                 </span>
+
                             </div>
 
+
+                            {/* Completion */}
+
                             <div>
+
                                 <div className="mb-2 flex justify-between">
-                                    <span className="text-xs text-[#777C74]">
+
+                                    <span className="text-xs text-slate-500 dark:text-slate-400">
                                         Completion
                                     </span>
 
-                                    <span className="font-mono text-xs text-[#F3EEDD]">
+                                    <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         {course.completion}%
                                     </span>
+
                                 </div>
 
-                                <div className="h-2 overflow-hidden rounded-full bg-[#141C17]">
+                                <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+
                                     <div
                                         className={`h-full rounded-full ${getProgressColor(
                                             course.completion
@@ -589,182 +726,273 @@ function Analytics() {
                                             width: `${course.completion}%`,
                                         }}
                                     />
+
                                 </div>
+
                             </div>
+
+
+                            {/* Metrics */}
 
                             <div className="grid grid-cols-3 gap-3">
-                                <div className="rounded-lg bg-[#141C17] p-3">
-                                    <p className="text-[10px] uppercase tracking-wider text-[#777C74]">
-                                        Assignments
-                                    </p>
 
-                                    <p
-                                        className={`mt-1 font-mono text-sm font-semibold ${getScoreText(
-                                            course.assignments
-                                        )}`}
-                                    >
-                                        {course.assignments}%
-                                    </p>
-                                </div>
+                                <MetricCard
+                                    label="Assignments"
+                                    value={course.assignments}
+                                    scoreClass={getScoreText(
+                                        course.assignments
+                                    )}
+                                />
 
-                                <div className="rounded-lg bg-[#141C17] p-3">
-                                    <p className="text-[10px] uppercase tracking-wider text-[#777C74]">
-                                        Quizzes
-                                    </p>
+                                <MetricCard
+                                    label="Quizzes"
+                                    value={course.quizzes}
+                                    scoreClass={getScoreText(
+                                        course.quizzes
+                                    )}
+                                />
 
-                                    <p
-                                        className={`mt-1 font-mono text-sm font-semibold ${getScoreText(
-                                            course.quizzes
-                                        )}`}
-                                    >
-                                        {course.quizzes}%
-                                    </p>
-                                </div>
+                                <MetricCard
+                                    label="Engagement"
+                                    value={course.engagement}
+                                    scoreClass={getScoreText(
+                                        course.engagement
+                                    )}
+                                />
 
-                                <div className="rounded-lg bg-[#141C17] p-3">
-                                    <p className="text-[10px] uppercase tracking-wider text-[#777C74]">
-                                        Engagement
-                                    </p>
-
-                                    <p
-                                        className={`mt-1 font-mono text-sm font-semibold ${getScoreText(
-                                            course.engagement
-                                        )}`}
-                                    >
-                                        {course.engagement}%
-                                    </p>
-                                </div>
                             </div>
+
                         </div>
+
                     ))}
+
                 </div>
+
 
                 {filteredCourses.length === 0 && (
+
                     <div className="px-6 py-14 text-center">
-                        <p className="text-sm text-[#777C74]">
+
+                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-blue-400">
+                            —
+                        </div>
+
+                        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
                             No course analytics found.
                         </p>
+
                     </div>
+
                 )}
+
             </section>
 
-            {/* Bottom Actions */}
+
+            {/* ===================================================== */}
+            {/* BOTTOM ACTIONS */}
+            {/* ===================================================== */}
+
             <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-6">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#F2B84B]/20 bg-[#F2B84B]/10 text-[#F2B84B]">
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.7"
-                        >
-                            <path d="M4 19V5" />
-                            <path d="M4 19h17" />
-                            <path d="m7 15 4-5 3 3 5-7" />
-                        </svg>
-                    </div>
 
-                    <h3 className="mt-5 font-semibold text-[#F3EEDD]">
-                        Review weak areas
-                    </h3>
+                {/* Weak Areas */}
 
-                    <p className="mt-2 text-sm leading-6 text-[#777C74]">
-                        Identify courses and assessments where students need
-                        additional support.
-                    </p>
+                <ActionCard
+                    icon="↗"
+                    title="Review weak areas"
+                    description="Identify courses and assessments where students need additional support."
+                    link="/teacher/quizzes"
+                    linkText="Review quizzes"
+                    color="blue"
+                />
 
-                    <Link
-                        to="/teacher/quizzes"
-                        className="mt-4 inline-flex text-sm font-semibold text-[#F2B84B] hover:text-[#f5c766]"
-                    >
-                        Review quizzes →
-                    </Link>
-                </div>
+                {/* Students */}
 
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-6">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#7C9A82]/20 bg-[#7C9A82]/10 text-[#9EB7A2]">
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.7"
-                        >
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        </svg>
-                    </div>
+                <ActionCard
+                    icon="◉"
+                    title="Support students"
+                    description="Check students who are falling behind and provide targeted academic support."
+                    link="/teacher/students"
+                    linkText="View students"
+                    color="teal"
+                />
 
-                    <h3 className="mt-5 font-semibold text-[#F3EEDD]">
-                        Support students
-                    </h3>
+                {/* Courses */}
 
-                    <p className="mt-2 text-sm leading-6 text-[#777C74]">
-                        Check students who are falling behind and provide
-                        targeted academic support.
-                    </p>
+                <ActionCard
+                    icon="▥"
+                    title="Improve course delivery"
+                    description="Use performance trends to improve lessons, quizzes, and assignments."
+                    link="/teacher/courses"
+                    linkText="Manage courses"
+                    color="slate"
+                />
 
-                    <Link
-                        to="/teacher/students"
-                        className="mt-4 inline-flex text-sm font-semibold text-[#9EB7A2] hover:text-[#B5C8B8]"
-                    >
-                        View students →
-                    </Link>
-                </div>
-
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-6">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#D6402C]/20 bg-[#D6402C]/10 text-[#E97868]">
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.7"
-                        >
-                            <path d="M4 19V5" />
-                            <path d="M4 19h17" />
-                            <path d="M8 16v-3" />
-                            <path d="M12 16V9" />
-                            <path d="M16 16v-6" />
-                        </svg>
-                    </div>
-
-                    <h3 className="mt-5 font-semibold text-[#F3EEDD]">
-                        Improve course delivery
-                    </h3>
-
-                    <p className="mt-2 text-sm leading-6 text-[#777C74]">
-                        Use performance trends to improve lessons, quizzes, and
-                        assignments.
-                    </p>
-
-                    <Link
-                        to="/teacher/courses"
-                        className="mt-4 inline-flex text-sm font-semibold text-[#E97868] hover:text-[#f18a7d]"
-                    >
-                        Manage courses →
-                    </Link>
-                </div>
             </section>
 
-            {/* Footer Note */}
-            <section className="border-t border-[#F3EEDD]/10 pt-6">
-                <div className="flex flex-col gap-2 text-xs text-[#777C74] sm:flex-row sm:items-center sm:justify-between">
+
+            {/* ===================================================== */}
+            {/* FOOTER NOTE */}
+            {/* ===================================================== */}
+
+            <section className="border-t border-slate-200 pt-6 dark:border-slate-800">
+
+                <div className="flex flex-col gap-2 text-xs text-slate-400 dark:text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+
                     <p>
                         Analytics are currently using frontend sample data.
                     </p>
 
-                    <p className="font-mono uppercase tracking-wider text-[#7C9A82]">
+                    <p className="font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400">
                         Shiyora Teacher Analytics
                     </p>
+
                 </div>
+
             </section>
+
+        </div>
+    );
+}
+
+
+/* ============================================================= */
+/* PERFORMANCE BAR */
+/* ============================================================= */
+
+function PerformanceBar({
+    label,
+    value,
+    color = "blue",
+}) {
+    const barColor =
+        color === "teal"
+            ? "bg-teal-500"
+            : "bg-blue-500";
+
+    return (
+        <div>
+
+            <div className="flex items-center justify-between">
+
+                <span className="text-sm text-slate-600 dark:text-slate-400">
+                    {label}
+                </span>
+
+                <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                    {value}%
+                </span>
+
+            </div>
+
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+
+                <div
+                    className={`h-full rounded-full ${barColor}`}
+                    style={{
+                        width: `${value}%`,
+                    }}
+                />
+
+            </div>
+
+        </div>
+    );
+}
+
+
+/* ============================================================= */
+/* TABLE HEADING */
+/* ============================================================= */
+
+function TableHeading({ children }) {
+    return (
+        <th className="px-5 py-4 text-left text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            {children}
+        </th>
+    );
+}
+
+
+/* ============================================================= */
+/* MOBILE METRIC CARD */
+/* ============================================================= */
+
+function MetricCard({
+    label,
+    value,
+    scoreClass,
+}) {
+    return (
+        <div className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-[#07111f]">
+
+            <p className="text-[9px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                {label}
+            </p>
+
+            <p
+                className={`mt-1 text-sm font-bold ${scoreClass}`}
+            >
+                {value}%
+            </p>
+
+        </div>
+    );
+}
+
+
+/* ============================================================= */
+/* ACTION CARD */
+/* ============================================================= */
+
+function ActionCard({
+    icon,
+    title,
+    description,
+    link,
+    linkText,
+    color,
+}) {
+    const styles = {
+        blue: {
+            icon: "border-blue-100 bg-blue-50 text-blue-600 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-400",
+            link: "text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300",
+        },
+
+        teal: {
+            icon: "border-teal-100 bg-teal-50 text-teal-600 dark:border-teal-900/50 dark:bg-teal-950/40 dark:text-teal-400",
+            link: "text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300",
+        },
+
+        slate: {
+            icon: "border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300",
+            link: "text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white",
+        },
+    };
+
+    return (
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-[#0b1727]">
+
+            <div
+                className={`flex h-11 w-11 items-center justify-center rounded-xl border text-lg font-bold ${styles[color].icon}`}
+            >
+                {icon}
+            </div>
+
+            <h3 className="mt-5 font-semibold text-slate-900 dark:text-white">
+                {title}
+            </h3>
+
+            <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                {description}
+            </p>
+
+            <Link
+                to={link}
+                className={`mt-4 inline-flex text-sm font-semibold transition ${styles[color].link}`}
+            >
+                {linkText} →
+            </Link>
+
         </div>
     );
 }

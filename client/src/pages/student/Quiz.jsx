@@ -11,7 +11,6 @@ import {
     Search,
     Trophy,
     X,
-    XCircle,
 } from "lucide-react";
 
 const Quiz = () => {
@@ -44,27 +43,36 @@ const Quiz = () => {
                 "Test your understanding of JavaScript variables, functions, arrays, objects, operators, and basic ES6 concepts.",
             questionsData: [
                 {
-                    question: "Which keyword is used to declare a block-scoped variable in JavaScript?",
+                    question:
+                        "Which keyword is used to declare a block-scoped variable in JavaScript?",
                     options: ["var", "let", "define", "variable"],
                     answer: "let",
                 },
                 {
-                    question: "Which method is used to add an element to the end of an array?",
+                    question:
+                        "Which method is used to add an element to the end of an array?",
                     options: ["push()", "pop()", "shift()", "unshift()"],
                     answer: "push()",
                 },
                 {
-                    question: "Which symbol is used for strict equality comparison?",
+                    question:
+                        "Which symbol is used for strict equality comparison?",
                     options: ["==", "=", "===", "!="],
                     answer: "===",
                 },
                 {
                     question: "Which of the following is an object in JavaScript?",
-                    options: ["{ name: 'Mansi' }", "[1, 2, 3]", "42", "true"],
+                    options: [
+                        "{ name: 'Mansi' }",
+                        "[1, 2, 3]",
+                        "42",
+                        "true",
+                    ],
                     answer: "{ name: 'Mansi' }",
                 },
                 {
-                    question: "Which method converts a JSON string into a JavaScript object?",
+                    question:
+                        "Which method converts a JSON string into a JavaScript object?",
                     options: [
                         "JSON.parse()",
                         "JSON.stringify()",
@@ -94,7 +102,8 @@ const Quiz = () => {
                     answer: "&&",
                 },
                 {
-                    question: "Which method removes the last element from an array?",
+                    question:
+                        "Which method removes the last element from an array?",
                     options: ["push()", "shift()", "pop()", "remove()"],
                     answer: "pop()",
                 },
@@ -126,7 +135,8 @@ const Quiz = () => {
                 "Evaluate your knowledge of classes, objects, inheritance, polymorphism, abstraction, encapsulation, and interfaces in Java.",
             questionsData: [
                 {
-                    question: "Which concept combines data and methods into a single unit?",
+                    question:
+                        "Which concept combines data and methods into a single unit?",
                     options: [
                         "Inheritance",
                         "Encapsulation",
@@ -136,7 +146,8 @@ const Quiz = () => {
                     answer: "Encapsulation",
                 },
                 {
-                    question: "Which keyword is used to inherit a class in Java?",
+                    question:
+                        "Which keyword is used to inherit a class in Java?",
                     options: ["inherits", "extends", "implements", "super"],
                     answer: "extends",
                 },
@@ -146,7 +157,8 @@ const Quiz = () => {
                     answer: "new",
                 },
                 {
-                    question: "Which OOP concept allows one interface to have multiple implementations?",
+                    question:
+                        "Which OOP concept allows one interface to have multiple implementations?",
                     options: [
                         "Encapsulation",
                         "Polymorphism",
@@ -183,7 +195,8 @@ const Quiz = () => {
                     answer: "SELECT",
                 },
                 {
-                    question: "Which key uniquely identifies each row in a table?",
+                    question:
+                        "Which key uniquely identifies each row in a table?",
                     options: [
                         "Foreign Key",
                         "Primary Key",
@@ -198,7 +211,8 @@ const Quiz = () => {
                     answer: "WHERE",
                 },
                 {
-                    question: "Which JOIN returns matching rows from both tables?",
+                    question:
+                        "Which JOIN returns matching rows from both tables?",
                     options: [
                         "INNER JOIN",
                         "OUTER JOIN",
@@ -208,7 +222,8 @@ const Quiz = () => {
                     answer: "INNER JOIN",
                 },
                 {
-                    question: "Which command is used to modify existing records?",
+                    question:
+                        "Which command is used to modify existing records?",
                     options: ["CHANGE", "MODIFY", "UPDATE", "ALTER"],
                     answer: "UPDATE",
                 },
@@ -231,13 +246,19 @@ const Quiz = () => {
             score: 90,
             questionsData: [
                 {
-                    question: "Which HTML element is used for the largest heading?",
+                    question:
+                        "Which HTML element is used for the largest heading?",
                     options: ["<h6>", "<heading>", "<h1>", "<head>"],
                     answer: "<h1>",
                 },
                 {
                     question: "Which CSS property changes text color?",
-                    options: ["font-color", "color", "text-color", "foreground"],
+                    options: [
+                        "font-color",
+                        "color",
+                        "text-color",
+                        "foreground",
+                    ],
                     answer: "color",
                 },
             ],
@@ -262,10 +283,12 @@ const Quiz = () => {
 
     const filteredQuizzes = useMemo(() => {
         return quizzes.filter((quiz) => {
+            const searchText = search.toLowerCase();
+
             const matchesSearch =
-                quiz.title.toLowerCase().includes(search.toLowerCase()) ||
-                quiz.course.toLowerCase().includes(search.toLowerCase()) ||
-                quiz.instructor.toLowerCase().includes(search.toLowerCase());
+                quiz.title.toLowerCase().includes(searchText) ||
+                quiz.course.toLowerCase().includes(searchText) ||
+                quiz.instructor.toLowerCase().includes(searchText);
 
             const matchesFilter =
                 filter === "All" || quiz.status === filter;
@@ -275,18 +298,28 @@ const Quiz = () => {
     }, [search, filter]);
 
     const totalQuizzes = quizzes.length;
+
     const availableQuizzes = quizzes.filter(
         (quiz) => quiz.status === "Available"
     ).length;
+
     const completedQuizzes = quizzes.filter(
         (quiz) => quiz.status === "Completed"
     ).length;
-    const averageScore = Math.round(
-        quizzes
-            .filter((quiz) => quiz.score)
-            .reduce((sum, quiz) => sum + quiz.score, 0) /
-        quizzes.filter((quiz) => quiz.score).length
+
+    const scoredQuizzes = quizzes.filter(
+        (quiz) => typeof quiz.score === "number"
     );
+
+    const averageScore =
+        scoredQuizzes.length > 0
+            ? Math.round(
+                scoredQuizzes.reduce(
+                    (sum, quiz) => sum + quiz.score,
+                    0
+                ) / scoredQuizzes.length
+            )
+            : 0;
 
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
@@ -328,7 +361,9 @@ const Quiz = () => {
     };
 
     useEffect(() => {
-        if (!quizStarted || quizSubmitted || showResult) return;
+        if (!quizStarted || quizSubmitted || showResult) {
+            return;
+        }
 
         if (timeLeft <= 0) {
             setQuizSubmitted(true);
@@ -358,7 +393,10 @@ const Quiz = () => {
         if (!questions.length) return 0;
 
         const correct = questions.reduce((total, question, index) => {
-            return total + (answers[index] === question.answer ? 1 : 0);
+            return (
+                total +
+                (answers[index] === question.answer ? 1 : 0)
+            );
         }, 0);
 
         return Math.round((correct / questions.length) * 100);
@@ -375,12 +413,17 @@ const Quiz = () => {
 
         return selectedQuiz.questionsData.reduce(
             (total, question, index) =>
-                total + (answers[index] === question.answer ? 1 : 0),
+                total +
+                (answers[index] === question.answer ? 1 : 0),
             0
         );
     };
 
     const answeredCount = Object.keys(answers).length;
+
+    /* =========================================================
+       QUIZ RESULT
+    ========================================================= */
 
     if (quizStarted && selectedQuiz && showResult) {
         const score = calculateScore();
@@ -388,69 +431,60 @@ const Quiz = () => {
         const totalQuestions = selectedQuiz.questionsData.length;
 
         return (
-            <div className="min-h-screen bg-[#161F19] text-[#F3EEDD] p-4 sm:p-6 lg:p-8">
-                <div className="max-w-4xl mx-auto">
-                    <div className="bg-[#1B241E] border border-[#7C9A82]/30 rounded-2xl overflow-hidden">
-                        <div className="bg-[#F2B84B] p-8 text-center text-[#161F19]">
-                            <div className="w-20 h-20 mx-auto rounded-full bg-[#161F19] flex items-center justify-center mb-4">
-                                <Trophy
-                                    size={38}
-                                    className="text-[#F2B84B]"
-                                />
+            <div className="min-h-screen bg-slate-50 p-4 text-slate-700 dark:bg-[#07111f] dark:text-slate-300 sm:p-6 lg:p-8">
+                <div className="mx-auto max-w-4xl">
+                    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+                        {/* Result Header */}
+                        <div className="bg-gradient-to-r from-blue-600 to-teal-500 p-8 text-center text-white sm:p-10">
+                            <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/25">
+                                <Trophy size={38} />
                             </div>
 
                             <h1 className="text-3xl font-bold">
                                 Quiz Completed
                             </h1>
 
-                            <p className="mt-2 opacity-80">
+                            <p className="mt-2 text-sm text-white/80 sm:text-base">
                                 {selectedQuiz.title}
                             </p>
                         </div>
 
-                        <div className="p-6 sm:p-8">
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                                <div className="bg-[#161F19] border border-[#7C9A82]/25 rounded-xl p-5 text-center">
-                                    <p className="text-[#7C9A82] text-sm">
-                                        Your Score
-                                    </p>
-                                    <p className="text-3xl font-bold text-[#F2B84B] mt-1">
-                                        {score}%
-                                    </p>
-                                </div>
+                        {/* Result Content */}
+                        <div className="p-5 sm:p-8">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                                <ResultStat
+                                    label="Your Score"
+                                    value={`${score}%`}
+                                    accent="blue"
+                                />
 
-                                <div className="bg-[#161F19] border border-[#7C9A82]/25 rounded-xl p-5 text-center">
-                                    <p className="text-[#7C9A82] text-sm">
-                                        Correct Answers
-                                    </p>
-                                    <p className="text-3xl font-bold mt-1">
-                                        {correctAnswers}/{totalQuestions}
-                                    </p>
-                                </div>
+                                <ResultStat
+                                    label="Correct Answers"
+                                    value={`${correctAnswers}/${totalQuestions}`}
+                                    accent="teal"
+                                />
 
-                                <div className="bg-[#161F19] border border-[#7C9A82]/25 rounded-xl p-5 text-center">
-                                    <p className="text-[#7C9A82] text-sm">
-                                        Status
-                                    </p>
-                                    <p
-                                        className={`text-xl font-bold mt-2 ${score >= 60
-                                            ? "text-[#7C9A82]"
-                                            : "text-[#D6402C]"
-                                            }`}
-                                    >
-                                        {score >= 60 ? "Passed" : "Needs Practice"}
-                                    </p>
-                                </div>
+                                <ResultStat
+                                    label="Status"
+                                    value={
+                                        score >= 60
+                                            ? "Passed"
+                                            : "Needs Practice"
+                                    }
+                                    accent={
+                                        score >= 60 ? "teal" : "red"
+                                    }
+                                />
                             </div>
 
-                            <div className="text-center mb-8">
-                                <div className="w-28 h-28 mx-auto rounded-full border-8 border-[#F2B84B]/20 flex items-center justify-center">
-                                    <span className="text-3xl font-bold text-[#F2B84B]">
+                            <div className="py-8 text-center">
+                                <div className="mx-auto flex h-32 w-32 items-center justify-center rounded-full border-[10px] border-blue-100 dark:border-blue-950">
+                                    <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">
                                         {score}%
                                     </span>
                                 </div>
 
-                                <p className="text-[#7C9A82] mt-4">
+                                <p className="mt-5 text-sm text-slate-500 dark:text-slate-400">
                                     {score >= 80
                                         ? "Excellent work! Keep learning."
                                         : score >= 60
@@ -459,10 +493,10 @@ const Quiz = () => {
                                 </p>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                            <div className="flex flex-col justify-center gap-3 sm:flex-row">
                                 <button
                                     onClick={closeQuiz}
-                                    className="px-6 py-3 rounded-xl bg-[#F2B84B] text-[#161F19] font-semibold hover:bg-[#e5aa3f] transition"
+                                    className="rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:from-blue-700 hover:to-teal-600"
                                 >
                                     Back to Quizzes
                                 </button>
@@ -472,7 +506,7 @@ const Quiz = () => {
                                         setShowResult(false);
                                         setCurrentQuestion(0);
                                     }}
-                                    className="px-6 py-3 rounded-xl border border-[#7C9A82]/40 text-[#F3EEDD] font-semibold hover:bg-[#161F19] transition"
+                                    className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-[#1e334a] dark:text-slate-200 dark:hover:bg-[#102337]"
                                 >
                                     Review Answers
                                 </button>
@@ -484,125 +518,153 @@ const Quiz = () => {
         );
     }
 
+    /* =========================================================
+       QUIZ RUNNER
+    ========================================================= */
+
     if (quizStarted && selectedQuiz) {
         const question =
             selectedQuiz.questionsData[currentQuestion];
 
-        const totalQuestions = selectedQuiz.questionsData.length;
+        const totalQuestions =
+            selectedQuiz.questionsData.length;
+
         const progress =
             ((currentQuestion + 1) / totalQuestions) * 100;
 
         return (
-            <div className="min-h-screen bg-[#161F19] text-[#F3EEDD] p-4 sm:p-6 lg:p-8">
-                <div className="max-w-5xl mx-auto">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                        <div>
-                            <p className="text-[#7C9A82] text-sm">
+            <div className="min-h-screen bg-slate-50 p-4 text-slate-700 dark:bg-[#07111f] dark:text-slate-300 sm:p-6 lg:p-8">
+                <div className="mx-auto max-w-6xl">
+                    {/* Quiz Header */}
+                    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="min-w-0">
+                            <p className="text-sm font-medium text-blue-600 dark:text-teal-400">
                                 {selectedQuiz.course}
                             </p>
 
-                            <h1 className="text-xl sm:text-2xl font-bold mt-1">
+                            <h1 className="mt-1 text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">
                                 {selectedQuiz.title}
                             </h1>
                         </div>
 
                         <div
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl border ${timeLeft <= 60
-                                ? "border-[#D6402C] text-[#D6402C]"
-                                : "border-[#F2B84B]/40 text-[#F2B84B]"
+                            className={`flex w-fit items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold ${timeLeft <= 60
+                                ? "border-red-200 bg-red-50 text-red-600 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-400"
+                                : "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-900/50 dark:bg-blue-950/30 dark:text-blue-400"
                                 }`}
                         >
                             <Clock3 size={18} />
-                            <span className="font-semibold">
-                                {formatTime(timeLeft)}
-                            </span>
+                            {formatTime(timeLeft)}
                         </div>
                     </div>
 
-                    <div className="h-2 bg-[#1B241E] rounded-full overflow-hidden mb-6">
-                        <div
-                            className="h-full bg-[#F2B84B] transition-all"
-                            style={{ width: `${progress}%` }}
-                        />
+                    {/* Progress */}
+                    <div className="mb-6">
+                        <div className="mb-2 flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                            <span>Quiz Progress</span>
+                            <span>{Math.round(progress)}%</span>
+                        </div>
+
+                        <div className="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-[#102337]">
+                            <div
+                                className="h-full rounded-full bg-gradient-to-r from-blue-600 to-teal-500 transition-all"
+                                style={{ width: `${progress}%` }}
+                            />
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-6">
-                        <div className="bg-[#1B241E] border border-[#7C9A82]/30 rounded-2xl p-5 sm:p-8">
-                            <div className="flex items-center justify-between mb-6">
-                                <span className="text-sm text-[#7C9A82]">
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_260px]">
+                        {/* Question Card */}
+                        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] sm:p-8">
+                            <div className="mb-6 flex items-center justify-between gap-3">
+                                <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
                                     Question {currentQuestion + 1} of{" "}
                                     {totalQuestions}
                                 </span>
 
-                                <span className="text-sm text-[#7C9A82]">
+                                <span className="text-sm text-slate-500 dark:text-slate-400">
                                     {answeredCount}/{totalQuestions} answered
                                 </span>
                             </div>
 
-                            <h2 className="text-xl sm:text-2xl font-semibold leading-relaxed mb-8">
+                            <h2 className="mb-8 text-xl font-semibold leading-relaxed text-slate-900 dark:text-white sm:text-2xl">
                                 {question.question}
                             </h2>
 
+                            {/* Options */}
                             <div className="space-y-3">
-                                {question.options.map((option, index) => {
-                                    const selected =
-                                        answers[currentQuestion] === option;
+                                {question.options.map(
+                                    (option, index) => {
+                                        const selected =
+                                            answers[currentQuestion] ===
+                                            option;
 
-                                    return (
-                                        <button
-                                            key={option}
-                                            onClick={() =>
-                                                selectAnswer(option)
-                                            }
-                                            className={`w-full text-left p-4 rounded-xl border transition flex items-center gap-4 ${selected
-                                                ? "border-[#F2B84B] bg-[#F2B84B]/10"
-                                                : "border-[#7C9A82]/25 hover:border-[#7C9A82] hover:bg-[#161F19]"
-                                                }`}
-                                        >
-                                            <span
-                                                className={`w-9 h-9 rounded-lg flex items-center justify-center font-semibold shrink-0 ${selected
-                                                    ? "bg-[#F2B84B] text-[#161F19]"
-                                                    : "bg-[#161F19] text-[#7C9A82]"
+                                        return (
+                                            <button
+                                                key={option}
+                                                onClick={() =>
+                                                    selectAnswer(option)
+                                                }
+                                                className={`flex w-full items-center gap-4 rounded-xl border p-4 text-left transition ${selected
+                                                    ? "border-blue-500 bg-blue-50 dark:border-teal-400 dark:bg-teal-950/30"
+                                                    : "border-slate-200 hover:border-blue-300 hover:bg-slate-50 dark:border-[#1e334a] dark:hover:border-teal-700 dark:hover:bg-[#102337]"
                                                     }`}
                                             >
-                                                {String.fromCharCode(
-                                                    65 + index
+                                                <span
+                                                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold ${selected
+                                                        ? "bg-blue-600 text-white dark:bg-teal-500 dark:text-slate-950"
+                                                        : "bg-slate-100 text-slate-500 dark:bg-[#102337] dark:text-slate-400"
+                                                        }`}
+                                                >
+                                                    {String.fromCharCode(
+                                                        65 + index
+                                                    )}
+                                                </span>
+
+                                                <span className="text-sm font-medium text-slate-700 dark:text-slate-200 sm:text-base">
+                                                    {option}
+                                                </span>
+
+                                                {selected && (
+                                                    <CheckCircle2
+                                                        size={20}
+                                                        className="ml-auto shrink-0 text-blue-600 dark:text-teal-400"
+                                                    />
                                                 )}
-                                            </span>
-
-                                            <span>{option}</span>
-
-                                            {selected && (
-                                                <CheckCircle2
-                                                    size={20}
-                                                    className="ml-auto text-[#F2B84B]"
-                                                />
-                                            )}
-                                        </button>
-                                    );
-                                })}
+                                            </button>
+                                        );
+                                    }
+                                )}
                             </div>
 
-                            <div className="flex justify-between gap-3 mt-8 pt-6 border-t border-[#7C9A82]/20">
+                            {/* Navigation */}
+                            <div className="mt-8 flex justify-between gap-3 border-t border-slate-200 pt-6 dark:border-[#1e334a]">
                                 <button
                                     onClick={() =>
-                                        setCurrentQuestion((previous) =>
-                                            Math.max(previous - 1, 0)
+                                        setCurrentQuestion(
+                                            (previous) =>
+                                                Math.max(
+                                                    previous - 1,
+                                                    0
+                                                )
                                         )
                                     }
                                     disabled={currentQuestion === 0}
-                                    className="flex items-center gap-2 px-4 py-3 rounded-xl border border-[#7C9A82]/30 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#161F19]"
+                                    className="flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-30 dark:border-[#1e334a] dark:hover:bg-[#102337]"
                                 >
                                     <ChevronLeft size={18} />
-                                    Previous
+                                    <span className="hidden sm:inline">
+                                        Previous
+                                    </span>
                                 </button>
 
-                                {currentQuestion === totalQuestions - 1 ? (
+                                {currentQuestion ===
+                                    totalQuestions - 1 ? (
                                     <button
                                         onClick={() =>
                                             setShowSubmitModal(true)
                                         }
-                                        className="flex items-center gap-2 px-5 py-3 rounded-xl bg-[#F2B84B] text-[#161F19] font-semibold hover:bg-[#e5aa3f]"
+                                        className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 px-5 py-3 text-sm font-semibold text-white transition hover:from-blue-700 hover:to-teal-600"
                                     >
                                         Submit Quiz
                                         <CheckCircle2 size={18} />
@@ -610,14 +672,15 @@ const Quiz = () => {
                                 ) : (
                                     <button
                                         onClick={() =>
-                                            setCurrentQuestion((previous) =>
-                                                Math.min(
-                                                    previous + 1,
-                                                    totalQuestions - 1
-                                                )
+                                            setCurrentQuestion(
+                                                (previous) =>
+                                                    Math.min(
+                                                        previous + 1,
+                                                        totalQuestions - 1
+                                                    )
                                             )
                                         }
-                                        className="flex items-center gap-2 px-5 py-3 rounded-xl bg-[#F2B84B] text-[#161F19] font-semibold hover:bg-[#e5aa3f]"
+                                        className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 px-5 py-3 text-sm font-semibold text-white transition hover:from-blue-700 hover:to-teal-600"
                                     >
                                         Next
                                         <ChevronRight size={18} />
@@ -626,30 +689,36 @@ const Quiz = () => {
                             </div>
                         </div>
 
-                        <div className="bg-[#1B241E] border border-[#7C9A82]/30 rounded-2xl p-5 h-fit">
-                            <h3 className="font-semibold mb-4">
+                        {/* Question Navigator */}
+                        <div className="h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+                            <h3 className="mb-4 font-semibold text-slate-900 dark:text-white">
                                 Questions
                             </h3>
 
-                            <div className="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-4 gap-2">
+                            <div className="grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-4">
                                 {selectedQuiz.questionsData.map(
                                     (_, index) => {
                                         const answered =
-                                            answers[index] !== undefined;
+                                            answers[index] !==
+                                            undefined;
+
                                         const active =
-                                            currentQuestion === index;
+                                            currentQuestion ===
+                                            index;
 
                                         return (
                                             <button
                                                 key={index}
                                                 onClick={() =>
-                                                    setCurrentQuestion(index)
+                                                    setCurrentQuestion(
+                                                        index
+                                                    )
                                                 }
-                                                className={`w-10 h-10 rounded-lg text-sm font-semibold border ${active
-                                                    ? "bg-[#F2B84B] text-[#161F19] border-[#F2B84B]"
+                                                className={`h-10 w-10 rounded-lg border text-sm font-semibold transition ${active
+                                                    ? "border-blue-600 bg-blue-600 text-white dark:border-teal-500 dark:bg-teal-500 dark:text-slate-950"
                                                     : answered
-                                                        ? "bg-[#7C9A82]/20 text-[#7C9A82] border-[#7C9A82]"
-                                                        : "bg-[#161F19] border-[#7C9A82]/25 text-[#F3EEDD]"
+                                                        ? "border-teal-400 bg-teal-50 text-teal-700 dark:border-teal-700 dark:bg-teal-950/40 dark:text-teal-300"
+                                                        : "border-slate-200 bg-slate-50 text-slate-600 hover:border-blue-300 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-300"
                                                     }`}
                                             >
                                                 {index + 1}
@@ -659,31 +728,32 @@ const Quiz = () => {
                                 )}
                             </div>
 
-                            <div className="mt-6 pt-5 border-t border-[#7C9A82]/20 space-y-3 text-sm">
-                                <div className="flex items-center gap-2">
-                                    <span className="w-3 h-3 rounded-full bg-[#F2B84B]" />
-                                    Current
-                                </div>
+                            <div className="mt-6 space-y-3 border-t border-slate-200 pt-5 text-sm dark:border-[#1e334a]">
+                                <Legend
+                                    label="Current"
+                                    className="bg-blue-600 dark:bg-teal-500"
+                                />
 
-                                <div className="flex items-center gap-2">
-                                    <span className="w-3 h-3 rounded-full bg-[#7C9A82]" />
-                                    Answered
-                                </div>
+                                <Legend
+                                    label="Answered"
+                                    className="bg-teal-500"
+                                />
 
-                                <div className="flex items-center gap-2">
-                                    <span className="w-3 h-3 rounded-full bg-[#161F19] border border-[#7C9A82]" />
-                                    Not Answered
-                                </div>
+                                <Legend
+                                    label="Not Answered"
+                                    className="border border-slate-400 bg-transparent"
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
 
+                {/* Submit Modal */}
                 {showSubmitModal && (
-                    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-                        <div className="w-full max-w-md bg-[#1B241E] border border-[#7C9A82]/30 rounded-2xl p-6">
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-xl font-bold">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm">
+                        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-[#1e334a] dark:bg-[#0b1727]">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                                     Submit Quiz?
                                 </h2>
 
@@ -691,37 +761,44 @@ const Quiz = () => {
                                     onClick={() =>
                                         setShowSubmitModal(false)
                                     }
-                                    className="p-2 rounded-lg hover:bg-[#161F19]"
+                                    className="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-[#102337] dark:hover:text-white"
                                 >
                                     <X size={20} />
                                 </button>
                             </div>
 
-                            <p className="text-[#7C9A82] mt-4">
-                                You have answered {answeredCount} out of{" "}
-                                {totalQuestions} questions.
+                            <p className="mt-4 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                                You have answered{" "}
+                                <span className="font-semibold text-slate-700 dark:text-slate-200">
+                                    {answeredCount}
+                                </span>{" "}
+                                out of{" "}
+                                <span className="font-semibold text-slate-700 dark:text-slate-200">
+                                    {totalQuestions}
+                                </span>{" "}
+                                questions.
                             </p>
 
                             {answeredCount < totalQuestions && (
-                                <div className="mt-4 p-3 rounded-xl bg-[#D6402C]/10 border border-[#D6402C]/30 text-[#D6402C] text-sm">
-                                    You still have unanswered questions.
-                                    You can submit now or continue answering.
+                                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-300">
+                                    You still have unanswered questions. You
+                                    can submit now or continue answering.
                                 </div>
                             )}
 
-                            <div className="flex gap-3 mt-6">
+                            <div className="mt-6 flex gap-3">
                                 <button
                                     onClick={() =>
                                         setShowSubmitModal(false)
                                     }
-                                    className="flex-1 px-4 py-3 rounded-xl border border-[#7C9A82]/30"
+                                    className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-[#1e334a] dark:text-slate-200 dark:hover:bg-[#102337]"
                                 >
                                     Continue
                                 </button>
 
                                 <button
                                     onClick={submitQuiz}
-                                    className="flex-1 px-4 py-3 rounded-xl bg-[#F2B84B] text-[#161F19] font-semibold"
+                                    className="flex-1 rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-blue-700 hover:to-teal-600"
                                 >
                                     Submit
                                 </button>
@@ -733,24 +810,29 @@ const Quiz = () => {
         );
     }
 
+    /* =========================================================
+       QUIZ LIST
+    ========================================================= */
+
     return (
-        <div className="min-h-screen bg-[#161F19] text-[#F3EEDD] p-4 sm:p-6 lg:p-8">
-            <div className="max-w-7xl mx-auto">
+        <div className="min-h-screen bg-slate-50 p-4 text-slate-700 dark:bg-[#07111f] dark:text-slate-300 sm:p-6 lg:p-8">
+            <div className="mx-auto max-w-7xl">
                 {/* Header */}
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 mb-8">
+                <div className="mb-8 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                     <div>
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-xl bg-[#F2B84B] text-[#161F19] flex items-center justify-center">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-teal-500 text-white shadow-sm">
                                 <FileQuestion size={25} />
                             </div>
 
                             <div>
-                                <h1 className="text-2xl sm:text-3xl font-bold">
+                                <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
                                     Quizzes
                                 </h1>
 
-                                <p className="text-[#7C9A82] mt-1">
-                                    Test your knowledge and track your results.
+                                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400 sm:text-base">
+                                    Test your knowledge and track your
+                                    learning results.
                                 </p>
                             </div>
                         </div>
@@ -758,103 +840,53 @@ const Quiz = () => {
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl p-5">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-[#7C9A82]">
-                                    Total Quizzes
-                                </p>
-                                <p className="text-2xl font-bold mt-1">
-                                    {totalQuizzes}
-                                </p>
-                            </div>
+                <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+                    <QuizStat
+                        label="Total Quizzes"
+                        value={totalQuizzes}
+                        icon={FileQuestion}
+                        iconStyle="blue"
+                    />
 
-                            <div className="w-11 h-11 rounded-xl bg-[#F2B84B]/10 flex items-center justify-center">
-                                <FileQuestion
-                                    size={22}
-                                    className="text-[#F2B84B]"
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    <QuizStat
+                        label="Available"
+                        value={availableQuizzes}
+                        icon={PlayCircle}
+                        iconStyle="teal"
+                    />
 
-                    <div className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl p-5">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-[#7C9A82]">
-                                    Available
-                                </p>
-                                <p className="text-2xl font-bold mt-1">
-                                    {availableQuizzes}
-                                </p>
-                            </div>
+                    <QuizStat
+                        label="Completed"
+                        value={completedQuizzes}
+                        icon={CheckCircle2}
+                        iconStyle="teal"
+                    />
 
-                            <div className="w-11 h-11 rounded-xl bg-[#7C9A82]/10 flex items-center justify-center">
-                                <PlayCircle
-                                    size={22}
-                                    className="text-[#7C9A82]"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl p-5">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-[#7C9A82]">
-                                    Completed
-                                </p>
-                                <p className="text-2xl font-bold mt-1">
-                                    {completedQuizzes}
-                                </p>
-                            </div>
-
-                            <div className="w-11 h-11 rounded-xl bg-[#7C9A82]/10 flex items-center justify-center">
-                                <CheckCircle2
-                                    size={22}
-                                    className="text-[#7C9A82]"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl p-5">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-[#7C9A82]">
-                                    Average Score
-                                </p>
-                                <p className="text-2xl font-bold mt-1">
-                                    {averageScore}%
-                                </p>
-                            </div>
-
-                            <div className="w-11 h-11 rounded-xl bg-[#F2B84B]/10 flex items-center justify-center">
-                                <Award
-                                    size={22}
-                                    className="text-[#F2B84B]"
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    <QuizStat
+                        label="Average Score"
+                        value={`${averageScore}%`}
+                        icon={Award}
+                        iconStyle="blue"
+                    />
                 </div>
 
-                {/* Search and filters */}
-                <div className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl p-4 mb-6">
-                    <div className="flex flex-col lg:flex-row gap-4">
+                {/* Search + Filters */}
+                <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+                    <div className="flex flex-col gap-4 lg:flex-row">
                         <div className="relative flex-1">
                             <Search
                                 size={19}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#7C9A82]"
+                                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
                             />
 
                             <input
                                 type="text"
                                 placeholder="Search quizzes..."
                                 value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="w-full bg-[#161F19] border border-[#7C9A82]/25 rounded-xl pl-11 pr-4 py-3 outline-none focus:border-[#F2B84B] text-[#F3EEDD] placeholder:text-[#7C9A82]"
+                                onChange={(e) =>
+                                    setSearch(e.target.value)
+                                }
+                                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white dark:border-[#1e334a] dark:bg-[#07111f] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-teal-500 dark:focus:bg-[#102337]"
                             />
                         </div>
 
@@ -867,10 +899,12 @@ const Quiz = () => {
                             ].map((item) => (
                                 <button
                                     key={item}
-                                    onClick={() => setFilter(item)}
-                                    className={`px-4 py-2.5 rounded-xl text-sm font-medium transition ${filter === item
-                                        ? "bg-[#F2B84B] text-[#161F19]"
-                                        : "border border-[#7C9A82]/25 text-[#7C9A82] hover:bg-[#161F19]"
+                                    onClick={() =>
+                                        setFilter(item)
+                                    }
+                                    className={`rounded-xl px-4 py-2.5 text-sm font-medium transition ${filter === item
+                                        ? "bg-blue-600 text-white shadow-sm dark:bg-teal-500 dark:text-slate-950"
+                                        : "border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-[#1e334a] dark:text-slate-300 dark:hover:bg-[#102337]"
                                         }`}
                                 >
                                     {item}
@@ -880,126 +914,99 @@ const Quiz = () => {
                     </div>
                 </div>
 
-                {/* Quiz list */}
+                {/* Quiz List */}
                 {filteredQuizzes.length > 0 ? (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
                         {filteredQuizzes.map((quiz) => (
                             <div
                                 key={quiz.id}
-                                className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl p-5 hover:border-[#7C9A82]/60 transition"
+                                className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md dark:border-[#1e334a] dark:bg-[#0b1727] dark:hover:border-teal-800"
                             >
+                                {/* Card Header */}
                                 <div className="flex items-start justify-between gap-4">
-                                    <div className="flex gap-4">
-                                        <div className="w-12 h-12 rounded-xl bg-[#F2B84B]/10 flex items-center justify-center shrink-0">
-                                            <FileQuestion
-                                                size={23}
-                                                className="text-[#F2B84B]"
-                                            />
+                                    <div className="flex min-w-0 gap-4">
+                                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
+                                            <FileQuestion size={23} />
                                         </div>
 
-                                        <div>
-                                            <h2 className="font-semibold text-lg">
+                                        <div className="min-w-0">
+                                            <h2 className="font-semibold text-slate-900 dark:text-white sm:text-lg">
                                                 {quiz.title}
                                             </h2>
 
-                                            <p className="text-sm text-[#7C9A82] mt-1">
+                                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                                 {quiz.course}
                                             </p>
                                         </div>
                                     </div>
 
-                                    <span
-                                        className={`px-3 py-1 rounded-full text-xs font-semibold ${quiz.status === "Available"
-                                            ? "bg-[#7C9A82]/15 text-[#7C9A82]"
-                                            : quiz.status === "Completed"
-                                                ? "bg-[#F2B84B]/15 text-[#F2B84B]"
-                                                : "bg-[#D6402C]/10 text-[#D6402C]"
-                                            }`}
-                                    >
-                                        {quiz.status}
-                                    </span>
+                                    <StatusBadge
+                                        status={quiz.status}
+                                    />
                                 </div>
 
-                                <p className="text-sm text-[#7C9A82] leading-6 mt-5">
+                                {/* Description */}
+                                <p className="mt-5 text-sm leading-6 text-slate-500 dark:text-slate-400">
                                     {quiz.description}
                                 </p>
 
-                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
-                                    <div className="bg-[#161F19] rounded-xl p-3">
-                                        <div className="flex items-center gap-2 text-[#7C9A82]">
-                                            <FileQuestion size={16} />
-                                            <span className="text-xs">
-                                                Questions
-                                            </span>
-                                        </div>
-                                        <p className="font-semibold mt-1">
-                                            {quiz.questions}
-                                        </p>
-                                    </div>
+                                {/* Quiz Info */}
+                                <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                    <InfoBox
+                                        icon={FileQuestion}
+                                        label="Questions"
+                                        value={quiz.questions}
+                                    />
 
-                                    <div className="bg-[#161F19] rounded-xl p-3">
-                                        <div className="flex items-center gap-2 text-[#7C9A82]">
-                                            <Clock3 size={16} />
-                                            <span className="text-xs">
-                                                Duration
-                                            </span>
-                                        </div>
-                                        <p className="font-semibold mt-1">
-                                            {quiz.duration} min
-                                        </p>
-                                    </div>
+                                    <InfoBox
+                                        icon={Clock3}
+                                        label="Duration"
+                                        value={`${quiz.duration} min`}
+                                    />
 
-                                    <div className="bg-[#161F19] rounded-xl p-3">
-                                        <div className="flex items-center gap-2 text-[#7C9A82]">
-                                            <BookOpen size={16} />
-                                            <span className="text-xs">
-                                                Level
-                                            </span>
-                                        </div>
-                                        <p className="font-semibold mt-1">
-                                            {quiz.difficulty}
-                                        </p>
-                                    </div>
+                                    <InfoBox
+                                        icon={BookOpen}
+                                        label="Level"
+                                        value={quiz.difficulty}
+                                    />
 
-                                    <div className="bg-[#161F19] rounded-xl p-3">
-                                        <div className="flex items-center gap-2 text-[#7C9A82]">
-                                            <Award size={16} />
-                                            <span className="text-xs">
-                                                Attempts
-                                            </span>
-                                        </div>
-                                        <p className="font-semibold mt-1">
-                                            {quiz.attempts}/{quiz.maxAttempts}
-                                        </p>
-                                    </div>
+                                    <InfoBox
+                                        icon={Award}
+                                        label="Attempts"
+                                        value={`${quiz.attempts}/${quiz.maxAttempts}`}
+                                    />
                                 </div>
 
+                                {/* Score */}
                                 {quiz.status === "Completed" && (
-                                    <div className="mt-4 p-3 rounded-xl bg-[#F2B84B]/10 border border-[#F2B84B]/20 flex items-center justify-between">
-                                        <span className="text-sm text-[#7C9A82]">
+                                    <div className="mt-4 flex items-center justify-between rounded-xl border border-blue-100 bg-blue-50 p-3 dark:border-blue-900/40 dark:bg-blue-950/20">
+                                        <span className="text-sm text-slate-500 dark:text-slate-400">
                                             Your Score
                                         </span>
 
-                                        <span className="font-bold text-[#F2B84B]">
+                                        <span className="font-bold text-blue-600 dark:text-teal-400">
                                             {quiz.score}%
                                         </span>
                                     </div>
                                 )}
 
-                                <div className="flex gap-3 mt-5">
+                                {/* Buttons */}
+                                <div className="mt-5 flex gap-3">
                                     <button
                                         onClick={() =>
                                             setSelectedQuiz(quiz)
                                         }
-                                        className="flex-1 px-4 py-3 rounded-xl border border-[#7C9A82]/30 text-[#F3EEDD] font-medium hover:bg-[#161F19] transition"
+                                        className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-[#1e334a] dark:text-slate-200 dark:hover:bg-[#102337]"
                                     >
                                         View Details
                                     </button>
 
                                     {quiz.status === "Available" ? (
                                         <button
-                                            onClick={() => startQuiz(quiz)}
-                                            className="flex-1 px-4 py-3 rounded-xl bg-[#F2B84B] text-[#161F19] font-semibold hover:bg-[#e5aa3f] transition flex items-center justify-center gap-2"
+                                            onClick={() =>
+                                                startQuiz(quiz)
+                                            }
+                                            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-blue-700 hover:to-teal-600"
                                         >
                                             <PlayCircle size={18} />
                                             Start Quiz
@@ -1007,7 +1014,7 @@ const Quiz = () => {
                                     ) : (
                                         <button
                                             disabled
-                                            className="flex-1 px-4 py-3 rounded-xl bg-[#161F19] text-[#7C9A82] cursor-not-allowed"
+                                            className="flex-1 cursor-not-allowed rounded-xl bg-slate-100 px-4 py-3 text-sm font-medium text-slate-400 dark:bg-[#102337] dark:text-slate-500"
                                         >
                                             {quiz.status === "Completed"
                                                 ? "Completed"
@@ -1019,126 +1026,111 @@ const Quiz = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl p-12 text-center">
-                        <div className="w-16 h-16 mx-auto rounded-2xl bg-[#F2B84B]/10 flex items-center justify-center">
-                            <FileQuestion
-                                size={30}
-                                className="text-[#F2B84B]"
-                            />
+                    <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+                        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
+                            <FileQuestion size={30} />
                         </div>
 
-                        <h2 className="text-xl font-semibold mt-5">
+                        <h2 className="mt-5 text-xl font-semibold text-slate-900 dark:text-white">
                             No quizzes found
                         </h2>
 
-                        <p className="text-[#7C9A82] mt-2">
+                        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
                             Try changing your search or filter.
                         </p>
+
+                        <button
+                            onClick={() => {
+                                setSearch("");
+                                setFilter("All");
+                            }}
+                            className="mt-5 rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 px-5 py-3 text-sm font-semibold text-white transition hover:from-blue-700 hover:to-teal-600"
+                        >
+                            Clear Filters
+                        </button>
                     </div>
                 )}
 
                 {/* Details Modal */}
                 {selectedQuiz && !quizStarted && (
-                    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-                        <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#1B241E] border border-[#7C9A82]/30 rounded-2xl">
-                            <div className="p-6 border-b border-[#7C9A82]/20 flex items-start justify-between">
-                                <div>
-                                    <p className="text-sm text-[#7C9A82]">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm">
+                        <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-[#1e334a] dark:bg-[#0b1727]">
+                            {/* Modal Header */}
+                            <div className="flex items-start justify-between border-b border-slate-200 p-6 dark:border-[#1e334a]">
+                                <div className="min-w-0 pr-4">
+                                    <p className="text-sm font-medium text-blue-600 dark:text-teal-400">
                                         {selectedQuiz.course}
                                     </p>
 
-                                    <h2 className="text-2xl font-bold mt-1">
+                                    <h2 className="mt-1 text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">
                                         {selectedQuiz.title}
                                     </h2>
                                 </div>
 
                                 <button
-                                    onClick={() => setSelectedQuiz(null)}
-                                    className="p-2 rounded-lg hover:bg-[#161F19]"
+                                    onClick={() =>
+                                        setSelectedQuiz(null)
+                                    }
+                                    className="shrink-0 rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-[#102337] dark:hover:text-white"
                                 >
                                     <X size={20} />
                                 </button>
                             </div>
 
                             <div className="p-6">
-                                <p className="text-[#7C9A82] leading-7">
+                                <p className="leading-7 text-slate-500 dark:text-slate-400">
                                     {selectedQuiz.description}
                                 </p>
 
-                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
-                                    <div className="bg-[#161F19] rounded-xl p-4 text-center">
-                                        <FileQuestion
-                                            size={20}
-                                            className="mx-auto text-[#F2B84B]"
-                                        />
-                                        <p className="text-xl font-bold mt-2">
-                                            {selectedQuiz.questions}
-                                        </p>
-                                        <p className="text-xs text-[#7C9A82]">
-                                            Questions
-                                        </p>
-                                    </div>
+                                {/* Modal Stats */}
+                                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                    <ModalStat
+                                        icon={FileQuestion}
+                                        value={selectedQuiz.questions}
+                                        label="Questions"
+                                    />
 
-                                    <div className="bg-[#161F19] rounded-xl p-4 text-center">
-                                        <Clock3
-                                            size={20}
-                                            className="mx-auto text-[#F2B84B]"
-                                        />
-                                        <p className="text-xl font-bold mt-2">
-                                            {selectedQuiz.duration}
-                                        </p>
-                                        <p className="text-xs text-[#7C9A82]">
-                                            Minutes
-                                        </p>
-                                    </div>
+                                    <ModalStat
+                                        icon={Clock3}
+                                        value={selectedQuiz.duration}
+                                        label="Minutes"
+                                    />
 
-                                    <div className="bg-[#161F19] rounded-xl p-4 text-center">
-                                        <BookOpen
-                                            size={20}
-                                            className="mx-auto text-[#F2B84B]"
-                                        />
-                                        <p className="text-xl font-bold mt-2">
-                                            {selectedQuiz.difficulty}
-                                        </p>
-                                        <p className="text-xs text-[#7C9A82]">
-                                            Level
-                                        </p>
-                                    </div>
+                                    <ModalStat
+                                        icon={BookOpen}
+                                        value={selectedQuiz.difficulty}
+                                        label="Level"
+                                    />
 
-                                    <div className="bg-[#161F19] rounded-xl p-4 text-center">
-                                        <Award
-                                            size={20}
-                                            className="mx-auto text-[#F2B84B]"
-                                        />
-                                        <p className="text-xl font-bold mt-2">
-                                            {selectedQuiz.maxAttempts}
-                                        </p>
-                                        <p className="text-xs text-[#7C9A82]">
-                                            Max Attempts
-                                        </p>
-                                    </div>
+                                    <ModalStat
+                                        icon={Award}
+                                        value={selectedQuiz.maxAttempts}
+                                        label="Max Attempts"
+                                    />
                                 </div>
 
+                                {/* Instructions */}
                                 <div className="mt-7">
-                                    <h3 className="font-semibold">
+                                    <h3 className="font-semibold text-slate-900 dark:text-white">
                                         Quiz Instructions
                                     </h3>
 
-                                    <div className="mt-3 space-y-2 text-sm text-[#7C9A82]">
+                                    <div className="mt-3 space-y-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                                         <p>
-                                            • Answer all questions carefully.
+                                            • Answer all questions
+                                            carefully.
                                         </p>
                                         <p>
-                                            • The timer starts when you begin
-                                            the quiz.
+                                            • The timer starts when you
+                                            begin the quiz.
                                         </p>
                                         <p>
                                             • You can navigate between
                                             questions.
                                         </p>
                                         <p>
-                                            • Your quiz will be submitted when
-                                            the timer reaches zero.
+                                            • Your quiz will be submitted
+                                            when the timer reaches zero.
                                         </p>
                                         <p>
                                             • You can use your remaining
@@ -1147,51 +1139,226 @@ const Quiz = () => {
                                     </div>
                                 </div>
 
+                                {/* Previous Score */}
                                 {selectedQuiz.status === "Completed" && (
-                                    <div className="mt-6 p-4 rounded-xl bg-[#F2B84B]/10 border border-[#F2B84B]/20 flex items-center justify-between">
+                                    <div className="mt-6 flex items-center justify-between rounded-xl border border-blue-100 bg-blue-50 p-4 dark:border-blue-900/40 dark:bg-blue-950/20">
                                         <div>
-                                            <p className="text-sm text-[#7C9A82]">
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">
                                                 Previous Score
                                             </p>
-                                            <p className="text-2xl font-bold text-[#F2B84B]">
+
+                                            <p className="mt-1 text-2xl font-bold text-blue-600 dark:text-teal-400">
                                                 {selectedQuiz.score}%
                                             </p>
                                         </div>
 
                                         <CheckCircle2
                                             size={32}
-                                            className="text-[#7C9A82]"
+                                            className="text-teal-500"
                                         />
                                     </div>
                                 )}
 
-                                <div className="flex gap-3 mt-7">
+                                {/* Modal Buttons */}
+                                <div className="mt-7 flex gap-3">
                                     <button
                                         onClick={() =>
                                             setSelectedQuiz(null)
                                         }
-                                        className="flex-1 px-5 py-3 rounded-xl border border-[#7C9A82]/30"
+                                        className="flex-1 rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-[#1e334a] dark:text-slate-200 dark:hover:bg-[#102337]"
                                     >
                                         Close
                                     </button>
 
-                                    {selectedQuiz.status === "Available" && (
-                                        <button
-                                            onClick={() =>
-                                                startQuiz(selectedQuiz)
-                                            }
-                                            className="flex-1 px-5 py-3 rounded-xl bg-[#F2B84B] text-[#161F19] font-semibold flex items-center justify-center gap-2"
-                                        >
-                                            <PlayCircle size={18} />
-                                            Start Quiz
-                                        </button>
-                                    )}
+                                    {selectedQuiz.status ===
+                                        "Available" && (
+                                            <button
+                                                onClick={() =>
+                                                    startQuiz(
+                                                        selectedQuiz
+                                                    )
+                                                }
+                                                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 px-5 py-3 text-sm font-semibold text-white transition hover:from-blue-700 hover:to-teal-600"
+                                            >
+                                                <PlayCircle size={18} />
+                                                Start Quiz
+                                            </button>
+                                        )}
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
             </div>
+        </div>
+    );
+};
+
+/* =========================================================
+   QUIZ STAT
+========================================================= */
+
+const QuizStat = ({
+    label,
+    value,
+    icon: Icon,
+    iconStyle,
+}) => {
+    const styles =
+        iconStyle === "teal"
+            ? "bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400"
+            : "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400";
+
+    return (
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+            <div className="flex items-center justify-between gap-3">
+                <div>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                        {label}
+                    </p>
+
+                    <p className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">
+                        {value}
+                    </p>
+                </div>
+
+                <div
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${styles}`}
+                >
+                    <Icon size={22} />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+/* =========================================================
+   INFO BOX
+========================================================= */
+
+const InfoBox = ({
+    icon: Icon,
+    label,
+    value,
+}) => {
+    return (
+        <div className="rounded-xl bg-slate-50 p-3 dark:bg-[#102337]">
+            <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                <Icon size={16} />
+
+                <span className="text-xs">
+                    {label}
+                </span>
+            </div>
+
+            <p className="mt-1 truncate text-sm font-semibold text-slate-800 dark:text-slate-200">
+                {value}
+            </p>
+        </div>
+    );
+};
+
+/* =========================================================
+   STATUS BADGE
+========================================================= */
+
+const StatusBadge = ({ status }) => {
+    const styles = {
+        Available:
+            "border-teal-200 bg-teal-50 text-teal-700 dark:border-teal-800 dark:bg-teal-950/30 dark:text-teal-300",
+
+        Completed:
+            "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950/30 dark:text-blue-300",
+
+        Locked:
+            "border-slate-200 bg-slate-100 text-slate-500 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-400",
+    };
+
+    return (
+        <span
+            className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold ${styles[status] || styles.Locked
+                }`}
+        >
+            {status}
+        </span>
+    );
+};
+
+/* =========================================================
+   MODAL STAT
+========================================================= */
+
+const ModalStat = ({
+    icon: Icon,
+    value,
+    label,
+}) => {
+    return (
+        <div className="rounded-xl bg-slate-50 p-4 text-center dark:bg-[#102337]">
+            <Icon
+                size={20}
+                className="mx-auto text-blue-600 dark:text-teal-400"
+            />
+
+            <p className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+                {value}
+            </p>
+
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+                {label}
+            </p>
+        </div>
+    );
+};
+
+/* =========================================================
+   RESULT STAT
+========================================================= */
+
+const ResultStat = ({
+    label,
+    value,
+    accent,
+}) => {
+    const styles = {
+        blue: "text-blue-600 dark:text-blue-400",
+        teal: "text-teal-600 dark:text-teal-400",
+        red: "text-red-600 dark:text-red-400",
+    };
+
+    return (
+        <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 text-center dark:border-[#1e334a] dark:bg-[#102337]">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+                {label}
+            </p>
+
+            <p
+                className={`mt-1 text-2xl font-bold ${styles[accent] || styles.blue
+                    }`}
+            >
+                {value}
+            </p>
+        </div>
+    );
+};
+
+/* =========================================================
+   LEGEND
+========================================================= */
+
+const Legend = ({
+    label,
+    className,
+}) => {
+    return (
+        <div className="flex items-center gap-2">
+            <span
+                className={`h-3 w-3 rounded-full ${className}`}
+            />
+
+            <span className="text-slate-500 dark:text-slate-400">
+                {label}
+            </span>
         </div>
     );
 };

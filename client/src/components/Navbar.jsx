@@ -1,9 +1,10 @@
 import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+
 /* =========================================================
    SUN ICON
-========================================================= */
+   ========================================================= */
 
 function SunIcon({ className = "" }) {
     return (
@@ -33,9 +34,10 @@ function SunIcon({ className = "" }) {
     );
 }
 
+
 /* =========================================================
    MOON ICON
-========================================================= */
+   ========================================================= */
 
 function MoonIcon({ className = "" }) {
     return (
@@ -53,9 +55,10 @@ function MoonIcon({ className = "" }) {
     );
 }
 
+
 /* =========================================================
    MENU ICON
-========================================================= */
+   ========================================================= */
 
 function MenuIcon({ className = "" }) {
     return (
@@ -75,9 +78,10 @@ function MenuIcon({ className = "" }) {
     );
 }
 
+
 /* =========================================================
    CLOSE ICON
-========================================================= */
+   ========================================================= */
 
 function CloseIcon({ className = "" }) {
     return (
@@ -96,9 +100,10 @@ function CloseIcon({ className = "" }) {
     );
 }
 
+
 /* =========================================================
    ARROW ICON
-========================================================= */
+   ========================================================= */
 
 function ArrowIcon({ className = "" }) {
     return (
@@ -117,18 +122,22 @@ function ArrowIcon({ className = "" }) {
     );
 }
 
+
 /* =========================================================
    NAVBAR
-========================================================= */
+   ========================================================= */
 
 function Navbar() {
+
     const [menuOpen, setMenuOpen] = useState(false);
+
 
     /* =====================================================
        DARK MODE STATE
-    ====================================================== */
+       ====================================================== */
 
     const [darkMode, setDarkMode] = useState(() => {
+
         if (typeof window === "undefined") {
             return false;
         }
@@ -136,51 +145,85 @@ function Navbar() {
         return localStorage.getItem("shiyora-theme") === "dark";
     });
 
+
     /* =====================================================
        APPLY THEME
-    ====================================================== */
+       ====================================================== */
 
     useEffect(() => {
+
         const root = document.documentElement;
 
         if (darkMode) {
+
             root.classList.add("dark");
-            root.setAttribute("data-theme", "dark");
+
+            root.setAttribute(
+                "data-theme",
+                "dark"
+            );
 
             localStorage.setItem(
                 "shiyora-theme",
                 "dark"
             );
+
         } else {
+
             root.classList.remove("dark");
-            root.setAttribute("data-theme", "light");
+
+            root.setAttribute(
+                "data-theme",
+                "light"
+            );
 
             localStorage.setItem(
                 "shiyora-theme",
                 "light"
             );
         }
+
     }, [darkMode]);
+
 
     /* =====================================================
        CLOSE MOBILE MENU
-    ====================================================== */
+       ====================================================== */
 
     const closeMenu = () => {
         setMenuOpen(false);
     };
 
+
+    /* =====================================================
+       NAVIGATION CLICK
+       PAGE WILL ALWAYS START FROM TOP
+       ====================================================== */
+
+    const handleNavClick = () => {
+
+        setMenuOpen(false);
+
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "auto",
+        });
+    };
+
+
     /* =====================================================
        TOGGLE THEME
-    ====================================================== */
+       ====================================================== */
 
     const toggleTheme = () => {
         setDarkMode((previous) => !previous);
     };
 
+
     /* =====================================================
        NAV LINK CLASS
-    ====================================================== */
+       ====================================================== */
 
     const navLinkClass = ({ isActive }) =>
         `
@@ -194,6 +237,7 @@ function Navbar() {
         duration-300
         ${isActive ? "active" : ""}
         `;
+
 
     return (
         <>
@@ -236,7 +280,6 @@ function Navbar() {
                         border-color .35s ease,
                         color .35s ease,
                         box-shadow .35s ease;
-
                 }
 
 
@@ -258,7 +301,6 @@ function Navbar() {
                     box-shadow:
                         0 10px 35px
                         rgba(0, 0, 0, 0.28);
-
                 }
 
 
@@ -271,7 +313,6 @@ function Navbar() {
                     box-shadow:
                         0 14px 42px
                         rgba(15, 23, 42, 0.11);
-
                 }
 
                 .dark .shiyora-navbar:hover {
@@ -279,7 +320,6 @@ function Navbar() {
                     box-shadow:
                         0 14px 42px
                         rgba(0, 0, 0, 0.34);
-
                 }
 
 
@@ -291,7 +331,6 @@ function Navbar() {
 
                     color:
                         #475569;
-
                 }
 
 
@@ -299,7 +338,6 @@ function Navbar() {
 
                     color:
                         #2563eb;
-
                 }
 
 
@@ -307,7 +345,6 @@ function Navbar() {
 
                     color:
                         #2563eb;
-
                 }
 
 
@@ -319,7 +356,6 @@ function Navbar() {
 
                     color:
                         #cbd5e1;
-
                 }
 
 
@@ -328,7 +364,6 @@ function Navbar() {
 
                     color:
                         #2dd4bf;
-
                 }
 
 
@@ -340,7 +375,6 @@ function Navbar() {
 
                     animation:
                         navLine .3s ease forwards;
-
                 }
 
 
@@ -355,7 +389,6 @@ function Navbar() {
                         width: 20px;
                         opacity: 1;
                     }
-
                 }
 
 
@@ -379,7 +412,6 @@ function Navbar() {
                     transition:
                         transform .3s ease,
                         box-shadow .3s ease;
-
                 }
 
 
@@ -392,7 +424,6 @@ function Navbar() {
                     box-shadow:
                         0 12px 32px
                         rgba(13, 148, 136, 0.28);
-
                 }
 
 
@@ -421,7 +452,6 @@ function Navbar() {
                         transform .3s ease,
                         box-shadow .3s ease,
                         filter .3s ease;
-
                 }
 
 
@@ -450,14 +480,12 @@ function Navbar() {
 
                     transition:
                         left .6s ease;
-
                 }
 
 
                 .create-account-btn:hover::before {
 
                     left: 130%;
-
                 }
 
 
@@ -472,7 +500,6 @@ function Navbar() {
 
                     filter:
                         brightness(1.05);
-
                 }
 
 
@@ -485,7 +512,6 @@ function Navbar() {
                     position: relative;
 
                     overflow: hidden;
-
                 }
 
 
@@ -510,7 +536,6 @@ function Navbar() {
 
                     transition:
                         transform .6s ease;
-
                 }
 
 
@@ -518,7 +543,6 @@ function Navbar() {
 
                     transform:
                         translateX(120%);
-
                 }
 
 
@@ -530,7 +554,6 @@ function Navbar() {
 
                     color:
                         #475569;
-
                 }
 
 
@@ -541,7 +564,6 @@ function Navbar() {
 
                     background:
                         #eff6ff;
-
                 }
 
 
@@ -552,7 +574,6 @@ function Navbar() {
 
                     background:
                         #eff6ff;
-
                 }
 
 
@@ -564,7 +585,6 @@ function Navbar() {
 
                     color:
                         #cbd5e1;
-
                 }
 
 
@@ -576,7 +596,6 @@ function Navbar() {
 
                     background:
                         rgba(45, 212, 191, .08);
-
                 }
 
 
@@ -588,7 +607,6 @@ function Navbar() {
 
                     animation:
                         navbarEntry .45s ease both;
-
                 }
 
 
@@ -600,7 +618,6 @@ function Navbar() {
 
                         transform:
                             translateY(-12px);
-
                     }
 
                     to {
@@ -609,9 +626,7 @@ function Navbar() {
 
                         transform:
                             translateY(0);
-
                     }
-
                 }
 
 
@@ -625,7 +640,6 @@ function Navbar() {
                     transition:
                         background-color .35s ease,
                         color .35s ease;
-
                 }
 
 
@@ -649,9 +663,7 @@ function Navbar() {
 
                         transition-duration:
                             .01ms !important;
-
                     }
-
                 }
 
             `}</style>
@@ -701,7 +713,7 @@ function Navbar() {
 
                     <Link
                         to="/home"
-                        onClick={closeMenu}
+                        onClick={handleNavClick}
                         className="
                             group
                             flex
@@ -795,6 +807,7 @@ function Navbar() {
 
                         <NavLink
                             to="/home"
+                            onClick={handleNavClick}
                             className={navLinkClass}
                         >
                             {({ isActive }) => (
@@ -825,6 +838,7 @@ function Navbar() {
 
                         <NavLink
                             to="/course"
+                            onClick={handleNavClick}
                             className={navLinkClass}
                         >
                             {({ isActive }) => (
@@ -855,6 +869,7 @@ function Navbar() {
 
                         <NavLink
                             to="/feature"
+                            onClick={handleNavClick}
                             className={navLinkClass}
                         >
                             {({ isActive }) => (
@@ -885,6 +900,7 @@ function Navbar() {
 
                         <NavLink
                             to="/subscription"
+                            onClick={handleNavClick}
                             className={navLinkClass}
                         >
                             {({ isActive }) => (
@@ -915,6 +931,7 @@ function Navbar() {
 
                         <NavLink
                             to="/about"
+                            onClick={handleNavClick}
                             className={navLinkClass}
                         >
                             {({ isActive }) => (
@@ -945,11 +962,43 @@ function Navbar() {
 
                         <NavLink
                             to="/contact"
+                            onClick={handleNavClick}
                             className={navLinkClass}
                         >
                             {({ isActive }) => (
                                 <>
                                     Contact
+
+                                    {isActive && (
+                                        <span
+                                            className="
+                                                shiyora-active-line
+                                                absolute
+                                                -bottom-1
+                                                left-1/2
+                                                h-0.5
+                                                -translate-x-1/2
+                                                rounded-full
+                                                bg-blue-600
+                                                dark:bg-teal-400
+                                            "
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </NavLink>
+
+
+                        {/* CERTIFICATES */}
+
+                        <NavLink
+                            to="/certificate"
+                            onClick={handleNavClick}
+                            className={navLinkClass}
+                        >
+                            {({ isActive }) => (
+                                <>
+                                    Certificates
 
                                     {isActive && (
                                         <span
@@ -1049,6 +1098,7 @@ function Navbar() {
 
                         <Link
                             to="/login"
+                            onClick={handleNavClick}
                             className="
                                 rounded-xl
                                 border
@@ -1079,6 +1129,7 @@ function Navbar() {
 
                         <Link
                             to="/signup"
+                            onClick={handleNavClick}
                             className="
                                 create-account-btn
                                 rounded-xl
@@ -1231,12 +1282,13 @@ function Navbar() {
                                 ["/subscription", "Plans"],
                                 ["/about", "About"],
                                 ["/contact", "Contact"],
+                                ["/certificate", "Certificates"],
                             ].map(
                                 ([path, label]) => (
                                     <NavLink
                                         key={path}
                                         to={path}
-                                        onClick={closeMenu}
+                                        onClick={handleNavClick}
                                         className={({
                                             isActive,
                                         }) =>
@@ -1303,7 +1355,7 @@ function Navbar() {
 
                             <Link
                                 to="/login"
-                                onClick={closeMenu}
+                                onClick={handleNavClick}
                                 className="
                                     rounded-xl
                                     border
@@ -1331,7 +1383,7 @@ function Navbar() {
 
                             <Link
                                 to="/signup"
-                                onClick={closeMenu}
+                                onClick={handleNavClick}
                                 className="
                                     create-account-btn
                                     rounded-xl
@@ -1355,5 +1407,6 @@ function Navbar() {
         </>
     );
 }
+
 
 export default Navbar;

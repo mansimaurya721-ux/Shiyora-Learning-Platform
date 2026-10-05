@@ -18,6 +18,10 @@ const AllCourses = () => {
     const [level, setLevel] = useState("All");
     const [selectedCourse, setSelectedCourse] = useState(null);
 
+    // =====================================================
+    // COURSE DATA
+    // =====================================================
+
     const courses = [
         {
             id: 1,
@@ -213,20 +217,32 @@ const AllCourses = () => {
         "Advanced",
     ];
 
-    const filteredCourses = useMemo(() => {
-        return courses.filter((course) => {
-            const searchValue = search.toLowerCase();
+    // =====================================================
+    // FILTER COURSES
+    // =====================================================
 
+    const filteredCourses = useMemo(() => {
+        const searchValue = search.toLowerCase().trim();
+
+        return courses.filter((course) => {
             const matchesSearch =
-                course.title.toLowerCase().includes(searchValue) ||
-                course.instructor.toLowerCase().includes(searchValue) ||
-                course.category.toLowerCase().includes(searchValue);
+                course.title
+                    .toLowerCase()
+                    .includes(searchValue) ||
+                course.instructor
+                    .toLowerCase()
+                    .includes(searchValue) ||
+                course.category
+                    .toLowerCase()
+                    .includes(searchValue);
 
             const matchesCategory =
-                category === "All" || course.category === category;
+                category === "All" ||
+                course.category === category;
 
             const matchesLevel =
-                level === "All" || course.level === level;
+                level === "All" ||
+                course.level === level;
 
             return (
                 matchesSearch &&
@@ -236,45 +252,140 @@ const AllCourses = () => {
         });
     }, [search, category, level]);
 
+    // =====================================================
+    // ENROLL
+    // =====================================================
+
     const handleEnroll = (course) => {
         alert(
             `Enrollment for "${course.title}" will be connected to the backend later.`
         );
     };
 
-    return (
-        <div className="min-h-screen bg-[#161F19] text-[#F3EEDD] p-4 sm:p-6 lg:p-8">
-            <div className="max-w-7xl mx-auto">
+    // =====================================================
+    // CLEAR FILTERS
+    // =====================================================
 
-                {/* Header */}
-                <div className="mb-8">
-                    <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-xl bg-[#F2B84B] text-[#161F19] flex items-center justify-center">
-                            <GraduationCap size={26} />
+    const clearFilters = () => {
+        setSearch("");
+        setCategory("All");
+        setLevel("All");
+    };
+
+    return (
+        <div
+            className="
+                min-h-full
+                bg-slate-50
+                px-4 py-6
+                text-slate-700
+                sm:px-6
+                lg:px-8
+                lg:py-8
+                dark:bg-[#07111f]
+                dark:text-slate-300
+            "
+        >
+            <div className="mx-auto max-w-7xl">
+
+                {/* =================================================
+                    HEADER
+                ================================================= */}
+
+                <div
+                    className="
+                        mb-7 flex flex-col
+                        gap-4
+                        sm:flex-row
+                        sm:items-center
+                        sm:justify-between
+                    "
+                >
+                    <div className="flex items-center gap-4">
+
+                        <div
+                            className="
+                                flex h-12 w-12
+                                shrink-0
+                                items-center
+                                justify-center
+                                rounded-2xl
+                                bg-gradient-to-br
+                                from-blue-600
+                                to-teal-500
+                                text-white
+                                shadow-md
+                                shadow-blue-500/20
+                            "
+                        >
+                            <GraduationCap size={25} />
                         </div>
 
                         <div>
-                            <h1 className="text-2xl sm:text-3xl font-bold">
+                            <h1
+                                className="
+                                    text-2xl
+                                    font-extrabold
+                                    tracking-tight
+                                    text-slate-950
+                                    sm:text-3xl
+                                    dark:text-white
+                                "
+                            >
                                 All Courses
                             </h1>
 
-                            <p className="text-[#7C9A82] mt-1">
-                                Explore courses and find the right one
-                                for your learning journey.
+                            <p
+                                className="
+                                    mt-1 text-xs
+                                    text-slate-500
+                                    sm:text-sm
+                                    dark:text-slate-400
+                                "
+                            >
+                                Explore courses and find the
+                                right one for your learning journey.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* Search & Filters */}
-                <div className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl p-4 mb-8">
-                    <div className="flex flex-col lg:flex-row gap-4">
+                {/* =================================================
+                    SEARCH & FILTERS
+                ================================================= */}
 
-                        {/* Search */}
+                <div
+                    className="
+                        mb-7 rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white
+                        p-4
+                        shadow-sm
+                        dark:border-[#1e334a]
+                        dark:bg-[#0b1727]
+                    "
+                >
+                    <div
+                        className="
+                            flex flex-col
+                            gap-3
+                            lg:flex-row
+                        "
+                    >
+
+                        {/* SEARCH */}
+
                         <div className="relative flex-1">
                             <Search
-                                size={19}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#7C9A82]"
+                                size={18}
+                                className="
+                                    absolute
+                                    left-4 top-1/2
+                                    -translate-y-1/2
+                                    text-slate-400
+                                    dark:text-slate-500
+                                "
                             />
 
                             <input
@@ -284,42 +395,89 @@ const AllCourses = () => {
                                     setSearch(e.target.value)
                                 }
                                 placeholder="Search courses, instructors..."
-                                className="w-full bg-[#161F19] border border-[#7C9A82]/25 rounded-xl pl-11 pr-4 py-3 outline-none focus:border-[#F2B84B] text-[#F3EEDD] placeholder:text-[#7C9A82]"
+                                className="
+                                    w-full
+                                    rounded-xl
+                                    border
+                                    border-slate-200
+                                    bg-slate-50
+                                    py-3 pl-11 pr-4
+                                    text-sm
+                                    text-slate-800
+                                    outline-none
+                                    placeholder:text-slate-400
+                                    focus:border-blue-500
+                                    focus:ring-2
+                                    focus:ring-blue-500/10
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#07111f]
+                                    dark:text-slate-200
+                                    dark:placeholder:text-slate-500
+                                    dark:focus:border-teal-400
+                                "
                             />
                         </div>
 
-                        {/* Category */}
+                        {/* CATEGORY */}
+
                         <select
                             value={category}
                             onChange={(e) =>
                                 setCategory(e.target.value)
                             }
-                            className="bg-[#161F19] border border-[#7C9A82]/25 rounded-xl px-4 py-3 outline-none focus:border-[#F2B84B]"
+                            className="
+                                rounded-xl
+                                border
+                                border-slate-200
+                                bg-slate-50
+                                px-4 py-3
+                                text-sm
+                                text-slate-700
+                                outline-none
+                                focus:border-blue-500
+                                dark:border-[#1e334a]
+                                dark:bg-[#07111f]
+                                dark:text-slate-300
+                                dark:focus:border-teal-400
+                            "
                         >
                             {categories.map((item) => (
                                 <option
                                     key={item}
                                     value={item}
-                                    className="bg-[#1B241E]"
                                 >
                                     {item}
                                 </option>
                             ))}
                         </select>
 
-                        {/* Level */}
+                        {/* LEVEL */}
+
                         <select
                             value={level}
                             onChange={(e) =>
                                 setLevel(e.target.value)
                             }
-                            className="bg-[#161F19] border border-[#7C9A82]/25 rounded-xl px-4 py-3 outline-none focus:border-[#F2B84B]"
+                            className="
+                                rounded-xl
+                                border
+                                border-slate-200
+                                bg-slate-50
+                                px-4 py-3
+                                text-sm
+                                text-slate-700
+                                outline-none
+                                focus:border-blue-500
+                                dark:border-[#1e334a]
+                                dark:bg-[#07111f]
+                                dark:text-slate-300
+                                dark:focus:border-teal-400
+                            "
                         >
                             {levels.map((item) => (
                                 <option
                                     key={item}
                                     value={item}
-                                    className="bg-[#1B241E]"
                                 >
                                     {item}
                                 </option>
@@ -328,369 +486,963 @@ const AllCourses = () => {
                     </div>
                 </div>
 
-                {/* Result Header */}
-                <div className="flex items-center justify-between mb-5">
+                {/* =================================================
+                    RESULT HEADER
+                ================================================= */}
+
+                <div
+                    className="
+                        mb-5 flex
+                        items-center
+                        justify-between
+                    "
+                >
                     <div>
-                        <h2 className="text-lg font-semibold">
+                        <h2
+                            className="
+                                text-lg
+                                font-bold
+                                text-slate-900
+                                dark:text-white
+                            "
+                        >
                             Available Courses
                         </h2>
 
-                        <p className="text-sm text-[#7C9A82] mt-1">
-                            {filteredCourses.length} courses found
+                        <p
+                            className="
+                                mt-1 text-xs
+                                text-slate-500
+                                dark:text-slate-400
+                            "
+                        >
+                            {filteredCourses.length}{" "}
+                            {filteredCourses.length === 1
+                                ? "course"
+                                : "courses"}{" "}
+                            found
                         </p>
                     </div>
+
+                    {(search ||
+                        category !== "All" ||
+                        level !== "All") && (
+                            <button
+                                onClick={clearFilters}
+                                className="
+                                text-xs
+                                font-semibold
+                                text-blue-600
+                                hover:text-blue-700
+                                dark:text-teal-400
+                            "
+                            >
+                                Clear filters
+                            </button>
+                        )}
                 </div>
 
-                {/* Courses */}
+                {/* =================================================
+                    COURSE GRID
+                ================================================= */}
+
                 {filteredCourses.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                    <div
+                        className="
+                            grid grid-cols-1
+                            gap-5
+                            md:grid-cols-2
+                            xl:grid-cols-3
+                        "
+                    >
                         {filteredCourses.map((course) => (
-                            <div
+                            <CourseCard
                                 key={course.id}
-                                className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl overflow-hidden hover:border-[#7C9A82]/60 transition"
-                            >
-                                {/* Course Banner */}
-                                <div className="h-36 bg-gradient-to-br from-[#F2B84B]/20 via-[#7C9A82]/10 to-[#161F19] flex items-center justify-center">
-                                    <div className="w-16 h-16 rounded-2xl bg-[#F2B84B] text-[#161F19] flex items-center justify-center">
-                                        <BookOpen size={30} />
-                                    </div>
-                                </div>
-
-                                <div className="p-5">
-
-                                    {/* Category */}
-                                    <div className="flex items-center justify-between mb-3">
-                                        <span className="px-3 py-1 rounded-full bg-[#7C9A82]/15 text-[#7C9A82] text-xs font-semibold">
-                                            {course.category}
-                                        </span>
-
-                                        <span className="text-xs text-[#F2B84B]">
-                                            {course.level}
-                                        </span>
-                                    </div>
-
-                                    {/* Title */}
-                                    <h3 className="text-lg font-bold leading-6">
-                                        {course.title}
-                                    </h3>
-
-                                    {/* Instructor */}
-                                    <p className="text-sm text-[#7C9A82] mt-2">
-                                        By {course.instructor}
-                                    </p>
-
-                                    {/* Rating */}
-                                    <div className="flex items-center gap-2 mt-4">
-                                        <div className="flex items-center gap-1">
-                                            <Star
-                                                size={16}
-                                                fill="#F2B84B"
-                                                className="text-[#F2B84B]"
-                                            />
-
-                                            <span className="font-semibold">
-                                                {course.rating}
-                                            </span>
-                                        </div>
-
-                                        <span className="text-[#7C9A82] text-sm">
-                                            ({course.students} students)
-                                        </span>
-                                    </div>
-
-                                    {/* Course Stats */}
-                                    <div className="grid grid-cols-3 gap-2 mt-5">
-
-                                        <div className="bg-[#161F19] rounded-xl p-3 text-center">
-                                            <BookOpen
-                                                size={16}
-                                                className="mx-auto text-[#7C9A82]"
-                                            />
-
-                                            <p className="text-sm font-semibold mt-1">
-                                                {course.lessons}
-                                            </p>
-
-                                            <p className="text-[11px] text-[#7C9A82]">
-                                                Lessons
-                                            </p>
-                                        </div>
-
-                                        <div className="bg-[#161F19] rounded-xl p-3 text-center">
-                                            <Clock3
-                                                size={16}
-                                                className="mx-auto text-[#7C9A82]"
-                                            />
-
-                                            <p className="text-sm font-semibold mt-1">
-                                                {course.duration}
-                                            </p>
-
-                                            <p className="text-[11px] text-[#7C9A82]">
-                                                Duration
-                                            </p>
-                                        </div>
-
-                                        <div className="bg-[#161F19] rounded-xl p-3 text-center">
-                                            <Users
-                                                size={16}
-                                                className="mx-auto text-[#7C9A82]"
-                                            />
-
-                                            <p className="text-sm font-semibold mt-1">
-                                                {course.students}
-                                            </p>
-
-                                            <p className="text-[11px] text-[#7C9A82]">
-                                                Students
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* Price */}
-                                    <div className="flex items-center justify-between mt-5">
-                                        <span className="text-xl font-bold text-[#F2B84B]">
-                                            {course.price}
-                                        </span>
-
-                                        <button
-                                            onClick={() =>
-                                                setSelectedCourse(course)
-                                            }
-                                            className="px-4 py-2 rounded-xl border border-[#7C9A82]/30 text-sm hover:bg-[#161F19] transition"
-                                        >
-                                            View Details
-                                        </button>
-                                    </div>
-
-                                    {/* Enroll */}
-                                    <button
-                                        onClick={() =>
-                                            handleEnroll(course)
-                                        }
-                                        className="w-full mt-4 px-4 py-3 rounded-xl bg-[#F2B84B] text-[#161F19] font-semibold flex items-center justify-center gap-2 hover:bg-[#e5aa3f] transition"
-                                    >
-                                        <PlayCircle size={18} />
-                                        Enroll Now
-                                    </button>
-                                </div>
-                            </div>
+                                course={course}
+                                onViewDetails={() =>
+                                    setSelectedCourse(course)
+                                }
+                                onEnroll={handleEnroll}
+                            />
                         ))}
                     </div>
                 ) : (
-                    <div className="bg-[#1B241E] border border-[#7C9A82]/25 rounded-2xl p-12 text-center">
-                        <div className="w-16 h-16 mx-auto rounded-2xl bg-[#F2B84B]/10 flex items-center justify-center">
-                            <Search
-                                size={28}
-                                className="text-[#F2B84B]"
-                            />
-                        </div>
-
-                        <h2 className="text-xl font-semibold mt-5">
-                            No courses found
-                        </h2>
-
-                        <p className="text-[#7C9A82] mt-2">
-                            Try changing your search or filters.
-                        </p>
-
-                        <button
-                            onClick={() => {
-                                setSearch("");
-                                setCategory("All");
-                                setLevel("All");
-                            }}
-                            className="mt-5 px-5 py-2.5 rounded-xl bg-[#F2B84B] text-[#161F19] font-semibold"
-                        >
-                            Clear Filters
-                        </button>
-                    </div>
+                    <EmptyState
+                        onClear={clearFilters}
+                    />
                 )}
 
-                {/* Course Details Modal */}
+                {/* =================================================
+                    COURSE DETAILS MODAL
+                ================================================= */}
+
                 {selectedCourse && (
-                    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-                        <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#1B241E] border border-[#7C9A82]/30 rounded-2xl">
-
-                            {/* Modal Header */}
-                            <div className="p-6 border-b border-[#7C9A82]/20 flex items-start justify-between">
-                                <div>
-                                    <span className="inline-block px-3 py-1 rounded-full bg-[#7C9A82]/15 text-[#7C9A82] text-xs font-semibold">
-                                        {selectedCourse.category}
-                                    </span>
-
-                                    <h2 className="text-2xl font-bold mt-3">
-                                        {selectedCourse.title}
-                                    </h2>
-
-                                    <p className="text-[#7C9A82] mt-1">
-                                        By {selectedCourse.instructor}
-                                    </p>
-                                </div>
-
-                                <button
-                                    onClick={() =>
-                                        setSelectedCourse(null)
-                                    }
-                                    className="p-2 rounded-lg hover:bg-[#161F19]"
-                                >
-                                    <X size={20} />
-                                </button>
-                            </div>
-
-                            {/* Modal Body */}
-                            <div className="p-6">
-
-                                <h3 className="font-semibold text-lg">
-                                    About this course
-                                </h3>
-
-                                <p className="text-[#7C9A82] leading-7 mt-2">
-                                    {selectedCourse.description}
-                                </p>
-
-                                {/* Stats */}
-                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
-
-                                    <div className="bg-[#161F19] rounded-xl p-4 text-center">
-                                        <BookOpen
-                                            size={20}
-                                            className="mx-auto text-[#F2B84B]"
-                                        />
-
-                                        <p className="font-bold text-lg mt-2">
-                                            {selectedCourse.lessons}
-                                        </p>
-
-                                        <p className="text-xs text-[#7C9A82]">
-                                            Lessons
-                                        </p>
-                                    </div>
-
-                                    <div className="bg-[#161F19] rounded-xl p-4 text-center">
-                                        <Clock3
-                                            size={20}
-                                            className="mx-auto text-[#F2B84B]"
-                                        />
-
-                                        <p className="font-bold text-lg mt-2">
-                                            {selectedCourse.duration}
-                                        </p>
-
-                                        <p className="text-xs text-[#7C9A82]">
-                                            Duration
-                                        </p>
-                                    </div>
-
-                                    <div className="bg-[#161F19] rounded-xl p-4 text-center">
-                                        <Users
-                                            size={20}
-                                            className="mx-auto text-[#F2B84B]"
-                                        />
-
-                                        <p className="font-bold text-lg mt-2">
-                                            {selectedCourse.students}
-                                        </p>
-
-                                        <p className="text-xs text-[#7C9A82]">
-                                            Students
-                                        </p>
-                                    </div>
-
-                                    <div className="bg-[#161F19] rounded-xl p-4 text-center">
-                                        <Star
-                                            size={20}
-                                            fill="#F2B84B"
-                                            className="mx-auto text-[#F2B84B]"
-                                        />
-
-                                        <p className="font-bold text-lg mt-2">
-                                            {selectedCourse.rating}
-                                        </p>
-
-                                        <p className="text-xs text-[#7C9A82]">
-                                            Rating
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Topics */}
-                                <div className="mt-7">
-                                    <h3 className="font-semibold text-lg">
-                                        What you'll learn
-                                    </h3>
-
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                                        {selectedCourse.topics.map(
-                                            (topic) => (
-                                                <div
-                                                    key={topic}
-                                                    className="flex items-center gap-3 text-sm text-[#7C9A82]"
-                                                >
-                                                    <CheckCircle2
-                                                        size={18}
-                                                        className="text-[#F2B84B] shrink-0"
-                                                    />
-
-                                                    {topic}
-                                                </div>
-                                            )
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Course Info */}
-                                <div className="mt-7 p-4 rounded-xl bg-[#161F19] border border-[#7C9A82]/20 flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <Award
-                                            size={22}
-                                            className="text-[#F2B84B]"
-                                        />
-
-                                        <div>
-                                            <p className="font-semibold">
-                                                Course Level
-                                            </p>
-
-                                            <p className="text-sm text-[#7C9A82]">
-                                                {selectedCourse.level}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <span className="text-xl font-bold text-[#F2B84B]">
-                                        {selectedCourse.price}
-                                    </span>
-                                </div>
-
-                                {/* Actions */}
-                                <div className="flex gap-3 mt-7">
-                                    <button
-                                        onClick={() =>
-                                            setSelectedCourse(null)
-                                        }
-                                        className="flex-1 px-5 py-3 rounded-xl border border-[#7C9A82]/30 font-medium hover:bg-[#161F19]"
-                                    >
-                                        Close
-                                    </button>
-
-                                    <button
-                                        onClick={() => {
-                                            handleEnroll(
-                                                selectedCourse
-                                            );
-                                            setSelectedCourse(null);
-                                        }}
-                                        className="flex-1 px-5 py-3 rounded-xl bg-[#F2B84B] text-[#161F19] font-semibold hover:bg-[#e5aa3f]"
-                                    >
-                                        Enroll Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <CourseModal
+                        course={selectedCourse}
+                        onClose={() =>
+                            setSelectedCourse(null)
+                        }
+                        onEnroll={handleEnroll}
+                    />
                 )}
             </div>
+        </div>
+    );
+};
+
+// =====================================================
+// COURSE CARD
+// =====================================================
+
+const CourseCard = ({
+    course,
+    onViewDetails,
+    onEnroll,
+}) => {
+    return (
+        <div
+            className="
+                overflow-hidden
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                shadow-sm
+                transition-all
+                duration-200
+                hover:-translate-y-1
+                hover:shadow-lg
+                dark:border-[#1e334a]
+                dark:bg-[#0b1727]
+            "
+        >
+            {/* COURSE BANNER */}
+
+            <div
+                className="
+                    relative
+                    flex h-36
+                    items-center
+                    justify-center
+                    overflow-hidden
+                    bg-gradient-to-br
+                    from-blue-50
+                    via-slate-50
+                    to-teal-50
+                    dark:from-blue-950/40
+                    dark:via-[#0b1727]
+                    dark:to-teal-950/30
+                "
+            >
+                <div
+                    className="
+                        absolute -right-8 -top-8
+                        h-28 w-28
+                        rounded-full
+                        bg-blue-500/10
+                    "
+                />
+
+                <div
+                    className="
+                        absolute -bottom-10 -left-8
+                        h-28 w-28
+                        rounded-full
+                        bg-teal-500/10
+                    "
+                />
+
+                <div
+                    className="
+                        relative flex h-16 w-16
+                        items-center
+                        justify-center
+                        rounded-2xl
+                        bg-gradient-to-br
+                        from-blue-600
+                        to-teal-500
+                        text-white
+                        shadow-lg
+                        shadow-blue-500/20
+                    "
+                >
+                    <BookOpen size={29} />
+                </div>
+            </div>
+
+            <div className="p-5">
+
+                {/* CATEGORY + LEVEL */}
+
+                <div
+                    className="
+                        mb-3 flex
+                        items-center
+                        justify-between
+                        gap-2
+                    "
+                >
+                    <span
+                        className="
+                            rounded-full
+                            bg-blue-50
+                            px-3 py-1
+                            text-[10px]
+                            font-bold
+                            text-blue-700
+                            dark:bg-blue-500/10
+                            dark:text-blue-400
+                        "
+                    >
+                        {course.category}
+                    </span>
+
+                    <span
+                        className="
+                            text-[10px]
+                            font-semibold
+                            text-slate-500
+                            dark:text-slate-400
+                        "
+                    >
+                        {course.level}
+                    </span>
+                </div>
+
+                {/* TITLE */}
+
+                <h3
+                    className="
+                        min-h-[48px]
+                        text-lg
+                        font-bold
+                        leading-6
+                        text-slate-900
+                        dark:text-white
+                    "
+                >
+                    {course.title}
+                </h3>
+
+                {/* INSTRUCTOR */}
+
+                <p
+                    className="
+                        mt-2 text-xs
+                        text-slate-500
+                        dark:text-slate-400
+                    "
+                >
+                    By {course.instructor}
+                </p>
+
+                {/* RATING */}
+
+                <div
+                    className="
+                        mt-4 flex
+                        items-center
+                        gap-2
+                    "
+                >
+                    <div
+                        className="
+                            flex items-center gap-1
+                        "
+                    >
+                        <Star
+                            size={15}
+                            fill="currentColor"
+                            className="
+                                text-amber-400
+                            "
+                        />
+
+                        <span
+                            className="
+                                text-xs
+                                font-bold
+                                text-slate-800
+                                dark:text-slate-200
+                            "
+                        >
+                            {course.rating}
+                        </span>
+                    </div>
+
+                    <span
+                        className="
+                            text-[11px]
+                            text-slate-400
+                        "
+                    >
+                        ({course.students} students)
+                    </span>
+                </div>
+
+                {/* COURSE STATS */}
+
+                <div
+                    className="
+                        mt-5 grid
+                        grid-cols-3
+                        gap-2
+                    "
+                >
+                    <CourseStat
+                        icon={<BookOpen size={15} />}
+                        value={course.lessons}
+                        label="Lessons"
+                    />
+
+                    <CourseStat
+                        icon={<Clock3 size={15} />}
+                        value={course.duration}
+                        label="Duration"
+                    />
+
+                    <CourseStat
+                        icon={<Users size={15} />}
+                        value={course.students}
+                        label="Students"
+                    />
+                </div>
+
+                {/* PRICE */}
+
+                <div
+                    className="
+                        mt-5 flex
+                        items-center
+                        justify-between
+                        gap-3
+                    "
+                >
+                    <span
+                        className="
+                            text-xl
+                            font-extrabold
+                            text-slate-900
+                            dark:text-white
+                        "
+                    >
+                        {course.price}
+                    </span>
+
+                    <button
+                        onClick={onViewDetails}
+                        className="
+                            rounded-xl
+                            border
+                            border-slate-200
+                            px-4 py-2
+                            text-xs
+                            font-semibold
+                            text-slate-600
+                            transition
+                            hover:border-blue-300
+                            hover:bg-blue-50
+                            hover:text-blue-700
+                            dark:border-[#1e334a]
+                            dark:text-slate-300
+                            dark:hover:border-teal-500/40
+                            dark:hover:bg-teal-500/10
+                            dark:hover:text-teal-400
+                        "
+                    >
+                        View Details
+                    </button>
+                </div>
+
+                {/* ENROLL */}
+
+                <button
+                    onClick={() => onEnroll(course)}
+                    className="
+                        mt-4 flex
+                        w-full
+                        items-center
+                        justify-center
+                        gap-2
+                        rounded-xl
+                        bg-gradient-to-r
+                        from-blue-600
+                        to-teal-500
+                        px-4 py-3
+                        text-sm
+                        font-bold
+                        text-white
+                        shadow-sm
+                        shadow-blue-500/20
+                        transition-all
+                        hover:-translate-y-0.5
+                        hover:shadow-md
+                        hover:shadow-teal-500/20
+                    "
+                >
+                    <PlayCircle size={17} />
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+    );
+};
+
+// =====================================================
+// COURSE STAT
+// =====================================================
+
+const CourseStat = ({
+    icon,
+    value,
+    label,
+}) => {
+    return (
+        <div
+            className="
+                rounded-xl
+                bg-slate-50
+                p-3
+                text-center
+                dark:bg-[#07111f]
+            "
+        >
+            <div
+                className="
+                    mx-auto flex
+                    w-fit
+                    items-center
+                    justify-center
+                    text-blue-500
+                    dark:text-teal-400
+                "
+            >
+                {icon}
+            </div>
+
+            <p
+                className="
+                    mt-1 text-xs
+                    font-bold
+                    text-slate-800
+                    dark:text-slate-200
+                "
+            >
+                {value}
+            </p>
+
+            <p
+                className="
+                    text-[9px]
+                    text-slate-400
+                "
+            >
+                {label}
+            </p>
+        </div>
+    );
+};
+
+// =====================================================
+// EMPTY STATE
+// =====================================================
+
+const EmptyState = ({ onClear }) => {
+    return (
+        <div
+            className="
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                p-12
+                text-center
+                shadow-sm
+                dark:border-[#1e334a]
+                dark:bg-[#0b1727]
+            "
+        >
+            <div
+                className="
+                    mx-auto flex
+                    h-16 w-16
+                    items-center
+                    justify-center
+                    rounded-2xl
+                    bg-blue-50
+                    text-blue-600
+                    dark:bg-blue-500/10
+                    dark:text-blue-400
+                "
+            >
+                <Search size={27} />
+            </div>
+
+            <h2
+                className="
+                    mt-5 text-xl
+                    font-bold
+                    text-slate-900
+                    dark:text-white
+                "
+            >
+                No courses found
+            </h2>
+
+            <p
+                className="
+                    mt-2 text-sm
+                    text-slate-500
+                    dark:text-slate-400
+                "
+            >
+                Try changing your search or filters.
+            </p>
+
+            <button
+                onClick={onClear}
+                className="
+                    mt-5 rounded-xl
+                    bg-gradient-to-r
+                    from-blue-600
+                    to-teal-500
+                    px-5 py-2.5
+                    text-sm
+                    font-bold
+                    text-white
+                    shadow-sm
+                "
+            >
+                Clear Filters
+            </button>
+        </div>
+    );
+};
+
+// =====================================================
+// COURSE MODAL
+// =====================================================
+
+const CourseModal = ({
+    course,
+    onClose,
+    onEnroll,
+}) => {
+    const handleModalEnroll = () => {
+        onEnroll(course);
+        onClose();
+    };
+
+    return (
+        <div
+            className="
+                fixed inset-0 z-50
+                flex items-center
+                justify-center
+                bg-slate-950/60
+                p-4
+                backdrop-blur-sm
+            "
+            onClick={onClose}
+        >
+            <div
+                className="
+                    w-full
+                    max-w-2xl
+                    max-h-[90vh]
+                    overflow-y-auto
+                    rounded-2xl
+                    border
+                    border-slate-200
+                    bg-white
+                    shadow-2xl
+                    dark:border-[#1e334a]
+                    dark:bg-[#0b1727]
+                "
+                onClick={(e) =>
+                    e.stopPropagation()
+                }
+            >
+                {/* MODAL HEADER */}
+
+                <div
+                    className="
+                        flex items-start
+                        justify-between
+                        gap-4
+                        border-b
+                        border-slate-100
+                        p-6
+                        dark:border-[#1e334a]
+                    "
+                >
+                    <div>
+                        <span
+                            className="
+                                inline-flex
+                                rounded-full
+                                bg-blue-50
+                                px-3 py-1
+                                text-[10px]
+                                font-bold
+                                text-blue-700
+                                dark:bg-blue-500/10
+                                dark:text-blue-400
+                            "
+                        >
+                            {course.category}
+                        </span>
+
+                        <h2
+                            className="
+                                mt-3 text-2xl
+                                font-extrabold
+                                text-slate-950
+                                dark:text-white
+                            "
+                        >
+                            {course.title}
+                        </h2>
+
+                        <p
+                            className="
+                                mt-1 text-sm
+                                text-slate-500
+                                dark:text-slate-400
+                            "
+                        >
+                            By {course.instructor}
+                        </p>
+                    </div>
+
+                    <button
+                        onClick={onClose}
+                        className="
+                            shrink-0
+                            rounded-xl
+                            p-2
+                            text-slate-400
+                            transition
+                            hover:bg-slate-100
+                            hover:text-slate-700
+                            dark:hover:bg-[#102337]
+                            dark:hover:text-slate-200
+                        "
+                    >
+                        <X size={20} />
+                    </button>
+                </div>
+
+                {/* MODAL BODY */}
+
+                <div className="p-6">
+
+                    {/* ABOUT */}
+
+                    <h3
+                        className="
+                            text-lg
+                            font-bold
+                            text-slate-900
+                            dark:text-white
+                        "
+                    >
+                        About this course
+                    </h3>
+
+                    <p
+                        className="
+                            mt-2
+                            text-sm
+                            leading-7
+                            text-slate-500
+                            dark:text-slate-400
+                        "
+                    >
+                        {course.description}
+                    </p>
+
+                    {/* STATS */}
+
+                    <div
+                        className="
+                            mt-6 grid
+                            grid-cols-2
+                            gap-3
+                            sm:grid-cols-4
+                        "
+                    >
+                        <ModalStat
+                            icon={<BookOpen size={19} />}
+                            value={course.lessons}
+                            label="Lessons"
+                        />
+
+                        <ModalStat
+                            icon={<Clock3 size={19} />}
+                            value={course.duration}
+                            label="Duration"
+                        />
+
+                        <ModalStat
+                            icon={<Users size={19} />}
+                            value={course.students}
+                            label="Students"
+                        />
+
+                        <ModalStat
+                            icon={<Star size={19} />}
+                            value={course.rating}
+                            label="Rating"
+                            star
+                        />
+                    </div>
+
+                    {/* TOPICS */}
+
+                    <div className="mt-7">
+                        <h3
+                            className="
+                                text-lg
+                                font-bold
+                                text-slate-900
+                                dark:text-white
+                            "
+                        >
+                            What you'll learn
+                        </h3>
+
+                        <div
+                            className="
+                                mt-4 grid
+                                grid-cols-1
+                                gap-3
+                                sm:grid-cols-2
+                            "
+                        >
+                            {course.topics.map(
+                                (topic) => (
+                                    <div
+                                        key={topic}
+                                        className="
+                                            flex
+                                            items-center
+                                            gap-3
+                                            text-sm
+                                            text-slate-600
+                                            dark:text-slate-300
+                                        "
+                                    >
+                                        <CheckCircle2
+                                            size={18}
+                                            className="
+                                                shrink-0
+                                                text-teal-500
+                                            "
+                                        />
+
+                                        {topic}
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    </div>
+
+                    {/* COURSE INFO */}
+
+                    <div
+                        className="
+                            mt-7 flex
+                            flex-col
+                            gap-4
+                            rounded-xl
+                            border
+                            border-slate-200
+                            bg-slate-50
+                            p-4
+                            sm:flex-row
+                            sm:items-center
+                            sm:justify-between
+                            dark:border-[#1e334a]
+                            dark:bg-[#07111f]
+                        "
+                    >
+                        <div
+                            className="
+                                flex items-center
+                                gap-3
+                            "
+                        >
+                            <div
+                                className="
+                                    flex h-10 w-10
+                                    items-center
+                                    justify-center
+                                    rounded-xl
+                                    bg-blue-50
+                                    text-blue-600
+                                    dark:bg-blue-500/10
+                                    dark:text-blue-400
+                                "
+                            >
+                                <Award size={20} />
+                            </div>
+
+                            <div>
+                                <p
+                                    className="
+                                        text-xs
+                                        font-bold
+                                        text-slate-900
+                                        dark:text-white
+                                    "
+                                >
+                                    Course Level
+                                </p>
+
+                                <p
+                                    className="
+                                        mt-0.5 text-xs
+                                        text-slate-500
+                                        dark:text-slate-400
+                                    "
+                                >
+                                    {course.level}
+                                </p>
+                            </div>
+                        </div>
+
+                        <span
+                            className="
+                                text-2xl
+                                font-extrabold
+                                text-slate-950
+                                dark:text-white
+                            "
+                        >
+                            {course.price}
+                        </span>
+                    </div>
+
+                    {/* ACTIONS */}
+
+                    <div
+                        className="
+                            mt-7 flex
+                            flex-col
+                            gap-3
+                            sm:flex-row
+                        "
+                    >
+                        <button
+                            onClick={onClose}
+                            className="
+                                flex-1
+                                rounded-xl
+                                border
+                                border-slate-200
+                                px-5 py-3
+                                text-sm
+                                font-semibold
+                                text-slate-600
+                                transition
+                                hover:bg-slate-50
+                                dark:border-[#1e334a]
+                                dark:text-slate-300
+                                dark:hover:bg-[#102337]
+                            "
+                        >
+                            Close
+                        </button>
+
+                        <button
+                            onClick={handleModalEnroll}
+                            className="
+                                flex flex-1
+                                items-center
+                                justify-center
+                                gap-2
+                                rounded-xl
+                                bg-gradient-to-r
+                                from-blue-600
+                                to-teal-500
+                                px-5 py-3
+                                text-sm
+                                font-bold
+                                text-white
+                                shadow-sm
+                                shadow-blue-500/20
+                            "
+                        >
+                            <PlayCircle size={17} />
+                            Enroll Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// =====================================================
+// MODAL STAT
+// =====================================================
+
+const ModalStat = ({
+    icon,
+    value,
+    label,
+    star = false,
+}) => {
+    return (
+        <div
+            className="
+                rounded-xl
+                bg-slate-50
+                p-4
+                text-center
+                dark:bg-[#07111f]
+            "
+        >
+            <div
+                className={`
+                    mx-auto flex
+                    w-fit items-center
+                    justify-center
+                    ${star
+                        ? "text-amber-400"
+                        : "text-blue-600 dark:text-teal-400"
+                    }
+                `}
+            >
+                {React.cloneElement(icon, {
+                    ...(star
+                        ? {
+                            fill: "currentColor",
+                        }
+                        : {}),
+                })}
+            </div>
+
+            <p
+                className="
+                    mt-2 text-lg
+                    font-extrabold
+                    text-slate-900
+                    dark:text-white
+                "
+            >
+                {value}
+            </p>
+
+            <p
+                className="
+                    mt-1 text-[10px]
+                    text-slate-400
+                "
+            >
+                {label}
+            </p>
         </div>
     );
 };

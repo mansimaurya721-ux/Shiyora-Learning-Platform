@@ -84,12 +84,8 @@ function Assignments() {
             const searchValue = search.toLowerCase();
 
             const matchesSearch =
-                assignment.title
-                    .toLowerCase()
-                    .includes(searchValue) ||
-                assignment.course
-                    .toLowerCase()
-                    .includes(searchValue);
+                assignment.title.toLowerCase().includes(searchValue) ||
+                assignment.course.toLowerCase().includes(searchValue);
 
             const matchesStatus =
                 statusFilter === "All" ||
@@ -99,18 +95,9 @@ function Assignments() {
                 courseFilter === "All" ||
                 assignment.course === courseFilter;
 
-            return (
-                matchesSearch &&
-                matchesStatus &&
-                matchesCourse
-            );
+            return matchesSearch && matchesStatus && matchesCourse;
         });
-    }, [
-        assignments,
-        search,
-        statusFilter,
-        courseFilter,
-    ]);
+    }, [assignments, search, statusFilter, courseFilter]);
 
     const activeCount = assignments.filter(
         (assignment) => assignment.status === "Active"
@@ -125,8 +112,7 @@ function Assignments() {
     ).length;
 
     const totalSubmissions = assignments.reduce(
-        (total, assignment) =>
-            total + assignment.submissions,
+        (total, assignment) => total + assignment.submissions,
         0
     );
 
@@ -138,30 +124,28 @@ function Assignments() {
         if (!confirmed) return;
 
         setAssignments((previous) =>
-            previous.filter(
-                (assignment) => assignment.id !== id
-            )
+            previous.filter((assignment) => assignment.id !== id)
         );
     };
 
     return (
         <div className="space-y-7">
 
-            {/* ===================================================== */}
-            {/* HEADER */}
-            {/* ===================================================== */}
+            {/* =====================================================
+                HEADER
+            ====================================================== */}
 
-            <section className="relative overflow-hidden rounded-3xl border border-[#F2B84B]/15 bg-[#1B241E] p-7 lg:p-8">
+            <section className="relative overflow-hidden rounded-3xl border border-blue-200 bg-white p-6 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] sm:p-7 lg:p-8">
 
-                <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#F2B84B]/5 blur-3xl" />
+                <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-500/5 blur-3xl dark:bg-blue-400/10" />
 
-                <div className="pointer-events-none absolute -bottom-28 left-1/3 h-64 w-64 rounded-full bg-[#7C9A82]/5 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-28 left-1/3 h-64 w-64 rounded-full bg-teal-500/5 blur-3xl dark:bg-teal-400/10" />
 
                 <div className="relative">
 
                     <Link
                         to="/teacher/dashboard"
-                        className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#7C9A82] transition hover:text-[#F2B84B]"
+                        className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-blue-600 transition hover:text-teal-600 dark:text-blue-400 dark:hover:text-teal-400"
                     >
                         <span>←</span>
                         Teacher Dashboard
@@ -169,17 +153,17 @@ function Assignments() {
 
                     <div className="mt-5 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
 
-                        <div>
+                        <div className="min-w-0">
 
-                            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#7C9A82]">
+                            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-teal-600 dark:text-teal-400">
                                 Teacher Workspace / Evaluation
                             </p>
 
-                            <h1 className="mt-2 font-['Space_Grotesk'] text-3xl font-bold tracking-tight text-[#F3EEDD] md:text-4xl">
+                            <h1 className="mt-2 break-words text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">
                                 Assignments
                             </h1>
 
-                            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#F3EEDD]/50">
+                            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
                                 Create practical tasks, collect student
                                 submissions and keep track of assignment
                                 progress from one workspace.
@@ -189,7 +173,7 @@ function Assignments() {
 
                         <button
                             type="button"
-                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#F2B84B] px-5 py-3 text-xs font-bold text-[#161F19] transition hover:-translate-y-0.5 hover:bg-[#F2B84B]/90"
+                            className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 px-5 py-3 text-xs font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:from-blue-700 hover:to-teal-600 sm:w-auto"
                         >
                             <span className="text-base leading-none">
                                 +
@@ -198,14 +182,13 @@ function Assignments() {
                         </button>
 
                     </div>
-
                 </div>
             </section>
 
 
-            {/* ===================================================== */}
-            {/* STATS */}
-            {/* ===================================================== */}
+            {/* =====================================================
+                STATS
+            ====================================================== */}
 
             <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
@@ -229,7 +212,7 @@ function Assignments() {
                     value={draftCount}
                     description="Not published yet"
                     icon="◌"
-                    accent="red"
+                    accent="blue"
                 />
 
                 <StatCard
@@ -237,62 +220,59 @@ function Assignments() {
                     value={totalSubmissions}
                     description={`${closedCount} assignments closed`}
                     icon="↗"
+                    accent="teal"
                 />
 
             </section>
 
 
-            {/* ===================================================== */}
-            {/* ASSIGNMENT MANAGEMENT */}
-            {/* ===================================================== */}
+            {/* =====================================================
+                ASSIGNMENT MANAGEMENT
+            ====================================================== */}
 
-            <section className="rounded-3xl border border-[#F2B84B]/10 bg-[#1B241E]">
+            <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
 
-                {/* Header */}
+                <div className="flex flex-col gap-4 border-b border-slate-200 p-5 dark:border-[#1e334a] lg:flex-row lg:items-center lg:justify-between">
 
-                <div className="flex flex-col gap-4 border-b border-[#F2B84B]/10 p-5 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="min-w-0">
 
-                    <div>
-
-                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7C9A82]">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                             Evaluation Manager
                         </p>
 
-                        <h2 className="mt-1 font-['Space_Grotesk'] text-xl font-bold text-[#F3EEDD]">
+                        <h2 className="mt-1 break-words text-xl font-bold text-slate-900 dark:text-white">
                             Your Assignments
                         </h2>
 
                     </div>
 
-                    <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#F3EEDD]/25">
+                    <div className="shrink-0 font-mono text-[9px] uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
                         {filteredAssignments.length} assignments displayed
                     </div>
 
                 </div>
 
 
-                {/* ================================================= */}
-                {/* FILTERS */}
-                {/* ================================================= */}
+                {/* =====================================================
+                    FILTERS
+                ====================================================== */}
 
-                <div className="grid grid-cols-1 gap-3 border-b border-[#F2B84B]/10 p-5 md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-3 border-b border-slate-200 p-5 dark:border-[#1e334a] md:grid-cols-3">
 
                     {/* Search */}
 
                     <div className="relative">
 
-                        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-xs text-[#F3EEDD]/25">
+                        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400">
                             ⌕
                         </span>
 
                         <input
                             type="text"
                             value={search}
-                            onChange={(e) =>
-                                setSearch(e.target.value)
-                            }
+                            onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search assignments..."
-                            className="w-full rounded-xl border border-[#F2B84B]/10 bg-[#161F19] py-3 pl-10 pr-4 text-xs text-[#F3EEDD] outline-none placeholder:text-[#F3EEDD]/20 focus:border-[#F2B84B]/30"
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-xs text-slate-700 outline-none placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#07111f] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-teal-400"
                         />
 
                     </div>
@@ -302,24 +282,16 @@ function Assignments() {
 
                     <select
                         value={courseFilter}
-                        onChange={(e) =>
-                            setCourseFilter(e.target.value)
-                        }
-                        className="rounded-xl border border-[#F2B84B]/10 bg-[#161F19] px-4 py-3 text-xs text-[#F3EEDD]/60 outline-none focus:border-[#F2B84B]/30"
+                        onChange={(e) => setCourseFilter(e.target.value)}
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#07111f] dark:text-slate-300 dark:focus:border-teal-400"
                     >
-                        <option value="All">
-                            All Courses
-                        </option>
+                        <option value="All">All Courses</option>
 
                         {courses.map((course) => (
-                            <option
-                                key={course}
-                                value={course}
-                            >
+                            <option key={course} value={course}>
                                 {course}
                             </option>
                         ))}
-
                     </select>
 
 
@@ -327,65 +299,55 @@ function Assignments() {
 
                     <select
                         value={statusFilter}
-                        onChange={(e) =>
-                            setStatusFilter(e.target.value)
-                        }
-                        className="rounded-xl border border-[#F2B84B]/10 bg-[#161F19] px-4 py-3 text-xs text-[#F3EEDD]/60 outline-none focus:border-[#F2B84B]/30"
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#07111f] dark:text-slate-300 dark:focus:border-teal-400"
                     >
-                        <option value="All">
-                            All Status
-                        </option>
-
-                        <option value="Active">
-                            Active
-                        </option>
-
-                        <option value="Draft">
-                            Draft
-                        </option>
-
-                        <option value="Closed">
-                            Closed
-                        </option>
-
+                        <option value="All">All Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Draft">Draft</option>
+                        <option value="Closed">Closed</option>
                     </select>
 
                 </div>
 
 
-                {/* ================================================= */}
-                {/* ASSIGNMENT CARDS */}
-                {/* ================================================= */}
+                {/* =====================================================
+                    ASSIGNMENT CARDS
+                ====================================================== */}
 
                 <div className="grid grid-cols-1 gap-4 p-5 lg:grid-cols-2">
 
                     {filteredAssignments.length > 0 ? (
-                        filteredAssignments.map(
-                            (assignment, index) => (
-                                <AssignmentCard
-                                    key={assignment.id}
-                                    assignment={assignment}
-                                    index={index}
-                                    onDelete={deleteAssignment}
-                                />
-                            )
-                        )
+
+                        filteredAssignments.map((assignment, index) => (
+
+                            <AssignmentCard
+                                key={assignment.id}
+                                assignment={assignment}
+                                index={index}
+                                onDelete={deleteAssignment}
+                            />
+
+                        ))
+
                     ) : (
+
                         <div className="col-span-full px-6 py-16 text-center">
 
-                            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-[#F2B84B]/10 bg-[#161F19] text-xl text-[#F2B84B]">
+                            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-xl text-blue-500 dark:border-[#1e334a] dark:bg-[#07111f] dark:text-blue-400">
                                 ⌕
                             </div>
 
-                            <h3 className="mt-4 font-['Space_Grotesk'] text-lg font-bold text-[#F3EEDD]">
+                            <h3 className="mt-4 text-lg font-bold text-slate-900 dark:text-white">
                                 No assignments found
                             </h3>
 
-                            <p className="mt-2 text-xs text-[#F3EEDD]/30">
+                            <p className="mt-2 text-xs text-slate-500 dark:text-slate-500">
                                 Try changing your search or filters.
                             </p>
 
                         </div>
+
                     )}
 
                 </div>
@@ -393,24 +355,23 @@ function Assignments() {
             </section>
 
 
-            {/* ===================================================== */}
-            {/* EVALUATION WORKFLOW */}
-            {/* ===================================================== */}
+            {/* =====================================================
+                EVALUATION WORKFLOW
+            ====================================================== */}
 
             <section>
 
                 <div className="mb-4">
 
-                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7C9A82]">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                         Evaluation Workflow
                     </p>
 
-                    <h2 className="mt-1 font-['Space_Grotesk'] text-2xl font-bold text-[#F3EEDD]">
+                    <h2 className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">
                         Assignment Lifecycle
                     </h2>
 
                 </div>
-
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
 
@@ -443,21 +404,21 @@ function Assignments() {
             </section>
 
 
-            {/* ===================================================== */}
-            {/* FOOTER NOTE */}
-            {/* ===================================================== */}
+            {/* =====================================================
+                FOOTER NOTE
+            ====================================================== */}
 
-            <div className="rounded-2xl border border-[#F2B84B]/10 bg-[#141C17] p-5">
+            <div className="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
 
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#F2B84B]/15 bg-[#F2B84B]/5 font-bold text-[#F2B84B]">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-blue-200 bg-blue-50 font-bold text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
                         i
                     </div>
 
-                    <p className="text-xs leading-5 text-[#F3EEDD]/35">
+                    <p className="text-xs leading-5 text-slate-500 dark:text-slate-400">
 
-                        <span className="font-semibold text-[#F3EEDD]/60">
+                        <span className="font-semibold text-slate-700 dark:text-slate-200">
                             Evaluation tip:
                         </span>{" "}
                         Give students clear instructions, measurable
@@ -476,34 +437,34 @@ function Assignments() {
 }
 
 
-/* ============================================================= */
-/* STAT CARD */
-/* ============================================================= */
+/* =============================================================
+   STAT CARD
+============================================================= */
 
 function StatCard({
     label,
     value,
     description,
     icon,
-    accent = "gold",
+    accent = "blue",
 }) {
     const accentClasses = {
-        gold: {
-            border: "border-[#F2B84B]/10",
-            icon: "border-[#F2B84B]/15 bg-[#F2B84B]/5 text-[#F2B84B]",
-            value: "text-[#F2B84B]",
+        blue: {
+            border: "border-blue-100 dark:border-blue-500/10",
+            icon: "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400",
+            value: "text-blue-600 dark:text-blue-400",
         },
 
         green: {
-            border: "border-[#7C9A82]/10",
-            icon: "border-[#7C9A82]/15 bg-[#7C9A82]/5 text-[#7C9A82]",
-            value: "text-[#7C9A82]",
+            border: "border-emerald-100 dark:border-emerald-500/10",
+            icon: "border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-400",
+            value: "text-emerald-600 dark:text-emerald-400",
         },
 
-        red: {
-            border: "border-[#D6402C]/10",
-            icon: "border-[#D6402C]/15 bg-[#D6402C]/5 text-[#D6402C]",
-            value: "text-[#D6402C]",
+        teal: {
+            border: "border-teal-100 dark:border-teal-500/10",
+            icon: "border-teal-200 bg-teal-50 text-teal-600 dark:border-teal-400/20 dark:bg-teal-500/10 dark:text-teal-400",
+            value: "text-teal-600 dark:text-teal-400",
         },
     };
 
@@ -511,19 +472,19 @@ function StatCard({
 
     return (
         <div
-            className={`rounded-2xl border ${theme.border} bg-[#1B241E] p-5`}
+            className={`rounded-2xl border ${theme.border} bg-white p-5 shadow-sm dark:bg-[#0b1727]`}
         >
 
-            <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between gap-3">
 
-                <div>
+                <div className="min-w-0">
 
-                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#F3EEDD]/30">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
                         {label}
                     </p>
 
                     <p
-                        className={`mt-2 font-['Space_Grotesk'] text-3xl font-bold ${theme.value}`}
+                        className={`mt-2 text-3xl font-bold ${theme.value}`}
                     >
                         {value}
                     </p>
@@ -531,14 +492,14 @@ function StatCard({
                 </div>
 
                 <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl border text-sm ${theme.icon}`}
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-sm ${theme.icon}`}
                 >
                     {icon}
                 </div>
 
             </div>
 
-            <p className="mt-3 text-[10px] text-[#F3EEDD]/25">
+            <p className="mt-3 text-[10px] text-slate-500 dark:text-slate-500">
                 {description}
             </p>
 
@@ -547,9 +508,9 @@ function StatCard({
 }
 
 
-/* ============================================================= */
-/* ASSIGNMENT CARD */
-/* ============================================================= */
+/* =============================================================
+   ASSIGNMENT CARD
+============================================================= */
 
 function AssignmentCard({
     assignment,
@@ -566,39 +527,45 @@ function AssignmentCard({
             : 0;
 
     return (
-        <article className="group relative overflow-hidden rounded-2xl border border-[#F2B84B]/10 bg-[#161F19] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#F2B84B]/25">
+        <article className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-md dark:border-[#1e334a] dark:bg-[#07111f] dark:hover:border-teal-500/30">
 
             {/* Decorative corner */}
 
-            <div className="pointer-events-none absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-[#F2B84B]/5 transition group-hover:bg-[#F2B84B]/10" />
+            <div className="pointer-events-none absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-blue-500/5 transition group-hover:bg-teal-500/10 dark:bg-blue-400/5 dark:group-hover:bg-teal-400/10" />
 
             <div className="relative">
 
-                {/* Top */}
+                {/* =================================================
+                    TOP
+                ================================================== */}
 
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 items-start justify-between gap-3">
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex min-w-0 flex-1 items-start gap-3">
 
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#F2B84B]/15 bg-[#F2B84B]/5 font-mono text-xs font-bold text-[#F2B84B]">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 font-mono text-xs font-bold text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
                             {String(index + 1).padStart(2, "0")}
                         </div>
 
-                        <div className="min-w-0">
+                        {/* FIXED TITLE AREA */}
 
-                            <div className="flex flex-wrap items-center gap-2">
+                        <div className="min-w-0 flex-1">
 
-                                <h3 className="font-['Space_Grotesk'] text-sm font-bold text-[#F3EEDD]">
+                            <div className="flex min-w-0 flex-wrap items-start gap-2">
+
+                                <h3 className="min-w-0 flex-1 break-words text-sm font-bold leading-5 text-slate-900 dark:text-white">
                                     {assignment.title}
                                 </h3>
 
-                                <StatusBadge
-                                    status={assignment.status}
-                                />
+                                <div className="shrink-0">
+                                    <StatusBadge
+                                        status={assignment.status}
+                                    />
+                                </div>
 
                             </div>
 
-                            <p className="mt-1 truncate text-[10px] text-[#F3EEDD]/30">
+                            <p className="mt-1 truncate text-[10px] text-slate-500 dark:text-slate-500">
                                 {assignment.course}
                             </p>
 
@@ -606,9 +573,13 @@ function AssignmentCard({
 
                     </div>
 
+
+                    {/* MENU BUTTON */}
+
                     <button
                         type="button"
-                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#F2B84B]/10 text-[#F3EEDD]/25 transition hover:border-[#F2B84B]/20 hover:text-[#F2B84B]"
+                        aria-label="Assignment options"
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-blue-200 hover:text-blue-600 dark:border-[#1e334a] dark:text-slate-500 dark:hover:border-teal-500/30 dark:hover:text-teal-400"
                     >
                         ⋮
                     </button>
@@ -616,7 +587,9 @@ function AssignmentCard({
                 </div>
 
 
-                {/* Assignment details */}
+                {/* =================================================
+                    ASSIGNMENT DETAILS
+                ================================================== */}
 
                 <div className="mt-5 grid grid-cols-2 gap-2">
 
@@ -643,36 +616,37 @@ function AssignmentCard({
                 </div>
 
 
-                {/* Submission progress */}
+                {/* =================================================
+                    SUBMISSION PROGRESS
+                ================================================== */}
 
-                <div className="mt-4 rounded-xl border border-[#F2B84B]/5 bg-[#1B241E] p-4">
+                <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-[#1e334a] dark:bg-[#0b1727]">
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-3">
 
-                        <div>
+                        <div className="min-w-0">
 
-                            <p className="font-mono text-[8px] uppercase tracking-wider text-[#F3EEDD]/25">
+                            <p className="font-mono text-[8px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                 Submissions
                             </p>
 
-                            <p className="mt-1 text-xs text-[#F3EEDD]/55">
+                            <p className="mt-1 truncate text-xs text-slate-600 dark:text-slate-300">
                                 {assignment.submissions} of{" "}
                                 {assignment.totalStudents} students
                             </p>
 
                         </div>
 
-                        <span className="font-['Space_Grotesk'] text-sm font-bold text-[#7C9A82]">
+                        <span className="shrink-0 text-sm font-bold text-teal-600 dark:text-teal-400">
                             {submissionPercentage}%
                         </span>
 
                     </div>
 
-
-                    <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#161F19]">
+                    <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-[#07111f]">
 
                         <div
-                            className="h-full rounded-full bg-[#7C9A82] transition-all duration-500"
+                            className="h-full rounded-full bg-gradient-to-r from-blue-600 to-teal-500 transition-all duration-500"
                             style={{
                                 width: `${submissionPercentage}%`,
                             }}
@@ -683,30 +657,30 @@ function AssignmentCard({
                 </div>
 
 
-                {/* Actions */}
+                {/* =================================================
+                    ACTIONS
+                ================================================== */}
 
                 <div className="mt-5 flex gap-2">
 
                     <button
                         type="button"
-                        className="flex-1 rounded-xl border border-[#F2B84B]/10 bg-[#1B241E] px-3 py-2.5 text-[10px] font-semibold text-[#F3EEDD]/45 transition hover:border-[#F2B84B]/20 hover:text-[#F2B84B]"
+                        className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-[10px] font-semibold text-slate-600 transition hover:border-blue-200 hover:text-blue-600 dark:border-[#1e334a] dark:bg-[#0b1727] dark:text-slate-400 dark:hover:border-teal-500/30 dark:hover:text-teal-400"
                     >
                         View
                     </button>
 
                     <button
                         type="button"
-                        className="flex-1 rounded-xl border border-[#F2B84B]/10 bg-[#1B241E] px-3 py-2.5 text-[10px] font-semibold text-[#F3EEDD]/45 transition hover:border-[#F2B84B]/20 hover:text-[#F2B84B]"
+                        className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-[10px] font-semibold text-slate-600 transition hover:border-blue-200 hover:text-blue-600 dark:border-[#1e334a] dark:bg-[#0b1727] dark:text-slate-400 dark:hover:border-teal-500/30 dark:hover:text-teal-400"
                     >
                         Edit
                     </button>
 
                     <button
                         type="button"
-                        className="rounded-xl border border-[#D6402C]/10 bg-[#1B241E] px-3 py-2.5 text-[10px] font-semibold text-[#D6402C]/55 transition hover:border-[#D6402C]/25 hover:bg-[#D6402C]/5 hover:text-[#D6402C]"
-                        onClick={() =>
-                            onDelete(assignment.id)
-                        }
+                        className="rounded-xl border border-rose-200 bg-white px-3 py-2.5 text-[10px] font-semibold text-rose-500 transition hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 dark:border-rose-500/20 dark:bg-[#0b1727] dark:text-rose-400 dark:hover:bg-rose-500/10"
+                        onClick={() => onDelete(assignment.id)}
                     >
                         Delete
                     </button>
@@ -720,19 +694,19 @@ function AssignmentCard({
 }
 
 
-/* ============================================================= */
-/* INFO ITEM */
-/* ============================================================= */
+/* =============================================================
+   INFO ITEM
+============================================================= */
 
 function InfoItem({ label, value }) {
     return (
-        <div className="rounded-xl border border-[#F2B84B]/5 bg-[#1B241E] p-3">
+        <div className="min-w-0 rounded-xl border border-slate-200 bg-white p-3 dark:border-[#1e334a] dark:bg-[#0b1727]">
 
-            <p className="font-mono text-[8px] uppercase tracking-wider text-[#F3EEDD]/25">
+            <p className="font-mono text-[8px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 {label}
             </p>
 
-            <p className="mt-1 truncate text-xs font-semibold text-[#F3EEDD]/65">
+            <p className="mt-1 truncate text-xs font-semibold text-slate-700 dark:text-slate-300">
                 {value}
             </p>
 
@@ -741,26 +715,26 @@ function InfoItem({ label, value }) {
 }
 
 
-/* ============================================================= */
-/* STATUS BADGE */
-/* ============================================================= */
+/* =============================================================
+   STATUS BADGE
+============================================================= */
 
 function StatusBadge({ status }) {
     const statusStyles = {
         Active:
-            "border-[#7C9A82]/20 bg-[#7C9A82]/5 text-[#7C9A82]",
+            "border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-400",
 
         Draft:
-            "border-[#D6402C]/20 bg-[#D6402C]/5 text-[#D6402C]",
+            "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400",
 
         Closed:
-            "border-[#F3EEDD]/10 bg-[#F3EEDD]/5 text-[#F3EEDD]/40",
+            "border-slate-200 bg-slate-100 text-slate-500 dark:border-slate-600/30 dark:bg-slate-700/20 dark:text-slate-400",
     };
 
     return (
         <span
-            className={`rounded-full border px-2 py-1 font-mono text-[8px] uppercase tracking-wider ${statusStyles[status] ||
-                "border-[#F2B84B]/10 bg-[#F2B84B]/5 text-[#F2B84B]"
+            className={`inline-flex whitespace-nowrap rounded-full border px-2 py-1 font-mono text-[8px] uppercase tracking-wider ${statusStyles[status] ||
+                "border-teal-200 bg-teal-50 text-teal-600 dark:border-teal-400/20 dark:bg-teal-500/10 dark:text-teal-400"
                 }`}
         >
             {status}
@@ -769,9 +743,9 @@ function StatusBadge({ status }) {
 }
 
 
-/* ============================================================= */
-/* WORKFLOW CARD */
-/* ============================================================= */
+/* =============================================================
+   WORKFLOW CARD
+============================================================= */
 
 function WorkflowCard({
     number,
@@ -779,17 +753,17 @@ function WorkflowCard({
     description,
 }) {
     return (
-        <div className="group rounded-2xl border border-[#F2B84B]/10 bg-[#1B241E] p-5 transition hover:-translate-y-1 hover:border-[#F2B84B]/20">
+        <div className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-md dark:border-[#1e334a] dark:bg-[#0b1727] dark:hover:border-teal-500/30">
 
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#F2B84B]/15 bg-[#F2B84B]/5 font-mono text-[10px] font-bold text-[#F2B84B]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 font-mono text-[10px] font-bold text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
                 {number}
             </div>
 
-            <h3 className="mt-5 font-['Space_Grotesk'] text-base font-bold text-[#F3EEDD]">
+            <h3 className="mt-5 text-base font-bold text-slate-900 dark:text-white">
                 {title}
             </h3>
 
-            <p className="mt-2 text-xs leading-5 text-[#F3EEDD]/35">
+            <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
                 {description}
             </p>
 

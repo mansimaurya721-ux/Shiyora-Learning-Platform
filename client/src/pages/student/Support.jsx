@@ -10,6 +10,8 @@ import {
     CheckCircle2,
     Clock3,
     Headphones,
+    ArrowUpRight,
+    LifeBuoy,
 } from "lucide-react";
 
 const Support = () => {
@@ -79,24 +81,65 @@ const Support = () => {
     };
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6">
 
             {/* =====================================================
                 HEADER
             ====================================================== */}
-            <section>
-                <p className="mb-2 text-sm font-medium text-[#7C9A82]">
-                    Student Assistance
-                </p>
+            <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] sm:p-8">
 
-                <h1 className="text-3xl font-bold tracking-tight text-[#F3EEDD] sm:text-4xl">
-                    Help & Support
-                </h1>
+                <div className="absolute -right-16 -top-20 h-48 w-48 rounded-full bg-blue-500/10 blur-3xl dark:bg-blue-400/10" />
 
-                <p className="mt-2 max-w-2xl text-sm text-[#7C9A82] sm:text-base">
-                    Find answers to common questions or contact our support
-                    team if you need additional help.
-                </p>
+                <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+
+                    <div>
+                        <div className="mb-3 flex items-center gap-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-500/10">
+                                <LifeBuoy
+                                    size={16}
+                                    className="text-blue-600 dark:text-blue-400"
+                                />
+                            </div>
+
+                            <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                                Student Assistance
+                            </span>
+                        </div>
+
+                        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+                            Help & Support
+                        </h1>
+
+                        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400 sm:text-base">
+                            Find answers to common questions or contact our
+                            support team if you need additional help.
+                        </p>
+                    </div>
+
+                    <div className="flex w-fit items-center gap-3 rounded-2xl border border-teal-100 bg-teal-50 px-4 py-3 dark:border-teal-500/10 dark:bg-teal-500/10">
+
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-[#102337]">
+                            <Headphones
+                                size={20}
+                                className="text-teal-600 dark:text-teal-400"
+                            />
+                        </div>
+
+                        <div>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">
+                                Support Status
+                            </p>
+
+                            <div className="mt-1 flex items-center gap-2">
+                                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+
+                                <span className="text-sm font-semibold text-teal-700 dark:text-teal-400">
+                                    Available
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             {/* =====================================================
@@ -135,31 +178,25 @@ const Support = () => {
                 {/* =================================================
                     FAQ
                 ================================================== */}
-                <section
-                    className="
-                        rounded-2xl
-                        border
-                        border-[#7C9A82]/20
-                        bg-[#1B241E]
-                        xl:col-span-2
-                    "
-                >
-                    <div className="border-b border-[#7C9A82]/20 p-5">
+                <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] xl:col-span-2">
+
+                    <div className="border-b border-slate-200 p-5 dark:border-[#1e334a] sm:p-6">
 
                         <div className="flex items-center gap-3">
-                            <div className="rounded-xl bg-[#F2B84B]/10 p-2.5">
+
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-500/10">
                                 <HelpCircle
                                     size={20}
-                                    className="text-[#F2B84B]"
+                                    className="text-blue-600 dark:text-blue-400"
                                 />
                             </div>
 
                             <div>
-                                <h2 className="text-lg font-semibold text-[#F3EEDD]">
+                                <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                                     Frequently Asked Questions
                                 </h2>
 
-                                <p className="mt-1 text-sm text-[#7C9A82]">
+                                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                     Find quick answers to common questions.
                                 </p>
                             </div>
@@ -167,15 +204,10 @@ const Support = () => {
 
                         {/* FAQ Search */}
                         <div className="relative mt-5">
+
                             <Search
                                 size={18}
-                                className="
-                                    absolute
-                                    left-4
-                                    top-1/2
-                                    -translate-y-1/2
-                                    text-[#7C9A82]
-                                "
+                                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
                             />
 
                             <input
@@ -189,32 +221,42 @@ const Support = () => {
                                     w-full
                                     rounded-xl
                                     border
-                                    border-[#7C9A82]/20
-                                    bg-[#161F19]
+                                    border-slate-200
+                                    bg-slate-50
                                     py-3
                                     pl-11
                                     pr-4
                                     text-sm
-                                    text-[#F3EEDD]
+                                    text-slate-900
                                     outline-none
-                                    placeholder:text-[#7C9A82]/70
-                                    focus:border-[#F2B84B]/50
+                                    transition
+                                    placeholder:text-slate-400
+                                    focus:border-blue-400
+                                    focus:bg-white
                                     focus:ring-2
-                                    focus:ring-[#F2B84B]/10
+                                    focus:ring-blue-500/10
+                                    dark:border-[#1e334a]
+                                    dark:bg-[#102337]
+                                    dark:text-white
+                                    dark:placeholder:text-slate-500
+                                    dark:focus:border-blue-500/50
+                                    dark:focus:bg-[#102337]
                                 "
                             />
                         </div>
                     </div>
 
                     {/* FAQ Items */}
-                    <div className="divide-y divide-[#7C9A82]/15">
+                    <div className="divide-y divide-slate-100 dark:divide-[#1e334a]">
 
                         {filteredFaqs.length > 0 ? (
                             filteredFaqs.map((faq) => {
+
                                 const isOpen = openFaq === faq.id;
 
                                 return (
                                     <div key={faq.id}>
+
                                         <button
                                             type="button"
                                             onClick={() =>
@@ -234,51 +276,90 @@ const Support = () => {
                                                 py-4
                                                 text-left
                                                 transition
-                                                hover:bg-[#161F19]/40
+                                                hover:bg-slate-50
+                                                dark:hover:bg-[#102337]
+                                                sm:px-6
                                             "
                                         >
-                                            <span className="text-sm font-medium text-[#F3EEDD]">
-                                                {faq.question}
-                                            </span>
+
+                                            <div className="flex min-w-0 items-center gap-3">
+
+                                                <span
+                                                    className={`
+                                                        flex
+                                                        h-7
+                                                        w-7
+                                                        shrink-0
+                                                        items-center
+                                                        justify-center
+                                                        rounded-lg
+                                                        text-xs
+                                                        font-semibold
+                                                        ${isOpen
+                                                            ? "bg-blue-600 text-white"
+                                                            : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
+                                                        }
+                                                    `}
+                                                >
+                                                    {faq.id}
+                                                </span>
+
+                                                <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
+                                                    {faq.question}
+                                                </span>
+                                            </div>
 
                                             <ChevronDown
                                                 size={18}
                                                 className={`
                                                     shrink-0
-                                                    text-[#7C9A82]
+                                                    text-slate-400
                                                     transition-transform
+                                                    dark:text-slate-500
                                                     ${isOpen
-                                                        ? "rotate-180"
+                                                        ? "rotate-180 text-blue-600 dark:text-blue-400"
                                                         : ""
                                                     }
                                                 `}
                                             />
+
                                         </button>
 
                                         {isOpen && (
-                                            <div className="px-5 pb-5">
-                                                <p className="rounded-xl bg-[#161F19] p-4 text-sm leading-6 text-[#7C9A82]">
-                                                    {faq.answer}
-                                                </p>
+                                            <div className="px-5 pb-5 sm:px-6">
+
+                                                <div className="ml-10 rounded-xl border border-blue-100 bg-blue-50/60 p-4 dark:border-blue-500/10 dark:bg-blue-500/5">
+
+                                                    <p className="text-sm leading-6 text-slate-600 dark:text-slate-400">
+                                                        {faq.answer}
+                                                    </p>
+
+                                                </div>
+
                                             </div>
                                         )}
+
                                     </div>
                                 );
                             })
                         ) : (
                             <div className="px-5 py-12 text-center">
-                                <HelpCircle
-                                    size={30}
-                                    className="mx-auto text-[#7C9A82]"
-                                />
 
-                                <p className="mt-3 text-sm font-medium text-[#F3EEDD]">
+                                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800">
+                                    <HelpCircle
+                                        size={25}
+                                        className="text-slate-400 dark:text-slate-500"
+                                    />
+                                </div>
+
+                                <p className="mt-4 text-sm font-semibold text-slate-800 dark:text-slate-200">
                                     No questions found
                                 </p>
 
-                                <p className="mt-1 text-xs text-[#7C9A82]">
+                                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     Try searching with a different keyword.
                                 </p>
+
                             </div>
                         )}
 
@@ -288,30 +369,23 @@ const Support = () => {
                 {/* =================================================
                     CONTACT FORM
                 ================================================== */}
-                <section
-                    className="
-                        rounded-2xl
-                        border
-                        border-[#7C9A82]/20
-                        bg-[#1B241E]
-                        p-5
-                    "
-                >
+                <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] sm:p-6">
+
                     <div className="flex items-center gap-3">
 
-                        <div className="rounded-xl bg-[#F2B84B]/10 p-2.5">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 dark:bg-teal-500/10">
                             <Send
-                                size={20}
-                                className="text-[#F2B84B]"
+                                size={19}
+                                className="text-teal-600 dark:text-teal-400"
                             />
                         </div>
 
                         <div>
-                            <h2 className="text-lg font-semibold text-[#F3EEDD]">
+                            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                                 Contact Support
                             </h2>
 
-                            <p className="mt-1 text-sm text-[#7C9A82]">
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                 Send us a message.
                             </p>
                         </div>
@@ -319,18 +393,20 @@ const Support = () => {
                     </div>
 
                     {submitted ? (
-                        <div className="mt-6 rounded-xl border border-[#7C9A82]/30 bg-[#7C9A82]/10 p-5 text-center">
+                        <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center dark:border-emerald-500/20 dark:bg-emerald-500/10">
 
-                            <CheckCircle2
-                                size={32}
-                                className="mx-auto text-[#7C9A82]"
-                            />
+                            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-500/10">
+                                <CheckCircle2
+                                    size={27}
+                                    className="text-emerald-600 dark:text-emerald-400"
+                                />
+                            </div>
 
-                            <h3 className="mt-3 text-sm font-semibold text-[#F3EEDD]">
+                            <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">
                                 Message Sent Successfully
                             </h3>
 
-                            <p className="mt-2 text-xs leading-5 text-[#7C9A82]">
+                            <p className="mt-2 text-xs leading-5 text-slate-600 dark:text-slate-400">
                                 Our support team will review your message and
                                 get back to you.
                             </p>
@@ -342,10 +418,11 @@ const Support = () => {
                             className="mt-6 space-y-4"
                         >
 
+                            {/* Subject */}
                             <div>
                                 <label
                                     htmlFor="subject"
-                                    className="mb-2 block text-xs font-medium text-[#F3EEDD]"
+                                    className="mb-2 block text-xs font-semibold text-slate-700 dark:text-slate-300"
                                 >
                                     Subject
                                 </label>
@@ -362,25 +439,33 @@ const Support = () => {
                                         w-full
                                         rounded-xl
                                         border
-                                        border-[#7C9A82]/20
-                                        bg-[#161F19]
+                                        border-slate-200
+                                        bg-slate-50
                                         px-4
                                         py-3
                                         text-sm
-                                        text-[#F3EEDD]
+                                        text-slate-900
                                         outline-none
-                                        placeholder:text-[#7C9A82]/70
-                                        focus:border-[#F2B84B]/50
+                                        transition
+                                        placeholder:text-slate-400
+                                        focus:border-blue-400
+                                        focus:bg-white
                                         focus:ring-2
-                                        focus:ring-[#F2B84B]/10
+                                        focus:ring-blue-500/10
+                                        dark:border-[#1e334a]
+                                        dark:bg-[#102337]
+                                        dark:text-white
+                                        dark:placeholder:text-slate-500
+                                        dark:focus:border-blue-500/50
                                     "
                                 />
                             </div>
 
+                            {/* Message */}
                             <div>
                                 <label
                                     htmlFor="message"
-                                    className="mb-2 block text-xs font-medium text-[#F3EEDD]"
+                                    className="mb-2 block text-xs font-semibold text-slate-700 dark:text-slate-300"
                                 >
                                     Message
                                 </label>
@@ -398,17 +483,24 @@ const Support = () => {
                                         resize-none
                                         rounded-xl
                                         border
-                                        border-[#7C9A82]/20
-                                        bg-[#161F19]
+                                        border-slate-200
+                                        bg-slate-50
                                         px-4
                                         py-3
                                         text-sm
-                                        text-[#F3EEDD]
+                                        text-slate-900
                                         outline-none
-                                        placeholder:text-[#7C9A82]/70
-                                        focus:border-[#F2B84B]/50
+                                        transition
+                                        placeholder:text-slate-400
+                                        focus:border-blue-400
+                                        focus:bg-white
                                         focus:ring-2
-                                        focus:ring-[#F2B84B]/10
+                                        focus:ring-blue-500/10
+                                        dark:border-[#1e334a]
+                                        dark:bg-[#102337]
+                                        dark:text-white
+                                        dark:placeholder:text-slate-500
+                                        dark:focus:border-blue-500/50
                                     "
                                 />
                             </div>
@@ -422,14 +514,19 @@ const Support = () => {
                                     justify-center
                                     gap-2
                                     rounded-xl
-                                    bg-[#F2B84B]
+                                    bg-gradient-to-r
+                                    from-blue-600
+                                    to-teal-500
                                     px-4
                                     py-3
                                     text-sm
                                     font-semibold
-                                    text-[#161F19]
+                                    text-white
+                                    shadow-sm
                                     transition
-                                    hover:bg-[#F2B84B]/90
+                                    hover:from-blue-700
+                                    hover:to-teal-600
+                                    hover:shadow-md
                                 "
                             >
                                 <Send size={16} />
@@ -445,32 +542,25 @@ const Support = () => {
             {/* =====================================================
                 SUPPORT STATUS
             ====================================================== */}
-            <section
-                className="
-                    rounded-2xl
-                    border
-                    border-[#7C9A82]/20
-                    bg-[#1B241E]
-                    p-5
-                "
-            >
+            <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] sm:p-6">
+
                 <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 
                     <div className="flex items-center gap-4">
 
-                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#7C9A82]/10">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 dark:bg-teal-500/10">
                             <Headphones
                                 size={21}
-                                className="text-[#7C9A82]"
+                                className="text-teal-600 dark:text-teal-400"
                             />
                         </div>
 
                         <div>
-                            <h2 className="text-sm font-semibold text-[#F3EEDD]">
+                            <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
                                 Support Team
                             </h2>
 
-                            <p className="mt-1 text-xs text-[#7C9A82]">
+                            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 We're here to help you with your learning
                                 experience.
                             </p>
@@ -478,11 +568,11 @@ const Support = () => {
 
                     </div>
 
-                    <div className="flex items-center gap-2 rounded-full border border-[#7C9A82]/25 bg-[#7C9A82]/10 px-3 py-2">
+                    <div className="flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 dark:border-emerald-500/20 dark:bg-emerald-500/10">
 
-                        <span className="h-2 w-2 rounded-full bg-[#7C9A82]" />
+                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
 
-                        <span className="text-xs font-medium text-[#7C9A82]">
+                        <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
                             Support Available
                         </span>
 
@@ -492,38 +582,48 @@ const Support = () => {
 
                 <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
 
-                    <div className="flex items-center gap-3 rounded-xl bg-[#161F19] p-4">
-                        <Clock3
-                            size={17}
-                            className="text-[#F2B84B]"
-                        />
+                    {/* Response Time */}
+                    <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-[#1e334a] dark:bg-[#102337]">
+
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-500/10">
+                            <Clock3
+                                size={17}
+                                className="text-blue-600 dark:text-blue-400"
+                            />
+                        </div>
 
                         <div>
-                            <p className="text-xs text-[#7C9A82]">
+                            <p className="text-xs text-slate-500 dark:text-slate-400">
                                 Response Time
                             </p>
 
-                            <p className="mt-1 text-sm font-medium text-[#F3EEDD]">
+                            <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-white">
                                 Within 24 hours
                             </p>
                         </div>
+
                     </div>
 
-                    <div className="flex items-center gap-3 rounded-xl bg-[#161F19] p-4">
-                        <Mail
-                            size={17}
-                            className="text-[#F2B84B]"
-                        />
+                    {/* Email */}
+                    <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-[#1e334a] dark:bg-[#102337]">
 
-                        <div>
-                            <p className="text-xs text-[#7C9A82]">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-50 dark:bg-teal-500/10">
+                            <Mail
+                                size={17}
+                                className="text-teal-600 dark:text-teal-400"
+                            />
+                        </div>
+
+                        <div className="min-w-0">
+                            <p className="text-xs text-slate-500 dark:text-slate-400">
                                 Email
                             </p>
 
-                            <p className="mt-1 text-sm font-medium text-[#F3EEDD]">
+                            <p className="mt-1 truncate text-sm font-semibold text-slate-900 dark:text-white">
                                 support@shiyora.com
                             </p>
                         </div>
+
                     </div>
 
                 </div>
@@ -543,49 +643,40 @@ const SupportOption = ({
     action,
 }) => {
     return (
-        <div
-            className="
-                rounded-2xl
-                border
-                border-[#7C9A82]/20
-                bg-[#1B241E]
-                p-5
-                transition
-                hover:-translate-y-1
-                hover:border-[#F2B84B]/30
-            "
-        >
-            <div className="flex items-start gap-4">
+        <div className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md dark:border-[#1e334a] dark:bg-[#0b1727] dark:hover:border-blue-500/20">
 
-                <div className="rounded-xl bg-[#F2B84B]/10 p-3">
-                    <Icon
-                        size={21}
-                        className="text-[#F2B84B]"
-                    />
-                </div>
+            <div className="flex items-start justify-between gap-4">
 
-                <div>
-                    <h3 className="text-sm font-semibold text-[#F3EEDD]">
-                        {title}
-                    </h3>
+                <div className="flex items-start gap-4">
 
-                    <p className="mt-1 text-xs leading-5 text-[#7C9A82]">
-                        {description}
-                    </p>
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-500/10">
+                        <Icon
+                            size={21}
+                            className="text-blue-600 dark:text-blue-400"
+                        />
+                    </div>
 
-                    <button
-                        type="button"
-                        className="
-                            mt-3
-                            text-xs
-                            font-semibold
-                            text-[#F2B84B]
-                            transition
-                            hover:text-[#F3EEDD]
-                        "
-                    >
-                        {action}
-                    </button>
+                    <div>
+                        <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+                            {title}
+                        </h3>
+
+                        <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
+                            {description}
+                        </p>
+
+                        <button
+                            type="button"
+                            className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-blue-600 transition hover:text-teal-600 dark:text-blue-400 dark:hover:text-teal-400"
+                        >
+                            {action}
+
+                            <ArrowUpRight
+                                size={13}
+                            />
+                        </button>
+                    </div>
+
                 </div>
 
             </div>

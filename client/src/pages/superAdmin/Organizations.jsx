@@ -8,10 +8,14 @@ import {
     Plus,
     MoreVertical,
     Eye,
+    EyeOff,
     Pencil,
     Trash2,
     TrendingUp,
     X,
+    KeyRound,
+    Copy,
+    Check,
 } from "lucide-react";
 
 import {
@@ -50,7 +54,11 @@ const Organizations = () => {
         name: "",
         email: "",
         plan: "Basic",
+        password: "",
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [copiedPassword, setCopiedPassword] = useState(false);
 
 
     // ============================================================
@@ -192,6 +200,70 @@ const Organizations = () => {
 
     const totalCourses =
         stats.total_courses;
+
+
+    // ============================================================
+    // GENERATE PASSWORD
+    // ============================================================
+
+    const generatePassword = () => {
+
+        const characters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%";
+
+        let password = "";
+
+        for (let i = 0; i < 12; i++) {
+
+            password += characters.charAt(
+                Math.floor(
+                    Math.random() * characters.length
+                )
+            );
+
+        }
+
+        setFormData((previous) => ({
+            ...previous,
+            password,
+        }));
+
+        setShowPassword(true);
+        setCopiedPassword(false);
+    };
+
+
+    // ============================================================
+    // COPY PASSWORD
+    // ============================================================
+
+    const copyPassword = async () => {
+
+        if (!formData.password) {
+            return;
+        }
+
+        try {
+
+            await navigator.clipboard.writeText(
+                formData.password
+            );
+
+            setCopiedPassword(true);
+
+            setTimeout(() => {
+                setCopiedPassword(false);
+            }, 1500);
+
+        } catch (error) {
+
+            console.error(
+                "Failed to copy password:",
+                error
+            );
+
+        }
+    };
 
 
     // ============================================================
@@ -372,8 +444,11 @@ const Organizations = () => {
                 name: "",
                 email: "",
                 plan: "Basic",
+                password: "",
             });
 
+            setShowPassword(false);
+            setCopiedPassword(false);
 
             setShowAddModal(false);
 
@@ -567,7 +642,11 @@ const Organizations = () => {
                                 name: "",
                                 email: "",
                                 plan: "Basic",
+                                password: "",
                             });
+
+                            setShowPassword(false);
+                            setCopiedPassword(false);
 
                             setShowAddModal(true);
 
@@ -1846,6 +1925,9 @@ const Organizations = () => {
                                 w-full
                                 max-w-md
 
+                                max-h-[90vh]
+                                overflow-y-auto
+
                                 rounded-2xl
 
                                 border
@@ -1889,6 +1971,8 @@ const Organizations = () => {
 
                                         setShowAddModal(false);
                                         setError("");
+                                        setShowPassword(false);
+                                        setCopiedPassword(false);
 
                                     }}
                                     className="
@@ -2020,7 +2104,7 @@ const Organizations = () => {
 
                                 {/* PLAN */}
 
-                                <div className="mb-5">
+                                <div className="mb-4">
 
                                     <label className="mb-2 block text-xs font-bold text-slate-700 dark:text-slate-300">
                                         Plan
@@ -2057,6 +2141,7 @@ const Organizations = () => {
                                             dark:focus:border-teal-500
                                         "
                                     >
+
                                         <option value="Basic">
                                             Basic
                                         </option>
@@ -2070,6 +2155,229 @@ const Organizations = () => {
                                         </option>
 
                                     </select>
+
+                                </div>
+
+
+                                {/* PASSWORD */}
+
+                                <div className="mb-5">
+
+                                    <div className="mb-2 flex items-center justify-between gap-3">
+
+                                        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                                            Organization Password
+                                        </label>
+
+
+                                        <button
+                                            type="button"
+                                            onClick={generatePassword}
+                                            className="
+                                                flex
+                                                shrink-0
+                                                items-center
+                                                gap-1.5
+
+                                                rounded-lg
+
+                                                bg-blue-50
+                                                px-2.5
+                                                py-1.5
+
+                                                text-[10px]
+                                                font-bold
+                                                text-blue-700
+
+                                                transition
+
+                                                hover:bg-blue-100
+
+                                                dark:bg-blue-500/10
+                                                dark:text-blue-400
+                                                dark:hover:bg-blue-500/20
+                                            "
+                                        >
+                                            <KeyRound size={13} />
+
+                                            Generate Password
+                                        </button>
+
+                                    </div>
+
+
+                                    <div className="relative">
+
+                                        <input
+                                            type={
+                                                showPassword
+                                                    ? "text"
+                                                    : "password"
+                                            }
+                                            required
+                                            minLength={8}
+                                            value={formData.password}
+                                            onChange={(event) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    password:
+                                                        event.target.value,
+                                                })
+                                            }
+                                            placeholder="Enter or generate password"
+                                            className="
+                                                w-full
+                                                rounded-xl
+                                                border
+                                                border-slate-200
+                                                bg-slate-50
+
+                                                py-3
+                                                pl-4
+                                                pr-24
+
+                                                text-sm
+                                                font-medium
+                                                text-slate-900
+
+                                                outline-none
+
+                                                placeholder:text-slate-400
+
+                                                transition
+
+                                                focus:border-blue-500
+                                                focus:bg-white
+                                                focus:ring-2
+                                                focus:ring-blue-500/10
+
+                                                dark:border-slate-700
+                                                dark:bg-[#07111f]
+                                                dark:text-white
+                                                dark:placeholder:text-slate-600
+                                                dark:focus:border-teal-500
+                                            "
+                                        />
+
+
+                                        <div
+                                            className="
+                                                absolute
+                                                right-2
+                                                top-1/2
+                                                flex
+                                                -translate-y-1/2
+                                                items-center
+                                                gap-1
+                                            "
+                                        >
+
+                                            {/* SHOW / HIDE */}
+
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        !showPassword
+                                                    )
+                                                }
+                                                className="
+                                                    flex
+                                                    h-8
+                                                    w-8
+                                                    items-center
+                                                    justify-center
+                                                    rounded-lg
+
+                                                    text-slate-500
+
+                                                    transition
+
+                                                    hover:bg-slate-200
+                                                    hover:text-slate-900
+
+                                                    dark:text-slate-400
+                                                    dark:hover:bg-slate-800
+                                                    dark:hover:text-white
+                                                "
+                                                title={
+                                                    showPassword
+                                                        ? "Hide password"
+                                                        : "Show password"
+                                                }
+                                            >
+
+                                                {showPassword ? (
+                                                    <EyeOff size={16} />
+                                                ) : (
+                                                    <Eye size={16} />
+                                                )}
+
+                                            </button>
+
+
+                                            {/* COPY */}
+
+                                            <button
+                                                type="button"
+                                                onClick={copyPassword}
+                                                disabled={
+                                                    !formData.password
+                                                }
+                                                className="
+                                                    flex
+                                                    h-8
+                                                    w-8
+                                                    items-center
+                                                    justify-center
+                                                    rounded-lg
+
+                                                    text-slate-500
+
+                                                    transition
+
+                                                    hover:bg-slate-200
+                                                    hover:text-slate-900
+
+                                                    disabled:cursor-not-allowed
+                                                    disabled:opacity-40
+
+                                                    dark:text-slate-400
+                                                    dark:hover:bg-slate-800
+                                                    dark:hover:text-white
+                                                "
+                                                title="Copy password"
+                                            >
+
+                                                {copiedPassword ? (
+                                                    <Check
+                                                        size={16}
+                                                        className="text-emerald-500"
+                                                    />
+                                                ) : (
+                                                    <Copy size={16} />
+                                                )}
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <p
+                                        className="
+                                            mt-2
+                                            text-[10px]
+                                            font-medium
+                                            text-slate-400
+
+                                            dark:text-slate-500
+                                        "
+                                    >
+                                        Minimum 8 characters. You can generate
+                                        a secure temporary password automatically.
+                                    </p>
 
                                 </div>
 
@@ -2112,6 +2420,8 @@ const Organizations = () => {
 
                                             setShowAddModal(false);
                                             setError("");
+                                            setShowPassword(false);
+                                            setCopiedPassword(false);
 
                                         }}
                                         className="
@@ -2242,6 +2552,7 @@ const Organizations = () => {
                             ) : (
 
                                 <>
+
                                     {/* HEADER */}
 
                                     <div className="mb-6 flex items-start justify-between">

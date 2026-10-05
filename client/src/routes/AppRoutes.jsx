@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import ScrollToTop from "../components/ScrollToTop";
 
 // =====================================================
 // PUBLIC PAGES
@@ -14,6 +15,7 @@ import Contact from "../pages/public/Contact";
 import Subscription from "../pages/public/Subscription";
 import Feature from "../pages/public/Feature";
 import Course from "../pages/public/Course";
+import Certificate from "../pages/public/Certificate";
 
 // =====================================================
 // AUTH
@@ -36,6 +38,9 @@ import Reports from "../pages/superAdmin/Reports";
 import SuperAdminSettings from "../pages/superAdmin/Settings";
 import SuperAdminSupport from "../pages/superAdmin/Support";
 
+// ✅ CORRECT REGISTRATION IMPORT
+import Registrations from "../pages/superAdmin/Registrations";
+
 // =====================================================
 // ADMIN
 // =====================================================
@@ -49,6 +54,8 @@ import AdminTeachers from "../pages/admin/Teachers";
 import AdminSubscriptions from "../pages/admin/Subscription";
 import AdminSupport from "../pages/admin/Support";
 import AdminSettings from "../pages/admin/Settings";
+import Report from "../pages/admin/Report";
+import Enrollments from "../pages/admin/Enrollments";
 
 // =====================================================
 // TEACHER
@@ -58,7 +65,6 @@ import TeacherLayout from "../layouts/TeacherLayout";
 
 import TeacherDashboard from "../pages/teacher/Dashboard";
 import TeacherCourses from "../pages/teacher/Courses";
-import CreateCourse from "../pages/teacher/CreateCourse";
 import EditCourse from "../pages/teacher/EditCourse";
 
 import TeacherLessons from "../pages/teacher/Lessons";
@@ -66,12 +72,12 @@ import CreateLesson from "../pages/teacher/CreateLesson";
 import EditLesson from "../pages/teacher/EditLesson";
 
 import TeacherQuizzes from "../pages/teacher/Quizzes";
-
 import TeacherAssignments from "../pages/teacher/Assignments";
 
 import TeacherStudents from "../pages/teacher/Students";
 import TeacherAnalytics from "../pages/teacher/Analytics";
 import TeacherProfile from "../pages/teacher/Profile";
+import TeacherSupport from "../pages/teacher/Support";
 
 // =====================================================
 // STUDENT
@@ -95,452 +101,498 @@ import StudentProfile from "../pages/student/Profile";
 
 function AppRoutes() {
     return (
-        <Routes>
+        <>
+            <ScrollToTop />
 
-            {/* =================================================
-                PUBLIC ROUTES
-            ================================================= */}
+            <Routes>
 
-            <Route
-                path="/"
-                element={<Welcome />}
-            />
-
-            <Route
-                path="/home"
-                element={
-                    <>
-                        <Navbar />
-                        <Home />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/about"
-                element={
-                    <>
-                        <Navbar />
-                        <About />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/contact"
-                element={
-                    <>
-                        <Navbar />
-                        <Contact />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/subscription"
-                element={
-                    <>
-                        <Navbar />
-                        <Subscription />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/feature"
-                element={
-                    <>
-                        <Navbar />
-                        <Feature />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/course"
-                element={
-                    <>
-                        <Navbar />
-                        <Course />
-                        <Footer />
-                    </>
-                }
-            />
-
-            {/* =================================================
-                AUTH ROUTES
-            ================================================= */}
-
-            <Route
-                path="/login"
-                element={<Auth />}
-            />
-
-            <Route
-                path="/signup"
-                element={<Auth />}
-            />
-
-            {/* =================================================
-                SUPER ADMIN ROUTES
-            ================================================= */}
-
-            <Route
-                path="/superadmin"
-                element={<SuperAdminLayout />}
-            >
-
-                {/* /superadmin → /superadmin/dashboard */}
+                {/* =================================================
+                    PUBLIC ROUTES
+                ================================================= */}
 
                 <Route
-                    index
+                    path="/"
+                    element={<Welcome />}
+                />
+
+                {/* HOME */}
+
+                <Route
+                    path="/home"
                     element={
-                        <Navigate
-                            to="dashboard"
-                            replace
-                        />
+                        <>
+                            <Navbar />
+                            <Home />
+                            <Footer />
+                        </>
                     }
                 />
 
-                <Route
-                    path="dashboard"
-                    element={<SuperAdminDashboard />}
-                />
+                {/* ABOUT */}
 
                 <Route
-                    path="organizations"
-                    element={<Organizations />}
-                />
-
-                <Route
-                    path="users"
-                    element={<SuperAdminUsers />}
-                />
-
-                <Route
-                    path="subscriptions"
-                    element={<SuperAdminSubscriptions />}
-                />
-
-                <Route
-                    path="courses"
-                    element={<SuperAdminCourses />}
-                />
-
-                <Route
-                    path="reports"
-                    element={<Reports />}
-                />
-
-                <Route
-                    path="settings"
-                    element={<SuperAdminSettings />}
-                />
-
-                <Route
-                    path="support"
-                    element={<SuperAdminSupport />}
-                />
-
-            </Route>
-
-            {/* =================================================
-                ADMIN ROUTES
-            ================================================= */}
-
-            <Route
-                path="/admin"
-                element={<AdminLayout />}
-            >
-
-                {/* /admin → /admin/dashboard */}
-
-                <Route
-                    index
+                    path="/about"
                     element={
-                        <Navigate
-                            to="dashboard"
-                            replace
-                        />
+                        <>
+                            <Navbar />
+                            <About />
+                            <Footer />
+                        </>
                     }
                 />
 
-                <Route
-                    path="dashboard"
-                    element={<AdminDashboard />}
-                />
+                {/* CONTACT */}
 
                 <Route
-                    path="courses"
-                    element={<AdminCourses />}
-                />
-
-                <Route
-                    path="students"
-                    element={<AdminStudents />}
-                />
-
-                <Route
-                    path="teachers"
-                    element={<AdminTeachers />}
-                />
-
-                <Route
-                    path="subscriptions"
-                    element={<AdminSubscriptions />}
-                />
-
-                <Route
-                    path="support"
-                    element={<AdminSupport />}
-                />
-
-                <Route
-                    path="settings"
-                    element={<AdminSettings />}
-                />
-
-            </Route>
-
-            {/* =================================================
-                TEACHER ROUTES
-            ================================================= */}
-
-            <Route
-                path="/teacher"
-                element={<TeacherLayout />}
-            >
-
-                {/* /teacher → /teacher/dashboard */}
-
-                <Route
-                    index
+                    path="/contact"
                     element={
-                        <Navigate
-                            to="dashboard"
-                            replace
-                        />
+                        <>
+                            <Navbar />
+                            <Contact />
+                            <Footer />
+                        </>
                     }
                 />
 
-                {/* -------------------------------
-                    DASHBOARD
-                -------------------------------- */}
+                {/* SUBSCRIPTION */}
 
                 <Route
-                    path="dashboard"
-                    element={<TeacherDashboard />}
-                />
-
-                {/* -------------------------------
-                    COURSES
-                -------------------------------- */}
-
-                <Route
-                    path="courses"
-                    element={<TeacherCourses />}
-                />
-
-                <Route
-                    path="courses/create"
-                    element={<CreateCourse />}
-                />
-
-                <Route
-                    path="courses/:id/edit"
-                    element={<EditCourse />}
-                />
-
-                {/* -------------------------------
-                    LESSONS
-                -------------------------------- */}
-
-                <Route
-                    path="lessons"
-                    element={<TeacherLessons />}
-                />
-
-                <Route
-                    path="lessons/create"
-                    element={<CreateLesson />}
-                />
-
-                <Route
-                    path="lessons/:id/edit"
-                    element={<EditLesson />}
-                />
-
-                {/* -------------------------------
-                    QUIZZES
-                -------------------------------- */}
-
-                <Route
-                    path="quizzes"
-                    element={<TeacherQuizzes />}
-                />
-
-                {/* -------------------------------
-                    ASSIGNMENTS
-                -------------------------------- */}
-
-                <Route
-                    path="assignments"
-                    element={<TeacherAssignments />}
-                />
-
-                {/* -------------------------------
-                    STUDENTS
-                -------------------------------- */}
-
-                <Route
-                    path="students"
-                    element={<TeacherStudents />}
-                />
-
-                {/* -------------------------------
-                    ANALYTICS
-                -------------------------------- */}
-
-                <Route
-                    path="analytics"
-                    element={<TeacherAnalytics />}
-                />
-
-                {/* -------------------------------
-                    PROFILE
-                -------------------------------- */}
-
-                <Route
-                    path="profile"
-                    element={<TeacherProfile />}
-                />
-
-            </Route>
-
-            {/* =================================================
-                STUDENT ROUTES
-            ================================================= */}
-
-            <Route
-                path="/student"
-                element={<StudentLayout />}
-            >
-
-                {/* /student → /student/dashboard */}
-
-                <Route
-                    index
+                    path="/subscription"
                     element={
-                        <Navigate
-                            to="dashboard"
-                            replace
-                        />
+                        <>
+                            <Navbar />
+                            <Subscription />
+                            <Footer />
+                        </>
                     }
                 />
 
-                {/* -------------------------------
-                    DASHBOARD
-                -------------------------------- */}
+                {/* FEATURES */}
 
                 <Route
-                    path="dashboard"
-                    element={<StudentDashboard />}
+                    path="/feature"
+                    element={
+                        <>
+                            <Navbar />
+                            <Feature />
+                            <Footer />
+                        </>
+                    }
                 />
 
-                {/* -------------------------------
-                    MY COURSES
-                -------------------------------- */}
+                {/* COURSES */}
 
                 <Route
-                    path="my-courses"
-                    element={<MyCourses />}
+                    path="/course"
+                    element={
+                        <>
+                            <Navbar />
+                            <Course />
+                            <Footer />
+                        </>
+                    }
                 />
 
-                {/* -------------------------------
-                    ALL COURSES
-                -------------------------------- */}
+                {/* =================================================
+                    PUBLIC CERTIFICATE VERIFICATION
+                ================================================= */}
 
                 <Route
-                    path="all-courses"
-                    element={<AllCourses />}
+                    path="/certificate"
+                    element={
+                        <>
+                            <Navbar />
+                            <Certificate />
+                            <Footer />
+                        </>
+                    }
                 />
 
-                {/* -------------------------------
-                    ASSIGNMENTS
-                -------------------------------- */}
+                {/* =================================================
+                    AUTH ROUTES
+                ================================================= */}
 
                 <Route
-                    path="assignments"
-                    element={<StudentAssignments />}
+                    path="/login"
+                    element={<Auth />}
                 />
-
-                {/* -------------------------------
-                    QUIZZES
-                -------------------------------- */}
 
                 <Route
-                    path="quizzes"
-                    element={<Quiz />}
+                    path="/signup"
+                    element={<Auth />}
                 />
 
-                {/* -------------------------------
-                    PROGRESS
-                -------------------------------- */}
+                {/* =================================================
+                    SUPER ADMIN ROUTES
+                ================================================= */}
 
                 <Route
-                    path="progress"
-                    element={<Progress />}
-                />
+                    path="/superadmin"
+                    element={<SuperAdminLayout />}
+                >
 
-                {/* -------------------------------
-                    CERTIFICATES
-                -------------------------------- */}
+                    {/* /superadmin → /superadmin/dashboard */}
 
-                <Route
-                    path="certificates"
-                    element={<Certificates />}
-                />
-
-                {/* -------------------------------
-                    SUPPORT
-                -------------------------------- */}
-
-                <Route
-                    path="support"
-                    element={<StudentSupport />}
-                />
-
-                {/* -------------------------------
-                    PROFILE
-                -------------------------------- */}
-
-                <Route
-                    path="profile"
-                    element={<StudentProfile />}
-                />
-
-            </Route>
-
-            {/* =================================================
-                FALLBACK ROUTE
-            ================================================= */}
-
-            <Route
-                path="*"
-                element={
-                    <Navigate
-                        to="/"
-                        replace
+                    <Route
+                        index
+                        element={
+                            <Navigate
+                                to="dashboard"
+                                replace
+                            />
+                        }
                     />
-                }
-            />
 
-        </Routes>
+                    {/* DASHBOARD */}
+
+                    <Route
+                        path="dashboard"
+                        element={<SuperAdminDashboard />}
+                    />
+
+                    {/* ORGANIZATIONS */}
+
+                    <Route
+                        path="organizations"
+                        element={<Organizations />}
+                    />
+
+                    {/* NEW REGISTRATIONS */}
+
+                    <Route
+                        path="registrations"
+                        element={<Registrations />}
+                    />
+
+                    {/* USERS */}
+
+                    <Route
+                        path="users"
+                        element={<SuperAdminUsers />}
+                    />
+
+                    {/* SUBSCRIPTIONS */}
+
+                    <Route
+                        path="subscriptions"
+                        element={<SuperAdminSubscriptions />}
+                    />
+
+                    {/* COURSES */}
+
+                    <Route
+                        path="courses"
+                        element={<SuperAdminCourses />}
+                    />
+
+                    {/* REPORTS */}
+
+                    <Route
+                        path="reports"
+                        element={<Reports />}
+                    />
+
+                    {/* SETTINGS */}
+
+                    <Route
+                        path="settings"
+                        element={<SuperAdminSettings />}
+                    />
+
+                    {/* SUPPORT */}
+
+                    <Route
+                        path="support"
+                        element={<SuperAdminSupport />}
+                    />
+
+                </Route>
+
+                {/* =================================================
+                    ADMIN ROUTES
+                ================================================= */}
+
+                <Route
+                    path="/admin"
+                    element={<AdminLayout />}
+                >
+
+                    {/* /admin → /admin/dashboard */}
+
+                    <Route
+                        index
+                        element={
+                            <Navigate
+                                to="dashboard"
+                                replace
+                            />
+                        }
+                    />
+
+                    {/* DASHBOARD */}
+
+                    <Route
+                        path="dashboard"
+                        element={<AdminDashboard />}
+                    />
+
+                    {/* COURSES */}
+
+                    <Route
+                        path="courses"
+                        element={<AdminCourses />}
+                    />
+
+                    {/* STUDENTS */}
+
+                    <Route
+                        path="students"
+                        element={<AdminStudents />}
+                    />
+
+                    {/* TEACHERS */}
+
+                    <Route
+                        path="teachers"
+                        element={<AdminTeachers />}
+                    />
+
+                    {/* SUBSCRIPTIONS */}
+
+                    <Route
+                        path="subscriptions"
+                        element={<AdminSubscriptions />}
+                    />
+
+                    {/* SUPPORT */}
+
+                    <Route
+                        path="support"
+                        element={<AdminSupport />}
+                    />
+
+                    {/* SETTINGS */}
+
+                    <Route
+                        path="settings"
+                        element={<AdminSettings />}
+                    />
+                    {/* enrollments */}
+                    <Route
+                        path="enrollments"
+                        element={<Enrollments />}
+                    />
+                    {/* reports */}
+                    <Route
+                        path="reports"
+                        element={<Report />}
+                    />
+
+                </Route>
+
+                {/* =================================================
+                    TEACHER ROUTES
+                ================================================= */}
+
+                <Route
+                    path="/teacher"
+                    element={<TeacherLayout />}
+                >
+
+                    {/* /teacher → /teacher/dashboard */}
+
+                    <Route
+                        index
+                        element={
+                            <Navigate
+                                to="dashboard"
+                                replace
+                            />
+                        }
+                    />
+
+                    {/* DASHBOARD */}
+
+                    <Route
+                        path="dashboard"
+                        element={<TeacherDashboard />}
+                    />
+
+                    {/* COURSES */}
+
+                    <Route
+                        path="courses"
+                        element={<TeacherCourses />}
+                    />
+
+                    <Route
+                        path="courses/:id/edit"
+                        element={<EditCourse />}
+                    />
+
+                    {/* LESSONS */}
+
+                    <Route
+                        path="lessons"
+                        element={<TeacherLessons />}
+                    />
+
+                    <Route
+                        path="lessons/create"
+                        element={<CreateLesson />}
+                    />
+
+                    <Route
+                        path="lessons/:id/edit"
+                        element={<EditLesson />}
+                    />
+
+                    {/* QUIZZES */}
+
+                    <Route
+                        path="quizzes"
+                        element={<TeacherQuizzes />}
+                    />
+
+                    {/* ASSIGNMENTS */}
+
+                    <Route
+                        path="assignments"
+                        element={<TeacherAssignments />}
+                    />
+
+                    {/* STUDENTS */}
+
+                    <Route
+                        path="students"
+                        element={<TeacherStudents />}
+                    />
+
+                    {/* ANALYTICS */}
+
+                    <Route
+                        path="analytics"
+                        element={<TeacherAnalytics />}
+                    />
+
+                    {/* PROFILE */}
+
+                    <Route
+                        path="profile"
+                        element={<TeacherProfile />}
+                    />
+
+                    {/* SUPPORT */}
+
+                    <Route
+                        path="support"
+                        element={<TeacherSupport />}
+                    />
+
+                </Route>
+
+                {/* =================================================
+                    STUDENT ROUTES
+                ================================================= */}
+
+                <Route
+                    path="/student"
+                    element={<StudentLayout />}
+                >
+
+                    {/* /student → /student/dashboard */}
+
+                    <Route
+                        index
+                        element={
+                            <Navigate
+                                to="dashboard"
+                                replace
+                            />
+                        }
+                    />
+
+                    {/* DASHBOARD */}
+
+                    <Route
+                        path="dashboard"
+                        element={<StudentDashboard />}
+                    />
+
+                    {/* MY COURSES */}
+
+                    <Route
+                        path="my-courses"
+                        element={<MyCourses />}
+                    />
+
+                    {/* ALL COURSES */}
+
+                    <Route
+                        path="all-courses"
+                        element={<AllCourses />}
+                    />
+
+                    {/* ASSIGNMENTS */}
+
+                    <Route
+                        path="assignments"
+                        element={<StudentAssignments />}
+                    />
+
+                    {/* QUIZZES */}
+
+                    <Route
+                        path="quizzes"
+                        element={<Quiz />}
+                    />
+
+                    {/* PROGRESS */}
+
+                    <Route
+                        path="progress"
+                        element={<Progress />}
+                    />
+
+                    {/* CERTIFICATES */}
+
+                    <Route
+                        path="certificates"
+                        element={<Certificates />}
+                    />
+
+                    {/* SUPPORT */}
+
+                    <Route
+                        path="support"
+                        element={<StudentSupport />}
+                    />
+
+                    {/* PROFILE */}
+
+                    <Route
+                        path="profile"
+                        element={<StudentProfile />}
+                    />
+
+                </Route>
+
+                {/* =================================================
+                    FALLBACK ROUTE
+                ================================================= */}
+
+                <Route
+                    path="*"
+                    element={
+                        <Navigate
+                            to="/"
+                            replace
+                        />
+                    }
+                />
+
+            </Routes>
+        </>
     );
 }
 

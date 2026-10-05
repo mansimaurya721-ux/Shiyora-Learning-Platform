@@ -19,7 +19,6 @@ const plans = [
             "2 Teachers",
             "3 Courses",
             "Lesson Management",
-            "Video Lectures",
             "PDF Notes",
             "Basic Quizzes",
             "Student Progress Tracking",
@@ -42,6 +41,10 @@ const plans = [
             "Quizzes",
             "Progress Tracking",
             "Organization Dashboard",
+
+            // White-label features
+            "Custom Institute Name",
+            "Replace Shiyora Branding",
         ],
     },
 
@@ -60,6 +63,11 @@ const plans = [
             "Progress Tracking",
             "Organization Reports",
             "Priority Support",
+
+            // White-label features
+            "White-Label Branding",
+            "Custom Institute Name & Identity",
+            "Custom Organization Branding",
         ],
     },
 ];
@@ -95,7 +103,7 @@ function Subscription() {
 
                         Plans that grow
 
-                        <span className="block bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+                        <span className="block bg-linear-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
                             with your organization.
                         </span>
 
@@ -136,7 +144,7 @@ function Subscription() {
                             {plan.popular && (
                                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
 
-                                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-blue-600 to-teal-500 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-blue-500/20">
+                                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-linear-to-r from-blue-600 to-teal-500 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-blue-500/20">
                                         <Sparkles size={12} />
                                         Most Popular
                                     </span>
@@ -169,6 +177,7 @@ function Subscription() {
                                             : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
                                             }`}
                                     >
+
                                         {plan.name === "Free" && (
                                             <BookOpen size={19} />
                                         )}
@@ -180,12 +189,13 @@ function Subscription() {
                                         {plan.name === "Enterprise" && (
                                             <Users size={19} />
                                         )}
+
                                     </div>
 
                                 </div>
 
 
-                                <p className="mt-5 min-h-[72px] text-sm leading-7 text-slate-500 dark:text-slate-400">
+                                <p className="mt-5 min-h-18 text-sm leading-7 text-slate-500 dark:text-slate-400">
                                     {plan.description}
                                 </p>
 
@@ -212,10 +222,11 @@ function Subscription() {
                             <Link
                                 to="/signup"
                                 className={`mt-7 flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold transition-all duration-300 hover:-translate-y-0.5 ${plan.popular
-                                    ? "bg-gradient-to-r from-blue-600 to-teal-500 text-white shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/25"
+                                    ? "bg-linear-to-r from-blue-600 to-teal-500 text-white shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/25"
                                     : "border border-slate-300 bg-slate-100 text-slate-800 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-teal-500/40 dark:hover:bg-teal-500/10 dark:hover:text-teal-300"
                                     }`}
                             >
+
                                 Choose {plan.name}
 
                                 <ArrowRight
@@ -380,7 +391,7 @@ function Subscription() {
 
                 <div className="mx-auto max-w-5xl">
 
-                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 to-teal-500 px-7 py-14 text-center shadow-xl shadow-blue-500/10 md:px-16">
+                    <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-blue-600 to-teal-500 px-7 py-14 text-center shadow-xl shadow-blue-500/10 md:px-16">
 
                         {/* Decorative glow */}
 

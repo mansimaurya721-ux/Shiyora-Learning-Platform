@@ -12,13 +12,6 @@ import {
     Ban,
 } from "lucide-react";
 
-// ============================================================
-// FONT IMPORTS
-// ============================================================
-
-const FONT_IMPORTS =
-    "@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');";
-
 const Subscriptions = () => {
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("All");
@@ -140,11 +133,7 @@ const Subscriptions = () => {
                 planFilter === "All" ||
                 subscription.plan === planFilter;
 
-            return (
-                matchesSearch &&
-                matchesStatus &&
-                matchesPlan
-            );
+            return matchesSearch && matchesStatus && matchesPlan;
         });
     }, [search, statusFilter, planFilter]);
 
@@ -155,18 +144,15 @@ const Subscriptions = () => {
     const totalSubscriptions = subscriptions.length;
 
     const activeSubscriptions = subscriptions.filter(
-        (subscription) =>
-            subscription.status === "Active"
+        (subscription) => subscription.status === "Active"
     ).length;
 
     const expiringSubscriptions = subscriptions.filter(
-        (subscription) =>
-            subscription.status === "Expiring Soon"
+        (subscription) => subscription.status === "Expiring Soon"
     ).length;
 
     const expiredSubscriptions = subscriptions.filter(
-        (subscription) =>
-            subscription.status === "Expired"
+        (subscription) => subscription.status === "Expired"
     ).length;
 
     // =====================================================
@@ -175,14 +161,14 @@ const Subscriptions = () => {
 
     const getPlanStyle = (plan) => {
         if (plan === "Premium") {
-            return "bg-[#F1ECE5] text-[#303B32]";
+            return "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400";
         }
 
         if (plan === "Standard") {
-            return "bg-[#FFF9E9] text-[#8C7134]";
+            return "bg-teal-50 text-teal-700 dark:bg-teal-500/10 dark:text-teal-400";
         }
 
-        return "bg-[#EDF6EF] text-[#63816A]";
+        return "bg-slate-100 text-slate-600 dark:bg-slate-700/40 dark:text-slate-300";
     };
 
     // =====================================================
@@ -191,14 +177,14 @@ const Subscriptions = () => {
 
     const getStatusStyle = (status) => {
         if (status === "Active") {
-            return "bg-[#EDF6EF] text-[#63816A]";
+            return "bg-teal-50 text-teal-700 dark:bg-teal-500/10 dark:text-teal-400";
         }
 
         if (status === "Expiring Soon") {
-            return "bg-[#FFF9E9] text-[#8C7134]";
+            return "bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400";
         }
 
-        return "bg-[#fff3f3] text-[#B96868]";
+        return "bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400";
     };
 
     // =====================================================
@@ -210,16 +196,15 @@ const Subscriptions = () => {
     };
 
     return (
-        <div className="relative min-h-screen overflow-hidden bg-[#161F19] px-4 py-6 text-[#F3EEDD] sm:px-6 lg:px-8">
-            <style>{FONT_IMPORTS}</style>
+        <div className="relative min-h-screen overflow-hidden bg-slate-50 px-4 py-6 text-slate-700 dark:bg-[#07111f] dark:text-slate-300 sm:px-6 lg:px-8">
 
             {/* =================================================
                 BACKGROUND GLOW
             ================================================= */}
 
-            <div className="pointer-events-none fixed -left-40 -top-40 h-125 w-125 rounded-full bg-[#F2B84B]/5 blur-[130px]" />
+            <div className="pointer-events-none fixed -left-40 -top-40 h-125 w-125 rounded-full bg-blue-500/5 blur-[130px] dark:bg-blue-500/10" />
 
-            <div className="pointer-events-none fixed -right-40 bottom-0 h-125 w-125 rounded-full bg-[#7C9A82]/[0.07] blur-[140px]" />
+            <div className="pointer-events-none fixed -right-40 bottom-0 h-125 w-125 rounded-full bg-teal-500/[0.05] blur-[140px] dark:bg-teal-500/[0.08]" />
 
             <div className="relative z-10">
 
@@ -228,22 +213,18 @@ const Subscriptions = () => {
                 ================================================= */}
 
                 <div className="mb-8">
-
-                    <p className="mb-1 font-['JetBrains_Mono'] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F2B84B]">
+                    <p className="mb-1 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
                         Administration
                     </p>
 
-                    <h1 className="font-['Space_Grotesk'] text-2xl font-bold tracking-tight text-[#F3EEDD] sm:text-3xl">
+                    <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
                         Subscriptions
                     </h1>
 
-                    <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#F3EEDD]/50">
-                        Manage student subscriptions, plans and
-                        billing status.
+                    <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                        Manage student subscriptions, plans and billing status.
                     </p>
-
                 </div>
-
 
                 {/* =================================================
                     STATISTICS
@@ -253,212 +234,115 @@ const Subscriptions = () => {
 
                     {/* TOTAL */}
 
-                    <div
-                        className="
-                        rounded-2xl
-                        border border-[#E4DED4]
-                        bg-white
-                        p-5
-                        shadow-[0_4px_20px_rgba(74,74,74,0.04)]
-                    "
-                    >
-
+                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
                         <div className="flex items-center justify-between">
 
                             <div>
-
-                                <p className="text-sm text-[#536058]">
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
                                     Total Subscriptions
                                 </p>
 
-                                <h2 className="mt-2 text-2xl font-bold text-[#303B32]">
+                                <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                     {totalSubscriptions}
                                 </h2>
 
-                                <p className="mt-1 text-xs text-[#7C817B]">
+                                <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
                                     Student subscriptions
                                 </p>
-
                             </div>
 
-                            <div
-                                className="
-                                flex h-12 w-12
-                                items-center justify-center
-                                rounded-xl
-                                bg-[#FFF9E9]
-                                text-[#F2B84B]
-                            "
-                            >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
                                 <CreditCard size={23} />
                             </div>
 
                         </div>
-
                     </div>
-
 
                     {/* ACTIVE */}
 
-                    <div
-                        className="
-                        rounded-2xl
-                        border border-[#E4DED4]
-                        bg-white
-                        p-5
-                        shadow-[0_4px_20px_rgba(74,74,74,0.04)]
-                    "
-                    >
-
+                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
                         <div className="flex items-center justify-between">
 
                             <div>
-
-                                <p className="text-sm text-[#536058]">
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
                                     Active
                                 </p>
 
-                                <h2 className="mt-2 text-2xl font-bold text-[#303B32]">
+                                <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                     {activeSubscriptions}
                                 </h2>
 
-                                <p className="mt-1 text-xs text-[#7C9A82]">
+                                <p className="mt-1 text-xs text-teal-600 dark:text-teal-400">
                                     Currently active
                                 </p>
-
                             </div>
 
-                            <div
-                                className="
-                                flex h-12 w-12
-                                items-center justify-center
-                                rounded-xl
-                                bg-[#EDF6EF]
-                                text-[#64856C]
-                            "
-                            >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-400">
                                 <CheckCircle size={23} />
                             </div>
 
                         </div>
-
                     </div>
-
 
                     {/* EXPIRING */}
 
-                    <div
-                        className="
-                        rounded-2xl
-                        border border-[#E4DED4]
-                        bg-white
-                        p-5
-                        shadow-[0_4px_20px_rgba(74,74,74,0.04)]
-                    "
-                    >
-
+                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
                         <div className="flex items-center justify-between">
 
                             <div>
-
-                                <p className="text-sm text-[#536058]">
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
                                     Expiring Soon
                                 </p>
 
-                                <h2 className="mt-2 text-2xl font-bold text-[#303B32]">
+                                <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                     {expiringSubscriptions}
                                 </h2>
 
-                                <p className="mt-1 text-xs text-[#8C7134]">
+                                <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">
                                     Requires attention
                                 </p>
-
                             </div>
 
-                            <div
-                                className="
-                                flex h-12 w-12
-                                items-center justify-center
-                                rounded-xl
-                                bg-[#FFF9E9]
-                                text-[#8C7134]
-                            "
-                            >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
                                 <Clock size={23} />
                             </div>
 
                         </div>
-
                     </div>
-
 
                     {/* EXPIRED */}
 
-                    <div
-                        className="
-                        rounded-2xl
-                        border border-[#E4DED4]
-                        bg-white
-                        p-5
-                        shadow-[0_4px_20px_rgba(74,74,74,0.04)]
-                    "
-                    >
-
+                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
                         <div className="flex items-center justify-between">
 
                             <div>
-
-                                <p className="text-sm text-[#536058]">
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
                                     Expired
                                 </p>
 
-                                <h2 className="mt-2 text-2xl font-bold text-[#303B32]">
+                                <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                     {expiredSubscriptions}
                                 </h2>
 
-                                <p className="mt-1 text-xs text-[#B96868]">
+                                <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                     Subscription ended
                                 </p>
-
                             </div>
 
-                            <div
-                                className="
-                                flex h-12 w-12
-                                items-center justify-center
-                                rounded-xl
-                                bg-[#fff3f3]
-                                text-[#B96868]
-                            "
-                            >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400">
                                 <XCircle size={23} />
                             </div>
 
                         </div>
-
                     </div>
 
                 </div>
-
 
                 {/* =================================================
                     SEARCH + FILTER
                 ================================================= */}
 
-                <div
-                    className="
-                    mb-6
-                    flex flex-col gap-4
-                    rounded-2xl
-                    border border-[#E4DED4]
-                    bg-white
-                    p-4
-                    shadow-[0_4px_20px_rgba(74,74,74,0.04)]
-                    lg:flex-row
-                    lg:items-center
-                    lg:justify-between
-                "
-                >
+                <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] lg:flex-row lg:items-center lg:justify-between">
 
                     {/* SEARCH */}
 
@@ -466,43 +350,18 @@ const Subscriptions = () => {
 
                         <Search
                             size={19}
-                            className="
-                            absolute
-                            left-3
-                            top-1/2
-                            -translate-y-1/2
-                            text-[#7C817B]
-                        "
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
                         />
 
                         <input
                             type="text"
                             value={search}
-                            onChange={(e) =>
-                                setSearch(e.target.value)
-                            }
+                            onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search student, ID or plan..."
-                            className="
-                            w-full
-                            rounded-xl
-                            border border-[#E4DED4]
-                            bg-[#FBF9F5]
-                            py-3
-                            pl-10
-                            pr-4
-                            text-sm
-                            text-[#303B32]
-                            outline-none
-                            placeholder:text-[#8A8E89]
-                            transition
-                            focus:border-[#F2B84B]
-                            focus:ring-2
-                            focus:ring-[#F7E6B9]/50
-                        "
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm text-slate-800 outline-none placeholder:text-slate-400 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-blue-400 dark:focus:ring-blue-400/15"
                         />
 
                     </div>
-
 
                     {/* FILTERS */}
 
@@ -510,118 +369,50 @@ const Subscriptions = () => {
 
                         <select
                             value={planFilter}
-                            onChange={(e) =>
-                                setPlanFilter(e.target.value)
-                            }
-                            className="
-                            rounded-xl
-                            border border-[#E4DED4]
-                            bg-white
-                            px-4
-                            py-3
-                            text-sm
-                            font-medium
-                            text-[#536058]
-                            outline-none
-                            focus:border-[#F2B84B]
-                        "
+                            onChange={(e) => setPlanFilter(e.target.value)}
+                            className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 outline-none focus:border-blue-500 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-300 dark:focus:border-blue-400"
                         >
-
-                            <option value="All">
-                                All Plans
-                            </option>
-
-                            <option value="Basic">
-                                Basic
-                            </option>
-
-                            <option value="Standard">
-                                Standard
-                            </option>
-
-                            <option value="Premium">
-                                Premium
-                            </option>
-
+                            <option value="All">All Plans</option>
+                            <option value="Basic">Basic</option>
+                            <option value="Standard">Standard</option>
+                            <option value="Premium">Premium</option>
                         </select>
-
 
                         <select
                             value={statusFilter}
-                            onChange={(e) =>
-                                setStatusFilter(e.target.value)
-                            }
-                            className="
-                            rounded-xl
-                            border border-[#E4DED4]
-                            bg-white
-                            px-4
-                            py-3
-                            text-sm
-                            font-medium
-                            text-[#536058]
-                            outline-none
-                            focus:border-[#F2B84B]
-                        "
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 outline-none focus:border-blue-500 dark:border-[#1e334a] dark:bg-[#102337] dark:text-slate-300 dark:focus:border-blue-400"
                         >
-
-                            <option value="All">
-                                All Status
-                            </option>
-
-                            <option value="Active">
-                                Active
-                            </option>
-
+                            <option value="All">All Status</option>
+                            <option value="Active">Active</option>
                             <option value="Expiring Soon">
                                 Expiring Soon
                             </option>
-
-                            <option value="Expired">
-                                Expired
-                            </option>
-
+                            <option value="Expired">Expired</option>
                         </select>
 
                     </div>
-
                 </div>
-
 
                 {/* =================================================
                     SUBSCRIPTIONS TABLE
                 ================================================= */}
 
-                <div
-                    className="
-                    overflow-hidden
-                    rounded-2xl
-                    border border-[#E4DED4]
-                    bg-white
-                    shadow-[0_4px_20px_rgba(74,74,74,0.04)]
-                "
-                >
+                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
 
                     {/* TABLE HEADER */}
 
-                    <div
-                        className="
-                        border-b border-[#E4DED4]
-                        px-5 py-5
-                        sm:px-6
-                    "
-                    >
+                    <div className="border-b border-slate-200 px-5 py-5 dark:border-[#1e334a] sm:px-6">
 
-                        <h2 className="text-lg font-bold text-[#303B32]">
+                        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                             Student Subscription Details
                         </h2>
 
-                        <p className="mt-1 text-sm text-[#7C817B]">
+                        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             View and manage student subscription information.
                         </p>
 
                     </div>
-
 
                     {/* TABLE */}
 
@@ -629,35 +420,35 @@ const Subscriptions = () => {
 
                         <table className="w-full min-w-287.5">
 
-                            <thead className="bg-[#FBF9F5]">
+                            <thead className="bg-slate-50 dark:bg-[#102337]">
 
                                 <tr>
 
-                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#7C817B]">
+                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Student
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#7C817B]">
+                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Plan
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#7C817B]">
+                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Billing
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#7C817B]">
+                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Courses
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#7C817B]">
+                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Expiry
                                     </th>
 
-                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#7C817B]">
+                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Status
                                     </th>
 
-                                    <th className="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-[#7C817B]">
+                                    <th className="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                         Action
                                     </th>
 
@@ -665,387 +456,230 @@ const Subscriptions = () => {
 
                             </thead>
 
+                            <tbody className="divide-y divide-slate-200 dark:divide-[#1e334a]">
 
-                            <tbody className="divide-y divide-[#E4DED4]">
+                                {filteredSubscriptions.map((subscription) => {
 
-                                {filteredSubscriptions.map(
-                                    (subscription) => {
+                                    const usage = getUsagePercentage(
+                                        subscription.courses,
+                                        subscription.courseLimit
+                                    );
 
-                                        const usage =
-                                            getUsagePercentage(
-                                                subscription.courses,
-                                                subscription.courseLimit
-                                            );
+                                    return (
+                                        <tr
+                                            key={subscription.id}
+                                            className="transition-colors hover:bg-slate-50 dark:hover:bg-[#102337]/70"
+                                        >
 
-                                        return (
+                                            {/* STUDENT */}
 
-                                            <tr
-                                                key={subscription.id}
-                                                className="
-                                                transition-colors
-                                                hover:bg-[#FBF9F5]
-                                            "
-                                            >
+                                            <td className="px-6 py-5">
 
-                                                {/* STUDENT */}
+                                                <div className="flex items-center gap-3">
 
-                                                <td className="px-6 py-5">
-
-                                                    <div className="flex items-center gap-3">
-
-                                                        <div
-                                                            className="
-                                                            flex
-                                                            h-11
-                                                            w-11
-                                                            shrink-0
-                                                            items-center
-                                                            justify-center
-                                                            rounded-xl
-                                                            bg-[#F7E6B9]
-                                                            text-sm
-                                                            font-bold
-                                                            text-[#536058]
-                                                        "
-                                                        >
-                                                            {subscription.studentName.charAt(
-                                                                0
-                                                            )}
-                                                        </div>
-
-                                                        <div>
-
-                                                            <p className="font-semibold text-[#303B32]">
-                                                                {
-                                                                    subscription.studentName
-                                                                }
-                                                            </p>
-
-                                                            <p className="mt-1 text-xs text-[#7C817B]">
-                                                                {
-                                                                    subscription.studentId
-                                                                }{" "}
-                                                                •{" "}
-                                                                {
-                                                                    subscription.email
-                                                                }
-                                                            </p>
-
-                                                        </div>
-
+                                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-sm font-bold text-blue-700 dark:bg-blue-500/10 dark:text-blue-400">
+                                                        {subscription.studentName.charAt(
+                                                            0
+                                                        )}
                                                     </div>
 
-                                                </td>
+                                                    <div>
 
+                                                        <p className="font-semibold text-slate-900 dark:text-slate-100">
+                                                            {subscription.studentName}
+                                                        </p>
 
-                                                {/* PLAN */}
-
-                                                <td className="px-6 py-5">
-
-                                                    <span
-                                                        className={`
-                                                        inline-flex
-                                                        rounded-full
-                                                        px-3
-                                                        py-1.5
-                                                        text-xs
-                                                        font-semibold
-                                                        ${getPlanStyle(
-                                                            subscription.plan
-                                                        )}
-                                                    `}
-                                                    >
-                                                        {subscription.plan}
-                                                    </span>
-
-                                                </td>
-
-
-                                                {/* BILLING */}
-
-                                                <td className="px-6 py-5">
-
-                                                    <p className="text-sm font-semibold text-[#536058]">
-                                                        {
-                                                            subscription.price
-                                                        }
-                                                    </p>
-
-                                                    <p className="mt-1 text-xs text-[#7C817B]">
-                                                        Monthly
-                                                    </p>
-
-                                                </td>
-
-
-                                                {/* COURSES */}
-
-                                                <td className="px-6 py-5">
-
-                                                    <div className="w-36">
-
-                                                        <div className="mb-1.5 flex items-center justify-between">
-
-                                                            <span className="text-xs text-[#536058]">
-                                                                {
-                                                                    subscription.courses
-                                                                }
-                                                            </span>
-
-                                                            <span className="text-xs font-semibold text-[#F2B84B]">
-                                                                {
-                                                                    usage
-                                                                }%
-                                                            </span>
-
-                                                        </div>
-
-                                                        <div className="h-2 overflow-hidden rounded-full bg-[#E4DED4]">
-
-                                                            <div
-                                                                className="
-                                                                h-full
-                                                                rounded-full
-                                                                bg-[#F2B84B]
-                                                                transition-all
-                                                            "
-                                                                style={{
-                                                                    width: `${usage}%`,
-                                                                }}
-                                                            />
-
-                                                        </div>
-
-                                                        <p className="mt-1 text-[10px] text-[#7C817B]">
-                                                            Limit:{" "}
-                                                            {
-                                                                subscription.courseLimit
-                                                            }
+                                                        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                                            {subscription.studentId}{" "}
+                                                            •{" "}
+                                                            {subscription.email}
                                                         </p>
 
                                                     </div>
 
-                                                </td>
+                                                </div>
 
+                                            </td>
 
-                                                {/* EXPIRY */}
+                                            {/* PLAN */}
 
-                                                <td className="px-6 py-5">
+                                            <td className="px-6 py-5">
 
-                                                    <p className="text-sm text-[#536058]">
-                                                        {
-                                                            subscription.expiryDate
-                                                        }
+                                                <span
+                                                    className={`inline-flex rounded-full px-3 py-1.5 text-xs font-semibold ${getPlanStyle(
+                                                        subscription.plan
+                                                    )}`}
+                                                >
+                                                    {subscription.plan}
+                                                </span>
+
+                                            </td>
+
+                                            {/* BILLING */}
+
+                                            <td className="px-6 py-5">
+
+                                                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                                    {subscription.price}
+                                                </p>
+
+                                                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                                    Monthly
+                                                </p>
+
+                                            </td>
+
+                                            {/* COURSES */}
+
+                                            <td className="px-6 py-5">
+
+                                                <div className="w-36">
+
+                                                    <div className="mb-1.5 flex items-center justify-between">
+
+                                                        <span className="text-xs text-slate-600 dark:text-slate-300">
+                                                            {subscription.courses}
+                                                        </span>
+
+                                                        <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                                                            {usage}%
+                                                        </span>
+
+                                                    </div>
+
+                                                    <div className="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+
+                                                        <div
+                                                            className="h-full rounded-full bg-linear-to-r from-blue-600 to-teal-500 transition-all dark:from-blue-500 dark:to-teal-400"
+                                                            style={{
+                                                                width: `${usage}%`,
+                                                            }}
+                                                        />
+
+                                                    </div>
+
+                                                    <p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">
+                                                        Limit:{" "}
+                                                        {subscription.courseLimit}
                                                     </p>
 
-                                                    <p className="mt-1 text-xs text-[#7C817B]">
-                                                        Started{" "}
-                                                        {
-                                                            subscription.startDate
-                                                        }
-                                                    </p>
+                                                </div>
 
-                                                </td>
+                                            </td>
 
+                                            {/* EXPIRY */}
 
-                                                {/* STATUS */}
+                                            <td className="px-6 py-5">
 
-                                                <td className="px-6 py-5">
+                                                <p className="text-sm text-slate-700 dark:text-slate-300">
+                                                    {subscription.expiryDate}
+                                                </p>
+
+                                                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                                    Started{" "}
+                                                    {subscription.startDate}
+                                                </p>
+
+                                            </td>
+
+                                            {/* STATUS */}
+
+                                            <td className="px-6 py-5">
+
+                                                <span
+                                                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${getStatusStyle(
+                                                        subscription.status
+                                                    )}`}
+                                                >
 
                                                     <span
-                                                        className={`
-                                                        inline-flex
-                                                        items-center
-                                                        gap-1.5
-                                                        rounded-full
-                                                        px-3
-                                                        py-1
-                                                        text-xs
-                                                        font-semibold
-                                                        ${getStatusStyle(
-                                                            subscription.status
-                                                        )}
-                                                    `}
-                                                    >
+                                                        className={`h-1.5 w-1.5 rounded-full ${subscription.status ===
+                                                            "Active"
+                                                            ? "bg-teal-500"
+                                                            : subscription.status ===
+                                                                "Expiring Soon"
+                                                                ? "bg-amber-500"
+                                                                : "bg-red-500"
+                                                            }`}
+                                                    />
 
-                                                        <span
-                                                            className={`
-                                                            h-1.5
-                                                            w-1.5
-                                                            rounded-full
-                                                            ${subscription.status ===
-                                                                    "Active"
-                                                                    ? "bg-[#7C9A82]"
-                                                                    : subscription.status ===
-                                                                        "Expiring Soon"
-                                                                        ? "bg-[#8C7134]"
-                                                                        : "bg-[#B96868]"
-                                                                }
-                                                        `}
-                                                        />
+                                                    {subscription.status}
 
-                                                        {
-                                                            subscription.status
-                                                        }
+                                                </span>
 
-                                                    </span>
+                                            </td>
 
-                                                </td>
+                                            {/* ACTION */}
 
+                                            <td className="relative px-6 py-5 text-right">
 
-                                                {/* ACTION */}
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        setOpenMenu(
+                                                            openMenu ===
+                                                                subscription.id
+                                                                ? null
+                                                                : subscription.id
+                                                        )
+                                                    }
+                                                    className="rounded-lg p-2 text-slate-400 transition hover:bg-blue-50 hover:text-blue-600 dark:text-slate-500 dark:hover:bg-blue-500/10 dark:hover:text-blue-400"
+                                                >
+                                                    <MoreVertical size={19} />
+                                                </button>
 
-                                                <td className="relative px-6 py-5 text-right">
+                                                {/* DROPDOWN */}
 
-                                                    <button
-                                                        type="button"
-                                                        onClick={() =>
-                                                            setOpenMenu(
-                                                                openMenu ===
-                                                                    subscription.id
-                                                                    ? null
-                                                                    : subscription.id
-                                                            )
-                                                        }
-                                                        className="
-                                                        rounded-lg
-                                                        p-2
-                                                        text-[#7C817B]
-                                                        transition
-                                                        hover:bg-[#FFF9E9]
-                                                        hover:text-[#536058]
-                                                    "
-                                                    >
+                                                {openMenu === subscription.id && (
+                                                    <div className="absolute right-6 top-14 z-20 w-40 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 text-left shadow-xl dark:border-[#1e334a] dark:bg-[#0b1727]">
 
-                                                        <MoreVertical
-                                                            size={19}
-                                                        />
+                                                        {/* VIEW */}
 
-                                                    </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                setOpenMenu(null)
+                                                            }
+                                                            className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400"
+                                                        >
+                                                            <Eye size={15} />
+                                                            View
+                                                        </button>
 
+                                                        {/* EDIT */}
 
-                                                    {/* DROPDOWN */}
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                setOpenMenu(null)
+                                                            }
+                                                            className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-500/10 dark:hover:text-blue-400"
+                                                        >
+                                                            <Pencil size={15} />
+                                                            Edit
+                                                        </button>
 
-                                                    {openMenu ===
-                                                        subscription.id && (
+                                                        {/* CANCEL */}
 
-                                                            <div
-                                                                className="
-                                                            absolute
-                                                            right-6
-                                                            top-14
-                                                            z-20
-                                                            w-40
-                                                            overflow-hidden
-                                                            rounded-xl
-                                                            border
-                                                            border-[#E4DED4]
-                                                            bg-white
-                                                            py-1
-                                                            text-left
-                                                            shadow-xl
-                                                        "
-                                                            >
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                setOpenMenu(null)
+                                                            }
+                                                            className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
+                                                        >
+                                                            <Ban size={15} />
+                                                            Cancel
+                                                        </button>
 
-                                                                {/* VIEW */}
+                                                    </div>
+                                                )}
 
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() =>
-                                                                        setOpenMenu(
-                                                                            null
-                                                                        )
-                                                                    }
-                                                                    className="
-                                                                flex
-                                                                w-full
-                                                                items-center
-                                                                gap-2
-                                                                px-4
-                                                                py-2.5
-                                                                text-sm
-                                                                text-[#536058]
-                                                                hover:bg-[#FFF9E9]
-                                                            "
-                                                                >
+                                            </td>
 
-                                                                    <Eye size={15} />
-
-                                                                    View
-
-                                                                </button>
-
-
-                                                                {/* EDIT */}
-
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() =>
-                                                                        setOpenMenu(
-                                                                            null
-                                                                        )
-                                                                    }
-                                                                    className="
-                                                                flex
-                                                                w-full
-                                                                items-center
-                                                                gap-2
-                                                                px-4
-                                                                py-2.5
-                                                                text-sm
-                                                                text-[#536058]
-                                                                hover:bg-[#FFF9E9]
-                                                            "
-                                                                >
-
-                                                                    <Pencil
-                                                                        size={15}
-                                                                    />
-
-                                                                    Edit
-
-                                                                </button>
-
-
-                                                                {/* CANCEL */}
-
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() =>
-                                                                        setOpenMenu(
-                                                                            null
-                                                                        )
-                                                                    }
-                                                                    className="
-                                                                flex
-                                                                w-full
-                                                                items-center
-                                                                gap-2
-                                                                px-4
-                                                                py-2.5
-                                                                text-sm
-                                                                text-[#B96868]
-                                                                hover:bg-[#fff3f3]
-                                                            "
-                                                                >
-
-                                                                    <Ban size={15} />
-
-                                                                    Cancel
-
-                                                                </button>
-
-                                                            </div>
-
-                                                        )}
-
-                                                </td>
-
-                                            </tr>
-
-                                        );
-                                    }
-                                )}
+                                        </tr>
+                                    );
+                                })}
 
                             </tbody>
 
@@ -1053,47 +687,29 @@ const Subscriptions = () => {
 
                     </div>
 
-
                     {/* =================================================
                         EMPTY STATE
                     ================================================= */}
 
                     {filteredSubscriptions.length === 0 && (
-
                         <div className="px-6 py-14 text-center">
 
-                            <div
-                                className="
-                                mx-auto
-                                flex
-                                h-14
-                                w-14
-                                items-center
-                                justify-center
-                                rounded-2xl
-                                bg-[#FFF9E9]
-                                text-[#F2B84B]
-                            "
-                            >
-
+                            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
                                 <CreditCard size={26} />
-
                             </div>
 
-                            <h3 className="mt-4 font-semibold text-[#303B32]">
+                            <h3 className="mt-4 font-semibold text-slate-900 dark:text-white">
                                 No student subscriptions found
                             </h3>
 
-                            <p className="mt-1 text-sm text-[#536058]">
+                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                                 Try changing your search or filters.
                             </p>
 
                         </div>
-
                     )}
 
                 </div>
-
 
                 {/* =================================================
                     BOTTOM SUMMARY
@@ -1103,76 +719,49 @@ const Subscriptions = () => {
 
                     {/* CURRENT PLAN */}
 
-                    <div
-                        className="
-                        rounded-2xl
-                        border border-[#E4DED4]
-                        bg-white
-                        p-6
-                        shadow-[0_4px_20px_rgba(74,74,74,0.04)]
-                    "
-                    >
+                    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
 
                         <div className="flex items-center justify-between">
 
                             <div>
 
-                                <p className="text-xs font-medium uppercase tracking-wider text-[#7C817B]">
+                                <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                     Student Current Plan
                                 </p>
 
-                                <h3 className="mt-2 text-xl font-bold text-[#303B32]">
+                                <h3 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
                                     Standard
                                 </h3>
 
-                                <p className="mt-1 text-sm text-[#536058]">
+                                <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
                                     ₹3,999 / month
                                 </p>
 
                             </div>
 
-                            <div
-                                className="
-                                flex h-12 w-12
-                                items-center
-                                justify-center
-                                rounded-xl
-                                bg-[#FFF9E9]
-                                text-[#F2B84B]
-                            "
-                            >
-
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
                                 <CreditCard size={24} />
-
                             </div>
 
                         </div>
-
 
                         <div className="mt-5">
 
                             <div className="mb-2 flex justify-between">
 
-                                <span className="text-xs text-[#536058]">
+                                <span className="text-xs text-slate-600 dark:text-slate-300">
                                     Course usage
                                 </span>
 
-                                <span className="text-xs font-semibold text-[#F2B84B]">
+                                <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
                                     62%
                                 </span>
 
                             </div>
 
-                            <div className="h-2 overflow-hidden rounded-full bg-[#E4DED4]">
+                            <div className="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
 
-                                <div
-                                    className="
-                                    h-full
-                                    w-[62%]
-                                    rounded-full
-                                    bg-[#F2B84B]
-                                "
-                                />
+                                <div className="h-full w-[62%] rounded-full bg-linear-to-r from-blue-600 to-teal-500 dark:from-blue-500 dark:to-teal-400" />
 
                             </div>
 
@@ -1180,50 +769,30 @@ const Subscriptions = () => {
 
                     </div>
 
-
                     {/* BILLING */}
 
-                    <div
-                        className="
-                        rounded-2xl
-                        border border-[#E4DED4]
-                        bg-white
-                        p-6
-                        shadow-[0_4px_20px_rgba(74,74,74,0.04)]
-                    "
-                    >
+                    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
 
                         <div className="flex items-center justify-between">
 
                             <div>
 
-                                <p className="text-xs font-medium uppercase tracking-wider text-[#7C817B]">
+                                <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                     Next Billing Date
                                 </p>
 
-                                <h3 className="mt-2 text-xl font-bold text-[#303B32]">
+                                <h3 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
                                     30 Sep 2026
                                 </h3>
 
-                                <p className="mt-1 text-sm text-[#536058]">
+                                <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
                                     Automatic renewal enabled
                                 </p>
 
                             </div>
 
-                            <div
-                                className="
-                                flex h-12 w-12
-                                items-center
-                                justify-center
-                                rounded-xl
-                                bg-[#EDF6EF]
-                                text-[#64856C]
-                            "
-                            >
-
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-400">
                                 <TrendingUp size={24} />
-
                             </div>
 
                         </div>
@@ -1233,7 +802,6 @@ const Subscriptions = () => {
                 </div>
 
             </div>
-
         </div>
     );
 };

@@ -108,7 +108,12 @@ const courses = [
     "CSS & UI Design",
 ];
 
-const statusOptions = ["All Status", "Active", "At Risk", "Inactive"];
+const statusOptions = [
+    "All Status",
+    "Active",
+    "At Risk",
+    "Inactive",
+];
 
 function Students() {
     const [search, setSearch] = useState("");
@@ -117,9 +122,11 @@ function Students() {
 
     const filteredStudents = useMemo(() => {
         return studentsData.filter((student) => {
+            const searchValue = search.toLowerCase().trim();
+
             const matchesSearch =
-                student.name.toLowerCase().includes(search.toLowerCase()) ||
-                student.email.toLowerCase().includes(search.toLowerCase());
+                student.name.toLowerCase().includes(searchValue) ||
+                student.email.toLowerCase().includes(searchValue);
 
             const matchesCourse =
                 courseFilter === "All Courses" ||
@@ -135,104 +142,114 @@ function Students() {
 
     const getStatusClasses = (status) => {
         if (status === "Active") {
-            return "border-[#7C9A82]/30 bg-[#7C9A82]/10 text-[#9EB7A2]";
+            return "border-teal-200 bg-teal-50 text-teal-700 dark:border-teal-400/20 dark:bg-teal-500/10 dark:text-teal-400";
         }
 
         if (status === "At Risk") {
-            return "border-[#D6402C]/30 bg-[#D6402C]/10 text-[#E97868]";
+            return "border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-400/20 dark:bg-rose-500/10 dark:text-rose-400";
         }
 
-        return "border-[#F3EEDD]/10 bg-[#F3EEDD]/5 text-[#A9AAA1]";
+        return "border-slate-200 bg-slate-100 text-slate-500 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-400";
     };
 
     const getProgressClasses = (progress) => {
         if (progress >= 80) {
-            return "bg-[#7C9A82]";
+            return "bg-teal-500";
         }
 
         if (progress >= 60) {
-            return "bg-[#F2B84B]";
+            return "bg-blue-500";
         }
 
-        return "bg-[#D6402C]";
+        return "bg-rose-500";
     };
 
     return (
-        <div className="space-y-8">
-            {/* Header */}
-            <section className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
-                <div>
-                    <div className="mb-3 flex items-center gap-3">
-                        <span className="h-px w-10 bg-[#F2B84B]" />
-                        <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#F2B84B]">
+        <div className="min-w-0 space-y-8">
+
+            {/* =====================================================
+                HEADER
+            ===================================================== */}
+
+            <section className="flex min-w-0 flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+
+                <div className="min-w-0">
+
+                    <div className="mb-3 flex min-w-0 items-center gap-3">
+
+                        <span className="h-px w-10 shrink-0 bg-blue-600 dark:bg-blue-400" />
+
+                        <span className="font-mono text-xs uppercase tracking-[0.25em] text-blue-600 dark:text-blue-400">
                             Teacher Workspace
                         </span>
+
                     </div>
 
-                    <h1 className="text-3xl font-bold tracking-tight text-[#F3EEDD] md:text-4xl">
+                    <h1 className="break-words text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 md:text-4xl">
                         Student Management
                     </h1>
 
-                    <p className="mt-2 max-w-2xl text-sm leading-6 text-[#A9AAA1]">
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
                         Monitor student progress, engagement, assignments,
                         quizzes, and overall learning performance.
                     </p>
+
                 </div>
 
-                <div className="flex flex-wrap gap-3">
-                    <Link
-                        to="/teacher/analytics"
-                        className="inline-flex items-center gap-2 rounded-xl border border-[#F3EEDD]/10 bg-[#1B241E] px-5 py-3 text-sm font-semibold text-[#F3EEDD] transition hover:border-[#F2B84B]/30 hover:bg-[#202B23]"
-                    >
-                        <svg
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
-                        >
-                            <path d="M4 19V5" />
-                            <path d="M4 19h17" />
-                            <path d="m7 15 4-5 3 3 5-7" />
-                        </svg>
-                        View Analytics
-                    </Link>
+                {/* 
+                    Student creation is controlled by Organization/Admin.
+                    Teachers can only monitor and interact with assigned students.
+                */}
 
-                    <button
-                        type="button"
-                        className="inline-flex items-center gap-2 rounded-xl bg-[#F2B84B] px-5 py-3 text-sm font-bold text-[#161F19] transition hover:bg-[#f5c766]"
+                <Link
+                    to="/teacher/analytics"
+                    className="inline-flex w-fit shrink-0 items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-[#1e334a] dark:bg-[#0b1727] dark:text-slate-300 dark:hover:border-blue-400/30 dark:hover:bg-blue-500/10 dark:hover:text-blue-400"
+                >
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
                     >
-                        <svg
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                        >
-                            <path d="M12 5v14" />
-                            <path d="M5 12h14" />
-                        </svg>
-                        Add Student
-                    </button>
-                </div>
+                        <path d="M4 19V5" />
+                        <path d="M4 19h17" />
+                        <path d="m7 15 4-5 3 3 5-7" />
+                    </svg>
+
+                    View Analytics
+                </Link>
+
             </section>
 
-            {/* Stats */}
-            <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-5">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <p className="text-xs font-medium uppercase tracking-wider text-[#A9AAA1]">
+
+            {/* =====================================================
+                STATS
+            ===================================================== */}
+
+            <section className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+                {/* TOTAL */}
+
+                <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                    <div className="flex items-start justify-between gap-3">
+
+                        <div className="min-w-0">
+
+                            <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                 Total Students
                             </p>
-                            <p className="mt-3 text-3xl font-bold text-[#F3EEDD]">
+
+                            <p className="mt-3 text-3xl font-bold text-slate-900 dark:text-slate-100">
                                 342
                             </p>
+
                         </div>
 
-                        <div className="rounded-xl border border-[#F2B84B]/20 bg-[#F2B84B]/10 p-3 text-[#F2B84B]">
+                        <div className="shrink-0 rounded-xl border border-blue-200 bg-blue-50 p-3 text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
+
                             <svg
                                 width="21"
                                 height="21"
@@ -246,26 +263,38 @@ function Students() {
                                 <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                             </svg>
+
                         </div>
+
                     </div>
 
-                    <p className="mt-4 text-xs text-[#7C9A82]">
+                    <p className="mt-4 text-xs text-teal-600 dark:text-teal-400">
                         +18 students this month
                     </p>
+
                 </div>
 
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-5">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <p className="text-xs font-medium uppercase tracking-wider text-[#A9AAA1]">
+
+                {/* ACTIVE */}
+
+                <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                    <div className="flex items-start justify-between gap-3">
+
+                        <div className="min-w-0">
+
+                            <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                 Active Students
                             </p>
-                            <p className="mt-3 text-3xl font-bold text-[#F3EEDD]">
+
+                            <p className="mt-3 text-3xl font-bold text-slate-900 dark:text-slate-100">
                                 298
                             </p>
+
                         </div>
 
-                        <div className="rounded-xl border border-[#7C9A82]/20 bg-[#7C9A82]/10 p-3 text-[#9EB7A2]">
+                        <div className="shrink-0 rounded-xl border border-teal-200 bg-teal-50 p-3 text-teal-600 dark:border-teal-400/20 dark:bg-teal-500/10 dark:text-teal-400">
+
                             <svg
                                 width="21"
                                 height="21"
@@ -277,26 +306,38 @@ function Students() {
                                 <circle cx="12" cy="12" r="9" />
                                 <path d="m8 12 2.5 2.5L16 9" />
                             </svg>
+
                         </div>
+
                     </div>
 
-                    <p className="mt-4 text-xs text-[#7C9A82]">
+                    <p className="mt-4 text-xs text-teal-600 dark:text-teal-400">
                         87% engagement rate
                     </p>
+
                 </div>
 
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-5">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <p className="text-xs font-medium uppercase tracking-wider text-[#A9AAA1]">
+
+                {/* AT RISK */}
+
+                <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                    <div className="flex items-start justify-between gap-3">
+
+                        <div className="min-w-0">
+
+                            <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                 At Risk
                             </p>
-                            <p className="mt-3 text-3xl font-bold text-[#F3EEDD]">
+
+                            <p className="mt-3 text-3xl font-bold text-slate-900 dark:text-slate-100">
                                 27
                             </p>
+
                         </div>
 
-                        <div className="rounded-xl border border-[#D6402C]/20 bg-[#D6402C]/10 p-3 text-[#E97868]">
+                        <div className="shrink-0 rounded-xl border border-rose-200 bg-rose-50 p-3 text-rose-600 dark:border-rose-400/20 dark:bg-rose-500/10 dark:text-rose-400">
+
                             <svg
                                 width="21"
                                 height="21"
@@ -309,26 +350,38 @@ function Students() {
                                 <path d="M12 9v4" />
                                 <path d="M12 17h.01" />
                             </svg>
+
                         </div>
+
                     </div>
 
-                    <p className="mt-4 text-xs text-[#E97868]">
+                    <p className="mt-4 text-xs text-rose-600 dark:text-rose-400">
                         Needs teacher attention
                     </p>
+
                 </div>
 
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-5">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <p className="text-xs font-medium uppercase tracking-wider text-[#A9AAA1]">
+
+                {/* PROGRESS */}
+
+                <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                    <div className="flex items-start justify-between gap-3">
+
+                        <div className="min-w-0">
+
+                            <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                 Average Progress
                             </p>
-                            <p className="mt-3 text-3xl font-bold text-[#F3EEDD]">
+
+                            <p className="mt-3 text-3xl font-bold text-slate-900 dark:text-slate-100">
                                 76%
                             </p>
+
                         </div>
 
-                        <div className="rounded-xl border border-[#F2B84B]/20 bg-[#F2B84B]/10 p-3 text-[#F2B84B]">
+                        <div className="shrink-0 rounded-xl border border-blue-200 bg-blue-50 p-3 text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
+
                             <svg
                                 width="21"
                                 height="21"
@@ -341,21 +394,32 @@ function Students() {
                                 <path d="M4 19h17" />
                                 <path d="m7 15 4-5 3 3 5-7" />
                             </svg>
+
                         </div>
+
                     </div>
 
-                    <p className="mt-4 text-xs text-[#7C9A82]">
+                    <p className="mt-4 text-xs text-teal-600 dark:text-teal-400">
                         +6.4% from last month
                     </p>
+
                 </div>
+
             </section>
 
-            {/* Filters */}
-            <section className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-4 md:p-5">
-                <div className="flex flex-col gap-4 xl:flex-row xl:items-center">
-                    <div className="relative flex-1">
+
+            {/* =====================================================
+                FILTERS
+            ===================================================== */}
+
+            <section className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727] md:p-5">
+
+                <div className="flex min-w-0 flex-col gap-4 xl:flex-row xl:items-center">
+
+                    <div className="relative min-w-0 flex-1">
+
                         <svg
-                            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#7C9A82]"
+                            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-teal-500"
                             width="18"
                             height="18"
                             viewBox="0 0 24 24"
@@ -372,14 +436,16 @@ function Students() {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search students by name or email..."
-                            className="w-full rounded-xl border border-[#F3EEDD]/10 bg-[#141C17] py-3 pl-11 pr-4 text-sm text-[#F3EEDD] outline-none placeholder:text-[#777C74] focus:border-[#F2B84B]/40"
+                            className="w-full min-w-0 rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#07111f] dark:text-slate-200 dark:placeholder:text-slate-500 dark:focus:border-teal-500/50"
                         />
+
                     </div>
+
 
                     <select
                         value={courseFilter}
                         onChange={(e) => setCourseFilter(e.target.value)}
-                        className="rounded-xl border border-[#F3EEDD]/10 bg-[#141C17] px-4 py-3 text-sm text-[#F3EEDD] outline-none focus:border-[#F2B84B]/40"
+                        className="w-full min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#07111f] dark:text-slate-200 dark:focus:border-teal-500/50 xl:w-auto"
                     >
                         {courses.map((course) => (
                             <option key={course} value={course}>
@@ -388,10 +454,11 @@ function Students() {
                         ))}
                     </select>
 
+
                     <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
-                        className="rounded-xl border border-[#F3EEDD]/10 bg-[#141C17] px-4 py-3 text-sm text-[#F3EEDD] outline-none focus:border-[#F2B84B]/40"
+                        className="w-full min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-[#1e334a] dark:bg-[#07111f] dark:text-slate-200 dark:focus:border-teal-500/50 xl:w-auto"
                     >
                         {statusOptions.map((status) => (
                             <option key={status} value={status}>
@@ -400,6 +467,7 @@ function Students() {
                         ))}
                     </select>
 
+
                     <button
                         type="button"
                         onClick={() => {
@@ -407,92 +475,129 @@ function Students() {
                             setCourseFilter("All Courses");
                             setStatusFilter("All Status");
                         }}
-                        className="rounded-xl border border-[#F3EEDD]/10 px-4 py-3 text-sm font-semibold text-[#A9AAA1] transition hover:border-[#F2B84B]/30 hover:text-[#F2B84B]"
+                        className="w-full shrink-0 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-[#1e334a] dark:text-slate-400 dark:hover:border-teal-500/30 dark:hover:bg-teal-500/5 dark:hover:text-teal-400 xl:w-auto"
                     >
                         Reset
                     </button>
+
                 </div>
+
             </section>
 
-            {/* Student Table */}
-            <section className="overflow-hidden rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E]">
-                <div className="flex flex-col gap-2 border-b border-[#F3EEDD]/10 px-5 py-5 md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <h2 className="text-lg font-bold text-[#F3EEDD]">
+
+            {/* =====================================================
+                STUDENT LIST
+            ===================================================== */}
+
+            <section className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                <div className="flex min-w-0 flex-col gap-2 border-b border-slate-200 px-5 py-5 dark:border-[#1e334a] md:flex-row md:items-center md:justify-between">
+
+                    <div className="min-w-0">
+
+                        <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                             Students
                         </h2>
-                        <p className="mt-1 text-sm text-[#777C74]">
+
+                        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             Showing {filteredStudents.length} of{" "}
                             {studentsData.length} students
                         </p>
+
                     </div>
 
-                    <span className="font-mono text-xs uppercase tracking-wider text-[#7C9A82]">
+                    <span className="shrink-0 font-mono text-xs uppercase tracking-wider text-teal-600 dark:text-teal-400">
                         Learning Records
                     </span>
+
                 </div>
 
+
                 {filteredStudents.length > 0 ? (
-                    <div className="divide-y divide-[#F3EEDD]/10">
+
+                    <div className="divide-y divide-slate-200 dark:divide-[#1e334a]">
+
                         {filteredStudents.map((student) => (
+
                             <div
                                 key={student.id}
-                                className="p-5 transition hover:bg-[#202B23]"
+                                className="min-w-0 p-5 transition hover:bg-slate-50 dark:hover:bg-[#102337]"
                             >
-                                <div className="flex flex-col gap-5 xl:flex-row xl:items-center">
-                                    {/* Student */}
-                                    <div className="flex min-w-0 flex-1 items-center gap-4">
-                                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#F2B84B]/20 bg-[#F2B84B]/10 font-bold text-[#F2B84B]">
+
+                                <div className="flex min-w-0 flex-col gap-5 xl:flex-row xl:items-center">
+
+                                    {/* =================================================
+                                        STUDENT
+                                    ================================================= */}
+
+                                    <div className="flex min-w-0 flex-1 items-start gap-4">
+
+                                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 font-bold text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
                                             {student.initials}
                                         </div>
 
-                                        <div className="min-w-0">
-                                            <div className="flex flex-wrap items-center gap-2">
-                                                <h3 className="font-semibold text-[#F3EEDD]">
+                                        <div className="min-w-0 flex-1">
+
+                                            <div className="flex min-w-0 flex-wrap items-start gap-2">
+
+                                                <h3 className="min-w-0 break-words text-sm font-semibold leading-5 text-slate-900 dark:text-slate-100">
                                                     {student.name}
                                                 </h3>
 
                                                 <span
-                                                    className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${getStatusClasses(
+                                                    className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${getStatusClasses(
                                                         student.status
                                                     )}`}
                                                 >
                                                     {student.status}
                                                 </span>
+
                                             </div>
 
-                                            <p className="mt-1 truncate text-sm text-[#777C74]">
+                                            <p className="mt-1 break-all text-sm text-slate-500 dark:text-slate-400">
                                                 {student.email}
                                             </p>
 
-                                            <div className="mt-2 flex flex-wrap gap-2">
-                                                {student.courses.map(
-                                                    (course) => (
-                                                        <span
-                                                            key={course}
-                                                            className="rounded-md bg-[#141C17] px-2 py-1 text-[10px] text-[#A9AAA1]"
-                                                        >
-                                                            {course}
-                                                        </span>
-                                                    )
-                                                )}
+                                            <div className="mt-2 flex min-w-0 flex-wrap gap-2">
+
+                                                {student.courses.map((course) => (
+
+                                                    <span
+                                                        key={course}
+                                                        className="max-w-full break-words rounded-md bg-slate-100 px-2 py-1 text-[10px] text-slate-500 dark:bg-[#07111f] dark:text-slate-400"
+                                                    >
+                                                        {course}
+                                                    </span>
+
+                                                ))}
+
                                             </div>
+
                                         </div>
+
                                     </div>
 
-                                    {/* Progress */}
-                                    <div className="w-full xl:w-52">
-                                        <div className="mb-2 flex items-center justify-between">
-                                            <span className="text-xs text-[#777C74]">
+
+                                    {/* =================================================
+                                        PROGRESS
+                                    ================================================= */}
+
+                                    <div className="w-full min-w-0 xl:w-52 xl:shrink-0">
+
+                                        <div className="mb-2 flex items-center justify-between gap-3">
+
+                                            <span className="min-w-0 text-xs text-slate-500 dark:text-slate-400">
                                                 Course Progress
                                             </span>
 
-                                            <span className="font-mono text-xs font-semibold text-[#F3EEDD]">
+                                            <span className="shrink-0 font-mono text-xs font-semibold text-slate-800 dark:text-slate-200">
                                                 {student.progress}%
                                             </span>
+
                                         </div>
 
-                                        <div className="h-2 overflow-hidden rounded-full bg-[#141C17]">
+                                        <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-[#07111f]">
+
                                             <div
                                                 className={`h-full rounded-full transition-all ${getProgressClasses(
                                                     student.progress
@@ -501,45 +606,69 @@ function Students() {
                                                     width: `${student.progress}%`,
                                                 }}
                                             />
+
                                         </div>
+
                                     </div>
 
-                                    {/* Scores */}
-                                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:w-64">
-                                        <div className="rounded-lg border border-[#F3EEDD]/10 bg-[#141C17] px-3 py-2">
-                                            <p className="text-[10px] uppercase tracking-wider text-[#777C74]">
+
+                                    {/* =================================================
+                                        SCORES
+                                    ================================================= */}
+
+                                    <div className="grid min-w-0 w-full grid-cols-1 gap-3 sm:grid-cols-3 xl:w-64 xl:shrink-0">
+
+                                        <div className="min-w-0 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-[#1e334a] dark:bg-[#07111f]">
+
+                                            <p className="break-words text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                                 Assignments
                                             </p>
-                                            <p className="mt-1 font-mono text-sm font-semibold text-[#F3EEDD]">
+
+                                            <p className="mt-1 font-mono text-sm font-semibold text-slate-800 dark:text-slate-200">
                                                 {student.assignmentScore}%
                                             </p>
+
                                         </div>
 
-                                        <div className="rounded-lg border border-[#F3EEDD]/10 bg-[#141C17] px-3 py-2">
-                                            <p className="text-[10px] uppercase tracking-wider text-[#777C74]">
+
+                                        <div className="min-w-0 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-[#1e334a] dark:bg-[#07111f]">
+
+                                            <p className="break-words text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                                 Quizzes
                                             </p>
-                                            <p className="mt-1 font-mono text-sm font-semibold text-[#F3EEDD]">
+
+                                            <p className="mt-1 font-mono text-sm font-semibold text-slate-800 dark:text-slate-200">
                                                 {student.quizScore}%
                                             </p>
+
                                         </div>
 
-                                        <div className="rounded-lg border border-[#F3EEDD]/10 bg-[#141C17] px-3 py-2">
-                                            <p className="text-[10px] uppercase tracking-wider text-[#777C74]">
+
+                                        <div className="min-w-0 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-[#1e334a] dark:bg-[#07111f]">
+
+                                            <p className="break-words text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
                                                 Last Active
                                             </p>
-                                            <p className="mt-1 truncate text-xs font-medium text-[#A9AAA1]">
+
+                                            <p className="mt-1 break-words text-xs font-medium text-slate-500 dark:text-slate-400">
                                                 {student.lastActive}
                                             </p>
+
                                         </div>
+
                                     </div>
 
-                                    {/* Actions */}
-                                    <div className="flex items-center gap-2 xl:ml-2">
+
+                                    {/* =================================================
+                                        ACTIONS
+                                    ================================================= */}
+
+                                    <div className="flex shrink-0 items-center gap-2 xl:ml-2">
+
                                         <button
                                             type="button"
                                             title="View Student"
-                                            className="rounded-lg border border-[#F3EEDD]/10 p-2.5 text-[#A9AAA1] transition hover:border-[#F2B84B]/30 hover:bg-[#F2B84B]/10 hover:text-[#F2B84B]"
+                                            className="shrink-0 rounded-lg border border-slate-200 p-2.5 text-slate-400 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-[#1e334a] dark:text-slate-500 dark:hover:border-blue-400/30 dark:hover:bg-blue-500/10 dark:hover:text-blue-400"
                                         >
                                             <svg
                                                 width="17"
@@ -558,10 +687,11 @@ function Students() {
                                             </svg>
                                         </button>
 
+
                                         <button
                                             type="button"
                                             title="Message Student"
-                                            className="rounded-lg border border-[#F3EEDD]/10 p-2.5 text-[#A9AAA1] transition hover:border-[#7C9A82]/30 hover:bg-[#7C9A82]/10 hover:text-[#9EB7A2]"
+                                            className="shrink-0 rounded-lg border border-slate-200 p-2.5 text-slate-400 transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-600 dark:border-[#1e334a] dark:text-slate-500 dark:hover:border-teal-400/30 dark:hover:bg-teal-500/10 dark:hover:text-teal-400"
                                         >
                                             <svg
                                                 width="17"
@@ -574,14 +704,23 @@ function Students() {
                                                 <path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.7 8.7 0 0 1-3-.5L4 20l1.5-3.5A7.4 7.4 0 0 1 4 11.5 7.5 7.5 0 0 1 12 4a7.5 7.5 0 0 1 8 7.5Z" />
                                             </svg>
                                         </button>
+
                                     </div>
+
                                 </div>
+
                             </div>
+
                         ))}
+
                     </div>
+
                 ) : (
+
                     <div className="px-6 py-16 text-center">
-                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-[#F3EEDD]/10 bg-[#141C17] text-[#7C9A82]">
+
+                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-teal-500 dark:border-[#1e334a] dark:bg-[#07111f] dark:text-teal-400">
+
                             <svg
                                 width="24"
                                 height="24"
@@ -593,25 +732,37 @@ function Students() {
                                 <circle cx="11" cy="11" r="7" />
                                 <path d="m20 20-4-4" />
                             </svg>
+
                         </div>
 
-                        <h3 className="mt-4 text-lg font-semibold text-[#F3EEDD]">
+                        <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-slate-100">
                             No students found
                         </h3>
 
-                        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#777C74]">
+                        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500 dark:text-slate-400">
                             Try changing your search or filters to find the
                             student you are looking for.
                         </p>
+
                     </div>
+
                 )}
+
             </section>
 
-            {/* Bottom Information */}
-            <section className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-                <div className="rounded-2xl border border-[#F2B84B]/20 bg-[#F2B84B]/5 p-6 lg:col-span-2">
-                    <div className="flex items-start gap-4">
-                        <div className="rounded-xl border border-[#F2B84B]/20 bg-[#F2B84B]/10 p-3 text-[#F2B84B]">
+
+            {/* =====================================================
+                BOTTOM INFORMATION
+            ===================================================== */}
+
+            <section className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-3">
+
+                <div className="min-w-0 rounded-2xl border border-blue-200 bg-blue-50/70 p-6 dark:border-blue-400/20 dark:bg-blue-500/5 lg:col-span-2">
+
+                    <div className="flex min-w-0 items-start gap-4">
+
+                        <div className="shrink-0 rounded-xl border border-blue-200 bg-blue-100 p-3 text-blue-600 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-400">
+
                             <svg
                                 width="21"
                                 height="21"
@@ -623,14 +774,16 @@ function Students() {
                                 <path d="M12 3 4 7v5c0 4.8 3.4 8.4 8 9 4.6-.6 8-4.2 8-9V7l-8-4Z" />
                                 <path d="M9 12.5 11 14l4-4" />
                             </svg>
+
                         </div>
 
-                        <div>
-                            <h3 className="font-semibold text-[#F3EEDD]">
+                        <div className="min-w-0">
+
+                            <h3 className="break-words font-semibold text-slate-900 dark:text-slate-100">
                                 Keep an eye on learning engagement
                             </h3>
 
-                            <p className="mt-2 text-sm leading-6 text-[#A9AAA1]">
+                            <p className="mt-2 break-words text-sm leading-6 text-slate-600 dark:text-slate-400">
                                 Students with low progress, missed assignments,
                                 or reduced activity can be reviewed early so
                                 you can provide timely academic support.
@@ -638,9 +791,12 @@ function Students() {
 
                             <Link
                                 to="/teacher/analytics"
-                                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#F2B84B] transition hover:text-[#f5c766]"
+                                className="mt-4 inline-flex max-w-full items-center gap-2 text-sm font-semibold text-blue-600 transition hover:text-teal-600 dark:text-blue-400 dark:hover:text-teal-400"
                             >
-                                Open performance analytics
+                                <span className="break-words">
+                                    Open performance analytics
+                                </span>
+
                                 <svg
                                     width="16"
                                     height="16"
@@ -648,30 +804,40 @@ function Students() {
                                     fill="none"
                                     stroke="currentColor"
                                     strokeWidth="1.8"
+                                    className="shrink-0"
                                 >
                                     <path d="M5 12h14" />
                                     <path d="m13 6 6 6-6 6" />
                                 </svg>
+
                             </Link>
+
                         </div>
+
                     </div>
+
                 </div>
 
-                <div className="rounded-2xl border border-[#F3EEDD]/10 bg-[#1B241E] p-6">
-                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#7C9A82]">
+
+                <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#1e334a] dark:bg-[#0b1727]">
+
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                         Teacher Note
                     </p>
 
-                    <h3 className="mt-3 text-lg font-bold text-[#F3EEDD]">
+                    <h3 className="mt-3 break-words text-lg font-bold text-slate-900 dark:text-slate-100">
                         Student-first teaching
                     </h3>
 
-                    <p className="mt-2 text-sm leading-6 text-[#777C74]">
+                    <p className="mt-2 break-words text-sm leading-6 text-slate-500 dark:text-slate-400">
                         Use student performance data to understand where
                         learners need support and improve your course delivery.
                     </p>
+
                 </div>
+
             </section>
+
         </div>
     );
 }
